@@ -15,13 +15,13 @@ class CUB2002011Ingestion(DatasetIngestion):
                              "--force-local"])
 
     def getClasses(self):
-        id_img_pairs = np.loadtxt("./datasets/CUB/images.txt", np.str)
+        id_img_pairs = np.loadtxt("../datasets/CUB/images.txt", np.str)
         assert np.array_equal(
             [int(i) for i in id_img_pairs[:, 0].tolist()], range(1, 11789))
-        id_label_pairs = np.loadtxt("./datasets/CUB/image_class_labels.txt", np.str)
+        id_label_pairs = np.loadtxt("../datasets/CUB/image_class_labels.txt", np.str)
         assert np.array_equal(
             [int(i) for i in id_label_pairs[:, 0].tolist()], range(1, 11789))
-        id_name_pairs = np.loadtxt("./datasets/CUB/classes.txt", np.str)
+        id_name_pairs = np.loadtxt("../datasets/CUB/classes.txt", np.str)
         num_classes = 200
         assert np.array_equal([int(i) for i in id_name_pairs[:, 0].tolist()], range(1, num_classes + 1))
 

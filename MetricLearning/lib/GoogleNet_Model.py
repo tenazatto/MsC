@@ -19,7 +19,8 @@ class GoogleNet_Model(object):
 
     def variables_dict(self):
         # To store The pretrained Weight & bias in variables in type tf.constant
-        pretrained_weights = scipy.io.loadmat('./tf_ckpt_from_caffe.mat')
+        # Mudar caminho absoluto/parametrizar
+        pretrained_weights = scipy.io.loadmat('/home/thales.nazatto/Pós/MsC/MetricLearning/datamodel/tf_ckpt_from_caffe.mat')
 
         Conv2d_1a_7x7 = tf.constant(np.transpose(pretrained_weights['conv1/7x7_s2'], (2, 3, 1, 0)))
         Conv2d_2b_1x1 = tf.constant(np.transpose(pretrained_weights['conv2/3x3_reduce'], (2, 3, 1, 0)))

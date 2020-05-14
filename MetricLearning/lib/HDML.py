@@ -1,4 +1,4 @@
-from legacy.FLAGS import *
+from FLAGS import *
 from lib.nn_Ops import distance, weight_variable, bias_variable
 import os
 

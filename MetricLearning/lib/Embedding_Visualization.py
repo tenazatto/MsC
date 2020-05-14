@@ -1,5 +1,5 @@
-from datasets import data_provider
-from legacy.FLAGS import *
+from datamodel import data_provider
+from FLAGS import *
 import copy
 from tqdm import tqdm
 

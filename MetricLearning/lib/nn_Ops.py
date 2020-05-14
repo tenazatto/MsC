@@ -1,4 +1,4 @@
-from legacy.FLAGS import *
+from FLAGS import *
 import os
 import tensorlayer as tl
 import numpy as np

@@ -3,9 +3,8 @@ import os
 import cv2
 import h5py
 import numpy as np
+from fuel.datasets import H5PYDataset
 from tqdm import tqdm
-
-from h5pydataset import H5PYDataset
 
 
 class DatasetIngestion:

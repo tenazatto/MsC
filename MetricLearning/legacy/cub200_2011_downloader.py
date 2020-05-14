@@ -12,17 +12,16 @@ from six.moves.urllib import request
 from progressbar import ProgressBar, Percentage, Bar, ETA, FileTransferSpeed
 import fuel
 
-fuel_root_path = "./data"
+path = "../datasets"
 base_url = "http://www.vision.caltech.edu/visipedia-data/CUB-200-2011/"
 filenames = ["CUB_200_2011.tgz"]
 urls = [base_url + f for f in filenames]
-print fuel_root_path
-fuel_data_path = os.path.join(fuel_root_path, "cub200_2011")
-os.mkdir(fuel_data_path)
+
+data_path = os.path.join(path, "CUB")
 
 for filename in filenames:
     url = base_url + filename
-    filepath = os.path.join(fuel_data_path, filename)
+    filepath = os.path.join(data_path, filename)
 
     with contextlib.closing(request.urlopen(url)) as f:
         expected_filesize = int(f.headers["content-length"])

@@ -12,17 +12,16 @@ from six.moves.urllib import request
 from progressbar import ProgressBar, Percentage, Bar, ETA, FileTransferSpeed
 import fuel
 
-fuel_root_path = "/home/linxd14/aml/ddml/deep_metric_learning/lib/datasets/data"
+path = "../datasets"
 base_url = "ftp://cs.stanford.edu/cs/cvgl/"
 filenames = ["Stanford_Online_Products.zip"]
 urls = [base_url + f for f in filenames]
 
-fuel_data_path = os.path.join(fuel_root_path, "online_products")
-os.mkdir(fuel_data_path)
+data_path = os.path.join(path, "Stanford")
 
 for filename in filenames:
     url = base_url + filename
-    filepath = os.path.join(fuel_data_path, filename)
+    filepath = os.path.join(data_path, filename)
 
     with contextlib.closing(request.urlopen(url)) as f:
         expected_filesize = int(f.headers["content-length"])

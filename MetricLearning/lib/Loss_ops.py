@@ -6,8 +6,7 @@ from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import logging_ops
 from tensorflow.python.ops import math_ops
 from tensorflow.python.ops import nn
-import lib.nn_Ops as nn_Ops
-from legacy.FLAGS import *
+from FLAGS import *
 """
 Classic Metric Learning Losses
 """
@@ -340,7 +339,7 @@ def npairs_loss(labels, embeddings_anchor, embeddings_positive,
 
     labels_remapped = math_ops.to_float(
         math_ops.equal(labels, array_ops.transpose(labels)))
-    labels_remapped /= math_ops.reduce_sum(labels_remapped, 1, keep_dims=True)
+    labels_remapped /= math_ops.reduce_sum(labels_remapped, 1, keepdims=True)
 
     # Add the softmax loss.
     xent_loss = nn.softmax_cross_entropy_with_logits(

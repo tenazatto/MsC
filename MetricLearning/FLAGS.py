@@ -14,7 +14,7 @@ tf.flags.DEFINE_string('log_save_path', './tensorboard_log/', 'Directory to save
 tf.flags.DEFINE_string('formerTimer', '02-07-14-27/model.ckpt-27900',
                        'The time that the former checkpoint is created')
 tf.flags.DEFINE_string('checkpoint_path', './formerTrain/', 'Directory to restore and save checkpoints')
-tf.flags.DEFINE_integer('batch_size', 128, 'batch size, 128 is recommended for cars196')
+tf.flags.DEFINE_integer('batch_size', 20, 'batch size, 128 is recommended for cars196')
 tf.flags.DEFINE_float('Regular_factor', 5e-3,
                       'weight decay factor, we recommend 5e-3 for cars196 and 1e-3 for cub200')
 tf.flags.DEFINE_float('init_learning_rate', 7e-5,
@@ -27,7 +27,7 @@ tf.flags.DEFINE_float('embedding_size', 128,
                       'The size of embedding, we recommend 128 for cars196 and 256 for cub200')
 tf.flags.DEFINE_float('loss_l2_reg', 3e-3,
                       'The factor of embedding l2_loss, we recommend 3e-3 for cars196 and 1.5e-2 for cub200')
-tf.flags.DEFINE_integer('init_batch_per_epoch', 500, 'init_batch_per_epoch, 500 for cars and cub)
+tf.flags.DEFINE_integer('init_batch_per_epoch', 500, 'init_batch_per_epoch, 500 for cars and cub')
 tf.flags.DEFINE_integer('batch_per_epoch', 64,
                         'The number of batches per epoch, in most situation, '
                         'we recommend 64 for cars196 and 46 for cub200 while 500 for test')

@@ -12,17 +12,16 @@ from six.moves.urllib import request
 from progressbar import ProgressBar, Percentage, Bar, ETA, FileTransferSpeed
 import fuel
 
-fuel_root_path = fuel.config.config["data_path"]["yaml"]
+path = "../datasets"
 base_url = "http://imagenet.stanford.edu/internal/car196/"
 filenames = ["car_ims.tgz", "cars_annos.mat"]
 urls = [base_url + f for f in filenames]
 
-fuel_data_path = os.path.join(fuel_root_path, "cars196")
-os.mkdir(fuel_data_path)
+data_path = os.path.join(path, "cars196")
 
 for filename in filenames:
     url = base_url + filename
-    filepath = os.path.join(fuel_data_path, filename)
+    filepath = os.path.join(data_path, filename)
 
     with contextlib.closing(request.urlopen(url)) as f:
         expected_filesize = int(f.headers["content-length"])

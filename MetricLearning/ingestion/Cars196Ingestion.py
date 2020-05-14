@@ -16,7 +16,7 @@ class Cars196Ingestion(DatasetIngestion):
                              "--force-local"])
 
     def getClasses(self):
-        cars196Lbl = loadmat("./datasets/cars196/cars_annos.mat")
+        cars196Lbl = loadmat("../datasets/cars196/cars_annos.mat")
 
         images = self.getClassAttrs(cars196Lbl, "annotations", 0, None)
         class_labels = self.getClassAttrs(cars196Lbl, "annotations", 5, int)

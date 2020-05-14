@@ -16,8 +16,8 @@ class StanfordIngestion(DatasetIngestion):
                 zf.extractall(images_path)
 
     def getClasses(self):
-        train_list_path = "./datasets/Stanford/Ebay_train.txt"
-        test_list_path = "./datasets/Stanford/Ebay_test.txt"
+        train_list_path = "../datasets/Stanford/Ebay_train.txt"
+        test_list_path = "../datasets/Stanford/Ebay_test.txt"
 
         train_records = np.loadtxt(train_list_path, np.str, skiprows=1)
         train_labels = train_records[:, 1].astype(np.int)

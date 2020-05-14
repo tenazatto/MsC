@@ -1,11 +1,10 @@
-#from datasets import data_provider
 import argparse
 
+from datamodel import data_provider
 from lib import GoogleNet_Model, Loss_ops, nn_Ops, Embedding_Visualization, HDML, evaluation
 import copy
 from tqdm import tqdm
 from tensorflow.contrib import layers
-import tensorflow as tf
 from FLAGS import *
 
 def str2bool(v):
@@ -21,23 +20,25 @@ parser.add_argument('-l', '--loss', dest='Loss',
                     help='Loss Function', default='Triplet')
 parser.add_argument('-d', '--dataset', dest='dataset',
                     help='dataset type', default='cars196')
-parser.add_argument('-h', '--hdml', dest='HDML',
-                    help='Apply HDML', type=str2bool)
+parser.add_argument('-a', '--hdml', dest='HDML',
+                    help='Apply HDML', default='False', type=str2bool)
+
+# create a saver
+# check system time
+_time = time.strftime('%m-%d-%H-%M', time.localtime(time.time()))
+LOGDIR = FLAGS.log_save_path + FLAGS.dataSet + '/' + FLAGS.LossType + '/' + _time + '/'
 
 def initialize(args):
     # Create the stream of datas from dataset
     streams = data_provider.get_streams(FLAGS.batch_size, args.dataset, method, crop_size=FLAGS.default_image_size)
-    stream_train, stream_train_eval, stream_test = streams
 
     regularizer = layers.l2_regularizer(FLAGS.Regular_factor)
-    # create a saver
-    # check system time
-    _time = time.strftime('%m-%d-%H-%M', time.localtime(time.time()))
-    LOGDIR = FLAGS.log_save_path+FLAGS.dataSet+'/'+FLAGS.LossType+'/'+_time+'/'
 
-if FLAGS. SaveVal:
-    nn_Ops.create_path(_time)
-summary_writer = tf.summary.FileWriter(LOGDIR)
+    if FLAGS. SaveVal:
+        nn_Ops.create_path(_time)
+    summary_writer = tf.summary.FileWriter(LOGDIR)
+
+    return streams, summary_writer
 
 def placeholders():
     x_raw = tf.placeholder(tf.float32, shape=[None, FLAGS.default_image_size, FLAGS.default_image_size, 3])
@@ -155,7 +156,7 @@ def configHDMLTriplet(params):
 
         J_gen = J_recon + J_soft
 
-    return J_metric, J_gen, cross_entropy
+    return J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft
 
 def configHDMLNPair(params):
     is_Training, embedding_y_origin, label, J_m, Javg, Jgen, embedding_z_quta, embedding_z_concate = params
@@ -206,7 +207,7 @@ def configHDMLNPair(params):
         )
         J_gen = J_recon + J_soft
 
-    return J_metric, J_gen, cross_entropy
+    return J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft
 
 def configTrainSteps(args, J_m, J_metric, J_gen, cross_entropy):
     if args.HDML:
@@ -220,7 +221,10 @@ def configTrainSteps(args, J_m, J_metric, J_gen, cross_entropy):
 
         return (train_step)
 
-def configTfSession(args, train_steps):
+def configTfSession(args, streams, summary_writer, train_steps, losses):
+    stream_train, stream_train_eval, stream_test = streams
+    wdLoss, J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft = losses
+
     with tf.Session(config=config) as sess:
         sess.run(tf.global_variables_initializer())
         saver = tf.train.Saver()
@@ -327,11 +331,14 @@ def configTfSession(args, train_steps):
 if __name__ == '__main__':
     args = parser.parse_args()
 
+    streams, summary_writer = initialize(args)
     x_raw, label_raw, is_Training, lr = placeholders()
     embedding_y_origin, embedding_z = configClassifier(args, x_raw, is_Training)
     wdLoss, label, J_m = configLoss(args, label_raw, embedding_z)
-    J_metric, J_gen, cross_entropy = configHDML(args, is_Training, embedding_y_origin, label, J_m) if args.HDML else 0, 0, 0
+    J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft = \
+        configHDML(args, is_Training, embedding_y_origin, label, J_m) if args.HDML else J_m, 0, 0, 0, 0, 0, 0, 0, 0
     train_steps = configTrainSteps(args, J_m, J_metric, J_gen, cross_entropy)
-    configTfSession(args, train_steps)
+    losses = (wdLoss, J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft)
+    configTfSession(args, streams, summary_writer, train_steps, losses)
 
     tf.app.run()
