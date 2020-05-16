@@ -7,30 +7,31 @@ from tqdm import tqdm
 from tensorflow.contrib import layers
 from FLAGS import *
 
-def str2bool(v):
-    if v.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
+# Saver and time
+_time = None
+LOGDIR = None
+
+# Using GPU
+os.environ["CUDA_VISIBLE_DEVICES"] = '0'
+gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.65)
+config = tf.ConfigProto(gpu_options=gpu_options)
+
+# config.gpu_options.allow_growth = True
+
+def initialize():
+    # Different losses need different method to create batches
+    if FLAGS.LossType == "Contrastive_Loss":
+        method = "pair"
+    elif FLAGS.LossType == "NpairLoss" or FLAGS.LossType == "AngularLoss" or FLAGS.LossType == "NCA_loss":
+        method = "n_pairs_mc"
+    elif FLAGS.LossType == "Triplet":
+        method = 'triplet'
     else:
-        raise argparse.ArgumentTypeError('Boolean value expected.')
+        method = "clustering"
+    print("method: " + method)
 
-parser = argparse.ArgumentParser(description='Dataset ingestion')
-parser.add_argument('-l', '--loss', dest='Loss',
-                    help='Loss Function', default='Triplet')
-parser.add_argument('-d', '--dataset', dest='dataset',
-                    help='dataset type', default='cars196')
-parser.add_argument('-a', '--hdml', dest='HDML',
-                    help='Apply HDML', default='False', type=str2bool)
-
-# create a saver
-# check system time
-_time = time.strftime('%m-%d-%H-%M', time.localtime(time.time()))
-LOGDIR = FLAGS.log_save_path + FLAGS.dataSet + '/' + FLAGS.LossType + '/' + _time + '/'
-
-def initialize(args):
     # Create the stream of datas from dataset
-    streams = data_provider.get_streams(FLAGS.batch_size, args.dataset, method, crop_size=FLAGS.default_image_size)
+    streams = data_provider.get_streams(FLAGS.batch_size, FLAGS.dataSet, method, crop_size=FLAGS.default_image_size)
 
     regularizer = layers.l2_regularizer(FLAGS.Regular_factor)
 
@@ -50,13 +51,13 @@ def placeholders():
 
     return x_raw, label_raw, is_Training, lr
 
-def configClassifier(args, x_raw, is_Training):
+def configClassifier(x_raw, is_Training):
     with tf.variable_scope('Classifier'):
         google_net_model = GoogleNet_Model.GoogleNet_Model()
         embedding = google_net_model.forward(x_raw)
 
         embedding_y_origin = 0
-        if args.HDML:
+        if FLAGS.Apply_HDML:
             embedding_y_origin = embedding
 
         # Batch Normalization layer 1
@@ -75,7 +76,7 @@ def configClassifier(args, x_raw, is_Training):
 
         return embedding_y_origin, embedding_z
 
-def configLoss(args, label_raw, embedding_z):
+def configLoss(label_raw, embedding_z):
     # conventional Loss function
     with tf.name_scope('Loss'):
         def exclude_batch_norm(name):
@@ -90,22 +91,22 @@ def configLoss(args, label_raw, embedding_z):
 
     return wdLoss, label, J_m
 
-def configHDML(args, is_Training, embedding_y_origin, label, J_m):
+def configHDML(is_Training, embedding_y_origin, label, J_m):
     with tf.name_scope('Javg'):
         Javg = tf.placeholder(tf.float32)
     with tf.name_scope('Jgen'):
         Jgen = tf.placeholder(tf.float32)
 
     #Augmentor
-    embedding_z_quta = HDML.Pulling(args.Loss, embedding_z, Javg)
+    embedding_z_quta = HDML.Pulling(FLAGS.LossType, embedding_z, Javg)
 
     embedding_z_concate = tf.concat([embedding_z, embedding_z_quta], axis=0)
 
     params = (is_Training, embedding_y_origin, label, J_m, Javg, Jgen, embedding_z_quta, embedding_z_concate)
 
-    if args.Loss =="Triplet":
+    if FLAGS.LossType =="Triplet":
         return configHDMLTriplet(params)
-    elif args.Loss == "NPairLoss":
+    elif FLAGS.LossType == "NPairLoss":
         return configHDMLNPair(params)
 
 def HDMLGenerators(is_Training, embedding_z_concate):
@@ -209,8 +210,8 @@ def configHDMLNPair(params):
 
     return J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft
 
-def configTrainSteps(args, J_m, J_metric, J_gen, cross_entropy):
-    if args.HDML:
+def configTrainSteps(J_m, J_metric, J_gen, cross_entropy):
+    if FLAGS.Apply_HDML:
         c_train_step = nn_Ops.training(loss=J_metric, lr=lr, var_scope='Classifier')
         g_train_step = nn_Ops.training(loss=J_gen, lr=FLAGS.lr_gen, var_scope='Generator')
         s_train_step = nn_Ops.training(loss=cross_entropy, lr=FLAGS.s_lr, var_scope='Softmax_classifier')
@@ -221,7 +222,7 @@ def configTrainSteps(args, J_m, J_metric, J_gen, cross_entropy):
 
         return (train_step)
 
-def configTfSession(args, streams, summary_writer, train_steps, losses):
+def configTfSession(streams, summary_writer, train_steps, losses):
     stream_train, stream_train_eval, stream_test = streams
     wdLoss, J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft = losses
 
@@ -257,7 +258,7 @@ def configTfSession(args, streams, summary_writer, train_steps, losses):
                 # get images and labels from batch
                 x_batch_data, Label_raw = nn_Ops.batch_data(batch)
                 pbar.update(1)
-                if not args.HDML:
+                if not FLAGS.Apply_HDML:
                     train_step = train_steps
                     train, J_m_var, wd_Loss_var = sess.run([train_step, J_m, wdLoss],
                                                            feed_dict={x_raw: x_batch_data, label_raw: Label_raw,
@@ -306,7 +307,7 @@ def configTfSession(args, streams, summary_writer, train_steps, losses):
                     J_m_loss.write_to_tfboard(eval_summary)
                     wd_Loss.write_to_tfboard(eval_summary)
                     eval_summary.value.add(tag='learning_rate', simple_value=_lr)
-                    if args.HDML:
+                    if FLAGS.Apply_HDML:
                         J_syn_loss.write_to_tfboard(eval_summary)
                         J_metric_loss.write_to_tfboard(eval_summary)
                         J_soft_loss.write_to_tfboard(eval_summary)
@@ -326,19 +327,22 @@ def configTfSession(args, streams, summary_writer, train_steps, losses):
                     if step >= 5000:
                         bp_epoch = FLAGS.batch_per_epoch
                     if step >= FLAGS.max_steps:
-                        os._exit()
+                        os._exit(0)
 
 if __name__ == '__main__':
-    args = parser.parse_args()
+    # create a saver
+    # check system time
+    _time = time.strftime('%m-%d-%H-%M', time.localtime(time.time()))
+    LOGDIR = FLAGS.log_save_path + FLAGS.dataSet + '/' + FLAGS.LossType + '/' + _time + '/'
 
-    streams, summary_writer = initialize(args)
+    streams, summary_writer = initialize()
     x_raw, label_raw, is_Training, lr = placeholders()
-    embedding_y_origin, embedding_z = configClassifier(args, x_raw, is_Training)
-    wdLoss, label, J_m = configLoss(args, label_raw, embedding_z)
+    embedding_y_origin, embedding_z = configClassifier(x_raw, is_Training)
+    wdLoss, label, J_m = configLoss(label_raw, embedding_z)
     J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft = \
-        configHDML(args, is_Training, embedding_y_origin, label, J_m) if args.HDML else J_m, 0, 0, 0, 0, 0, 0, 0, 0
-    train_steps = configTrainSteps(args, J_m, J_metric, J_gen, cross_entropy)
+        configHDML(is_Training, embedding_y_origin, label, J_m) if FLAGS.Apply_HDML else J_m, 0, 0, 0, 0, 0, 0, 0, 0
+    train_steps = configTrainSteps(J_m, J_metric, J_gen, cross_entropy)
     losses = (wdLoss, J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft)
-    configTfSession(args, streams, summary_writer, train_steps, losses)
+    configTfSession(streams, summary_writer, train_steps, losses)
 
     tf.app.run()

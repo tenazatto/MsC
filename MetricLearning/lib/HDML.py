@@ -56,7 +56,7 @@ def Pulling(Loss_type, embedding, Jm):
 
     else:
         print("Your loss type is not suit for HDML")
-        os._exit()
+        os._exit(0)
 
 
 def npairSplit(embedding, Loss_type=FLAGS.LossType, size=1024):
