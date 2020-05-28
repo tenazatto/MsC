@@ -35,7 +35,7 @@ if __name__ == '__main__':
             data_path='../datasets/Stanford/data',
             images_path='../datasets/Stanford/images',
             image_filepath='../datasets/Stanford/Stanford_Online_Products.zip',
-            hdf5_filename='Stanford.hdf5'
+            hdf5_filename='online_products.hdf5'
         ).start()
 
 

@@ -106,7 +106,7 @@ def configHDML(is_Training, embedding_y_origin, label, J_m):
 
     if FLAGS.LossType =="Triplet":
         return configHDMLTriplet(params)
-    elif FLAGS.LossType == "NPairLoss":
+    elif FLAGS.LossType == "NpairLoss":
         return configHDMLNPair(params)
 
 def HDMLGenerators(is_Training, embedding_z_concate):
@@ -340,7 +340,7 @@ if __name__ == '__main__':
     embedding_y_origin, embedding_z = configClassifier(x_raw, is_Training)
     wdLoss, label, J_m = configLoss(label_raw, embedding_z)
     J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft = \
-        configHDML(is_Training, embedding_y_origin, label, J_m) if FLAGS.Apply_HDML else J_m, 0, 0, 0, 0, 0, 0, 0, 0
+        configHDML(is_Training, embedding_y_origin, label, J_m) if FLAGS.Apply_HDML else (J_m, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     train_steps = configTrainSteps(J_m, J_metric, J_gen, cross_entropy)
     losses = (wdLoss, J_m, Javg, Jgen, J_metric, J_gen, J_syn, cross_entropy, J_recon, J_soft)
     configTfSession(streams, summary_writer, train_steps, losses)

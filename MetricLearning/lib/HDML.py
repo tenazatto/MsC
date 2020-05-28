@@ -12,7 +12,7 @@ def Pulling(Loss_type, embedding, Jm):
 
         anc_tile = tf.reshape(tf.tile(anc, [1, int(FLAGS.batch_size / 2)]), [-1, int(FLAGS.embedding_size)])
         pos_tile = tf.reshape(tf.tile(pos, [1, int(FLAGS.batch_size / 2)]), [-1, int(FLAGS.embedding_size)])
-        neg_tile = tf.tile(neg, [FLAGS.batch_size / 2, 1])
+        neg_tile = tf.tile(neg, [int(FLAGS.batch_size / 2), 1])
 
         lambda_0 = tf.tile(
             ((distance(anc_tile, pos_tile) + (distance(anc_tile, neg_tile) - distance(anc_tile, pos_tile)) * tf.exp(
@@ -38,7 +38,7 @@ def Pulling(Loss_type, embedding, Jm):
 
         lambda_0 = tf.tile(
             ((distance(anc, pos) + (distance(anc, neg) - distance(anc, pos)) * tf.exp(
-                -FLAGS.alpha / Jm)) / distance(anc, neg)), [1, FLAGS.embedding_size]
+                -FLAGS.alpha / Jm)) / distance(anc, neg)), [1, int(FLAGS.embedding_size)]
         )
 
         neg2 = anc + tf.multiply(lambda_0, (neg - anc))
