@@ -1,3 +1,4 @@
+from metrics.metrics import ml_model_metrics, prejudice_remover_metrics, disparate_impact_remover_metrics
 from pipeline.validation import PipelineValidation
 from processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, Algorithms, UnbiasInProcAlgorithms
 from processors.inprocessors.algorithms import logistic_regression_weighed, logistic_regression, prejudice_remover
@@ -5,7 +6,6 @@ from processors.preprocessors.data.adult_sex import AdultSexPreprocessor
 from processors.preprocessors.data.german_age import GermanAgePreprocessor
 from processors.preprocessors.data.german_foreign import GermanForeignPreprocessor
 from processors.preprocessors.algorithms import reweighing_preprocess, optim_preprocess, disparate_impact_preprocess, \
-    biased_explainer, \
     prejudice_remover_preprocess
 
 
@@ -25,25 +25,23 @@ class Pipeline:
         result = None
 
         if algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
-            dataset_tr, dataset_te, explainer = \
+            dataset_tr, dataset_te = \
                 prejudice_remover_preprocess(x_train, x_test, y_train, y_test, preprocessor)
-            result = dataset_tr, dataset_te, y_test, explainer
+            result = dataset_tr, dataset_te, y_test
         else:
             if unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING:
-                df_aif_rw, unbiased_explainer = reweighing_preprocess(x_train, y_train, preprocessor)
-                result = x_train, x_test, y_train, y_test, df_aif_rw, unbiased_explainer
+                df_aif_rw = reweighing_preprocess(x_train, y_train, preprocessor)
+                result = x_train, x_test, y_train, y_test, df_aif_rw
             elif unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING:
-                df_aif_op, unbiased_explainer = optim_preprocess(x_train, y_train, preprocessor)
-                result = x_train, x_test, y_train, y_test, df_aif_op, unbiased_explainer
+                df_aif_op = optim_preprocess(x_train, y_train, preprocessor)
+                result = x_train, x_test, y_train, y_test, df_aif_op
             elif unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER:
-                x_di_train, x_di_test, y_di_train, unbiased_explainer = \
+                x_di_train, x_di_test, y_di_train, df_aif_te = \
                     disparate_impact_preprocess(x_train, x_test, y_train, y_test, preprocessor)
                 result = x_train, x_test, y_train, y_test, \
-                       x_di_train, x_di_test, y_di_train, \
-                       unbiased_explainer
+                       x_di_train, x_di_test, y_di_train, df_aif_te
             elif unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING:
-                explainer = biased_explainer(x_train, y_train, preprocessor)
-                result = x_train, x_test, y_train, y_test, explainer
+                result = x_train, x_test, y_train, y_test
 
         return result
 
@@ -54,7 +52,7 @@ class Pipeline:
         params = x_train, x_test, y_train, y_test, preprocessor
         final_data = self.unbias_data_preprocessor(params, algorithm, unbias_data_algorithm)
 
-        return final_data
+        return final_data, preprocessor
 
     def process(self, params, algorithm, unbias_data_algorithm):
         if algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING:
@@ -69,24 +67,46 @@ class Pipeline:
 
         return y_pred
 
+    def calculate_metrics(self, params, y_pred, algorithm, unbias_data_algorithm, preprocessor):
+        if unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER:
+            df_aif_te = params
+            metrics, explainer = disparate_impact_remover_metrics(df_aif_te, y_pred, preprocessor)
+        elif unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING or unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING:
+            x_test, y_test = params
+            metrics, explainer = ml_model_metrics(x_test, y_test, y_pred, preprocessor)
+        elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
+            dataset_te = params
+            metrics, explainer = prejudice_remover_metrics(dataset_te, y_pred, preprocessor)
+        else:
+            x_test, y_test = params
+            metrics, explainer = ml_model_metrics(x_test, y_test, y_pred, preprocessor)
+
+        return metrics, explainer
+
     def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm):
         PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm)
 
-        final_data = self.data_preprocess(dataset, preprocessor, algorithm, unbias_data_algorithm)
+        final_data, preprocessor = self.data_preprocess(dataset, preprocessor, algorithm, unbias_data_algorithm)
 
         if unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER:
-            x_train, x_test, y_train, y_test, x_di_train, x_di_test, y_di_train, explainer = final_data
+            x_train, x_test, y_train, y_test, x_di_train, x_di_test, y_di_train, df_aif_te = final_data
             params = x_di_train, y_di_train, x_di_test
+            params_metric = df_aif_te
         elif unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING or unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING:
-            x_train, x_test, y_train, y_test, df_aif_rw, explainer = final_data
+            x_train, x_test, y_train, y_test, df_aif_rw = final_data
             params = x_train, y_train, x_test, df_aif_rw
+            params_metric = x_test, y_test
         elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
-            dataset_tr, dataset_te, y_test, explainer = final_data
+            dataset_tr, dataset_te, y_test = final_data
             params = dataset_tr, dataset_te
+            params_metric = dataset_te
         else:
-            x_train, x_test, y_train, y_test, explainer = final_data
+            x_train, x_test, y_train, y_test = final_data
             params = x_train, y_train, x_test
+            params_metric = x_test, y_test
 
         y_pred = self.process(params, algorithm, unbias_data_algorithm)
+
+        metrics, explainer = self.calculate_metrics(params_metric, y_pred, algorithm, unbias_data_algorithm, preprocessor)
 
         return y_pred, y_test, explainer
