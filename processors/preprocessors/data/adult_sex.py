@@ -4,11 +4,10 @@ import pandas as pd
 from aif360.algorithms.preprocessing.optim_preproc_helpers.distortion_functions import get_distortion_adult
 from sklearn.model_selection import train_test_split
 
-from processors.preprocessors.data.fairness import FairnessPreprocessor
+from processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
 
 
-class AdultSexPreprocessor(FairnessPreprocessor):
-    dataset_path = 'datasets/adult.csv'
+class AdultSexFairnessPipe(FairnessPipe):
     privileged_group = [{'Female': 0}]
     unprivileged_group = [{'Female': 1}]
 
@@ -22,8 +21,13 @@ class AdultSexPreprocessor(FairnessPreprocessor):
         "dlist": [.1, 0.05, 0]
     }
 
+    def __init__(self):
+        super().__init__()
+
+
+class AdultSexPreprocessor(FairnessPreprocessor):
     def dataset_preprocess(self):
-        df = super().load_dataset()
+        df = self.input
         df.info()
 
         df.rename(columns={'capital-gain': 'capital gain', 'capital-loss': 'capital loss', 'native-country': 'country',
