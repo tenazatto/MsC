@@ -4,7 +4,7 @@ from aif360.datasets import BinaryLabelDataset
 from pipeline.pipe_filter.pipe import BaseFilter
 
 
-class PrejudiceRemoverUnbiasAlgorithm(BaseFilter):
+class PrejudiceRemoverPreprocessor(BaseFilter):
 
     def prejudice_remover_preprocess(self):
         att = self.input

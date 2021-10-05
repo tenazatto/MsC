@@ -14,13 +14,13 @@ class Dataset(BasePipe):
 
 
 class GermanDataset(Dataset):
-    dataset_path = 'datasets/german_credit_data.csv'
+    dataset_path = 'src/datasets/german_credit_data.csv'
 
     def __init__(self):
         super().__init__()
 
 class AdultDataset(Dataset):
-    dataset_path = 'datasets/adult.csv'
+    dataset_path = 'src/datasets/adult.csv'
 
     def __init__(self):
         super().__init__()

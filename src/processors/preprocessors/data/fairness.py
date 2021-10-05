@@ -1,5 +1,3 @@
-import pandas as pd
-
 from pipeline.pipe_filter.pipe import BaseFilter, BasePipe
 
 

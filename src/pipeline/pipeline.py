@@ -12,7 +12,7 @@ from processors.preprocessors.data.german_age import GermanAgePreprocessor, Germ
 from processors.preprocessors.data.german_foreign import GermanForeignPreprocessor, GermanForeignFairnessPipe
 from processors.preprocessors.unbias_algorithms.disparate_impact_remover import DisparateImpactRemoverUnbiasAlgorithm
 from processors.preprocessors.unbias_algorithms.optim_preprocess import OptimizedPreprocessingUnbiasAlgorithm
-from processors.preprocessors.unbias_algorithms.prejudice_remover import PrejudiceRemoverUnbiasAlgorithm
+from processors.preprocessors.unbias_algorithms.prejudice_remover import PrejudiceRemoverPreprocessor
 from processors.preprocessors.unbias_algorithms.reweighing import ReweighingUnbiasAlgorithm
 
 
@@ -22,63 +22,92 @@ class Pipeline:
         return BasePipe()
 
     def select_data_preprocessor(self, dataset, preprocessor):
-        if dataset == Datasets.ADULT_INCOME and preprocessor == Preprocessors.SEX:
-            preprocessed_data_pipe = AdultDataset() >= AdultSexPreprocessor() == self.new_pipe()
-            fairness_pipe = AdultSexFairnessPipe()
-        elif dataset == Datasets.GERMAN_CREDIT and preprocessor == Preprocessors.AGE:
-            preprocessed_data_pipe = GermanDataset() >= GermanAgePreprocessor() == self.new_pipe()
-            fairness_pipe = GermanAgeFairnessPipe()
-        elif dataset == Datasets.GERMAN_CREDIT and preprocessor == Preprocessors.FOREIGN:
-            preprocessed_data_pipe = GermanDataset() >= GermanForeignPreprocessor() == self.new_pipe()
-            fairness_pipe = GermanForeignFairnessPipe()
+        choice = [dataset, preprocessor]
+        options = [
+            ([Datasets.ADULT_INCOME, Preprocessors.SEX], (AdultDataset(), AdultSexPreprocessor(), AdultSexFairnessPipe())),
+            ([Datasets.GERMAN_CREDIT, Preprocessors.AGE], (GermanDataset(), GermanAgePreprocessor(), GermanAgeFairnessPipe())),
+            ([Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN], (GermanDataset(), GermanForeignPreprocessor(), GermanForeignFairnessPipe())),
+        ]
+
+        for option, pipe_filter in options:
+            if choice == option:
+                dataset_pipe, data_preprocessor_filter, fairness_pipe = pipe_filter
+                preprocessed_data_pipe = dataset_pipe >= data_preprocessor_filter == self.new_pipe()
+                break
 
         return preprocessed_data_pipe, fairness_pipe
 
-    def unbias_data_preprocessor(self, params, algorithm, unbias_data_algorithm):
-        preprocessed_data_pipe, fairness_pipe = params
+    def unbias_data_preprocessor(self, preprocessed_data_pipe, fairness_pipe, algorithm, unbias_data_algorithm):
+        init_pipe = preprocessed_data_pipe.merge(fairness_pipe)
         result_pipe = None
 
-        if algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
-            result_pipe = preprocessed_data_pipe.merge(fairness_pipe) >= PrejudiceRemoverUnbiasAlgorithm() == self.new_pipe()
-        else:
-            if unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING:
-                result_pipe = preprocessed_data_pipe.merge(fairness_pipe) >= ReweighingUnbiasAlgorithm() == self.new_pipe()
-            elif unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING:
-                result_pipe = preprocessed_data_pipe.merge(fairness_pipe) >= OptimizedPreprocessingUnbiasAlgorithm() == self.new_pipe()
-            elif unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER:
-                result_pipe = preprocessed_data_pipe.merge(fairness_pipe) >= DisparateImpactRemoverUnbiasAlgorithm() == self.new_pipe()
-            elif unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING:
-                result_pipe = preprocessed_data_pipe
+        unbias_data_options = [
+            (UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER, DisparateImpactRemoverUnbiasAlgorithm()),
+            (UnbiasDataAlgorithms.REWEIGHING, ReweighingUnbiasAlgorithm()),
+            (UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING, OptimizedPreprocessingUnbiasAlgorithm())
+        ]
+
+        for option, filter in unbias_data_options:
+            if unbias_data_algorithm == option:
+                result_pipe = init_pipe >= filter == self.new_pipe()
+                break
+
+        unbias_inproc_options = [
+            (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, PrejudiceRemoverPreprocessor())
+        ]
+
+        for option, filter in unbias_inproc_options:
+            if algorithm == option:
+                result_pipe = init_pipe >= filter == self.new_pipe()
+                break
+
+        if result_pipe is None:
+            result_pipe = preprocessed_data_pipe
 
         return result_pipe
 
     def data_preprocess(self, dataset, preprocessor, algorithm, unbias_data_algorithm):
         preprocessed_data_pipe, fairness_pipe = self.select_data_preprocessor(dataset, preprocessor)
-
-        params = preprocessed_data_pipe, fairness_pipe
-        unbiased_data_pipe = self.unbias_data_preprocessor(params, algorithm, unbias_data_algorithm)
+        unbiased_data_pipe = self.unbias_data_preprocessor(preprocessed_data_pipe, fairness_pipe, algorithm, unbias_data_algorithm)
 
         return fairness_pipe, unbiased_data_pipe
 
-    def process(self, params, algorithm, unbias_data_algorithm):
+    def process(self, process_pipe, algorithm, unbias_data_algorithm):
         if algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING:
-            prediction_pipe = params >= LogisticRegressionFilter(weighed=True) == self.new_pipe()
+            prediction_pipe = process_pipe >= LogisticRegressionFilter(weighed=True) == self.new_pipe()
         elif algorithm == Algorithms.LOGISTIC_REGRESSION:
-            prediction_pipe = params >= LogisticRegressionFilter() == self.new_pipe()
+            prediction_pipe = process_pipe >= LogisticRegressionFilter() == self.new_pipe()
         elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
-            prediction_pipe = params >= PrejudiceRemoverFilter() == self.new_pipe()
+            prediction_pipe = process_pipe >= PrejudiceRemoverFilter() == self.new_pipe()
 
         return prediction_pipe
 
     def calculate_metrics(self, test_pipe, prediction_pipe, fairness_pipe, algorithm, unbias_data_algorithm):
-        if unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER:
-            metrics_pipe = test_pipe.merge(prediction_pipe).merge(fairness_pipe) >= DisparateImpactRemoverMetricsFilter() == self.new_pipe()
-        elif unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING or unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING:
-            metrics_pipe = test_pipe.merge(prediction_pipe).merge(fairness_pipe) >= MLModelMetricsFilter() == self.new_pipe()
-        elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
-            metrics_pipe = test_pipe.merge(prediction_pipe).merge(fairness_pipe) >= PrejudiceRemoverMetricsFilter() == self.new_pipe()
-        else:
-            metrics_pipe = test_pipe.merge(prediction_pipe).merge(fairness_pipe) >= MLModelMetricsFilter() == self.new_pipe()
+        init_pipe = test_pipe.merge(prediction_pipe).merge(fairness_pipe)
+        metrics_pipe = None
+
+        unbias_data_options = [
+            (UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER, DisparateImpactRemoverMetricsFilter()),
+            (UnbiasDataAlgorithms.REWEIGHING, MLModelMetricsFilter()),
+            (UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING, MLModelMetricsFilter())
+        ]
+
+        for option, filter in unbias_data_options:
+            if unbias_data_algorithm == option:
+                metrics_pipe = init_pipe >= filter == self.new_pipe()
+                break
+
+        unbias_inproc_options = [
+            (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, PrejudiceRemoverMetricsFilter())
+        ]
+
+        for option, filter in unbias_inproc_options:
+            if algorithm == option:
+                metrics_pipe = init_pipe >= filter == self.new_pipe()
+                break
+
+        if metrics_pipe is None:
+            metrics_pipe = init_pipe >= MLModelMetricsFilter() == self.new_pipe()
 
         return metrics_pipe
 
