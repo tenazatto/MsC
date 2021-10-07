@@ -14,7 +14,9 @@ class PipelineValidation:
             (algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING) or \
             (algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER) or \
             (algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING) or \
-            (algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING)
+            (algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS) or \
+            (algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING) or \
+            (algorithm == UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING)
 
         if not existant_preprocessors:
             raise Exception("Pré-processador não existente para o conjunto de dados")

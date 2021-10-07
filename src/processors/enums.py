@@ -18,6 +18,7 @@ class Algorithms:
 
 class UnbiasInProcAlgorithms(Algorithms):
     PREJUDICE_REMOVER = 101
+    ADVERSARIAL_DEBIASING = 102
 
 
 class UnbiasDataAlgorithms(Enum):
@@ -25,3 +26,4 @@ class UnbiasDataAlgorithms(Enum):
     REWEIGHING = 1
     OPTIMIZED_PREPROCESSING = 2
     DISPARATE_IMPACT_REMOVER = 3
+    LEARNING_FAIR_REPRESENTATIONS = 4

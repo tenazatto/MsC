@@ -4,7 +4,7 @@ from metrics.explainer import EnhancedMetricTextExplainer
 from pipeline.pipe_filter.pipe import BaseFilter
 
 
-class PrejudiceRemoverMetricsFilter(BaseFilter):
+class UnbiasInProcAlgorithmMetricsFilter(BaseFilter):
     def prejudice_remover_metrics(self):
         att = self.input
 
