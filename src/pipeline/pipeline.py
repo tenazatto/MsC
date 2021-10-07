@@ -40,7 +40,7 @@ class Pipeline:
         return preprocessed_data_pipe, fairness_pipe
 
     def unbias_data_preprocessor(self, preprocessed_data_pipe, fairness_pipe, algorithm, unbias_data_algorithm):
-        init_pipe = preprocessed_data_pipe.merge(fairness_pipe)
+        init_pipe = preprocessed_data_pipe + fairness_pipe
         result_pipe = None
 
         unbias_data_options = [
@@ -78,23 +78,22 @@ class Pipeline:
 
     def prepare_process_and_test_pipe(self, algorithm, data_pipe, fairness_pipe, unbias_data_algorithm):
         if unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER:
-            process_pipe = data_pipe.partial_pipe(['x_train', 'y_train', 'x_test'])
-            test_pipe = data_pipe.partial_pipe(['df_aif', 'y_test'])
+            process_pipe = data_pipe['x_train', 'y_train', 'x_test']
+            test_pipe = data_pipe['df_aif', 'y_test']
         elif unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING or \
                 unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING or \
                 unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS:
-            process_pipe = data_pipe.partial_pipe(['x_train', 'y_train', 'x_test', 'df_aif'])
-            test_pipe = data_pipe.partial_pipe(['x_test', 'y_test'])
+            process_pipe = data_pipe['x_train', 'y_train', 'x_test', 'df_aif']
+            test_pipe = data_pipe['x_test', 'y_test']
         elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
-            process_pipe = data_pipe.partial_pipe(['df_aif_tr', 'df_aif_te'])
-            test_pipe = data_pipe.partial_pipe(['df_aif_te', 'y_test'])
+            process_pipe = data_pipe['df_aif_tr', 'df_aif_te']
+            test_pipe = data_pipe['df_aif_te', 'y_test']
         elif algorithm == UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING:
-            process_pipe = data_pipe.merge(fairness_pipe)\
-                .partial_pipe(['df_aif_tr', 'df_aif_te', 'privileged_group', 'unprivileged_group'])
-            test_pipe = data_pipe.partial_pipe(['df_aif_te', 'y_test'])
+            process_pipe = (data_pipe + fairness_pipe)['df_aif_tr', 'df_aif_te', 'privileged_group', 'unprivileged_group']
+            test_pipe = data_pipe['df_aif_te', 'y_test']
         else:
-            process_pipe = data_pipe.partial_pipe(['x_train', 'y_train', 'x_test'])
-            test_pipe = data_pipe.partial_pipe(['x_test', 'y_test'])
+            process_pipe = data_pipe['x_train', 'y_train', 'x_test']
+            test_pipe = data_pipe['x_test', 'y_test']
 
         return process_pipe, test_pipe
 
@@ -113,7 +112,7 @@ class Pipeline:
         return prediction_pipe
 
     def calculate_metrics(self, test_pipe, prediction_pipe, fairness_pipe, algorithm, unbias_data_algorithm):
-        init_pipe = test_pipe.merge(prediction_pipe).merge(fairness_pipe)
+        init_pipe = test_pipe + prediction_pipe + fairness_pipe
         metrics_pipe = None
 
         unbias_data_options = [

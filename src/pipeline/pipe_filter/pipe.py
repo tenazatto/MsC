@@ -6,7 +6,7 @@ class BasePipe(PipeFilter):
 
     def merge(self, other):
         if not isinstance(other, BasePipe):
-            raise Exception("Um Pipe só pode se unir com um Pipe")
+            raise Exception("Um Pipe só pode se unir a um Pipe")
 
         new_pipe = self
         new_pipe.value.update(other.value)
@@ -23,15 +23,24 @@ class BasePipe(PipeFilter):
 
         return new_pipe
 
-    def __ge__(self, other: PipeFilter):
-        if not isinstance(other, BaseFilter):
+    def to_filter(self, filter):
+        if not isinstance(filter, BaseFilter):
             raise Exception("Um Pipe só pode se encadear com um Filtro")
 
-        print('teste de encadear pipe com ' + str(other))
+        print('Encadeando pipe com ' + str(filter))
 
-        other.input = self.value
+        filter.input = self.value
 
-        return other
+        return filter
+
+    def __add__(self, other: PipeFilter):
+        return self.merge(other)
+
+    def __getitem__(self, item):
+        return self.partial_pipe(item)
+
+    def __ge__(self, other: PipeFilter):
+        return self.to_filter(other)
 
 class BaseFilter(PipeFilter):
     input = None
@@ -40,12 +49,15 @@ class BaseFilter(PipeFilter):
     def execute(self):
         self.output = self.input
 
-    def __eq__(self, other: PipeFilter):
-        if not isinstance(other, BasePipe):
+    def to_pipe(self, pipe: PipeFilter):
+        if not isinstance(pipe, BasePipe):
             raise Exception("Um Filtro só pode se encadear com um Pipe")
 
         self.execute()
 
-        other.value = self.output
+        pipe.value = self.output
 
-        return other
+        return pipe
+
+    def __eq__(self, other: PipeFilter):
+        return self.to_pipe(other)
