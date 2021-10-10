@@ -14,11 +14,13 @@ class Preprocessors(Enum):
 
 class Algorithms:
     LOGISTIC_REGRESSION = 1
+    RANDOM_FOREST = 2
 
 
 class UnbiasInProcAlgorithms(Algorithms):
     PREJUDICE_REMOVER = 101
     ADVERSARIAL_DEBIASING = 102
+    EXPONENTIATED_GRADIENT_REDUCTION = 103
 
 
 class UnbiasDataAlgorithms(Enum):
@@ -27,3 +29,9 @@ class UnbiasDataAlgorithms(Enum):
     OPTIMIZED_PREPROCESSING = 2
     DISPARATE_IMPACT_REMOVER = 3
     LEARNING_FAIR_REPRESENTATIONS = 4
+
+class UnbiasPostProcAlgorithms(Enum):
+    NOTHING = 0
+    EQUALIZED_ODDS = 1
+    CALIBRATED_EQUALIZED_ODDS = 2
+    REJECT_OPTION_CLASSIFICATION = 3

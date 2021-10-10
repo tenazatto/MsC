@@ -25,10 +25,9 @@ class FairnessPreprocessor(BaseFilter):
         pass
 
     def execute(self):
-        x_train, x_test, y_train, y_test = self.dataset_preprocess()
+        df_x, df_y = self.dataset_preprocess()
+
         self.output = {
-            'x_train': x_train,
-            'x_test': x_test,
-            'y_train': y_train,
-            'y_test': y_test
+            'df_x': df_x,
+            'df_y': df_y
         }

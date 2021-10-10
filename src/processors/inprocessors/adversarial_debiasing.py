@@ -6,12 +6,10 @@ from pipeline.pipe_filter.pipe import BaseFilter
 
 
 class AdversarialDebiasingFilter(BaseFilter):
-    max_iter = 10000
-    weighed = False
+    num_epochs = 10
 
-    def __init__(self, max_iter=10000, weighed=False):
-        self.max_iter = max_iter
-        self.weighed = weighed
+    def __init__(self, num_epochs=10, weighed=False):
+        self.num_epochs = num_epochs
 
     def adversarial_debiasing(self):
         att = self.input
@@ -22,7 +20,7 @@ class AdversarialDebiasingFilter(BaseFilter):
         debiased_model = AdversarialDebiasing(privileged_groups=att['privileged_group'],
                                               unprivileged_groups=att['unprivileged_group'],
                                               scope_name='debiased_classifier',
-                                              num_epochs=10,
+                                              num_epochs=self.num_epochs,
                                               debias=True,
                                               sess=sess)
 

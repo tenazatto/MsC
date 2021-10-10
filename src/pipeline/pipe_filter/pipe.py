@@ -1,6 +1,7 @@
 class PipeFilter:
     pass
 
+
 class BasePipe(PipeFilter):
     value = None
 
@@ -41,6 +42,7 @@ class BasePipe(PipeFilter):
 
     def __ge__(self, other: PipeFilter):
         return self.to_filter(other)
+
 
 class BaseFilter(PipeFilter):
     input = None

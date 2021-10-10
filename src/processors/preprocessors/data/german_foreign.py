@@ -64,6 +64,5 @@ class GermanForeignPreprocessor(FairnessPreprocessor):
 
         df_x = df.drop('risk', axis=1)
         df_y = pd.DataFrame(df.risk)
-        x_train, x_test, y_train, y_test = train_test_split(df_x, df_y, test_size=0.2, random_state=42)
 
-        return x_train, x_test, y_train, y_test
+        return df_x, df_y
