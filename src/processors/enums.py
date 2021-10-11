@@ -15,12 +15,18 @@ class Preprocessors(Enum):
 class Algorithms:
     LOGISTIC_REGRESSION = 1
     RANDOM_FOREST = 2
+    GRADIENT_BOOST = 3
+    SUPPORT_VECTOR_MACHINES = 4
 
 
 class UnbiasInProcAlgorithms(Algorithms):
     PREJUDICE_REMOVER = 101
     ADVERSARIAL_DEBIASING = 102
     EXPONENTIATED_GRADIENT_REDUCTION = 103
+    RICH_SUBGROUP_FAIRNESS = 104
+    GRID_SEARCH_REDUCTION = 105
+    META_FAIR_CLASSIFIER = 106
+    ART_CLASSIFIER = 107 # Adversarial Robustness Toolbox (Security)
 
 
 class UnbiasDataAlgorithms(Enum):

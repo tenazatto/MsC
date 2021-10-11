@@ -6,8 +6,11 @@ from pipeline.validation import PipelineValidation
 from processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, Algorithms, UnbiasInProcAlgorithms, \
     UnbiasPostProcAlgorithms
 from processors.inprocessors.adversarial_debiasing import AdversarialDebiasingFilter
+from processors.inprocessors.gradient_boost import GradientBoostFilter
 from processors.inprocessors.logistic_regression import LogisticRegressionFilter
 from processors.inprocessors.prejudice_remover import PrejudiceRemoverFilter
+from processors.inprocessors.random_forest import RandomForestFilter
+from processors.inprocessors.support_vector_machines import SVMFilter
 from processors.postprocessors.calibrated_equalized_odds import CalibratedEqualizedOddsFilter
 from processors.postprocessors.equalized_odds import EqualizedOddsFilter
 from processors.postprocessors.reject_option_classification import RejectOptionClassificationFilter
@@ -138,16 +141,22 @@ class Pipeline:
         return process_pipe, test_pipe
 
     def process(self, process_pipe, algorithm, unbias_data_algorithm):
-        if algorithm == Algorithms.LOGISTIC_REGRESSION and \
-            (unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING or
-             unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS):
-            prediction_pipe = process_pipe >= LogisticRegressionFilter(weighed=True) == self.new_pipe()
-        elif algorithm == Algorithms.LOGISTIC_REGRESSION:
-            prediction_pipe = process_pipe >= LogisticRegressionFilter() == self.new_pipe()
-        elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
-            prediction_pipe = process_pipe >= PrejudiceRemoverFilter() == self.new_pipe()
-        elif algorithm == UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING:
-            prediction_pipe = process_pipe >= AdversarialDebiasingFilter() == self.new_pipe()
+        weighed_algorithm = unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING or \
+                            unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS
+
+        process_options = [
+            (Algorithms.LOGISTIC_REGRESSION, LogisticRegressionFilter(weighed=weighed_algorithm)),
+            (Algorithms.RANDOM_FOREST, RandomForestFilter(weighed=weighed_algorithm)),
+            (Algorithms.GRADIENT_BOOST, GradientBoostFilter(weighed=weighed_algorithm)),
+            (Algorithms.SUPPORT_VECTOR_MACHINES, SVMFilter(weighed=weighed_algorithm)),
+            (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, PrejudiceRemoverFilter()),
+            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, AdversarialDebiasingFilter())
+        ]
+
+        for option, filter in process_options:
+            if algorithm == option:
+                prediction_pipe = process_pipe >= filter == self.new_pipe()
+                break
 
         return prediction_pipe
 
@@ -209,7 +218,7 @@ class Pipeline:
         return metrics_pipe
 
     def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm):
-        PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm)
+        PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
 
         fairness_pipe, data_pipe = self.data_preprocess(dataset, preprocessor, algorithm,
                                                         unbias_data_algorithm, unbias_postproc_algorithm)

@@ -21,12 +21,9 @@ class MLModelMetricsFilter(BaseFilter):
                                          protected_attribute_names=att['protected_attribute_names'])
         print(df_aif_pred)
 
-        print('------------UNBIASED DATASET--------------')
         metric = ClassificationMetric(df_aif, df_aif_pred, att['unprivileged_group'],
                                       att['privileged_group'])
         explainer = EnhancedMetricTextExplainer(metric)
-        explainer.explain()
-        print('----------------------------------------')
 
         return metric, explainer
 

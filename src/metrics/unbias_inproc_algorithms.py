@@ -11,12 +11,9 @@ class UnbiasInProcAlgorithmMetricsFilter(BaseFilter):
         dataset_te_pred = att['df_aif_te'].copy()
         dataset_te_pred.labels = att['y_pred']
 
-        print('------------UNBIASED DATASET--------------')
         metric = ClassificationMetric(att['df_aif_te'], dataset_te_pred, att['unprivileged_group'],
                                       att['privileged_group'])
         explainer = EnhancedMetricTextExplainer(metric)
-        explainer.explain()
-        print('----------------------------------------')
 
         return metric, explainer
 

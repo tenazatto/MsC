@@ -11,12 +11,9 @@ class DisparateImpactRemoverMetricsFilter(BaseFilter):
         df_aif_te_pred = att['df_aif'].copy()
         df_aif_te_pred.labels = att['y_pred']
 
-        print('------------UNBIASED DATASET--------------')
         metric = ClassificationMetric(att['df_aif'], df_aif_te_pred, att['unprivileged_group'],
                                       att['privileged_group'])
         explainer = EnhancedMetricTextExplainer(metric)
-        explainer.explain()
-        print('----------------------------------------')
 
         return metric, explainer
 
