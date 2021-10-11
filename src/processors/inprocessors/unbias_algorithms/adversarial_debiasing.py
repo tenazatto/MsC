@@ -1,6 +1,5 @@
 import tensorflow as tf
-
-from aif360.algorithms.inprocessing import PrejudiceRemover, AdversarialDebiasing
+from aif360.algorithms.inprocessing import AdversarialDebiasing
 
 from pipeline.pipe_filter.pipe import BaseFilter
 
@@ -8,7 +7,7 @@ from pipeline.pipe_filter.pipe import BaseFilter
 class AdversarialDebiasingFilter(BaseFilter):
     num_epochs = 10
 
-    def __init__(self, num_epochs=10, weighed=False):
+    def __init__(self, num_epochs=10):
         self.num_epochs = num_epochs
 
     def adversarial_debiasing(self):

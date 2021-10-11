@@ -17,6 +17,9 @@ class Algorithms:
     RANDOM_FOREST = 2
     GRADIENT_BOOST = 3
     SUPPORT_VECTOR_MACHINES = 4
+    LINEAR_REGRESSION = 901
+    DECISION_TREE = 902
+    KERNEL_RIDGE = 903
 
 
 class UnbiasInProcAlgorithms(Algorithms):
@@ -35,6 +38,7 @@ class UnbiasDataAlgorithms(Enum):
     OPTIMIZED_PREPROCESSING = 2
     DISPARATE_IMPACT_REMOVER = 3
     LEARNING_FAIR_REPRESENTATIONS = 4
+
 
 class UnbiasPostProcAlgorithms(Enum):
     NOTHING = 0

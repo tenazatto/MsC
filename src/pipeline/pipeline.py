@@ -5,12 +5,16 @@ from pipeline.pipe_filter.pipe import BasePipe
 from pipeline.validation import PipelineValidation
 from processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, Algorithms, UnbiasInProcAlgorithms, \
     UnbiasPostProcAlgorithms
-from processors.inprocessors.adversarial_debiasing import AdversarialDebiasingFilter
-from processors.inprocessors.gradient_boost import GradientBoostFilter
-from processors.inprocessors.logistic_regression import LogisticRegressionFilter
-from processors.inprocessors.prejudice_remover import PrejudiceRemoverFilter
-from processors.inprocessors.random_forest import RandomForestFilter
-from processors.inprocessors.support_vector_machines import SVMFilter
+from processors.inprocessors.unbias_algorithms.adversarial_debiasing import AdversarialDebiasingFilter
+from processors.inprocessors.inproc_algorithms.gradient_boost import GradientBoostFilter
+from processors.inprocessors.inproc_algorithms.logistic_regression import LogisticRegressionFilter
+from processors.inprocessors.unbias_algorithms.expo_grad_reduction import ExponentiatedGradientReductionFilter
+from processors.inprocessors.unbias_algorithms.grid_search_reduction import GridSearchReductionFilter
+from processors.inprocessors.unbias_algorithms.meta_fair_classifier import MetaFairClassifierFilter
+from processors.inprocessors.unbias_algorithms.prejudice_remover import PrejudiceRemoverFilter
+from processors.inprocessors.inproc_algorithms.random_forest import RandomForestFilter
+from processors.inprocessors.inproc_algorithms.support_vector_machines import SVMFilter
+from processors.inprocessors.unbias_algorithms.rich_subgroup_fairness import RichSubgroupFairnessFilter
 from processors.postprocessors.calibrated_equalized_odds import CalibratedEqualizedOddsFilter
 from processors.postprocessors.equalized_odds import EqualizedOddsFilter
 from processors.postprocessors.reject_option_classification import RejectOptionClassificationFilter
@@ -82,7 +86,11 @@ class Pipeline:
 
         unbias_inproc_options = [
             (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, UnbiasInProcPreprocessor()),
-            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, UnbiasInProcPreprocessor())
+            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, UnbiasInProcPreprocessor()),
+            (UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION, UnbiasInProcPreprocessor()),
+            (UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS, UnbiasInProcPreprocessor()),
+            (UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER, UnbiasInProcPreprocessor()),
+            (UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION, UnbiasInProcPreprocessor())
         ]
 
         for option, filter in unbias_inproc_options:
@@ -123,11 +131,17 @@ class Pipeline:
                 unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS:
             process_pipe = data_pipe['x_train', 'y_train', 'x_test', 'df_aif']
             test_pipe = data_pipe['x_test', 'y_test']
-        elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER:
+        elif algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER or \
+                algorithm == UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION or \
+                algorithm == UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS or \
+                algorithm == UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION:
             process_pipe = data_pipe['df_aif_tr', 'df_aif_te']
             test_pipe = data_pipe['df_aif_te', 'y_test']
         elif algorithm == UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING:
             process_pipe = (data_pipe + fairness_pipe)['df_aif_tr', 'df_aif_te', 'privileged_group', 'unprivileged_group']
+            test_pipe = data_pipe['df_aif_te', 'y_test']
+        elif algorithm == UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER:
+            process_pipe = (data_pipe + fairness_pipe)['df_aif_tr', 'df_aif_te', 'protected_attribute_names']
             test_pipe = data_pipe['df_aif_te', 'y_test']
         elif unbias_postproc_algorithm == UnbiasPostProcAlgorithms.EQUALIZED_ODDS or \
                 unbias_postproc_algorithm == UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS or \
@@ -150,7 +164,11 @@ class Pipeline:
             (Algorithms.GRADIENT_BOOST, GradientBoostFilter(weighed=weighed_algorithm)),
             (Algorithms.SUPPORT_VECTOR_MACHINES, SVMFilter(weighed=weighed_algorithm)),
             (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, PrejudiceRemoverFilter()),
-            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, AdversarialDebiasingFilter())
+            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, AdversarialDebiasingFilter()),
+            (UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION, ExponentiatedGradientReductionFilter(algorithm=Algorithms.GRADIENT_BOOST)),
+            (UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS, RichSubgroupFairnessFilter(algorithm=Algorithms.DECISION_TREE)),
+            (UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER, MetaFairClassifierFilter()),
+            (UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION, GridSearchReductionFilter(algorithm=Algorithms.RANDOM_FOREST))
         ]
 
         for option, filter in process_options:
@@ -193,7 +211,11 @@ class Pipeline:
 
         unbias_inproc_options = [
             (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, UnbiasInProcAlgorithmMetricsFilter()),
-            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, UnbiasInProcAlgorithmMetricsFilter())
+            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, UnbiasInProcAlgorithmMetricsFilter()),
+            (UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION, UnbiasInProcAlgorithmMetricsFilter()),
+            (UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS, UnbiasInProcAlgorithmMetricsFilter()),
+            (UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER, UnbiasInProcAlgorithmMetricsFilter()),
+            (UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION, UnbiasInProcAlgorithmMetricsFilter())
         ]
 
         for option, filter in unbias_inproc_options:

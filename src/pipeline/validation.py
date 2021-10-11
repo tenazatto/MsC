@@ -44,7 +44,11 @@ class PipelineValidation:
             (algorithm == Algorithms.SUPPORT_VECTOR_MACHINES and unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
             (algorithm == Algorithms.SUPPORT_VECTOR_MACHINES and unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
             (algorithm == UnbiasInProcAlgorithms.PREJUDICE_REMOVER and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
-            (algorithm == UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING)
+            (algorithm == UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING)
 
         if not existant_preprocessors:
             raise Exception("Pré-processador não existente para o conjunto de dados")

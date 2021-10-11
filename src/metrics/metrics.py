@@ -20,8 +20,16 @@ def ml_fairness_score(y_test, y_pred, explainer):
 
 
 def fairness_score(explainer):
-    return float(0.2 * (1-abs(explainer.metric.average_abs_odds_difference())) +
-                 0.2 * explainer.metric.disparate_impact() +
-                 0.2 * (1-abs(explainer.metric.equal_opportunity_difference())) +
-                 0.2 * (1-abs(explainer.metric.theil_index())) +
-                 0.2 * (1-abs(explainer.metric.statistical_parity_difference())))
+    return float(0.2 * normalize_diff(abs(explainer.metric.average_abs_odds_difference())) +
+                 0.2 * normalize_ratio(explainer.metric.disparate_impact()) +
+                 0.2 * normalize_diff(abs(explainer.metric.equal_opportunity_difference())) +
+                 0.2 * normalize_diff(abs(explainer.metric.theil_index())) +
+                 0.2 * normalize_diff(abs(explainer.metric.statistical_parity_difference())))
+
+
+def normalize_ratio(metric):
+    return 1 / metric if metric > 1 else metric
+
+
+def normalize_diff(metric):
+    return abs(1-metric)
