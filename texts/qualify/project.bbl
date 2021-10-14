@@ -1,0 +1,167 @@
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Goo()]{Google_2021}
+{Google} - {AI Explanations Whitepaper}.
+\newblock URL
+  \url{https://storage.googleapis.com/cloud-ai-whitepapers/AI%20Explainability%20Whitepaper.pdf}.
+
+\bibitem[IBM()]{IBM_2021}
+{IBM} - {Analytics} and {AI} architecture.
+\newblock URL
+  \url{https://www.ibm.com/cloud/architecture/architectures/aiAnalyticsArchitecture/reference-architecture/}.
+
+\bibitem[IBM(2005)]{IBM_2005}
+An architectural blueprint for autonomic computing.
+\newblock Technical report, IBM, 2005.
+\newblock URL
+  \url{https://www-03.ibm.com/autonomic/pdfs/AC%20Blueprint%20White%20Paper%20V7.pdf}.
+
+\bibitem[Del(2018)]{Deloitte_2018}
+Machine learning: things are getting intense, 2018.
+\newblock URL
+  \url{https://www2.deloitte.com/content/dam/Deloitte/global/Images/infographics/technologymediatelecommunications/gx-deloitte-tmt-2018-intense-machine-learning-report.pdf}.
+
+\bibitem[CIO(2021)]{CIO_2021}
+Brasil se destaca com 42\% das iniciativas de {IA} na {América Latina}, em
+  2020, 2021.
+\newblock URL
+  \url{https://cio.com.br/tendencias/brasil-se-destaca-com-42-das-iniciativas-de-ia-na-america-latina-em-2020/}.
+
+\bibitem[LGP(2021)]{LGPD_2021}
+{Proteção de Dados - LGPD}, 2021.
+\newblock URL
+  \url{https://www.gov.br/defesa/pt-br/acesso-a-informacao/lei-geral-de-protecao-de-dados-pessoais-lgpd}.
+
+\bibitem[Arrieta et~al.(2020)Arrieta, Rodr{\'{\i}}guez, Ser, Bennetot, Tabik,
+  Barbado, Garc{\'{\i}}a, Gil{-}Lopez, Molina, Benjamins, Chatila, and
+  Herrera]{Arrieta_2020}
+Alejandro~Barredo Arrieta, Natalia~D{\'{\i}}az Rodr{\'{\i}}guez, Javier~Del
+  Ser, Adrien Bennetot, Siham Tabik, Alberto Barbado, Salvador Garc{\'{\i}}a,
+  Sergio Gil{-}Lopez, Daniel Molina, Richard Benjamins, Raja Chatila, and
+  Francisco Herrera.
+\newblock Explainable artificial intelligence {(XAI):} concepts, taxonomies,
+  opportunities and challenges toward responsible {AI}.
+\newblock \emph{Information Fusion}, 58:\penalty0 82--115, 2020.
+
+\bibitem[Bailis et~al.(2017)Bailis, Olukoton, Re, and Zaharia]{Ballis_2017}
+Peter Bailis, Kunle Olukoton, Christopher Re, and Matei Zaharia.
+\newblock Infrastructure for usable machine learning: The stanford dawn
+  project.
+\newblock 2017.
+
+\bibitem[Begley et~al.(2021)Begley, Schwedes, Frye, and Feige]{Begley_2021}
+Tom Begley, Tobias Schwedes, Christopher Frye, and Ilya Feige.
+\newblock Explainability for fair machine learning, 2021.
+
+\bibitem[Buolamwini and Gebru(2018)]{Buolamwini_2018}
+Joy Buolamwini and Timnit Gebru.
+\newblock Gender shades: Intersectional accuracy disparities in commercial
+  gender classification.
+\newblock In \emph{Conference on Fairness, Accountability and Transparency},
+  volume~81 of \emph{Proceedings of Machine Learning Research}, pages 77--91,
+  2018.
+
+\bibitem[Dunn()]{Dunn_2016}
+Jeffrey Dunn.
+\newblock Introducing {FBLearner Flow: Facebook’s AI} backbone.
+\newblock URL
+  \url{https://engineering.fb.com/2016/05/09/core-data/introducing-fblearner-flow-facebook-s-ai-backbone/}.
+
+\bibitem[Geyik et~al.(2019)Geyik, Ambler, and Kenthapadi]{Geyik_2019}
+Sahin~Cem Geyik, Stuart Ambler, and Krishnaram Kenthapadi.
+\newblock {Fairness-Aware Ranking in Search and Recommendation Systems with
+  Application to LinkedIn Talent Search}.
+\newblock In \emph{Proceedings of the 25th International Conference on
+  Knowledge Discovery and Data Mining}, pages 2221--2231, 2019.
+
+\bibitem[Kapishnikov et~al.(2019)Kapishnikov, Bolukbasi, Vi{\'{e}}gas, and
+  Terry]{Kapishnikov_2019}
+Andrei Kapishnikov, Tolga Bolukbasi, Fernanda~B. Vi{\'{e}}gas, and Michael
+  Terry.
+\newblock {XRAI:} better attributions through regions.
+\newblock In \emph{{IEEE/CVF} International Conference on Computer Vision},
+  pages 4947--4956, 2019.
+
+\bibitem[Kenthapadi et~al.(2019)Kenthapadi, Ambler, Chudhary, Dietz, Geyik,
+  Koeppe, Mithal, Saint-Jacques, Sepehri, Tran, and Vasudevan]{Kenthapadi_2019}
+Krishnaram Kenthapadi, Stuart Ambler, Ahsan Chudhary, Mark Dietz, Sahin~Cem
+  Geyik, Ian Koeppe, Varun Mithal, Guillaume Saint-Jacques, Amir Sepehri, Thanh
+  Tran, and Sriram Vasudevan.
+\newblock Fairness, privacy, and transparency by design in ai/ml systems, 2019.
+\newblock URL
+  \url{https://engineering.linkedin.com/blog/2019/fairness-privacy-transparency-by-design}.
+
+\bibitem[Kenthapadi et~al.(2020)Kenthapadi, Geyik, Mithal, Gade, and
+  Taly]{Kenthapadi_2020}
+Krishnaram Kenthapadi, Sahin~Cem Geyik, Varun Mithal, Krishna Gade, and Ankur
+  Taly.
+\newblock {Explainable AI in Industry: Practical Challenges and Lessons
+  Learned}, 2020.
+\newblock URL
+  \url{https://sites.google.com/view/www20-explainable-ai-tutorial}.
+
+\bibitem[Khalegi(2019{\natexlab{a}})]{Khalegi_2019}
+Bahador Khalegi.
+\newblock The how of explainable ai: Explainable modelling, 2019{\natexlab{a}}.
+\newblock URL
+  \url{https://towardsdatascience.com/the-how-of-explainable-ai-explainable-modelling-55c8c43d7bed}.
+
+\bibitem[Khalegi(2019{\natexlab{b}})]{Khalegi_2019_Post}
+Bahador Khalegi.
+\newblock The how of explainable ai: Post-modelling explainability,
+  2019{\natexlab{b}}.
+\newblock URL
+  \url{https://towardsdatascience.com/the-how-of-explainable-ai-post-modelling-explainability-8b4cbc7adf5f}.
+
+\bibitem[Khalegi(2019{\natexlab{c}})]{Khalegi_2019_Pre}
+Bahador Khalegi.
+\newblock The how of explainable ai: Pre-modelling explainability,
+  2019{\natexlab{c}}.
+\newblock URL
+  \url{https://towardsdatascience.com/the-how-of-explainable-ai-pre-modelling-explainability-699150495fe4}.
+
+\bibitem[Maleki et~al.(2013)Maleki, Tran{-}Thanh, Hines, Rahwan, and
+  Rogers]{Maleki_2013}
+Sasan Maleki, Long Tran{-}Thanh, Greg Hines, Talal Rahwan, and Alex Rogers.
+\newblock Bounding the estimation error of sampling-based shapley value
+  approximation with/without stratifying.
+\newblock 2013.
+
+\bibitem[Modi et~al.(2017)Modi, Koo, Foo, Mewald, Baylor, Breck, Cheng,
+  Wilkiewicz, Koc, Lew, Zinkevich, Wicke, Ispir, Polyzotis, Fiedel, Haykal,
+  Whang, Roy, Ramesh, Jain, Zhang, and Haque]{Modi_2017}
+Akshay~Naresh Modi, Chiu~Yuen Koo, Chuan~Yu Foo, Clemens Mewald, Denis~M.
+  Baylor, Eric Breck, Heng-Tze Cheng, Jarek Wilkiewicz, Levent Koc, Lukasz Lew,
+  Martin~A. Zinkevich, Martin Wicke, Mustafa Ispir, Neoklis Polyzotis, Noah
+  Fiedel, Salem~Elie Haykal, Steven Whang, Sudip Roy, Sukriti Ramesh, Vihan
+  Jain, Xin Zhang, and Zakaria Haque.
+\newblock Tfx: A tensorflow-based production-scale machine learning platform.
+\newblock In \emph{KDD 2017}, 2017.
+
+\bibitem[Rodriguez(2020)]{Rodriguez_2020}
+Jesus Rodriguez.
+\newblock Machine learning reference architectures from google, facebook, uber,
+  databricks and others, 2020.
+\newblock URL
+  \url{https://medium.com/dataseries/machine-learning-reference-architectures-from-google-facebook-uber-databricks-and-others-58191cf82b98}.
+
+\bibitem[Sundararajan et~al.(2017)Sundararajan, Taly, and
+  Yan]{Sundararajan_2017}
+Mukund Sundararajan, Ankur Taly, and Qiqi Yan.
+\newblock Axiomatic attribution for deep networks.
+\newblock In \emph{Proceedings of the 34th International Conference on Machine
+  Learning}, volume~70 of \emph{Proceedings of Machine Learning Research},
+  pages 3319--3328, 2017.
+
+\bibitem[Verma and Rubin(2018)]{Verma_2018}
+Sahil Verma and Julia Rubin.
+\newblock Fairness definitions explained.
+\newblock In \emph{{ACM/IEEE} International Workshop on Software Fairness},
+  pages 1--7, 2018.
+
+\end{thebibliography}

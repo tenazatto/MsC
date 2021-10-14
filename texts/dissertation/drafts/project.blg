@@ -1,0 +1,57 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: project.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: plainnat.bst
+Reallocating 'name_of_file' (item size: 1) to 8 items.
+Database file #1: project.bib
+Warning--to sort, need author or key in ucigerman_2021
+Warning--to sort, need author or key in IBM_2021
+Warning--to sort, need author or key in Fowler_2005
+Warning--empty year in Fowler_2005
+Warning--empty year in IBM_2021
+Warning--empty year in ucigerman_2021
+Warning--empty year in McGraw_2020
+Warning--empty booktitle in Zhang_2018
+You've used 17 entries,
+            2773 wiz_defined-function locations,
+            693 strings with 8585 characters,
+and the built_in function-call counts, 8960 in all, are:
+= -- 783
+> -- 528
+< -- 10
++ -- 179
+- -- 162
+* -- 688
+:= -- 1249
+add.period$ -- 56
+call.type$ -- 17
+change.case$ -- 105
+chr.to.int$ -- 17
+cite$ -- 45
+duplicate$ -- 444
+empty$ -- 749
+format.name$ -- 180
+if$ -- 1985
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 13
+newline$ -- 98
+num.names$ -- 56
+pop$ -- 269
+preamble$ -- 1
+purify$ -- 88
+quote$ -- 0
+skip$ -- 387
+stack$ -- 0
+substring$ -- 255
+swap$ -- 109
+text.length$ -- 8
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 187
+warning$ -- 8
+while$ -- 58
+width$ -- 0
+write$ -- 224
+(There were 8 warnings)

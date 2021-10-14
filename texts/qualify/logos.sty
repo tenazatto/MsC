@@ -1,0 +1,108 @@
+% adn.sty
+% Package for logo handling
+% Adin Ramirez adin (at) ic.unicamp.br
+\ProvidesPackage{logos}
+
+% Provide cs new commands
+% http://tex.stackexchange.com/a/131413/7561
+\newcommand*\csnewcommand{\@star@or@long\csnew@command}
+\newcommand*\csnew@command[1]{\expandafter\new@command\csname#1\endcsname}
+\newcommand*\recsnewcommand{\@star@or@long\recsnew@command}
+\newcommand*\recsnew@command[1]{\expandafter\renew@command\csname#1\endcsname}
+\newcommand*\csprovidecommand{\@star@or@long\csprovide@command}
+\newcommand*\csprovide@command[1]{\expandafter\provide@command\csname#1\endcsname}
+
+% hack for logos to be loaded from .sty and .cls as well as normal .tex files
+% so we need to dynamically set @ as letter or normal font depending on the previous state
+% if it was letter (catcode 11) leave it like that, else change it to letter and back with unset
+\newif\ifatwasother
+\newcommand{\@setat}{%
+  \def\x{\the\catcode`@}
+  \ifnum\x=12 %special @, then make it normal
+    \atwasothertrue
+    \makeatletter
+  \else
+    \atwasotherfalse
+  \fi
+}
+\newcommand{\@unsetat}{%
+  \ifatwasother
+    \makeatother
+  \fi
+}
+
+% Definition of the logos colors in TikZ format
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\definecolor{ic-black}{RGB}{26,26,26}% black
+\definecolor{ic-gray}{RGB}{57,56,60}% gray
+
+% Color Palette by Paletton.com
+% Palette URL: http://paletton.com/#uid=75p0G0kw0w0jyC+oRxVy4oIDfjr
+
+%*** Primary color:
+\definecolor{ic-red-0}{RGB}{235, 91,135}%
+\definecolor{ic-red-1}{RGB}{230, 51,105}%
+\definecolor{ic-red-2}{RGB}{228,  0, 69}%
+\definecolor{ic-red-3}{RGB}{176,  0, 53}%
+\definecolor{ic-red-4}{RGB}{138,  0, 42}%
+
+\colorlet{ic-red}{ic-red-2}% red 
+
+
+%*** Secondary color (1):
+\definecolor{ic-orange-0}{RGB}{255,167, 99}%
+\definecolor{ic-orange-1}{RGB}{255,143,57}% 
+\definecolor{ic-orange-2}{RGB}{255,111,0}% 
+\definecolor{ic-orange-3}{RGB}{197, 86,0}% 
+\definecolor{ic-orange-4}{RGB}{155, 67,0}% 
+
+\colorlet{ic-orange}{ic-orange-2}% 
+
+
+%*** Secondary color (2):
+\definecolor{ic-blue-0}{RGB}{ 71,181,173}% 
+\definecolor{ic-blue-1}{RGB}{ 36,163,153}%
+\definecolor{ic-blue-2}{RGB}{  0,157,145}%
+\definecolor{ic-blue-3}{RGB}{  0,121,112}%
+\definecolor{ic-blue-4}{RGB}{  0, 95, 88}%
+
+\colorlet{ic-blue}{ic-blue-2}% blue
+
+%*** Complement color:
+\definecolor{ic-green-0}{RGB}{156,234, 91}%
+\definecolor{ic-green-1}{RGB}{132,229, 51}%
+\definecolor{ic-green-2}{RGB}{103,227,  0}%
+\definecolor{ic-green-3}{RGB}{ 79,175,  0}%
+\definecolor{ic-green-4}{RGB}{ 62,138,  0}%
+
+\colorlet{ic-green}{ic-green-2}%
+
+% Set logo size
+\def\@logosize{1.9cm}
+\newcommand{\setlogosize}[1]{\def\@logosize{#1}}
+\let\logosize\setlogosize
+
+% We need to create the logos like \setlogo{IC2D}, \setlogo{UNICAMP}
+% It will search for the logos in the logos folder, and load it if it hasn't been loaded before
+\RequirePackage{etoolbox}
+\newcommand{\getlogo}[1]{%
+  % we load the logo from their respective file 
+  % this factorization allows to add new logos without changing this code
+  \@setat% changes @ dynamically
+  \ifcsdef{@logo#1}{}%
+  {\input{logos/#1.logo}}% if not defined, load it
+  \@unsetat% reverts @
+}
+
+\newcommand{\setlogo}[2][\empty]{%
+  % Sets the logo using the \logosize and the parameter passed
+  \begin{minipage}{\@logosize}
+    \resizebox{\@logosize}{!}{\csname @logo#2\endcsname}
+    \fontfamily{cmss}\fontseries{bx}\fontshape{n}\fontsize{7pt}{8pt}\selectfont%
+    \MakeUppercase{#1}
+  \end{minipage}
+}
+
+
+

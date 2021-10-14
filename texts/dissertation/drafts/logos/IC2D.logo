@@ -1,0 +1,101 @@
+% Logo IC (2D), Instituto de Computação Universidade Estadual de Campinas
+
+% These logos were generated using http://code.google.com/p/inkscape2tikz/
+
+% default
+\csprovidecommand{@logoIC2D}[1][ic-black]{%
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-1.000000, xscale=1.000000, inner sep=0pt, outer sep=0pt]
+\begin{scope}[shift={(-45.21193,-22.77182)}]
+  \begin{scope}[shift={(80.8122,-113.13709)}]
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (-34.8503,136.6589) rectangle (150.0077,289.6970);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (-24.9020,146.1021) rectangle (76.9248,279.7487);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (88.9957,145.9998) rectangle (139.5094,279.8511);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (88.9753,170.7924) rectangle (108.7202,177.2611);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (104.1317,197.0658) rectangle (124.1209,203.5262);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (104.1345,223.3378) rectangle (124.3706,229.7927);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (104.6310,248.5882) rectangle (124.1266,255.0601);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (37.8660,170.7160) rectangle (62.1390,177.3531);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (-10.2833,197.2964) rectangle (14.0714,203.3006);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (38.4409,223.5447) rectangle (61.5642,229.5803);
+    \path[draw=#1,miter limit=4.00,line width=1.200pt,rounded corners=0.0000cm]
+      (-9.7820,248.8104) rectangle (14.0752,254.8222);
+  \end{scope}
+  \begin{scope}[shift={(81.38143,-113.04779)}]
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (-17.9642,173.9453)
+      ellipse (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (-1.9502,173.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (14.0638,173.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (30.0779,173.9453) ellipse
+      (0.2048cm and 0.2754cm);
+  \end{scope}
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (150.2300,60.8975) ellipse
+    (0.2048cm and 0.2754cm);
+  \begin{scope}[shift={(79.05207,-113.05563)}]
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (133.7625,173.9453)
+      ellipse (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (117.7485,173.9453)
+      ellipse (0.2048cm and 0.2754cm);
+  \end{scope}
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (212.8146,87.1589) ellipse
+    (0.2048cm and 0.2754cm);
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (177.3149,87.1589) ellipse
+    (0.2048cm and 0.2754cm);
+  \begin{scope}[shift={(79.74583,-112.78383)}]
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (70.4842,199.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (54.4702,199.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (38.4562,199.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (22.4421,199.9453) ellipse
+      (0.2048cm and 0.2754cm);
+  \end{scope}
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (63.4173,87.1614) ellipse
+    (0.2048cm and 0.2754cm);
+  \begin{scope}[shift={(81.38148,-114.51987)}]
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (-17.9642,227.9453)
+      ellipse (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (-1.9502,227.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (14.0638,227.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (30.0778,227.9453) ellipse
+      (0.2048cm and 0.2754cm);
+  \end{scope}
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (150.2300,113.4254)
+    ellipse (0.2048cm and 0.2754cm);
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (177.3149,113.4282)
+    ellipse (0.2048cm and 0.2754cm);
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (212.8146,113.4282)
+    ellipse (0.2048cm and 0.2754cm);
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (212.8146,138.6870)
+    ellipse (0.2048cm and 0.2754cm);
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (177.3149,138.6870)
+    ellipse (0.2048cm and 0.2754cm);
+  \begin{scope}[shift={(79.74583,-113.26606)}]
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (70.4842,251.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (54.4702,251.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (38.4562,251.9453) ellipse
+      (0.2048cm and 0.2754cm);
+    \path[draw=#1,miter limit=4.00,line width=1.600pt] (22.4421,251.9453) ellipse
+      (0.2048cm and 0.2754cm);
+  \end{scope}
+  \path[draw=#1,miter limit=4.00,line width=1.600pt] (63.4173,138.6792) ellipse
+    (0.2048cm and 0.2754cm);
+\end{scope}
+\end{tikzpicture}
+}%end \def\logoIC2D

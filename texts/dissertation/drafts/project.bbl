@@ -1,0 +1,126 @@
+\begin{thebibliography}{17}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Fow()]{Fowler_2005}
+Fluentinterface.
+\newblock URL \url{https://martinfowler.com/bliki/FluentInterface.html}.
+
+\bibitem[IBM()]{IBM_2021}
+{IBM} - {Analytics} and {AI} architecture.
+\newblock URL
+  \url{https://www.ibm.com/cloud/architecture/architectures/aiAnalyticsArchitecture/reference-architecture/}.
+
+\bibitem[uci()]{ucigerman_2021}
+Statlog (german credit data) data set.
+\newblock URL
+  \url{https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)}.
+
+\bibitem[Agarwal et~al.(2018)Agarwal, Beygelzimer, Dud{\'\i}k, Langford, and
+  Wallach]{Agarwal_2018}
+Alekh Agarwal, Alina Beygelzimer, Miroslav Dud{\'\i}k, John Langford, and Hanna
+  Wallach.
+\newblock A reductions approach to fair classification.
+\newblock In \emph{International Conference on Machine Learning}, pages 60--69,
+  2018.
+
+\bibitem[Agarwal et~al.(2019)Agarwal, Dud{\'\i}k, and Wu]{Agarwal_2019}
+Alekh Agarwal, Miroslav Dud{\'\i}k, and Zhiwei~Steven Wu.
+\newblock Fair regression: Quantitative definitions and reduction-based
+  algorithms.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  120--129, 2019.
+
+\bibitem[Calmon et~al.(2017)Calmon, Wei, Vinzamuri, Natesan~Ramamurthy, and
+  Varshney]{Calmon_2017}
+Flavio Calmon, Dennis Wei, Bhanukiran Vinzamuri, Karthikeyan
+  Natesan~Ramamurthy, and Kush~R Varshney.
+\newblock Optimized pre-processing for discrimination prevention.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2017.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper/2017/file/9a49a25d845a483fae4be7e341368e36-Paper.pdf}.
+
+\bibitem[Celis et~al.(2019)Celis, Huang, Keswani, and Vishnoi]{Celis_2019}
+L~Elisa Celis, Lingxiao Huang, Vijay Keswani, and Nisheeth~K Vishnoi.
+\newblock Classification with fairness constraints: A meta-algorithm with
+  provable guarantees.
+\newblock In \emph{Proceedings of the conference on fairness, accountability,
+  and transparency}, pages 319--328, 2019.
+
+\bibitem[Feldman et~al.(2015)Feldman, Friedler, Moeller, Scheidegger, and
+  Venkatasubramanian]{Feldman_2015}
+Michael Feldman, Sorelle~A. Friedler, John Moeller, Carlos Scheidegger, and
+  Suresh Venkatasubramanian.
+\newblock Certifying and removing disparate impact.
+\newblock In \emph{Proceedings of the 21th ACM SIGKDD International Conference
+  on Knowledge Discovery and Data Mining}, page 259–268, 2015.
+\newblock URL \url{https://doi.org/10.1145/2783258.2783311}.
+
+\bibitem[Hardt et~al.(2016)Hardt, Price, Price, and Srebro]{Hardt_2016}
+Moritz Hardt, Eric Price, Eric Price, and Nati Srebro.
+\newblock Equality of opportunity in supervised learning.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2016.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper/2016/file/9d2682367c3935defcb1f9e247a97c0d-Paper.pdf}.
+
+\bibitem[Kamiran and Calders(2011)]{Kamiran_2011}
+Faisal Kamiran and Toon Calders.
+\newblock Data pre-processing techniques for classification without
+  discrimination.
+\newblock \emph{Knowledge and Information Systems}, 2011.
+\newblock URL
+  \url{https://www.researchgate.net/publication/228975972_Data_Pre-Processing_Techniques_for_Classification_without_Discrimination}.
+
+\bibitem[Kamiran et~al.(2012)Kamiran, Karim, and Zhang]{Kamiran_2012}
+Faisal Kamiran, Asim Karim, and Xiangliang Zhang.
+\newblock Decision theory for discrimination-aware classification.
+\newblock In \emph{2012 IEEE 12th International Conference on Data Mining},
+  pages 924--929, 2012.
+
+\bibitem[Kearns et~al.(2018)Kearns, Neel, Roth, and Wu]{Kearns_2018}
+Michael Kearns, Seth Neel, Aaron Roth, and Zhiwei~Steven Wu.
+\newblock Preventing fairness gerrymandering: Auditing and learning for
+  subgroup fairness.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  2564--2572, 2018.
+
+\bibitem[McGraw et~al.()McGraw, Figueroa, Shepardson, and Bonett]{McGraw_2020}
+Gary McGraw, Harold Figueroa, Victor Shepardson, and Richie Bonett.
+\newblock An architectural risk analysis of machine learning systems: Toward
+  more secure machine learning.
+\newblock URL \url{https://berryvilleiml.com/docs/ara.pdf}.
+
+\bibitem[Nakamaru and Chiba(2020)]{Nakamaru_2020}
+Tomoki Nakamaru and Shigeru Chiba.
+\newblock Generating a generic fluent api in java.
+\newblock \emph{The Art, Science, and Engineering of Programming}, 2020.
+\newblock URL
+  \url{http://dx.doi.org/10.22152/programming-journal.org/2020/4/9}.
+
+\bibitem[Pleiss et~al.(2017)Pleiss, Raghavan, Wu, Kleinberg, and
+  Weinberger]{Pleiss_2017}
+Geoff Pleiss, Manish Raghavan, Felix Wu, Jon Kleinberg, and Kilian~Q
+  Weinberger.
+\newblock On fairness and calibration.
+\newblock In \emph{Advances in Neural Information Processing Systems}, 2017.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper/2017/file/b8b9c74ac526fffbeb2d39ab038d1cd7-Paper.pdf}.
+
+\bibitem[Zemel et~al.(2013)Zemel, Wu, Swersky, Pitassi, and Dwork]{Zemel_2013}
+Rich Zemel, Yu~Wu, Kevin Swersky, Toni Pitassi, and Cynthia Dwork.
+\newblock Learning fair representations.
+\newblock In \emph{Proceedings of the 30th International Conference on Machine
+  Learning}, pages 325--333, 2013.
+\newblock URL \url{https://proceedings.mlr.press/v28/zemel13.html}.
+
+\bibitem[Zhang et~al.(2018)Zhang, Lemoine, and Mitchell]{Zhang_2018}
+Brian Zhang, Blake Lemoine, and Margaret Mitchell.
+\newblock Mitigating unwanted biases with adversarial learning.
+\newblock pages 335--340, 2018.
+\newblock URL
+  \url{https://www.researchgate.net/publication/330299272_Mitigating_Unwanted_Biases_with_Adversarial_Learning}.
+
+\end{thebibliography}
