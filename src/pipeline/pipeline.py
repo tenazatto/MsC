@@ -1,4 +1,5 @@
 from metrics.disparate_impact_remover import DisparateImpactRemoverMetricsFilter
+from metrics.metrics import MetricsPrintFilter
 from metrics.ml_model import MLModelMetricsFilter
 from metrics.unbias_inproc_algorithms import UnbiasInProcAlgorithmMetricsFilter
 from pipeline.pipe_filter.pipe import BasePipe
@@ -36,6 +37,39 @@ class Pipeline:
     @staticmethod
     def new_pipe():
         return BasePipe()
+
+    def find_algorithm(self, algorithm):
+        indexes = {
+            'Algorithms.LOGISTIC_REGRESSION': 1,
+            'Algorithms.RANDOM_FOREST': 2,
+            'Algorithms.GRADIENT_BOOST': 3,
+            'Algorithms.SUPPORT_VECTOR_MACHINES': 4,
+            'Algorithms.LINEAR_REGRESSION': 901,
+            'Algorithms.DECISION_TREE': 902,
+            'Algorithms.KERNEL_RIDGE': 903,
+            'UnbiasInProcAlgorithms.PREJUDICE_REMOVER': 101,
+            'UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING': 102,
+            'UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION': 103,
+            'UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS': 104,
+            'UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION': 105,
+            'UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER': 106,
+            'UnbiasInProcAlgorithms.ART_CLASSIFIER': 107
+        }
+
+        return next(filter(lambda a: a[1] == algorithm, indexes.items()))[0]
+
+    def pipe_parameters(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm):
+        params_pipe = self.new_pipe()
+
+        params_pipe.value = {
+            'dataset': str(dataset),
+            'preprocessor': str(preprocessor),
+            'unbias_data_algorithm': str(unbias_data_algorithm),
+            'algorithm': self.find_algorithm(algorithm),
+            'unbias_postproc_algorithm': str(unbias_postproc_algorithm)
+        }
+
+        return params_pipe
 
     def select_data_preprocessor(self, dataset, preprocessor):
         choice = [dataset, preprocessor]
@@ -237,10 +271,17 @@ class Pipeline:
         if metrics_pipe is None:
             metrics_pipe = init_pipe >= MLModelMetricsFilter() == self.new_pipe()
 
+        metrics_pipe >= MetricsPrintFilter() == metrics_pipe
+
         return metrics_pipe
+
+    def save_results(self, params_pipe, metrics_pipe):
+        pass
 
     def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm):
         PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
+
+        params_pipe = self.pipe_parameters(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
 
         fairness_pipe, data_pipe = self.data_preprocess(dataset, preprocessor, algorithm,
                                                         unbias_data_algorithm, unbias_postproc_algorithm)
@@ -255,4 +296,5 @@ class Pipeline:
         metrics_pipe = self.calculate_metrics(test_pipe, prediction_pipe, fairness_pipe, algorithm,
                                               unbias_data_algorithm, unbias_postproc_algorithm)
 
-        return prediction_pipe.value['y_pred'], test_pipe.value['y_test'], metrics_pipe.value['explainer']
+        # JSON colocar
+        self.save_results(params_pipe, metrics_pipe)

@@ -21,6 +21,8 @@ class DisparateImpactRemoverMetricsFilter(BaseFilter):
         metric, explainer = self.disparate_impact_remover_metrics()
 
         self.output = {
+            'y_test': self.input['y_test'],
+            'y_pred': self.input['y_pred'],
             'metric': metric,
             'explainer': explainer
         }

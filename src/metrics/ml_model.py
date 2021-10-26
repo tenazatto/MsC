@@ -31,6 +31,8 @@ class MLModelMetricsFilter(BaseFilter):
         metric, explainer = self.ml_model_metrics()
 
         self.output = {
+            'y_test': self.input['y_test'],
+            'y_pred': self.input['y_pred'],
             'metric': metric,
             'explainer': explainer
         }
