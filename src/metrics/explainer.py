@@ -1,5 +1,6 @@
 import re
 from typing import Union
+from numpy import ndarray
 
 from aif360.explainers import MetricTextExplainer
 
@@ -35,9 +36,12 @@ class MetricAdditions:
 
         for i in range(len(metric_methods)):
             metric_explanation = re.split('\((.*)\):|:', explain_methods[i]())
+            value = metric_methods[i]()
+            value = list(value) if type(value) == ndarray else value
+
             method = {
-                'name': metric_explanation[0],
-                'value': metric_methods[i](),
+                'name': metric_explanation[0].strip(),
+                'value': value,
                 'explanation': metric_explanation[1] if len(metric_explanation) == 3 else None
             }
 

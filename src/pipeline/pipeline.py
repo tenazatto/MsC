@@ -1,5 +1,6 @@
 from metrics.disparate_impact_remover import DisparateImpactRemoverMetricsFilter
-from metrics.metrics import MetricsPrintFilter
+from metrics.metrics_file_writer import MetricsFileWriterFilter
+from metrics.metrics_print import MetricsPrintFilter
 from metrics.ml_model import MLModelMetricsFilter
 from metrics.unbias_inproc_algorithms import UnbiasInProcAlgorithmMetricsFilter
 from pipeline.pipe_filter.pipe import BasePipe
@@ -62,11 +63,13 @@ class Pipeline:
         params_pipe = self.new_pipe()
 
         params_pipe.value = {
-            'dataset': str(dataset),
-            'preprocessor': str(preprocessor),
-            'unbias_data_algorithm': str(unbias_data_algorithm),
-            'algorithm': self.find_algorithm(algorithm),
-            'unbias_postproc_algorithm': str(unbias_postproc_algorithm)
+            'pipeline_params': {
+                'dataset': str(dataset),
+                'preprocessor': str(preprocessor),
+                'unbias_data_algorithm': str(unbias_data_algorithm),
+                'algorithm': self.find_algorithm(algorithm),
+                'unbias_postproc_algorithm': str(unbias_postproc_algorithm)
+            }
         }
 
         return params_pipe
@@ -271,12 +274,15 @@ class Pipeline:
         if metrics_pipe is None:
             metrics_pipe = init_pipe >= MLModelMetricsFilter() == self.new_pipe()
 
-        metrics_pipe >= MetricsPrintFilter() == metrics_pipe
+
 
         return metrics_pipe
 
-    def save_results(self, params_pipe, metrics_pipe):
-        pass
+    def print_and_save_results(self, params_pipe, metrics_pipe):
+        final_pipe = params_pipe + metrics_pipe
+
+        final_pipe >= MetricsPrintFilter() == final_pipe
+        final_pipe['pipeline_params', 'metrics_summary'] >= MetricsFileWriterFilter() == final_pipe
 
     def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm):
         PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
@@ -296,5 +302,4 @@ class Pipeline:
         metrics_pipe = self.calculate_metrics(test_pipe, prediction_pipe, fairness_pipe, algorithm,
                                               unbias_data_algorithm, unbias_postproc_algorithm)
 
-        # JSON colocar
-        self.save_results(params_pipe, metrics_pipe)
+        self.print_and_save_results(params_pipe, metrics_pipe)
