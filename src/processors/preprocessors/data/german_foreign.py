@@ -1,7 +1,5 @@
 import pandas as pd
-
 from aif360.algorithms.preprocessing.optim_preproc_helpers.distortion_functions import get_distortion_german
-from sklearn.model_selection import train_test_split
 
 from processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
 
@@ -25,8 +23,7 @@ class GermanForeignFairnessPipe(FairnessPipe):
 
 
 class GermanForeignPreprocessor(FairnessPreprocessor):
-    def dataset_preprocess(self):
-        df = self.input
+    def dataset_preprocess(self, df):
         df.info()
 
         df['checking_account'] = df['checking_account'].map(

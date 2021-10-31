@@ -28,5 +28,6 @@ class ReweighingUnbiasAlgorithm(BaseFilter):
             'x_test': self.input['x_test'],
             'y_train': self.input['y_train'],
             'y_test': self.input['y_test'],
-            'df_aif': df_aif_rw
+            'df_aif': df_aif_rw,
+            'checksum': self.input['checksum']
         }

@@ -51,5 +51,6 @@ class UnbiasPostProcPreprocessor(BaseFilter):
                 'y_train': self.input['y_train'],
                 'x_test': self.input['x_test'],
                 'df_aif_te': df_aif_te,
-                'y_test': self.input['y_test']
+                'y_test': self.input['y_test'],
+                'checksum': self.input['checksum']
             }

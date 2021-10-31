@@ -27,5 +27,6 @@ class TrainValidTestSplit(BaseFilter):
             'x_test': x_test,
             'y_train': y_train,
             'y_val': y_val,
-            'y_test': y_test
+            'y_test': y_test,
+            'checksum': self.input['checksum']
         }

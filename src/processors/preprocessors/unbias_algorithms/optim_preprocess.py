@@ -29,5 +29,6 @@ class OptimizedPreprocessingUnbiasAlgorithm(BaseFilter):
             'x_test': self.input['x_test'],
             'y_train': self.input['y_train'],
             'y_test': self.input['y_test'],
-            'df_aif': df_aif_op
+            'df_aif': df_aif_op,
+            'checksum': self.input['checksum']
         }

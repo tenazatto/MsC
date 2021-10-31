@@ -21,13 +21,14 @@ class FairnessPipe(BasePipe):
 
 
 class FairnessPreprocessor(BaseFilter):
-    def dataset_preprocess(self):
+    def dataset_preprocess(self, df):
         pass
 
     def execute(self):
-        df_x, df_y = self.dataset_preprocess()
+        df_x, df_y = self.dataset_preprocess(self.input['data'])
 
         self.output = {
             'df_x': df_x,
-            'df_y': df_y
+            'df_y': df_y,
+            'checksum': self.input['checksum']
         }

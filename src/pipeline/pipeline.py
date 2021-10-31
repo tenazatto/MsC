@@ -278,11 +278,11 @@ class Pipeline:
 
         return metrics_pipe
 
-    def print_and_save_results(self, params_pipe, metrics_pipe):
-        final_pipe = params_pipe + metrics_pipe
+    def print_and_save_results(self, params_pipe, data_pipe, metrics_pipe):
+        final_pipe = data_pipe['checksum'] + params_pipe + metrics_pipe
 
         final_pipe >= MetricsPrintFilter() == final_pipe
-        final_pipe['pipeline_params', 'metrics_summary'] >= MetricsFileWriterFilter() == final_pipe
+        final_pipe['checksum', 'pipeline_params', 'metrics_summary'] >= MetricsFileWriterFilter() == final_pipe
 
     def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm):
         PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
@@ -299,7 +299,7 @@ class Pipeline:
 
         prediction_pipe = self.data_postprocess(test_pipe, prediction_pipe, fairness_pipe, unbias_postproc_algorithm)
 
-        metrics_pipe = self.calculate_metrics(test_pipe, prediction_pipe, fairness_pipe, algorithm,
-                                              unbias_data_algorithm, unbias_postproc_algorithm)
+        metrics_pipe = self.calculate_metrics(test_pipe, prediction_pipe, fairness_pipe,
+                                              algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
 
-        self.print_and_save_results(params_pipe, metrics_pipe)
+        self.print_and_save_results(params_pipe, data_pipe, metrics_pipe)

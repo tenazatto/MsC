@@ -38,6 +38,11 @@ class BasePipe(PipeFilter):
         return self.merge(other)
 
     def __getitem__(self, item):
+        if type(item) == dict:
+            item = item.keys()
+        elif type(item) != list and type(item) != tuple:
+            item = [item]
+
         return self.partial_pipe(item)
 
     def __ge__(self, other: PipeFilter):

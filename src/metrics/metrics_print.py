@@ -16,7 +16,7 @@ class MetricsPrintFilter(BaseFilter):
         print("Score-ML+F:", self.ml_fairness_score(y_test, y_pred, explainer))
         print('----------------------------------------')
 
-
+    # verificar média harmônica TODO
     def ml_fairness_score(self, y_test, y_pred, explainer):
         return 0.33 * metrics.accuracy_score(y_test, y_pred) + 0.33 * metrics.f1_score(y_test, y_pred) + \
                0.34 * self.fairness_score(explainer)

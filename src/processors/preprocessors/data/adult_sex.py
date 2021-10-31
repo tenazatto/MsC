@@ -26,8 +26,7 @@ class AdultSexFairnessPipe(FairnessPipe):
 
 
 class AdultSexPreprocessor(FairnessPreprocessor):
-    def dataset_preprocess(self):
-        df = self.input
+    def dataset_preprocess(self, df):
         df.info()
 
         df.rename(columns={'capital-gain': 'capital gain', 'capital-loss': 'capital loss', 'native-country': 'country',

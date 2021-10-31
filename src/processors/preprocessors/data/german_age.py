@@ -23,9 +23,9 @@ class GermanAgeFairnessPipe(FairnessPipe):
     def __init__(self):
         super().__init__()
 
+
 class GermanAgePreprocessor(FairnessPreprocessor):
-    def dataset_preprocess(self):
-        df = self.input
+    def dataset_preprocess(self, df):
         df.info()
 
         df['age'] = df['age'].apply(lambda age: 1 if age >= 25 else 0)

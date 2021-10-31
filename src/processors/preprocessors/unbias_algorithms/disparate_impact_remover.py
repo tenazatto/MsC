@@ -36,5 +36,6 @@ class DisparateImpactRemoverUnbiasAlgorithm(BaseFilter):
             'x_test': x_di_test,
             'y_train': y_di_train,
             'y_test': self.input['y_test'],
-            'df_aif': df_aif_te
+            'df_aif': df_aif_te,
+            'checksum': self.input['checksum']
         }

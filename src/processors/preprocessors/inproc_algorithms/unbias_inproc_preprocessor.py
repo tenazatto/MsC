@@ -27,5 +27,6 @@ class UnbiasInProcPreprocessor(BaseFilter):
         self.output = {
             'df_aif_tr': df_aif_tr,
             'df_aif_te': df_aif_te,
-            'y_test': self.input['y_test']
+            'y_test': self.input['y_test'],
+            'checksum': self.input['checksum']
         }
