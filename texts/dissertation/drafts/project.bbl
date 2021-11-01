@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -108,6 +108,14 @@ Geoff Pleiss, Manish Raghavan, Felix Wu, Jon Kleinberg, and Kilian~Q
 \newblock In \emph{Advances in Neural Information Processing Systems}, 2017.
 \newblock URL
   \url{https://proceedings.neurips.cc/paper/2017/file/b8b9c74ac526fffbeb2d39ab038d1cd7-Paper.pdf}.
+
+\bibitem[Speicher et~al.(2018)Speicher, Heidari, Grgic-Hlaca, Gummadi, Singla,
+  Weller, and Zafar]{Speicher_2018}
+Till Speicher, Hoda Heidari, Nina Grgic-Hlaca, Krishna~P. Gummadi, Adish
+  Singla, Adrian Weller, and Muhammad~Bilal Zafar.
+\newblock A unified approach to quantifying algorithmic unfairness.
+\newblock 2018.
+\newblock URL \url{http://dx.doi.org/10.1145/3219819.3220046}.
 
 \bibitem[Zemel et~al.(2013)Zemel, Wu, Swersky, Pitassi, and Dwork]{Zemel_2013}
 Rich Zemel, Yu~Wu, Kevin Swersky, Toni Pitassi, and Cynthia Dwork.

@@ -146,7 +146,7 @@ Também precisa ser próximo a 0 para ser considerado justo.
 
 Usa as mesmas probabilidades da diferença de paridade estatística, mas aqui são calculadas como proporção. Desta forma, um valor próximo de 1 é considerado justo.
 
-\item \textbf{Indíce de Theil:} Esta medida também é conhecida como índice de entropia generalizado, mas com $\alpha$ igual a 1. É calculado com a seguinte fórmula:
+\item \textbf{Indíce de Theil:} Esta medida também é conhecida como índice de entropia generalizado, mas com $\alpha$ igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
 
 \begin{align*}
 \frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
@@ -218,16 +218,25 @@ Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ �
 
 \subsection{Diagrama de atividades}
 
-Ver Figura \ref{fig:AIRoles}.
+Ver Figura \ref{fig:AIRoles} e Figura \label{fig:AIReferenceArchitecture}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.32]{images/Diagrama_Atividades.jpg}
+\includegraphics[scale=0.25]{images/Diagrama_Atividades_update.jpg}
 \caption {Diagrama de atividades com subdivisão de cada papel em uma aplicação de IA utilizando métricas de Fairness, com base na IBM AI Reference Architecture~\citep{IBM_2021}}
 \label{fig:AIRoles}
 \end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{images/ai-analytics-ref-diagram-analyze.jpg}
+\caption {IBM Analytics and AI Reference Architecture.}
+\label{fig:AIReferenceArchitecture}
+\end{figure}
+
 \subsection{Cargos}
+
+{PROCURAR PAPERS PROF. ALTIGRAN PARA REFERÊNCIA}
 
 \begin{itemize}
 \item \textbf{Engenheiro de Dados:} Responsável pela coleta, estruturação, organização, consolidação/integração dos dados em \textit{Data Lakes/Data Warehouses} e processos de governança.

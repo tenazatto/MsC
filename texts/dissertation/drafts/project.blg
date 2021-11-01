@@ -12,46 +12,47 @@ Warning--empty year in Fowler_2005
 Warning--empty year in IBM_2021
 Warning--empty year in ucigerman_2021
 Warning--empty year in McGraw_2020
+Warning--empty journal in Speicher_2018
 Warning--empty booktitle in Zhang_2018
-You've used 17 entries,
+You've used 18 entries,
             2773 wiz_defined-function locations,
-            693 strings with 8585 characters,
-and the built_in function-call counts, 8960 in all, are:
-= -- 783
-> -- 528
+            699 strings with 8947 characters,
+and the built_in function-call counts, 9586 in all, are:
+= -- 831
+> -- 594
 < -- 10
-+ -- 179
-- -- 162
-* -- 688
-:= -- 1249
-add.period$ -- 56
-call.type$ -- 17
-change.case$ -- 105
-chr.to.int$ -- 17
-cite$ -- 45
-duplicate$ -- 444
-empty$ -- 749
-format.name$ -- 180
-if$ -- 1985
++ -- 201
+- -- 183
+* -- 748
+:= -- 1354
+add.period$ -- 60
+call.type$ -- 18
+change.case$ -- 115
+chr.to.int$ -- 18
+cite$ -- 48
+duplicate$ -- 464
+empty$ -- 780
+format.name$ -- 202
+if$ -- 2107
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 13
-newline$ -- 98
-num.names$ -- 56
-pop$ -- 269
+missing$ -- 14
+newline$ -- 104
+num.names$ -- 60
+pop$ -- 290
 preamble$ -- 1
-purify$ -- 88
+purify$ -- 97
 quote$ -- 0
-skip$ -- 387
+skip$ -- 406
 stack$ -- 0
-substring$ -- 255
+substring$ -- 257
 swap$ -- 109
 text.length$ -- 8
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 187
-warning$ -- 8
-while$ -- 58
+type$ -- 198
+warning$ -- 9
+while$ -- 61
 width$ -- 0
-write$ -- 224
-(There were 8 warnings)
+write$ -- 237
+(There were 9 warnings)

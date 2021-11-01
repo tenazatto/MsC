@@ -1,6 +1,0 @@
-	# Sintaxe equivalente ao encadeamento de pipes com filtros
-	initial_pipe >= Filter1() == Pipe() >= Filter2() == Pipe()
-	
-	# Sintaxe equivalente ao encadeamento de pipes com outros
-	# e obtenção de pipes parciais
-	(initial_pipe + another_pipe)['prop1', 'prop2']
