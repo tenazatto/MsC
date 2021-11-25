@@ -4,7 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 
 from pipeline.pipe_filter.pipe import BaseFilter
-from processors.enums import Algorithms
+from pipeline.processors.enums import Algorithms
 
 
 class GridSearchReductionFilter(BaseFilter):

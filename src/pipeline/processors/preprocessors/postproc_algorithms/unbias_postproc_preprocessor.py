@@ -41,7 +41,8 @@ class UnbiasPostProcPreprocessor(BaseFilter):
                 'x_test': self.input['x_test'],
                 'df_aif_val': df_aif_val,
                 'df_aif_te': df_aif_te,
-                'y_test': self.input['y_test']
+                'y_test': self.input['y_test'],
+                'checksum': self.input['checksum']
             }
         else:
             df_aif_te = self.unbias_postproc_preprocessor()

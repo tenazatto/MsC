@@ -2,9 +2,8 @@ import numpy as np
 import pandas as pd
 
 from aif360.algorithms.preprocessing.optim_preproc_helpers.distortion_functions import get_distortion_adult
-from sklearn.model_selection import train_test_split
 
-from processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
+from pipeline.processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
 
 
 class AdultSexFairnessPipe(FairnessPipe):

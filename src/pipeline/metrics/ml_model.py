@@ -3,7 +3,7 @@ import pandas as pd
 from aif360.datasets import BinaryLabelDataset
 from aif360.metrics import ClassificationMetric
 
-from metrics.explainer import EnhancedMetricTextExplainer
+from pipeline.metrics.explainer import EnhancedMetricTextExplainer
 from pipeline.pipe_filter.pipe import BaseFilter
 
 

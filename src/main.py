@@ -1,4 +1,9 @@
-from processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasInProcAlgorithms, Algorithms, \
+from mapek.ml.analyzer import MLMAPEKPipelineAnalyzer
+from mapek.ml.executor import MLMAPEKPipelineExecutor
+from mapek.ml.monitor import MLMAPEKPipelineMonitor
+from mapek.ml.planner import MLMAPEKPipelinePlanner
+from mapek.orchestrator import MAPEKPipelineOrchestrator
+from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasInProcAlgorithms, Algorithms, \
     UnbiasPostProcAlgorithms
 
 from pipeline.pipeline import Pipeline
@@ -67,5 +72,15 @@ def main():
         for preproc_alg, inproc_alg, postproc_alg in process_options:
             pipe.start(dataset, preprocessor, preproc_alg, inproc_alg, postproc_alg)
 
+def mainpek():
+    mapek = MAPEKPipelineOrchestrator(Pipeline(),
+                                      MLMAPEKPipelineMonitor(),
+                                      MLMAPEKPipelineAnalyzer(),
+                                      MLMAPEKPipelinePlanner(),
+                                      MLMAPEKPipelineExecutor())
+    print("Executando MAPE-K")
+    mapek.run()
+
 if __name__ == '__main__':
-    main()
+    # main()
+    mainpek()

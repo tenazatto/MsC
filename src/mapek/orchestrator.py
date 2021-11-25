@@ -25,9 +25,8 @@ class MAPEKPipelineOrchestrator:
 
     def run(self):
         while True:
-            self.monitor.monitor()
-            self.analyzer.analyze()
-            self.planner.plan()
-
-            self.executor.execute()
+            df_pipeline, df_metrics = self.monitor.monitor()
+            df_score = self.analyzer.analyze(data=(df_pipeline, df_metrics))
+            pipeline_plan = self.planner.plan(data=df_score)
+            self.executor.execute(data=(self.pipeline, pipeline_plan))
 

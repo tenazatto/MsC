@@ -3,7 +3,7 @@ from sklearn import linear_model, svm, tree
 from sklearn.kernel_ridge import KernelRidge
 
 from pipeline.pipe_filter.pipe import BaseFilter
-from processors.enums import Algorithms
+from pipeline.processors.enums import Algorithms
 
 
 class RichSubgroupFairnessFilter(BaseFilter):

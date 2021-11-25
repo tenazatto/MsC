@@ -1,15 +1,16 @@
 import pandas as pd
+
 from aif360.algorithms.preprocessing.optim_preproc_helpers.distortion_functions import get_distortion_german
 
-from processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
+from pipeline.processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
 
 
-class GermanForeignFairnessPipe(FairnessPipe):
-    privileged_group = [{'foreign': 0}]
-    unprivileged_group = [{'foreign': 1}]
+class GermanAgeFairnessPipe(FairnessPipe):
+    privileged_group = [{'age': 1}]
+    unprivileged_group = [{'age': 0}]
 
     label_names = ['risk']
-    protected_attribute_names = ['foreign']
+    protected_attribute_names = ['age']
 
     optim_options = {
         "distortion_fun": get_distortion_german,
@@ -22,9 +23,11 @@ class GermanForeignFairnessPipe(FairnessPipe):
         super().__init__()
 
 
-class GermanForeignPreprocessor(FairnessPreprocessor):
+class GermanAgePreprocessor(FairnessPreprocessor):
     def dataset_preprocess(self, df):
         df.info()
+
+        df['age'] = df['age'].apply(lambda age: 1 if age >= 25 else 0)
 
         df['checking_account'] = df['checking_account'].map(
             {'<0': 1, '0<=x<200': 2, '>=200': 3, 'None': 0}).astype(str)

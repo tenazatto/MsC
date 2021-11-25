@@ -44,6 +44,11 @@ class MetricsPrintFilter(BaseFilter):
             'value': metrics.f1_score(self.input['y_test'], self.input['y_pred']),
             'explanation': 'the harmonic mean of the precision and recall (2 * precision * recall / (precision + recall))'
         }
+        metrics_summary['metrics']['auc'] = {
+            'name': 'AUC Score',
+            'value': metrics.roc_auc_score(self.input['y_test'], self.input['y_pred']),
+            'explanation': 'Area Under the ROC Curve'
+        }
         print(metrics_summary)
         self.print_metrics(self.input['y_test'], self.input['y_pred'], self.input['explainer'], True)
 
