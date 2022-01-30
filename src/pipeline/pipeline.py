@@ -284,7 +284,7 @@ class Pipeline:
         final_pipe >= MetricsPrintFilter() == final_pipe
         final_pipe['checksum', 'pipeline_params', 'metrics_summary'] >= MetricsFileWriterFilter() == final_pipe
 
-    def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm):
+    def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm, save_metadata=True):
         PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
 
         params_pipe = self.pipe_parameters(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
@@ -302,4 +302,5 @@ class Pipeline:
         metrics_pipe = self.calculate_metrics(test_pipe, prediction_pipe, fairness_pipe,
                                               algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
 
-        self.print_and_save_results(params_pipe, data_pipe, metrics_pipe)
+        if save_metadata:
+            self.print_and_save_results(params_pipe, data_pipe, metrics_pipe)

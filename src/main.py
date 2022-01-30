@@ -1,7 +1,7 @@
 from mapek.ml.analyzer import MLMAPEKPipelineAnalyzer
 from mapek.ml.executor import MLMAPEKPipelineExecutor
 from mapek.ml.monitor import MLMAPEKPipelineMonitor
-from mapek.ml.planner import MLMAPEKPipelinePlanner
+from mapek.ml.planner import MLMAPEKPipelinePlanner, MLMAPEKAlgorithmValidationPlanner, MLMAPEKLastChecksumPlanner
 from mapek.orchestrator import MAPEKPipelineOrchestrator
 from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasInProcAlgorithms, Algorithms, \
     UnbiasPostProcAlgorithms
@@ -75,8 +75,8 @@ def main():
 def mainpek():
     mapek = MAPEKPipelineOrchestrator(Pipeline(),
                                       MLMAPEKPipelineMonitor(),
-                                      MLMAPEKPipelineAnalyzer(),
-                                      MLMAPEKPipelinePlanner(),
+                                      [MLMAPEKPipelineAnalyzer()],
+                                      [MLMAPEKLastChecksumPlanner(), MLMAPEKAlgorithmValidationPlanner(), MLMAPEKPipelinePlanner()],
                                       MLMAPEKPipelineExecutor())
     print("Executando MAPE-K")
     mapek.run()

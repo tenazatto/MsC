@@ -1,12 +1,16 @@
 from enum import Enum
 
+class ExtendedEnum(Enum):
+    @classmethod
+    def getByName(self, name):
+        return next(filter(lambda e: e.name == name, self), None)
 
-class Datasets(Enum):
+class Datasets(ExtendedEnum):
     ADULT_INCOME = 1
     GERMAN_CREDIT = 2
 
 
-class Preprocessors(Enum):
+class Preprocessors(ExtendedEnum):
     SEX = 1
     AGE = 2
     FOREIGN = 3
@@ -32,7 +36,7 @@ class UnbiasInProcAlgorithms(Algorithms):
     ART_CLASSIFIER = 107 # Adversarial Robustness Toolbox (Security)
 
 
-class UnbiasDataAlgorithms(Enum):
+class UnbiasDataAlgorithms(ExtendedEnum):
     NOTHING = 0
     REWEIGHING = 1
     OPTIMIZED_PREPROCESSING = 2
@@ -40,7 +44,7 @@ class UnbiasDataAlgorithms(Enum):
     LEARNING_FAIR_REPRESENTATIONS = 4
 
 
-class UnbiasPostProcAlgorithms(Enum):
+class UnbiasPostProcAlgorithms(ExtendedEnum):
     NOTHING = 0
     EQUALIZED_ODDS = 1
     CALIBRATED_EQUALIZED_ODDS = 2
