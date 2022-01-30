@@ -54,3 +54,16 @@ class PipelineValidation:
             raise Exception("Pré-processador não existente para o conjunto de dados")
         if not existant_algorithms:
             raise Exception("Algoritmo ainda não implementado ou combinação não suportada")
+
+
+class MAPEKValidation:
+    @staticmethod
+    def validate_data_checksum_planner_params(checksum, last_checksum):
+        if (checksum is None and not last_checksum) or \
+           (checksum is not None and last_checksum):
+            raise Exception('Combinação de parâmetros inválida')
+
+    @staticmethod
+    def validate_pipeline_planner_params(data):
+        if data.size == 0:
+            raise Exception('Não há itens para executar o Pipeline')

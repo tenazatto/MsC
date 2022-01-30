@@ -3,14 +3,14 @@ import json
 import pandas as pd
 from mapek.steps.planner import MAPEKPlanner
 from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasPostProcAlgorithms
+from pipeline.validation import MAPEKValidation
 
 
 class MLMAPEKPipelinePlanner(MAPEKPlanner):
     def plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
 
-        if data.size == 0:
-            raise Exception('Não há itens para executar o Pipeline')
+        MAPEKValidation.validate_data_checksum_planner_params(data)
 
         result = data.iloc[0]
 
@@ -58,14 +58,25 @@ class MLMAPEKPipelinePlanner(MAPEKPlanner):
     def find_postproc_algorithm(self, algorithm):
         return UnbiasPostProcAlgorithms.getByName(algorithm.split('.')[1])
 
-class MLMAPEKLastChecksumPlanner(MAPEKPlanner):
+
+class MLMAPEKDataChecksumPlanner(MAPEKPlanner):
+    last_checksum = False
+    checksum = None
+
+    def __init__(self, checksum=None, last_checksum=False):
+        self.checksum = checksum
+        self.last_checksum = last_checksum
+
     def plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
+
+        MAPEKValidation.validate_data_checksum_planner_params(self.checksum, self.last_checksum)
 
         #TODO Realizar Assurance Cases
         #TODO Realizar Analyzer/Planner de acordo com Assurance Cases
 
         return pd.DataFrame(data.iloc[0]).transpose()
+
 
 class MLMAPEKAlgorithmValidationPlanner(MAPEKPlanner):
     def plan(self, data):
