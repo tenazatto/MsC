@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 from mapek.steps.planner import MAPEKPlanner
 from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasPostProcAlgorithms
@@ -6,6 +8,10 @@ from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorit
 class MLMAPEKPipelinePlanner(MAPEKPlanner):
     def plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
+
+        if data.size == 0:
+            raise Exception('Não há itens para executar o Pipeline')
+
         result = data.iloc[0]
 
         #TODO Realizar Assurance Cases
@@ -55,31 +61,17 @@ class MLMAPEKPipelinePlanner(MAPEKPlanner):
 class MLMAPEKLastChecksumPlanner(MAPEKPlanner):
     def plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
-        result = data.iloc[0]
 
         #TODO Realizar Assurance Cases
         #TODO Realizar Analyzer/Planner de acordo com Assurance Cases
 
-        return pd.DataFrame([{
-            'dataset': result['dataset'],
-            'preprocessor': result['preprocessor'],
-            'unbias_data_algorithm': result['unbias_data_algorithm'],
-            'inproc_algorithm': result['inproc_algorithm'],
-            'unbias_postproc_algorithm': result['unbias_postproc_algorithm']
-        }])
+        return pd.DataFrame(data.iloc[0]).transpose()
 
 class MLMAPEKAlgorithmValidationPlanner(MAPEKPlanner):
     def plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
-        result = data.iloc[0]
+        valid_algorithms = json.load(open('config/mapek/valid_algorithms.json', 'r'))
+        df_valid = pd.DataFrame(valid_algorithms["valid_algorithms"],
+                                columns=["inproc_algorithm", "unbias_data_algorithm", "unbias_postproc_algorithm"])
 
-        #TODO Realizar Assurance Cases
-        #TODO Realizar Analyzer/Planner de acordo com Assurance Cases
-
-        return pd.DataFrame([{
-            'dataset': result['dataset'],
-            'preprocessor': result['preprocessor'],
-            'unbias_data_algorithm': result['unbias_data_algorithm'],
-            'inproc_algorithm': result['inproc_algorithm'],
-            'unbias_postproc_algorithm': result['unbias_postproc_algorithm']
-        }])
+        return data.merge(df_valid)
