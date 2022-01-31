@@ -4,19 +4,15 @@ import pandas as pd
 from mapek.steps.analyzer import MAPEKAnalyzer
 
 
-class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
+class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
 
     def analyze(self, data):
-        print('Efetuando análise de métricas')
+        print('Efetuando análise de métricas ' + self.__class__.__name__)
 
         df_pipeline, df_metrics = data
-        weights = json.load(open('config/mapek/metrics_weights.json', 'r'))
-        df_weights = pd.DataFrame.from_dict(weights["metrics_groups"])
-        df_standard = df_weights[df_weights["group_name"] == "standard"].iloc[0]
-        df_fairness = df_weights[df_weights["group_name"] == "fairness"].iloc[0]
+        df_fairness, df_standard = self.get_weights()
 
-        df_standard_metrics = df_metrics[df_metrics["metric_id"].isin(df_standard['metrics'].keys())]
-        df_fairness_metrics = df_metrics[df_metrics["metric_id"].isin(df_fairness['metrics'].keys())]
+        df_fairness_metrics, df_standard_metrics = self.get_metrics_dfs(df_fairness, df_metrics, df_standard)
 
         df_standard_score = self.apply_metrics_score(df_standard_metrics, df_standard['metrics'])
         df_fairness_score = self.apply_metrics_score(df_fairness_metrics, df_fairness['metrics'])
@@ -27,6 +23,27 @@ class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
         df_pipeline_score = df_pipeline.merge(df_score, on='file_id').sort_values('score', ascending=False)
 
         return df_pipeline_score
+
+    def get_weights(self):
+        weights = json.load(open('config/mapek/metrics_weights.json', 'r'))
+        df_weights = pd.DataFrame.from_dict(weights["metrics_groups"])
+
+        df_standard = df_weights[df_weights["group_name"] == "standard"].iloc[0]
+        df_fairness = df_weights[df_weights["group_name"] == "fairness"].iloc[0]
+
+        return df_fairness, df_standard
+
+    def get_metrics_dfs(self, df_fairness, df_metrics, df_standard):
+        df_standard_metrics = df_metrics[df_metrics["metric_id"].isin(df_standard['metrics'].keys())]
+        df_fairness_metrics = df_metrics[df_metrics["metric_id"].isin(df_fairness['metrics'].keys())]
+
+        invalid_ids = pd.concat([df_standard_metrics[df_standard_metrics['value'].isnull()]['file_id'],
+                                 df_fairness_metrics[df_fairness_metrics['value'].isnull()]['file_id']]).unique()
+
+        df_standard_metrics = df_standard_metrics[~df_standard_metrics['file_id'].isin(invalid_ids)]
+        df_fairness_metrics = df_fairness_metrics[~df_fairness_metrics['file_id'].isin(invalid_ids)]
+
+        return df_fairness_metrics, df_standard_metrics
 
     def apply_metrics_score(self, df_metrics_group, metrics_weights):
         df_score = pd.DataFrame(columns=['file_id', 'score'])
@@ -74,3 +91,23 @@ class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
 
     def normalize_diff(self, metric):
         return abs(1-metric)
+
+class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
+
+    def analyze(self, data):
+        print('Efetuando análise de métricas ' + self.__class__.__name__)
+
+        group_data = data[0].groupby(['data_checksum', 'dataset', 'preprocessor',
+                                     'unbias_data_algorithm',
+                                     'inproc_algorithm',
+                                     'unbias_postproc_algorithm'])
+        date_data = group_data.max()['date_end']
+        mean_data = group_data.mean().round().astype('int32')
+
+        group_data = mean_data.merge(date_data, on=['data_checksum', 'dataset', 'preprocessor',
+                                                   'unbias_data_algorithm',
+                                                   'inproc_algorithm',
+                                                   'unbias_postproc_algorithm'])
+        group_data = group_data.rename(columns={"date_end": "last_date_end"})
+
+        return group_data.reset_index().sort_values('score', ascending=False)

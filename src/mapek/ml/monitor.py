@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+from tqdm import tqdm
 
 from mapek.steps.monitor import MAPEKMonitor
 
@@ -11,17 +12,21 @@ class MLMAPEKPipelineMonitor(MAPEKMonitor):
 
         data = os.listdir('output/metrics')
         pd.set_option('display.max_columns', None)
-        df_pipeline = pd.DataFrame(columns=['file_id', 'data_checksum', 'dataset', 'preprocessor', 'unbias_data_algorithm', 'inproc_algorithm',
-                                            'unbias_postproc_algorithm'])
+        df_pipeline = pd.DataFrame(columns=['file_id', 'data_checksum', 'date_start', 'date_end', 'execution_time_ms',
+                                            'dataset', 'preprocessor',
+                                            'unbias_data_algorithm', 'inproc_algorithm', 'unbias_postproc_algorithm'])
         df_metrics = pd.DataFrame(columns=['file_id', 'data_checksum', 'metric_id', 'metric_name', 'description', 'value'])
 
-        for json_file in data:
+        for json_file in tqdm(data):
             file_id = json_file.replace('.json', '')
             json_data = json.load(open('output/metrics/' + json_file, 'r'))
 
             df_pipeline.loc[df_pipeline.shape[0]] = [
                 file_id,
                 json_data['checksum'],
+                json_data['date_start'],
+                json_data['date_end'],
+                json_data['execution_time_ms'],
                 json_data['pipeline_params']['dataset'],
                 json_data['pipeline_params']['preprocessor'],
                 json_data['pipeline_params']['unbias_data_algorithm'],

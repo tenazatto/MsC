@@ -1,3 +1,6 @@
+import math
+from datetime import datetime
+
 from pipeline.metrics.disparate_impact_remover import DisparateImpactRemoverMetricsFilter
 from pipeline.metrics.metrics_file_writer import MetricsFileWriterFilter
 from pipeline.metrics.metrics_print import MetricsPrintFilter
@@ -278,13 +281,26 @@ class Pipeline:
 
         return metrics_pipe
 
-    def print_and_save_results(self, params_pipe, data_pipe, metrics_pipe):
-        final_pipe = data_pipe['checksum'] + params_pipe + metrics_pipe
+    def date_time_pipe(self, date_start, date_end):
+        date_time_pipe = self.new_pipe()
+
+        date_time_pipe.value = {
+            'date_start': date_start.strftime("%d/%m/%Y %H:%M:%S.%f"),
+            'date_end': date_end.strftime("%d/%m/%Y %H:%M:%S.%f"),
+            'execution_time_ms': math.floor((date_end - date_start).total_seconds() * 1000)
+        }
+
+        return date_time_pipe
+
+    def print_and_save_results(self, params_pipe, data_pipe, metrics_pipe, date_time_pipe):
+        final_pipe = data_pipe['checksum'] + date_time_pipe + params_pipe + metrics_pipe
 
         final_pipe >= MetricsPrintFilter() == final_pipe
-        final_pipe['checksum', 'pipeline_params', 'metrics_summary'] >= MetricsFileWriterFilter() == final_pipe
+        final_pipe['checksum', 'date_start', 'date_end', 'execution_time_ms',
+                   'pipeline_params', 'metrics_summary'] >= MetricsFileWriterFilter() == final_pipe
 
     def start(self, dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm, save_metadata=True):
+        date_start = datetime.now()
         PipelineValidation.validate_params(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
 
         params_pipe = self.pipe_parameters(dataset, preprocessor, algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
@@ -302,5 +318,8 @@ class Pipeline:
         metrics_pipe = self.calculate_metrics(test_pipe, prediction_pipe, fairness_pipe,
                                               algorithm, unbias_data_algorithm, unbias_postproc_algorithm)
 
+        date_end = datetime.now()
+        date_time_pipe = self.date_time_pipe(date_start, date_end)
+
         if save_metadata:
-            self.print_and_save_results(params_pipe, data_pipe, metrics_pipe)
+            self.print_and_save_results(params_pipe, data_pipe, metrics_pipe, date_time_pipe)

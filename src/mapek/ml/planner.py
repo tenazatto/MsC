@@ -10,7 +10,7 @@ class MLMAPEKPipelinePlanner(MAPEKPlanner):
     def plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
 
-        MAPEKValidation.validate_data_checksum_planner_params(data)
+        MAPEKValidation.validate_pipeline_planner_params(data)
 
         result = data.iloc[0]
 
@@ -72,10 +72,17 @@ class MLMAPEKDataChecksumPlanner(MAPEKPlanner):
 
         MAPEKValidation.validate_data_checksum_planner_params(self.checksum, self.last_checksum)
 
-        #TODO Realizar Assurance Cases
+        if self.last_checksum:
+            self.checksum = data.sort_values(by='last_date_end', ascending=False).iloc[0]['data_checksum']
+            data = data[data['data_checksum'] == self.checksum]
+            self.checksum = None
+        else:
+            data = data[data['data_checksum'] == self.checksum]
+
+            #TODO Realizar Assurance Cases
         #TODO Realizar Analyzer/Planner de acordo com Assurance Cases
 
-        return pd.DataFrame(data.iloc[0]).transpose()
+        return data
 
 
 class MLMAPEKAlgorithmValidationPlanner(MAPEKPlanner):
@@ -86,3 +93,14 @@ class MLMAPEKAlgorithmValidationPlanner(MAPEKPlanner):
                                 columns=["inproc_algorithm", "unbias_data_algorithm", "unbias_postproc_algorithm"])
 
         return data.merge(df_valid)
+
+class MLMAPEKAlgorithmPerformancePlanner(MAPEKPlanner):
+    train_time = -1
+
+    def __init__(self, train_time=-1):
+        self.train_time = train_time
+
+    def plan(self, data):
+        print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
+
+        return data if self.train_time < 0 else data[data['execution_time_ms'] < self.train_time]
