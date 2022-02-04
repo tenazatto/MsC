@@ -1,12 +1,12 @@
 import json
-import os
+
 import pandas as pd
+
 from mapek.steps.analyzer import MAPEKAnalyzer
 
 
 class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
-
-    def analyze(self, data):
+    def do_analysis(self, data):
         print('Efetuando análise de métricas ' + self.__class__.__name__)
 
         df_pipeline, df_metrics = data
@@ -92,9 +92,9 @@ class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
     def normalize_diff(self, metric):
         return abs(1-metric)
 
-class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
 
-    def analyze(self, data):
+class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
+    def do_analysis(self, data):
         print('Efetuando análise de métricas ' + self.__class__.__name__)
 
         group_data = data[0].groupby(['data_checksum', 'dataset', 'preprocessor',

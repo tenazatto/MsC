@@ -7,7 +7,7 @@ from pipeline.validation import MAPEKValidation
 
 
 class MLMAPEKPipelinePlanner(MAPEKPlanner):
-    def plan(self, data):
+    def do_plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
 
         MAPEKValidation.validate_pipeline_planner_params(data)
@@ -67,7 +67,7 @@ class MLMAPEKDataChecksumPlanner(MAPEKPlanner):
         self.checksum = checksum
         self.last_checksum = last_checksum
 
-    def plan(self, data):
+    def do_plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
 
         MAPEKValidation.validate_data_checksum_planner_params(self.checksum, self.last_checksum)
@@ -79,14 +79,11 @@ class MLMAPEKDataChecksumPlanner(MAPEKPlanner):
         else:
             data = data[data['data_checksum'] == self.checksum]
 
-            #TODO Realizar Assurance Cases
-        #TODO Realizar Analyzer/Planner de acordo com Assurance Cases
-
         return data
 
 
 class MLMAPEKAlgorithmValidationPlanner(MAPEKPlanner):
-    def plan(self, data):
+    def do_plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
         valid_algorithms = json.load(open('config/mapek/valid_algorithms.json', 'r'))
         df_valid = pd.DataFrame(valid_algorithms["valid_algorithms"],
@@ -94,13 +91,15 @@ class MLMAPEKAlgorithmValidationPlanner(MAPEKPlanner):
 
         return data.merge(df_valid)
 
+
 class MLMAPEKAlgorithmPerformancePlanner(MAPEKPlanner):
     train_time = -1
 
     def __init__(self, train_time=-1):
         self.train_time = train_time
 
-    def plan(self, data):
+    def do_plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
 
         return data if self.train_time < 0 else data[data['execution_time_ms'] < self.train_time]
+
