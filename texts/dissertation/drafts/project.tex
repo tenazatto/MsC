@@ -62,7 +62,7 @@
 \section{Conceitos}
 
 \begin{itemize}
-\item \textbf{Aprendizado de máquina:} Processo onde é extraído conhecimento de um conjunto de dados através de um algoritmo pré-estabelecido. Usando seus algoritmos padrão, pode ser classificado como supervisionado, onde se sabe suas entradas e saídas, ou não-supervisionado, onde sabe-se apenas os dados de entrada. Pode ter outras classificações quando redes neurais são utilizadas.
+\item \textbf{Aprendizado de máquina (\textit{Machine Learning}, ou ML):} Processo onde é extraído conhecimento de um conjunto de dados através de um algoritmo pré-estabelecido. Usando seus algoritmos padrão, pode ser classificado como supervisionado, onde se sabe suas entradas e saídas, ou não-supervisionado, onde sabe-se apenas os dados de entrada. Pode ter outras classificações quando redes neurais são utilizadas.
 
 No processo, o conjunto de dados passa por um pré-processamento e dividido em dois conjuntos, um para treinamento e outro para teste. O conjunto de treino é utilizado para o algoritmo realizar o processo de treinamento, obtendo um modelo após o término desse processo. O conjunto de testes é utilizado para mensurar se o modelo obtido no processo de treinamento realiza previsões confiáveis ou não. Ilustração na figura abaixo.
 
@@ -94,6 +94,8 @@ quando o resultado real pertence à classe positiva.
 \item \textbf{Regularização}: Conjunto de técnicas que tem como objetivo tirar ruídos presentes no processo de aprendizado que podem evitar o modelo final de ser generalizado, acarretando o que é chamado de \textit{Overfitting}
 
 \item \textbf{AI Fairness 360}: Biblioteca para a linguagem Python criada pela IBM que cataloga diversas técnicas de aprendizado de máquina baseados em métricas de Fairness para serem utilizadas. Também encapsula conjuntos de dados com seus grupos protegidos e não-protegidos
+
+\item \textbf{Black box}: Forma de implementação de um modelo de ML onde o importante para determinação da qualidade de um modelo é sua entrada e sua saída apenas.
 \end{itemize}
 
 \section{Métricas}
@@ -199,7 +201,70 @@ Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ �
 
 \end{itemize}
 
-\section{Exemplo de Problema}
+\section{Problema}
+
+\subsection{Motivação e Solução}
+
+\begin{itemize}
+\item \textbf{Motivação 1:} Analisar um modelo justo não é uma tarefa simples, uma vez que as métricas utilizadas para determinar imparcialidade possuem baixa correlação com métricas utilizadas para determinar um modelo de qualidade. Ela pode aumentar ou diminuir essas métricas.(Qual o balanceamento adequado entre as métricas padrão e métricas de Fairness?)
+
+\item \textbf{Motivação 2:} Modelos são obtidos através de uma abordagem \textit{Black box} e precisam de metadados para determinar alguma explicabilidade em seu processo.(O modelo é justo por qual razão? Por quê a imparcialidade não afeta sua qualidade?)
+
+\item \textbf{Motivação 3:} Embora os algoritmos para se obter modelos de ML acurados já estão estabelecidos, o mesmo não se pode dizer dos algoritmos para se obter modelos de ML justos. E, uma vez que eles podem atuar em diversas partes do processo, a complexidade de se medir o processo aumenta.(Como escolher a gama correta de algoritmos de forma a estabelecer um processo coeso e efetuar a medição para a escolha do melhor modelo?)
+
+\item \textbf{Solução 1:} O modelo MAPE-K pode ajudar em definir uma estratégia para balancear as métricas (Motivação 1) e escolher os modelos mais adequados (Motivação 3).
+
+\item \textbf{Solução 2:} Metadados são obtidos durante o processo(Motivação 2), e ajudam a alimentar o modelo MAPE-K como base de conhecimento (Motivações 1 e 3).
+
+\item \textbf{Solução 3:} Desenvolvimento de um \textit{pipeline} de ML componentizado, para obter coesão nas abstrações de seu processo e facilitar sua expansão/manutenção através de reuso de código (Motivação 3).
+\end{itemize}
+
+\subsection{Experimento e Restrições}
+
+\begin{itemize}
+\item \textbf{Experimento:} Execução de um \textit{pipeline} de ML para obtenção de dados iniciais na base de conhecimento e discussão de um \textit{pipeline} de ML utilizando MAPE-K como facilitador da escolha de modelo.
+
+\item \textbf{Restrição 1:} O algoritmo de retirada de viés é feito em apenas uma parte das etapas (Pré-processamento/Processamento/Pós-processamento). Isto foi decidido pois não foram verificadas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta no desempenho.
+
+\item \textbf{Restrição 2:} Por não conseguirem rodar com sucesso ou apresentarem métricas que destoam dos outros, o que implica em alguma falha não detectada na implementação, foram retirados os seguintes algoritmos: Pré-processamento otimizado e Classificação baseada em Rejeição de Opções
+
+\item \textbf{Restrição 3:} A base de conhecimento será capaz de explicar a imparcialidade de um modelo, mas não terá a explicabilidade da influência de cada \textit{feature} aplicada no modelo.
+\end{itemize}
+
+\subsection{Case Study}
+\subsection{Problem Statement}
+
+Modelo
+\/
+Alg
+Pré-proc
+In-Proc
+Pós-Proc
+\/
+Metadados
+Métricas avaliação
+Fairness
+
+Fazer Claims 
+Ver Entradas e Saídas
+Rever Evidências
+Pensar em uma mentalidade de Requisitos ("Certificação")
+
+"Rodar a aplicação"(Entradas, saídas, etapas)
+FAZER ESSA PORRA e O BAGULHO DO ALTIGRAN
+
+\subsection{GSN}
+
+\subsection{Arquitetura}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{images/ML-MAPE-K.jpg}
+\caption {Arquitetura de um gerenciador MAPE-K "plugado" a um \textit{pipeline} de ML}
+\label{fig:AIArchitecture}
+\end{figure}
+
+\subsection{Exemplo de descrição}
 
 \begin{itemize}
 \item \textbf{Objetivo:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}
@@ -218,7 +283,7 @@ Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ �
 
 \subsection{Diagrama de atividades}
 
-Ver Figura \ref{fig:AIRoles} e Figura \label{fig:AIReferenceArchitecture}.
+Ver Figura \ref{fig:AIRoles} e Figura \ref{fig:AIReferenceArchitecture}.
 
 \begin{figure}[h]
 \centering

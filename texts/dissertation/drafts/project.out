@@ -6,15 +6,22 @@
 \BOOKMARK [2][-]{subsection.3.1}{Pr\351-processamento}{section.3}% 6
 \BOOKMARK [2][-]{subsection.3.2}{Processamento}{section.3}% 7
 \BOOKMARK [2][-]{subsection.3.3}{P\363s-processamento}{section.3}% 8
-\BOOKMARK [1][-]{section.4}{Exemplo de Problema}{}% 9
-\BOOKMARK [1][-]{section.5}{Papeis de pessoas em ML}{}% 10
-\BOOKMARK [2][-]{subsection.5.1}{Diagrama de atividades}{section.5}% 11
-\BOOKMARK [2][-]{subsection.5.2}{Cargos}{section.5}% 12
-\BOOKMARK [2][-]{subsection.5.3}{Conte\372do}{section.5}% 13
-\BOOKMARK [1][-]{section.6}{Arquitetura Pipes and Filters em ML}{}% 14
-\BOOKMARK [2][-]{subsection.6.1}{Pipes e Filtros}{section.6}% 15
-\BOOKMARK [2][-]{subsection.6.2}{Fluent API}{section.6}% 16
-\BOOKMARK [2][-]{subsection.6.3}{Conte\372do}{section.6}% 17
-\BOOKMARK [1][-]{section.7}{Ataques e seguran\347a}{}% 18
-\BOOKMARK [2][-]{subsection.7.1}{Poss\355veis solu\347\365es}{section.7}% 19
-\BOOKMARK [2][-]{subsection.7.2}{Conte\372do}{section.7}% 20
+\BOOKMARK [1][-]{section.4}{Problema}{}% 9
+\BOOKMARK [2][-]{subsection.4.1}{Motiva\347\343o e Solu\347\343o}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.2}{Experimento e Restri\347\365es}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.3}{Case Study}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.4}{Problem Statement}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.5}{GSN}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.6}{Arquitetura}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.7}{Exemplo de descri\347\343o}{section.4}% 16
+\BOOKMARK [1][-]{section.5}{Papeis de pessoas em ML}{}% 17
+\BOOKMARK [2][-]{subsection.5.1}{Diagrama de atividades}{section.5}% 18
+\BOOKMARK [2][-]{subsection.5.2}{Cargos}{section.5}% 19
+\BOOKMARK [2][-]{subsection.5.3}{Conte\372do}{section.5}% 20
+\BOOKMARK [1][-]{section.6}{Arquitetura Pipes and Filters em ML}{}% 21
+\BOOKMARK [2][-]{subsection.6.1}{Pipes e Filtros}{section.6}% 22
+\BOOKMARK [2][-]{subsection.6.2}{Fluent API}{section.6}% 23
+\BOOKMARK [2][-]{subsection.6.3}{Conte\372do}{section.6}% 24
+\BOOKMARK [1][-]{section.7}{Ataques e seguran\347a}{}% 25
+\BOOKMARK [2][-]{subsection.7.1}{Poss\355veis solu\347\365es}{section.7}% 26
+\BOOKMARK [2][-]{subsection.7.2}{Conte\372do}{section.7}% 27

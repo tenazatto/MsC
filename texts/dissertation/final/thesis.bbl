@@ -1,0 +1,137 @@
+\begin{thebibliography}{20}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Cop()]{Copeland_2016}
+What’s the difference between artificial intelligence, machine learning and
+  deep learning?
+\newblock URL
+  \url{https://blogs.nvidia.com/blog/2016/07/29/whats-difference-artificial-intelligence-machine-learning-deep-learning-ai/}.
+
+\bibitem[MLS()]{MLSAS_2021}
+Machine learning: o que é e qual sua importância?
+\newblock URL
+  \url{https://www.sas.com/pt_br/insights/analytics/machine-learning.html}.
+
+\bibitem[MLW()]{MLWikipedia_2021}
+Aprendizado de máquina.
+\newblock URL \url{https://pt.wikipedia.org/wiki/Aprendizado_de_máquina}.
+
+\bibitem[IBM(2005)]{IBM_2005}
+An architectural blueprint for autonomic computing.
+\newblock Technical report, IBM, 2005.
+\newblock URL
+  \url{https://www-03.ibm.com/autonomic/pdfs/AC%20Blueprint%20White%20Paper%20V7.pdf}.
+
+\bibitem[Del(2018)]{Deloitte_2018}
+Machine learning: things are getting intense, 2018.
+\newblock URL
+  \url{https://www2.deloitte.com/content/dam/Deloitte/global/Images/infographics/technologymediatelecommunications/gx-deloitte-tmt-2018-intense-machine-learning-report.pdf}.
+
+\bibitem[CIO(2021)]{CIO_2021}
+Brasil se destaca com 42\% das iniciativas de {IA} na {América Latina}, em
+  2020, 2021.
+\newblock URL
+  \url{https://cio.com.br/tendencias/brasil-se-destaca-com-42-das-iniciativas-de-ia-na-america-latina-em-2020/}.
+
+\bibitem[LGP(2021)]{LGPD_2021}
+{Proteção de Dados - LGPD}, 2021.
+\newblock URL
+  \url{https://www.gov.br/defesa/pt-br/acesso-a-informacao/lei-geral-de-protecao-de-dados-pessoais-lgpd}.
+
+\bibitem[Arrieta et~al.(2020)Arrieta, Rodr{\'{\i}}guez, Ser, Bennetot, Tabik,
+  Barbado, Garc{\'{\i}}a, Gil{-}Lopez, Molina, Benjamins, Chatila, and
+  Herrera]{Arrieta_2020}
+Alejandro~Barredo Arrieta, Natalia~D{\'{\i}}az Rodr{\'{\i}}guez, Javier~Del
+  Ser, Adrien Bennetot, Siham Tabik, Alberto Barbado, Salvador Garc{\'{\i}}a,
+  Sergio Gil{-}Lopez, Daniel Molina, Richard Benjamins, Raja Chatila, and
+  Francisco Herrera.
+\newblock Explainable artificial intelligence {(XAI):} concepts, taxonomies,
+  opportunities and challenges toward responsible {AI}.
+\newblock \emph{Information Fusion}, 58:\penalty0 82--115, 2020.
+
+\bibitem[Begley et~al.(2021)Begley, Schwedes, Frye, and Feige]{Begley_2021}
+Tom Begley, Tobias Schwedes, Christopher Frye, and Ilya Feige.
+\newblock Explainability for fair machine learning, 2021.
+
+\bibitem[Buolamwini and Gebru(2018)]{Buolamwini_2018}
+Joy Buolamwini and Timnit Gebru.
+\newblock Gender shades: Intersectional accuracy disparities in commercial
+  gender classification.
+\newblock In \emph{Conference on Fairness, Accountability and Transparency},
+  volume~81 of \emph{Proceedings of Machine Learning Research}, pages 77--91,
+  2018.
+
+\bibitem[Kamiran and Calders(2011)]{Kamiran_2011}
+Faisal Kamiran and Toon Calders.
+\newblock Data pre-processing techniques for classification without
+  discrimination.
+\newblock \emph{Knowledge and Information Systems}, 2011.
+\newblock URL
+  \url{https://www.researchgate.net/publication/228975972_Data_Pre-Processing_Techniques_for_Classification_without_Discrimination}.
+
+\bibitem[Kamiran et~al.(2012)Kamiran, Karim, and Zhang]{Kamiran_2012}
+Faisal Kamiran, Asim Karim, and Xiangliang Zhang.
+\newblock Decision theory for discrimination-aware classification.
+\newblock In \emph{2012 IEEE 12th International Conference on Data Mining},
+  pages 924--929, 2012.
+
+\bibitem[Kapishnikov et~al.(2019)Kapishnikov, Bolukbasi, Vi{\'{e}}gas, and
+  Terry]{Kapishnikov_2019}
+Andrei Kapishnikov, Tolga Bolukbasi, Fernanda~B. Vi{\'{e}}gas, and Michael
+  Terry.
+\newblock {XRAI:} better attributions through regions.
+\newblock In \emph{{IEEE/CVF} International Conference on Computer Vision},
+  pages 4947--4956, 2019.
+
+\bibitem[Kephart and Chess(2003)]{Kephart_2003}
+Jeffrey Kephart and D.M. Chess.
+\newblock The vision of autonomic computing.
+\newblock pages 41 -- 50, 2003.
+
+\bibitem[Khalegi(2019{\natexlab{a}})]{Khalegi_2019}
+Bahador Khalegi.
+\newblock The how of explainable ai: Explainable modelling, 2019{\natexlab{a}}.
+\newblock URL
+  \url{https://towardsdatascience.com/the-how-of-explainable-ai-explainable-modelling-55c8c43d7bed}.
+
+\bibitem[Khalegi(2019{\natexlab{b}})]{Khalegi_2019_Post}
+Bahador Khalegi.
+\newblock The how of explainable ai: Post-modelling explainability,
+  2019{\natexlab{b}}.
+\newblock URL
+  \url{https://towardsdatascience.com/the-how-of-explainable-ai-post-modelling-explainability-8b4cbc7adf5f}.
+
+\bibitem[Khalegi(2019{\natexlab{c}})]{Khalegi_2019_Pre}
+Bahador Khalegi.
+\newblock The how of explainable ai: Pre-modelling explainability,
+  2019{\natexlab{c}}.
+\newblock URL
+  \url{https://towardsdatascience.com/the-how-of-explainable-ai-pre-modelling-explainability-699150495fe4}.
+
+\bibitem[Maleki et~al.(2013)Maleki, Tran{-}Thanh, Hines, Rahwan, and
+  Rogers]{Maleki_2013}
+Sasan Maleki, Long Tran{-}Thanh, Greg Hines, Talal Rahwan, and Alex Rogers.
+\newblock Bounding the estimation error of sampling-based shapley value
+  approximation with/without stratifying.
+\newblock 2013.
+
+\bibitem[Sundararajan et~al.(2017)Sundararajan, Taly, and
+  Yan]{Sundararajan_2017}
+Mukund Sundararajan, Ankur Taly, and Qiqi Yan.
+\newblock Axiomatic attribution for deep networks.
+\newblock In \emph{Proceedings of the 34th International Conference on Machine
+  Learning}, volume~70 of \emph{Proceedings of Machine Learning Research},
+  pages 3319--3328, 2017.
+
+\bibitem[Zhang et~al.(2018)Zhang, Lemoine, and Mitchell]{Zhang_2018}
+Brian Zhang, Blake Lemoine, and Margaret Mitchell.
+\newblock Mitigating unwanted biases with adversarial learning.
+\newblock pages 335--340, 2018.
+\newblock URL
+  \url{https://www.researchgate.net/publication/330299272_Mitigating_Unwanted_Biases_with_Adversarial_Learning}.
+
+\end{thebibliography}
