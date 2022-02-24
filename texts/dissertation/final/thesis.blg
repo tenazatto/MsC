@@ -7,6 +7,8 @@ Reallocating 'name_of_file' (item size: 1) to 5 items.
 Reallocating 'name_of_file' (item size: 1) to 7 items.
 Database file #1: full.bib
 Database file #2: thesis.bib
+Warning--I didn't find a database entry for "Kamiran_2009"
+Warning--I didn't find a database entry for "Mehrabi_2019"
 Warning--to sort, need author or key in Deloitte_2018
 Warning--to sort, need author or key in CIO_2021
 Warning--to sort, need author or key in LGPD_2021
@@ -14,52 +16,59 @@ Warning--to sort, need author or key in IBM_2005
 Warning--to sort, need author or key in Copeland_2016
 Warning--to sort, need author or key in MLWikipedia_2021
 Warning--to sort, need author or key in MLSAS_2021
+Warning--to sort, need author or key in IBM_2021
 Warning--empty year in Copeland_2016
+Warning--empty year in IBM_2021
 Warning--empty year in MLSAS_2021
 Warning--empty year in MLWikipedia_2021
 Warning--empty author in IBM_2005
+Warning--empty booktitle in Abbas_2010
+Warning--empty journal in Biswas_2020
+Warning--empty booktitle in Bosch_2004
 Warning--empty journal in Kephart_2003
 Warning--empty journal in Maleki_2013
+Warning--empty journal in Mougan_2022
+Warning--empty journal in Speicher_2018
 Warning--empty booktitle in Zhang_2018
-You've used 20 entries,
+You've used 40 entries,
             2773 wiz_defined-function locations,
-            1355 strings with 28198 characters,
-and the built_in function-call counts, 8597 in all, are:
-= -- 773
-> -- 420
-< -- 14
-+ -- 151
-- -- 129
-* -- 649
-:= -- 1152
-add.period$ -- 55
-call.type$ -- 20
-change.case$ -- 104
-chr.to.int$ -- 18
-cite$ -- 61
-duplicate$ -- 422
-empty$ -- 783
-format.name$ -- 148
-if$ -- 1904
+            1476 strings with 32543 characters,
+and the built_in function-call counts, 19671 in all, are:
+= -- 1738
+> -- 1112
+< -- 30
++ -- 384
+- -- 342
+* -- 1484
+:= -- 2737
+add.period$ -- 121
+call.type$ -- 40
+change.case$ -- 235
+chr.to.int$ -- 38
+cite$ -- 109
+duplicate$ -- 972
+empty$ -- 1658
+format.name$ -- 386
+if$ -- 4345
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 9
-newline$ -- 103
-num.names$ -- 52
-pop$ -- 281
+missing$ -- 27
+newline$ -- 209
+num.names$ -- 128
+pop$ -- 599
 preamble$ -- 1
-purify$ -- 83
+purify$ -- 194
 quote$ -- 0
-skip$ -- 381
+skip$ -- 863
 stack$ -- 0
-substring$ -- 257
-swap$ -- 84
-text.length$ -- 8
+substring$ -- 577
+swap$ -- 226
+text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 220
-warning$ -- 14
-while$ -- 56
+type$ -- 440
+warning$ -- 21
+while$ -- 134
 width$ -- 0
-write$ -- 241
-(There were 14 warnings)
+write$ -- 498
+(There were 23 warnings)

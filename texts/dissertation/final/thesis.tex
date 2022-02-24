@@ -25,6 +25,40 @@
 \usepackage{nccmath}% revise se precisa ou não
 
 \usepackage[numbers]{natbib}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{graphicx}
+
+\usepackage{listings}
+
+\renewcommand{\lstlistingname}{Código}
+\renewcommand{\lstlistlistingname}{Lista de \lstlistingname s}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.85,0.85,0.85}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+
+\lstdefinestyle{codigo}{
+    backgroundcolor=\color{codegray},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codeblack},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+
+\lstset{style=codigo}
 
 \newcommand\citetxt[1]{%
   \citeauthor{#1}~(\citeyear{#1})}
@@ -194,23 +228,21 @@
 %\prefacesection{Dedicatória}
 %A dedicatória deve ocupar uma única página.
 
-
 % Se houver epígrafe, descomente e edite:
-% \begin{epigrafe}
-% {\it
-% Vita brevis,\\
-% ars longa,\\
-% occasio praeceps,\\
-% experimentum periculosum,\\
-% iudicium difficile.}
-%
-% \hfill (Hippocrates)
-% \end{epigrafe}
+\begin{epigrafe}
+{\it
+Alguma frase\\
+Para colocar,\\
+Mas é um dos últimos itens a se fazer.}
+
+\hfill (Eu mesmo)
+\end{epigrafe}
 
 
 % Agradecimentos ou Acknowledgements ou Agradecimientos
-%\chapter{Agradecimentos}
+\chapter{Agradecimentos}
 %Os agradecimentos devem ocupar uma única página.
+Agradecer posteriormente
 
 
 % Sempre deve haver um resumo em português:
@@ -232,7 +264,7 @@ This Master's Degree dissertation aims to contribute to the theme of Artificial 
 
 
 % A lista de figuras é opcional:
-% \listoffigures
+\listoffigures
 
 % A lista de tabelas é opcional:
 % \listoftables
@@ -313,15 +345,299 @@ Com a evolução da computação, o treino de uma tarefa passou a ser cada vez m
 
 \subsection{Métricas de Avaliação}
 
+Tradicionalmente em um problema de classificação binária, uma previsão do classificador pode ter 4 tipos de resultados em uma matriz de confusão, presente na Tabela \ref{tbl:ConfusionMatrix}. Os Verdadeiros Positivos (VP, ou TP pelo termo em inglês \textit{True Positives}) e Verdadeiros Negativos (VN, ou TN pelo termo em inglês \textit{True Negatives}) são classificações corretamente previstas pelo classificador. Um Falso Positivo (FP) ocorre quando um caso previsto para estar na classe positiva quando o resultado real pertence à classe negativa, e um Falso Negativo (FN) ocorre quando um caso previsto para estar na classe negativa
+quando o resultado real pertence à classe positiva.
+
+-- TODO reformatar Tabela
+
+\begin{table}[h]
+\label{tbl:ConfusionMatrix}
+\begin{center}
+  \caption{Matriz de confusão}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{|c|c|c|c|}
+    \toprule
+    \multicolumn{4}{|c|}{Classe prevista}\\
+    \midrule
+    \multirow{3}{*}[-3ex]{\rotatebox[origin=c]{90}{\textbf{Classe atual}}} &  & \textbf{Positiva} & \textbf{Negativa}\\[3ex]
+    \cmidrule{2-4}
+     & \textbf{Positiva} & \makecell{Verdadeiros Positivos\\(VP/TP)} & \makecell{Falsos Positivos\\(FP)}\\[3ex]
+    \cmidrule{2-4}
+     & \textbf{Negativa} & \makecell{Falso Negativo\\(FN)} & \makecell{Verdadeiros Negativos\\(VN/TN)}\\[3ex]
+    \bottomrule
+  \end{tabular}}
+\end{center}
+\end{table}
+
+A taxa de sucesso, também conhecida como \textbf{acurácia}, é o número de previsões corretas dividido pelo número total de resultados:
+
+\begin{equation}
+Acc = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+
+Ela é considerada um indicador da realização de um bom treinamento e de um bom funcionamento do modelo obtido. Entretanto, não é a melhor métrica para interpretar situações quanto a aplicação do modelo ao problema, como classes desequilibradas.
+
+A \textbf{precisão} ajuda quando os custos de falsos positivos são altos e mostra a precisão das previsões positivas. É a fração de casos positivos previstos corretamente para estar na classe positiva de todos os casos positivos previstos no modelo:
+
+\begin{equation}
+P = \frac{TP}{TP + FP}
+\end{equation}
+
+O \textbf{recall}, ou sensibilidade, ajuda quando o custo de falsos negativos é alto.  É a fração de casos positivos previstos corretamente para estar na classe positiva de todos os casos positivos reais:
+
+\begin{equation}
+R = \frac{TP}{TP + FN}
+\end{equation}
+
+O \textbf{F1-score} é uma medida geral da acurácia de um modelo que combina precisão e recall. Pode ser interpretado como uma ponderação entre ambos e usa a média harmônica para realizar a medição:
+
+\begin{equation}
+F1 = 2 \times\frac{P \times R}{P + R}
+\end{equation}
+
+O \textbf{AUC} (\textit{Area under the ROC Curve}), também chamada de precisão balanceada, pode imterpretar a capacidade do classificador de evitar uma classificação falsa. Se sai melhor que a acurácia em situações que ela não é apropriada, como o desequilíbrio entre classes já citado anteriormente:
+
+\begin{equation}
+AUC = \frac{1}{2} \left( \frac{TP}{TP + FN} + \frac{TN}{TN + FP} \right)
+\end{equation}
+
 \subsection{Algoritmos}
 
 \section{Fairness em Machine Learning}
 
+Como a coleta de dados está presente atualmente no dia-a-dia de variados setores da sociedade, o uso de \textit{Machine Learning} é extremamente versátil para tomadas de decisão, podendo ser utilizados em problemas como admissão de universidades, contratações, análise de crédito e reconhecimento de doenças. Com o aumento dessa influência, o uso de dados sensíveis em um contexto determinado também aumentou, e temas como uma IA ética e conceitos como vieses nos dados e \textit{Fairness} passaram a serem discutidas não apenas na Computação, mas em áreas como Direito. Algoritmos são mais objetivos, rápidos e são capazes de considerar uma grande magnitude de recursos que pessoas não são capazes. Entretanto, até o presente momento eles não são capazes de diferenciar contextos sociais, onde um resultado mais eficiente de acordo com os dados disponíveis podem amplificar as desigualdades sociais e tomar decisões de modo injusto~\citep{Mehrabi_2021}. 
+
+Estes dados sensíveis, tendo como exemplos cor de pele, raça, sexo, idade e altura, são considerados atributos protegidos, que precisam ser classificados e processados antes da execução de um algoritmo de \textit{Machine Learning}, determinarão como o algoritmo se comportará e, consequentemente, afetará suas métricas~\citep{Mougan_2022}. Os grupos de dados provenientes destes atributos protegidos são considerados grupos protegidos, que podem ser divididos em dois grupos: o grupo privilegiado, que possui vantagens no contexto do problema, e o grupo não-privilegiado, que possui desvantagens no contexto do problema e, portanto, sujeito a discriminação.
+
+É possível descrever o conceito de \textit{Fairness} no contexto de aprendizagem supervisionada, onde um modelo $f$ pode prever um conjunto de resultados $y$ a partir de um conjunto de \textit{features} $x$, evitando discriminação injusta em relação a um atributo protegido $a$. É permitido, mas não exigido, que $a$ seja um componente de $x$~\citep{Begley_2021}. Em outras palavras, um modelo de ML considerado justo é aquele onde a correlação de seu resultado é baixa em relação a dados de entrada considerados como sensíveis a discriminações.
+
+Geralmente, as descrições de justiça se dividem em dois grupos principais: justiça individual e justiça de grupo. O objetivo da justiça individual é que indivíduos semelhantes devem obter resultados semelhantes, enquanto na justiça de grupo, cada um dos grupos definidos pelo atributo protegido deve ser tratado igualmente.
+ser tratados igualmente.
+
+-- TODO continuar
+
 \subsection{Métricas de Fairness}
 
-\section{Algoritmos para redução de vieses}
+Considerando $Y=1$ a classe positiva, $Z=0$ o grupo não-privilegiado e $Z=1$ o grupo privilegiado, algumas das definições de \textit{Fairness} mais usadas são as seguintes:
+
+\begin{itemize}
+\item \textbf{Diferença de paridade estatística, ou discriminação~\citep{Zemel_2013}:} Esta métrica é baseada na seguinte fórmula:
+
+\begin{equation}
+Pr(Y=1|Z=0)-Pr(Y=1|Z=1)
+\end{equation}
+ 
+Aqui, o viés ou paridade estatística é a diferença entre a probabilidade de que um indivíduo aleatório retirado dos não-privilegiados seja rotulado como 1 e a probabilidade de que um indivíduo aleatório dos privilegiados seja rotulado como 1. Portanto, um valor próximo de 0 é considerado justo.
+
+\item \textbf{Diferença de oportunidade igual~\citep{Biswas_2020}:} É a diferença entre a taxa positiva verdadeira do grupo não privilegiado e a taxa positiva verdadeira do grupo privilegiado:
+
+\begin{equation}
+TPR_{Z=0} - TPR_{Z=1}
+\end{equation}
+ 
+Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz a igualdade de oportunidades quando a taxa positiva verdadeira de ambos os grupos são iguais~\citep{Hardt_2016}
+
+\item \textbf{Diferença de probabilidade média~\citep{Biswas_2020}:} Essa métrica usa a taxa de falsos positivos e a taxa positiva verdadeira para calcular a tendência, calculando a igualdade de probabilidades com a fórmula:
+
+\begin{equation}
+\frac{1}{2}(|FPR_{Z=0} - FPR_{Z=1}|+|TPR_{Z=0} - TPR_{Z=1}|)
+\end{equation}
+ 
+Precisa ser próximo a 0 para ser considerado justo.
+
+\item \textbf{Impacto de disparidade~\citep{Biswas_2020}:} Para esta métrica, é usada a seguinte fórmula:
+
+\begin{align*}
+\frac{Pr(Y=1|Z=0)}{Pr(Y=1|Z=1)}
+\end{align*}
+
+Usa as mesmas probabilidades da diferença de paridade estatística, mas aqui são calculadas como proporção. Desta forma, um valor próximo de 1 é considerado justo.
+
+\item \textbf{Indíce de Theil~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com $\alpha$ igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
+
+\begin{align*}
+\frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
+\end{align*}
+
+Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ é o conjunto de previsões dadas pelo modelo. Também precisa ser próximo a 0 para ser considerado justo.
+
+\end{itemize}
+
+\subsection{Algoritmos para redução de vieses}
+
+Há diversos tipos de algoritmos diferentes na inteligência artificial para redução de vieses, a fim de garantir \textit{Fairness} nos projetos de Aprendizado de Máquina. É possível classificá-los em três categorias diferentes: Algoritmos de pré-processamento, processamento e de pós-processamento.
+
+Os algoritmos de \textbf{pré-processamento} tentam eliminar a discriminação transformando os dados, antes de executar o algoritmo de treinamento. Tais algoritmos podem ser usados caso seja permitida a modificação dos dados de treinamento~\citep{dAlessandro_2017}, e a ideia por trás de tais algoritmos é que suas previsões serão mais balanceadas se o classificador for treinado com os dados já balanceados~\citep{Kamiran_2009}. Nesta categoria se enquadram os seguintes algoritmos:
+
+\begin{itemize}
+\item \textbf{Reposição (\textit{Reweighing})~\citep{Kamiran_2011}:} Pondera os exemplos em cada combinação de grupo e rótulo de maneira diferente para garantir a justiça antes da classificação.
+
+\item \textbf{Removedor de impacto de disparidade (\textit{Disparate impact remover})~\citep{Feldman_2015}:} Edita valores de \textit{features} aumentando a justiça de cada grupo enquanto preserva a ordem de classificação dentro dos mesmos.
+
+\item \textbf{Aprendizado de representações justas (LFR, ou \textit{Learning fair representations})~\citep{Zemel_2013}:} Encontra uma representação latente que codifica os dados, mas ofusca informações dos atributos protegidos.
+
+\item \textbf{Pré-processamento otimizado (\textit{Optimized pre-processing})~\citep{Calmon_2017}:} Aprende uma transformação probabilística que edita \textit{features} e rótulos nos dados efetuando justiça em cada grupo, distorção individual, garantindo a fidelidade de dados através de restrições.
+\end{itemize}
+
+Os algoritmos de \textbf{processamento} tentam realizar modificações nos algoritmos de treinamento para mitigar a discriminação durante o processo de treinamento do modelo. Se for permitido fazer mudanças no processo de treinamento, então os algoritmos podem ser usados incorporando mudanças na função de custo ou impondo restrições~\citep{Mehrabi_2019}. Nesta categoria se enquadram os seguintes algoritmos:
+
+\begin{itemize}
+\item \textbf{Remoção de viés adversário (Adversarial debiasing)~\citep{Zhang_2018}:} Aprende um classificador que maximiza a precisão e reduz a capacidade de um adversário de depender do atributo protegido nas previsões. Essa abordagem leva a um classificador justo, pois as previsões realizadas pelo classificador não possuem nenhuma informação de discriminação nos grupos.
+
+\item \textbf{Removedor de preconceito (Prejudice remover)~\citep{Feldman_2015}:} Técnica que adiciona no algoritmo escolhido um termo de regularização baseado na discriminação (No caso da biblioteca AI Fairness 360 é usado o programa da publicação, que usa a regressão logística como algoritmo base).
+
+\item \textbf{Meta-Algoritmo para classificações justas (Meta-Algorithm for Fair Classification)~\citep{Celis_2019}:} Aprende um classificador compatível com uma gama grande de métricas de Fairness, sendo prático o suficiente para abrangê-las sem grande perda de performance.
+
+\item \textbf{Justiça por Subgrupos Ricos (Rich Subgroup Fairness)~\citep{Kearns_2018}:} Aprende um classificador que procura equalizar as taxas de falsos positivos e falsos negativos entre os dados que envolvem atributos protegidos, considerados como subgrupos.
+
+\item \textbf{Redução por Gradiente Exponencial (Exponentiated Gradient Reduction)~\citep{Agarwal_2018}:} Aprende um classificador baseado em Gradiente Exponencial que tende a minimizar o erro de uma classificação ponderada.
+
+\item \textbf{Redução por busca em grid (Grid Search Reduction)~\citep{Agarwal_2018}~\citep{Agarwal_2019}:} Aprende um classificador baseado na busca em um grid de valores que tende a minimizar o erro de uma classificação ponderada. É mais simples e impreciso que a Redução por Gradiente Exponencial, mas sua escolha pode ser razoável se a quantidade de métricas de Fairness a serem consideradas for pequena.
+
+\end{itemize}
+
+Os algoritmos de \textbf{pós-processamento} utilizam um conjunto de validação, que não foi envolvido no processo de treinamento para melhorar a imparcialidade das previsões~\citep{dAlessandro_2017}. Quando não há possibilidade de fazer alterações nos dados de treinamento ou no treinamento do modelo, apenas algoritmos de pós-processamento podem ser usados. Nesta categoria se enquadram os seguintes algoritmos:
+
+\begin{itemize}
+\item \textbf{Igualdade de probabilidade calibrada (Calibrated Equalized odds)~\citep{Pleiss_2017}:} Otimiza as previsões do classificador obtido, calibrando para alterar os rótulos de saída e obter probabilidades igualadas entre os grupos.
+
+\item \textbf{Igualdade de probabilidade (Equalized odds)~\citep{Hardt_2016}:} Resolve um problema linear para alterar os rótulos de saída e obter probabilidades igualadas entre os grupos.
+
+\item \textbf{Classificação baseada em Rejeição de Opções (Reject Option-based Classification)~\citep{Kamiran_2012}:} Dá resultados favoráveis para grupos não privilegiados e resultados desfavoráveis para grupos privilegiados de acordo com uma faixa de confiança.
+
+\end{itemize}
+
+\section{Engenharia de Software}
+
+\subsection{Engenharia de Software para Aplicações de IA}
+
+Quando se fala de Arquitetura e Engenharia de Software, se fala da definição dos componentes de software, suas propriedades externas, e seus relacionamentos com outros softwares para fazer com que um sistema seja documentável, reusável e testável. A preocupação está em como um sistema deve ser organizado e com a estrutura geral desse sistema. Dado as definições sobre IA já detalhadas, é possível encaixar Machine Learning na forma de um processo bem definido, de forma que é possível sistematizar todo esse processo na forma de componentes e definir formas em que o modelo resultante do mesmo é disponibilizado para aplicações externas.
+
+No processo, ilustrado na Figura \ref{fig:MLProcess}, o conjunto de dados passa por um pré-processamento e dividido em dois conjuntos, um para treinamento e outro para teste. O conjunto de treino é utilizado para o algoritmo realizar o processo de treinamento, obtendo um modelo após o término desse processo. O conjunto de testes é utilizado para mensurar se o modelo obtido no processo de treinamento realiza previsões confiáveis ou não.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{images/ML_Process.jpg}
+\caption {Processo padrão para aprendizado de máquina}
+\label{fig:MLProcess}
+\end{figure}
+
+Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de negócio até o deploy do modelo de IA, é a IBM Analytics and AI Reference Architecture \citep{IBM_2021}, ilustrada na Figura \ref{fig:AIReferenceArchitecture}. Nela, são definidos os seguintes requisitos não-funcionais: Performance, estabilidade, segurança, escalabilidade, manutenibilidade e regulamentações de privacidade/\textit{compliance}, e pode ser classificada em 4 grupos principais envolvendo diversos tipos de processos e componentes:
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.25]{images/ai-analytics-ref-diagram-analyze.jpg}
+\caption {IBM Analytics and AI Reference Architecture.}
+\label{fig:AIReferenceArchitecture}
+\end{figure}
+
+\begin{itemize}
+\item \textbf{Coleta:} Relaciona os processos de coleta, armazenamento e transformação de diversas fontes de dados, estruturadas ou não estruturadas, para determinados repositórios (\textit{Data Lakes}).
+\item \textbf{Organização:} Relaciona os processos de organização e estruturação dos dados nos presentes nos \textit{Data Lakes} e necessários para o uso das aplicações que envolvem a análise dos dados. Dependendo do uso pode-se aplicar processos de Governança.
+\item \textbf{Análise:} Relaciona os processos para desenvolvimento de aplicações de IA e relatórios após a organização dos dados para tomadas de decisão e uso de aplicações externas.
+\item \textbf{Infusão:} Relaciona os processos de disponibilização desses dados e conhecimento obtidos na fase de análise para aplicações externas.
+\end{itemize}
+
+\section{Proveniência de Dados}
+
+\section{Arquitetura de Software}
+
+O consenso sobre a definição de arquitetura de software foi adotado com a adoção do padrão IEEE 1471, que define arquitetura de software como \textit{"a organização fundamental de um sistema incorporado em seus componentes, seus relacionamentos entre si e com o meio ambiente e os princípios que orientam seu projeto e evolução"}. Com esta definição, o componente e o conector são reforçados como conceitos centrais da arquitetura de software~\citep{Bosch_2004}.
+
+O nível de design da arquitetura de software em um projeto vai além dos algoritmos e estruturas de dados da computação. Incluem fatores como organização, protocolos de comunicação, acesso a dados, atribuição de funcionalidades, escalabilidade, performance, composição e seleção do \textit{design} ideal~\citep{Garlan_1993}. É possível tratar uma arquitetura de um sistema específico como uma coleção de componentes juntamente com uma descrição dos conectores, que define as interações entre os componentes.
+
+Um estilo de arquitetura define uma família de tais sistemas em termos de um padrão de organização estrutural, e determina o vocabulário de componentes e conectores que podem ser usados em instâncias desse estilo, juntamente com um conjunto de restrições sobre como eles podem ser combinados~\citep{Garlan_1993}. A decisão sobre tal estilo depende da solução e dos requisitos de um sistema. Ela pode adicionar novos componentes, incrementá-los com novos requisitos ou adicionar restrições sobre eles~\citep{Bosch_2004}.
+
+\subsection{Arquitetura MAPE-K}
+
+Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como alternativa a solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}. 
+
+Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incorporar como funcionalidade um \textit{loop} de controle. Embora estes \textit{loops} sejam divididos nos mesmos procedimentos, é possível categorizá-los em 4 categorias principais. Essas categorias são consideradas atributos dos componentes do sistema e são definidas como~\citep{IBM_2005}:
+
+\begin{itemize}
+\item \textbf{Auto-configuração:} Pode se adaptar dinamicamente a mudanças no ambiente. Um componente autoconfigurável realiza esta adaptação usando políticas fornecidas pelo profissional. Tais mudanças podem incluir a implantação de novos componentes ou a remoção dos existentes, ou mudanças drásticas nas características do sistema. A adaptação dinâmica ajuda a garantir força e produtividade contínuas da infraestrutura, resultando em crescimento e flexibilidade dos negócios.
+\item \textbf{Auto-cura:} Pode descobrir, diagnosticar e reagir a interrupções. Um componente auto-curável pode detectar falhas no sistema e iniciar ações corretivas baseadas em políticas sem interromper o ambiente. A ação corretiva pode envolver um produto alterando seu próprio estado ou efetuando mudanças em outros componentes do ambiente. Com isso, o sistema se torna mais resiliente porque as operações cotidianas possuem menos probabilidade de falhar.
+\item \textbf{Auto-otimização:} Pode monitorar e ajustar recursos automaticamente. Um componente auto-otimizável pode se ajustar para atender às necessidades do usuário. As ações de ajuste podem significar realocar recursos para melhorar a utilização geral, como em resposta a cargas de trabalho que mudam dinamicamente, ou garantir que processamentos possam ser concluídos em tempo hábil. A auto-otimização ajuda a fornecer um alto padrão de serviço para quem vai utilizar o sistema. Sem funções de auto-otimização, não há uma maneira fácil de re-escalonar os recursos de infraestrutura quando um aplicativo não os usa totalmente.
+\item \textbf{Auto-proteção:} Pode antecipar, detectar, identificar e proteger contra ameaças de qualquer lugar. Um componente de autoproteção pode detectar comportamentos hostis à medida que ocorrem e tomar ações corretivas para se tornarem menos vulneráveis. Os comportamentos hostis podem incluir acesso e uso não autorizados, infecção e proliferação de vírus e ataques de negação de serviço. Os recursos de autoproteção permitem que as empresas apliquem consistentemente políticas de segurança e privacidade.
+\end{itemize}
+
+Para a Computação Autônoma acontecer, é implementado um Elemento Autônomo~\citep{Abbas_2010}, um componente de software que gerencia partes do sistema baseando-se em um \textit{loop} MAPE-K (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}), ilustrado na Figura \ref{fig:MAPEK}. O MAPE-K é um conceito que constitui um \textit{loop} de controle, usado para monitorar e controlar um ou mais elementos gerenciados. Um elemento gerenciado (\textit{Managed Element}) pode ser um hardware, como uma impressora, um software, como um banco de dados, outro Elemento Autônomo ou funcões específicas, como balanceamento de carga. Um \textit{loop} de controle MAPE-K é dividido da seguinte forma:
+
+\begin{itemize}
+\item \textbf{Monitoramento (\textit{Monitor}):} Esta parte é responsável por monitorar os recursos gerenciados e coletar, agregar e filtrar dados. O monitoramento é feito por meio de um sensor (\textit{Sensor}) ou mais sensores.
+\item \textbf{Análise (\textit{Analyze}):} Analisa os dados relatados pela parte do monitor. A análise visa compreender qual é o estado atual do sistema e se há medidas para serem tomadas.
+\item \textbf{Planejamento (\textit{Plan}):} Um plano de ação é preparado no
+base dos resultados da análise. O plano é uma série de medidas que irão mover o sistema de seu estado atual para um estado desejado.
+\item \textbf{Execução (\textit{Execute}):} O plano é executado e controlado.
+Um efetor (\textit{Effector}) ou mais executam as ações planejadas no recurso.
+\item \textbf{Conhecimento (\textit{Knowledge}):} A base de conhecimento é central e acessível por todas as partes do \textit{loop}. Separado a partir de dados coletados e analisados, ele contém conhecimento adicional, como modelos de arquitetura, modelos de metas, políticas e planos de mudança.
+\end{itemize}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{images/MAPE-K.png}
+\caption {Diagrama de funcionamento da arquitetura MAPE-K~\citep{Abbas_2010}.}
+\label{fig:MAPEK}
+\end{figure}
+
+\subsection{Arquitetura \textit{Pipe-and-Filter}}
+
+Em uma arquitetura \textit{Pipe-and-Filter}, ilustrado na Figura \ref{fig:PipeandFilter}, cada componente tem um conjunto de entradas e um conjunto de saídas. Um componente lê \textit{streams} (ou fluxos) de dados em suas entradas e produz \textit{streams} de dados em suas saídas, abstraindo a entrega de um resultado como um todo. O \textit{stream} de entrada é transformado de modo que a saída comece a ser produzida antes da entrada ser completamente consumida. Por isso, os componentes são chamados de filtros (\textit{filters}). Os conectores deste estilo servem como condutores para os \textit{streams}, transmitindo as saídas de um filtro para as entradas de outro. Por isso, os conectores são chamados de tubos (\textit{pipes})~\citep{Garlan_1993}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.25]{images/PipeandFilter.png}
+\caption {Diagrama de uma arquitetura \textit{Pipe-and-Filter}.}
+\label{fig:PipeandFilter}
+\end{figure}
+
+Os filtros devem ser independentes, isto é, não devem compartilhar estado com outros filtros e, durante a programação, o ideal é que os filtros independam da ordem de processamento. Suas especificações podem restringir os dados transportados nos \textit{pipes} de entrada e nos \textit{pipes} de saída, mas não conhecem quaisquer outros filtros, ou componentes, conectados por seus \textit{pipes}. Especializações comuns desse estilo incluem \textit{pipelines}, que restringem as topologias a sequências lineares de filtros; \textit{Pipes} limitados, que restringem a quantidade de dados que podem ser passados em um \textit{pipe}, e \textit{pipes} tipados, que exigem que os dados passados entre dois filtros tenham um tipo bem definido.
+
+O uso da arquitetura \textit{Pipe-and-Filter} possuí como vantagens:
+
+\begin{itemize}
+\item Permitem que o Arquiteto de Software/Desenvolvedor entendam o comportamento geral de entrada/saída de um sistema como uma composição simples dos comportamentos dos filtros individuais.
+\item Suportam a reutilização: quaisquer dois filtros podem ser conectados, desde que concordem com os dados que estão sendo transmitidos entre eles. 
+\item Os sistemas podem ser facilmente mantidos e aprimorados: novos filtros podem ser adicionados a sistemas existentes e filtros antigos podem ser substituídos por outros melhorados.
+\item Permitem certos tipos de análise especializada, como análise de rendimento e de impasse.
+\item Naturalmente suportam a execução simultânea: Cada filtro pode ser implementado como uma tarefa separada e potencialmente executado em paralelo com outros filtros.
+\end{itemize}
+
+Como desvantagens, é possível citar:
+
+\begin{itemize}
+\item Geralmente levam a uma organização de processamento em lote. Embora os filtros possam processar dados de forma incremental, uma vez que os filtros são inerentemente independentes, o Arquiteto de Software é forçado a pensar em cada filtro como fornecendo uma transformação completa dos dados de entrada em dados de saída. 
+\item Por sua natureza de transformação de dados, os sistemas que usam a arquitetura \textit{Pipe-and-Filter} normalmente não são bons para lidar com aplicativos interativos. Esse problema é mais grave quando são necessárias atualizações de exibição incrementais, porque o padrão de saída para atualizações incrementais é radicalmente diferente do padrão para saída de filtro.
+\item Podem ser prejudicados por terem que manter correspondências entre dois \textit{streams} separados, mas relacionados. 
+\item Podem forçar um resultado médio na transmissão de dados em situações onde muitos filtros sejam encadeados com um único filtro, resultando em trabalho adicional para cada filtro separar seus dados e analisar o que for necessário. Isso, por sua vez, pode levar tanto à perda de desempenho quanto ao aumento da complexidade na escrita dos próprios filtros.
+\end{itemize}
+
+\chapter{Metodologia}
+\label{sec:metodologia}
+
+\section{Detalhamento do processo e diagramas elaborados}
+
+\section{Arquitetura do código}
+
+\section{Experimentos e limitações}
+
+\chapter{Resultados e Discussões}
+
+\chapter{Conclusões}
+
+
+
+% As referências:
+\bibliographystyle{plainnat}
+\bibliography{full,thesis}
+
+% Os anexos, se houver, vêm depois das referências:
+%\backmatter
+\appendix
+\chapter{Conceitos complementares}
 
 \section{AI Explainability}
+\label{app:AIExplainability}
 
 \textit{AI Explainability} é um conceito em IA que propõe a criação de um conjunto de técnicas de Aprendizado de Máquina (ou Machine Learning/ML) que produz modelos mais explicáveis, mantendo qualidade em suas métricas, e permite que os humanos entendam, confiem e gerenciem aplicações baseadas em IA. XAI também absorve conceitos das Ciências Sociais e considera a psicologia da explicação~\citep{Arrieta_2020}. Um algoritmo de ML explicável precisa não apenas mostrar tomadas de decisão, mas também mostrar o processo que o levou ao tomar tal decisão, de modo que seja compreensível e transparente para humanos.
 
@@ -348,54 +664,42 @@ Entretanto, estas 3 fases não necessariamente são executadas de maneira sequen
 \item \textbf{Transparência do algoritmo:} Trata-se da habilidade do usuário de entender o processo seguido pelo modelo para produzir qualquer saída dada a partir de seus dados de entrada. Colocando de outra forma, um modelo linear é considerado transparente porque sua superfície de erro pode ser entendida e fundamentada, permitindo ao usuário entender como o modelo irá agir em cada situação que pode enfrentar.
 \end{itemize}
 
-\section{Engenharia de Software}
+\section{\textit{Fluent API}}
+\label{app:FluentAPI}
 
-\subsection{Engenharia de Software para Aplicações de IA}
+O conceito de \textit{Fluent Interface}~\citep{Fowler_2005} (também conhecido como \textit{Fluent API}~\citep{Nakamaru_2020}) é uma abstração de código que o organiza de modo a criar uma \textit{Domain Specific Language} (DSL) interna, tendo como prioridade em seu \textit{design} a legibilidade e a fluidez. Embora a construção de uma \textit{Fluent API} consuma tempo, esse tempo pode ser recuperado com o tempo devido a maior facilidade no desenvolvimento e na manutenção dos componentes presentes no sistema.
 
-\section{Proveniência de Dados}
+Seu desenvolvimento lembra o \textit{Design Pattern} \textit{Builder}, onde seus métodos realizam acões específicas e retornam a referência do Objeto. Sua diferença está no objetivo em que foi desenvolvido: Enquanto no \textit{Builder} o objetivo está na construcão da instância de um Objeto, na \textit{Fluent API} o objetivo está em desenvolver uma série de ferramentas e ações de modo a resolver um problema específico.
 
-\section{Arquitetura de Software}
+A melhor forma de descrever e entender as diferenças e objetivos da Fluent API é através de um exemplo: O Código \ref{code:makeNormal} representa uma implementação padrão de um sistema, com instanciações de novos Objetos e métodos determinando atribuições e adição do elemento em uma lista.
 
-\subsection{Arquitetura MAPE-K}
+\begin{lstlisting}[language=Java, label={code:makeNormal}, caption=Implementação padrão presente em um sistema~\citep{Fowler_2005}]
+    private void makeNormal(Customer customer) {
+        Order o1 = new Order();
+        customer.addOrder(o1);
+        OrderLine line1 = new OrderLine(6, Product.find("TAL"));
+        o1.addLine(line1);
+        OrderLine line2 = new OrderLine(5, Product.find("HPK"));
+        o1.addLine(line2);
+        OrderLine line3 = new OrderLine(3, Product.find("LGV"));
+        o1.addLine(line3);
+        line2.setSkippable(true);
+        o1.setRush(true);
+    }
+\end{lstlisting}
 
-Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como alternativa a solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}. 
+O Código \ref{code:makeFluent} representa o mesmo sistema usando uma implementação com \textit{Fluent API}. Além na diminuição no número de linhas, a implementação é mais legível devido ao menor número de elementos presentes no código: Todas as chamadas e instanciações do Código \ref{code:makeNormal} estão ímplicitas, e o encadeamento das funções possui uma progressão lógica, mais sucinta e de simples entendimento.
 
-Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incorporar como funcionalidade um \textit{loop} de controle. Embora estes \textit{loops} sejam divididos nos mesmos procedimentos, é possível categorizá-los em 4 categorias principaisEssas categorias são consideradas atributos dos componentes do sistema e são definidas como~\citep{IBM_2005}:
+\begin{lstlisting}[language=Java, label={code:makeFluent}, caption=Implementação com o uso de \textit{Fluent API}~\citep{Fowler_2005}]
+   private void makeFluent(Customer customer) {
+        customer.newOrder()
+                .with(6, "TAL")
+                .with(5, "HPK").skippable()
+                .with(3, "LGV")
+                .priorityRush();
+    }
+\end{lstlisting}
 
-\begin{itemize}
-\item \textbf{Auto-configuração:} Pode se adaptar dinamicamente mudanças no ambiente. Um componente autoconfigurável realiza esta adaptação usando políticas fornecidas pelo profissional. Tais mudanças podem incluir a implantação de novos componentes ou a remoção dos existentes, ou mudanças drásticas nas características do sistema. A adaptação dinâmica ajuda a garantir força e produtividade contínuas da infraestrutura, resultando em crescimento e flexibilidade dos negócios.
-\item \textbf{Auto-cura:} Pode descobrir, diagnosticar e reagir a interrupções. Um componente auto-curável pode detectar falhas no sistema e iniciar ações corretivas baseadas em políticas sem interromper o ambiente. A ação corretiva pode envolver um produto alterando seu próprio estado ou efetuando mudanças em outros componentes do ambiente. Com isso, o sistema se torna mais resiliente porque as operações cotidianas possuem menos probabilidade de falhar.
-\item \textbf{Auto-otimização:} Pode monitorar e ajustar recursos automaticamente. Um componente auto-otimizável pode se ajustar para atender às necessidades do usuário. As ações de ajuste podem significar realocar recursos para melhorar a utilização geral, como em resposta a cargas de trabalho que mudam dinamicamente, ou garantir que processamentos possam ser concluídos em tempo hábil. A auto-otimização ajuda a fornecer um alto padrão de serviço para quem vai utilizar o sistema. Sem funções de auto-otimização, não há uma maneira fácil de re-escalonar os recursos de infraestrutura quando um aplicativo não os usa totalmente.
-\item \textbf{Auto-proteção:} Pode antecipar, detectar, identificar e proteger contra ameaças de qualquer lugar. Um componente de autoproteção pode detectar comportamentos hostis à medida que ocorrem e tomar ações corretivas para se tornarem menos vulneráveis. Os comportamentos hostis podem incluir acesso e uso não autorizados, infecção e proliferação de vírus e ataques de negação de serviço. Os recursos de autoproteção permitem que as empresas apliquem consistentemente políticas de segurança e privacidade.
-\end{itemize}
-
---MAPE-K agora
-
-\subsection{Arquitetura Pipe-and-Filter}
-
-\chapter{Metodologia}
-\label{sec:metodologia}
-
-\section{Detalhamento do processo e diagramas elaborados}
-
-\section{Arquitetura do código}
-
-\section{Experimentos e limitações}
-
-\chapter{Resultados e Discussões}
-
-\chapter{Conclusões}
-
-
-
-% As referências:
-\bibliographystyle{plainnat}
-\bibliography{full,thesis}
-
-% Os anexos, se houver, vêm depois das referências:
-%\backmatter
-%\appendix
-%\chapter{Apêndice}
 %\chapter{Apêndice}
 
 %\annex

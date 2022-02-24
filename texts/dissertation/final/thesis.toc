@@ -1,34 +1,37 @@
 \babel@toc {brazil}{}
 \babel@toc {brazil}{}
-\contentsline {chapter}{Resumo}{5}{chapter*.1}%
+\contentsline {chapter}{Agradecimentos}{6}{chapter*.1}%
+\contentsline {chapter}{Resumo}{7}{chapter*.2}%
 \babel@toc {brazil}{}
 \babel@toc {brazil}{}
 \babel@toc {brazil}{}
 \babel@toc {brazil}{}
-\contentsline {chapter}{Abstract}{6}{chapter*.2}%
+\contentsline {chapter}{Abstract}{8}{chapter*.3}%
 \babel@toc {english}{}
 \babel@toc {brazil}{}
 \babel@toc {english}{}
 \babel@toc {brazil}{}
-\contentsline {chapter}{\numberline {1}Introdução}{8}{chapter.1}%
-\contentsline {chapter}{\numberline {2}Conceitos Relacionados}{10}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Ciência de Dados e Engenharia de Dados}{10}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Machine Learning}{10}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Métricas de Avaliação}{12}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Algoritmos}{12}{subsection.2.2.2}%
-\contentsline {section}{\numberline {2.3}Fairness em Machine Learning}{12}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Métricas de Fairness}{12}{subsection.2.3.1}%
-\contentsline {section}{\numberline {2.4}Algoritmos para redução de vieses}{12}{section.2.4}%
-\contentsline {section}{\numberline {2.5}AI Explainability}{12}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Engenharia de Software}{14}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}Engenharia de Software para Aplicações de IA}{14}{subsection.2.6.1}%
-\contentsline {section}{\numberline {2.7}Proveniência de Dados}{14}{section.2.7}%
-\contentsline {section}{\numberline {2.8}Arquitetura de Software}{14}{section.2.8}%
-\contentsline {subsection}{\numberline {2.8.1}Arquitetura MAPE-K}{14}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Arquitetura Pipe-and-Filter}{15}{subsection.2.8.2}%
-\contentsline {chapter}{\numberline {3}Metodologia}{16}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Detalhamento do processo e diagramas elaborados}{16}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Arquitetura do código}{16}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Experimentos e limitações}{16}{section.3.3}%
-\contentsline {chapter}{\numberline {4}Resultados e Discussões}{17}{chapter.4}%
-\contentsline {chapter}{\numberline {5}Conclusões}{18}{chapter.5}%
+\contentsline {chapter}{\numberline {1}Introdução}{11}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Conceitos Relacionados}{13}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Ciência de Dados e Engenharia de Dados}{13}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Machine Learning}{13}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Métricas de Avaliação}{14}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Algoritmos}{16}{subsection.2.2.2}%
+\contentsline {section}{\numberline {2.3}Fairness em Machine Learning}{16}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Métricas de Fairness}{17}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Algoritmos para redução de vieses}{18}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Engenharia de Software}{20}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Engenharia de Software para Aplicações de IA}{20}{subsection.2.4.1}%
+\contentsline {section}{\numberline {2.5}Proveniência de Dados}{21}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Arquitetura de Software}{21}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Arquitetura MAPE-K}{22}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Arquitetura \textit {Pipe-and-Filter}}{24}{subsection.2.6.2}%
+\contentsline {chapter}{\numberline {3}Metodologia}{26}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Detalhamento do processo e diagramas elaborados}{26}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Arquitetura do código}{26}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Experimentos e limitações}{26}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Resultados e Discussões}{27}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Conclusões}{28}{chapter.5}%
+\contentsline {chapter}{\numberline {A}Conceitos complementares}{33}{appendix.A}%
+\contentsline {section}{\numberline {A.1}AI Explainability}{33}{section.A.1}%
+\contentsline {section}{\numberline {A.2}\textit {Fluent API}}{35}{section.A.2}%

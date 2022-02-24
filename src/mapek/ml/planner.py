@@ -92,14 +92,10 @@ class MLMAPEKAlgorithmValidationPlanner(MAPEKPlanner):
         return data.merge(df_valid)
 
 
-class MLMAPEKAlgorithmPerformancePlanner(MAPEKPlanner):
-    train_time = -1
-
-    def __init__(self, train_time=-1):
-        self.train_time = train_time
-
+class MLMAPEKPipelineThresholdPlanner(MAPEKPlanner):
     def do_plan(self, data):
         print('Efetuando estratégia de planejamento ' + self.__class__.__name__)
+        score_threshold = json.load(open('config/mapek/score_threshold.json', 'r'))
 
-        return data if self.train_time < 0 else data[data['execution_time_ms'] < self.train_time]
+        return data[(data['score'] >= score_threshold['min_score']) & (data['score'] <= score_threshold['max_score'])]
 
