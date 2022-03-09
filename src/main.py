@@ -14,8 +14,8 @@ def main():
     pipe = Pipeline()
     datasets = [
         # (Datasets.ADULT_INCOME, Preprocessors.SEX),
-        # (Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN),
-        (Datasets.GERMAN_CREDIT, Preprocessors.AGE)
+        (Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN),
+        # (Datasets.GERMAN_CREDIT, Preprocessors.AGE)
     ]
     process_options = [
         (Algorithms.LOGISTIC_REGRESSION, UnbiasDataAlgorithms.NOTHING, UnbiasPostProcAlgorithms.NOTHING),
