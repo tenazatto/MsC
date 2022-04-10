@@ -10,7 +10,7 @@ from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorit
 from pipeline.pipeline import Pipeline
 
 
-def main():
+def execute_all():
     pipe = Pipeline()
     datasets = [
         # (Datasets.ADULT_INCOME, Preprocessors.SEX),
@@ -73,7 +73,13 @@ def main():
         for preproc_alg, inproc_alg, postproc_alg in process_options:
             pipe.start(dataset, preprocessor, preproc_alg, inproc_alg, postproc_alg)
 
-def mainpek():
+
+def execute_single(dataset, preprocessor, preproc_alg, inproc_alg, postproc_alg):
+    pipe = Pipeline()
+    pipe.start(dataset, preprocessor, inproc_alg, preproc_alg, postproc_alg)
+
+
+def mapek(dataset=None):
     mapek = MAPEKPipelineOrchestrator(Pipeline(),
                                       MLMAPEKPipelineMonitor(),
                                       [MLMAPEKExecutionAnalyzer(), MLMAPEKPipelineAnalyzer()],
@@ -82,6 +88,7 @@ def mainpek():
     print("Executando MAPE-K")
     mapek.run()
 
+
 if __name__ == '__main__':
-    # main()
-    mainpek()
+    # execute_all()
+    mapek()

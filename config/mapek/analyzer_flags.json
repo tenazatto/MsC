@@ -1,4 +1,4 @@
 {
-  "ml_pipeline": true,
-  "ml_execution": true
+  "ml_execution": true,
+  "ml_pipeline": true
 }

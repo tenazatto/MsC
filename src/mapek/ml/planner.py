@@ -14,9 +14,6 @@ class MLMAPEKPipelinePlanner(MAPEKPlanner):
 
         result = data.iloc[0]
 
-        #TODO Realizar Assurance Cases
-        #TODO Realizar Analyzer/Planner de acordo com Assurance Cases
-
         return pd.DataFrame([{
             'dataset': self.find_dataset(result['dataset']),
             'preprocessor': self.find_preprocessor(result['preprocessor']),

@@ -1,6 +1,6 @@
 {
-  "ml_pipeline": true,
-  "ml_data_checksum": true,
   "ml_algorithm_validation": true,
-  "ml_pipeline_threshold": true
+  "ml_data_checksum": false,
+  "ml_pipeline": true,
+  "ml_pipeline_threshold": false
 }

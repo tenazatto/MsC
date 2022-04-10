@@ -1,4 +1,5 @@
 #MsC; python_version == '3.8'
+#ML Pipeline
 aif360==0.4.0
 numpy==1.19.5
 pandas==1.3.4
@@ -8,3 +9,7 @@ keras==2.6.0
 fairlearn==0.4.6
 cvxpy==1.1.15
 BlackBoxAuditing==0.1.54
+
+#UI endpoints
+Flask==2.1.1
+Flask-Cors==3.0.10
