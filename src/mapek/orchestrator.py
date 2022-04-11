@@ -29,8 +29,11 @@ class MAPEKPipelineOrchestrator:
         self.planners = planners
         self.executor = executor
 
-    def run(self):
-        while True:
+    def run(self, executions=0):
+        infinite_execs = executions < 1
+        num_executions = 0
+
+        while infinite_execs or num_executions < executions:
             date_start = datetime.now()
             df_pipeline, df_metrics = self.monitor.monitor()
 
@@ -46,9 +49,7 @@ class MAPEKPipelineOrchestrator:
         analyzer_flags = json.load(open('config/mapek/analyzer_flags.json', 'r'))
         df_score = None
         for analyzer in self.analyzers:
-            prop = analyzer.__class__.__name__.replace('MAPEK', '').replace('Analyzer', '')
-            prop = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', prop)
-            prop = re.sub('([a-z0-9])([A-Z])', r'\1_\2', prop).lower()
+            prop = self.get_flag_name(analyzer, 'Analyzer')
             enabled = analyzer_flags[prop]
 
             df_analyzed = df_pipeline if df_score is None else df_score
@@ -59,12 +60,15 @@ class MAPEKPipelineOrchestrator:
         planner_flags = json.load(open('config/mapek/planner_flags.json', 'r'))
         pipeline_plan = None
         for planner in self.planners:
-            prop = planner.__class__.__name__.replace('MAPEK', '').replace('Planner', '')
-            prop = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', prop)
-            prop = re.sub('([a-z0-9])([A-Z])', r'\1_\2', prop).lower()
+            prop = self.get_flag_name(planner, 'Planner')
             enabled = planner_flags[prop]
 
             pipeline_plan = df_score if pipeline_plan is None else pipeline_plan
             pipeline_plan = planner.plan(data=pipeline_plan, enabled=enabled)
         return pipeline_plan
 
+    def get_flag_name(self, obj, type):
+        prop = obj.__class__.__name__.replace('MAPEK', '').replace(type, '')
+        prop = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', prop)
+        prop = re.sub('([a-z0-9])([A-Z])', r'\1_\2', prop).lower()
+        return prop

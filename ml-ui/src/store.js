@@ -58,10 +58,51 @@ const validAlgorithmsRedux = createSlice({
 export const selectValidAlgorithms = (state) => state.validAlgorithms.value
 export const { validAlgorithmsPush, validAlgorithmsClear, setValidAlgorithms, invertValidAlgorithmsSelected } = validAlgorithmsRedux.actions
 
+const pipelineResultsRedux = createSlice({
+  name: 'pipelineResults',
+  initialState: {
+    value: {
+      data_checksum:'',
+      dataset:'',
+      date_end:'',
+      date_start:'',
+      execution_time_ms:0,
+      fairness_metrics:{
+        average_abs_odds_difference:{explanation:'',name:'',value:0},
+        disparate_impact:{explanation:'',name:'',value:0},
+        equal_opportunity_difference:{explanation:'',name:'',value:0},
+        statistical_parity_difference:{explanation:'',name:'',value:0},
+        theil_index:{explanation:'',name:'',value:0}
+      },
+      inproc_algorithm:'',
+      performance_metrics:{
+        accuracy:{explanation:'',name:'',value:0},
+        auc:{explanation:'',name:'',value:0},
+        f1_score:{explanation:'',name:'',value:0},
+        precision:{explanation:'',name:'',value:0},
+        recall:{explanation:'',name:'',value:0}
+      },
+      preprocessor:'',
+      scores:{fairness_score:0,group_score:0,performance_score:0},
+      unbias_data_algorithm:'',
+      unbias_postproc_algorithm:''
+    },
+  },
+  reducers: {
+    setPipelineResults: (state, action) => {
+      state.value = action.payload;
+    },
+  },
+})
+
+export const selectPipelineResults = (state) => state.pipelineResults.value
+export const { setPipelineResults } = pipelineResultsRedux.actions
+
 export default configureStore({
   reducer: {
     fairnessMetricsSelected: fairnessMetricsSelectedRedux.reducer,
     performanceMetricsSelected: performanceMetricsSelectedRedux.reducer,
     validAlgorithms: validAlgorithmsRedux.reducer,
+    pipelineResults: pipelineResultsRedux.reducer,
   },
 });

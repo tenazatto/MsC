@@ -64,15 +64,18 @@ class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
         return df_score
 
     def apply_group_score(self, scores_and_weights):
-        df_score = pd.DataFrame(columns=['file_id', 'score'])
+        df_score = pd.DataFrame(columns=['file_id', 'standard_score', 'fairness_score', 'score'])
         standard = scores_and_weights[0]
         fairness = scores_and_weights[1]
         for file_id in standard[0]['file_id'].unique():
-            score = standard[0][standard[0]['file_id'] == file_id]['score'] * standard[1] + \
-                    fairness[0][fairness[0]['file_id'] == file_id]['score'] * fairness[1]
+            standard_score = standard[0][standard[0]['file_id'] == file_id]['score']
+            fairness_score = fairness[0][fairness[0]['file_id'] == file_id]['score']
+            score = standard_score * standard[1] + fairness_score * fairness[1]
             score = round(score.iloc[0])
             df_score.loc[df_score.shape[0]] = [
                 file_id,
+                standard_score.iloc[0],
+                fairness_score.iloc[0],
                 score
             ]
 
@@ -102,9 +105,17 @@ class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
                                      'inproc_algorithm',
                                      'unbias_postproc_algorithm'])
         date_data = group_data.max()['date_end']
-        mean_data = group_data.mean().round().astype('int32')
+        mean_data_score = group_data['standard_score', 'fairness_score', 'score']\
+            .mean().round().astype('int32')
+        mean_data_time = group_data['execution_time_ms']\
+            .mean().round().astype('int32')
 
-        group_data = mean_data.merge(date_data, on=['data_checksum', 'dataset', 'preprocessor',
+        group_data = mean_data_score \
+            .merge(mean_data_time, on=['data_checksum', 'dataset', 'preprocessor',
+                                  'unbias_data_algorithm',
+                                  'inproc_algorithm',
+                                  'unbias_postproc_algorithm'])\
+            .merge(date_data, on=['data_checksum', 'dataset', 'preprocessor',
                                                    'unbias_data_algorithm',
                                                    'inproc_algorithm',
                                                    'unbias_postproc_algorithm'])

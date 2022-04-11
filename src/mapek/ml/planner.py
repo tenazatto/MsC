@@ -12,7 +12,7 @@ class MLMAPEKPipelinePlanner(MAPEKPlanner):
 
         MAPEKValidation.validate_pipeline_planner_params(data)
 
-        result = data.iloc[0]
+        result = data.sort_values(by='score', ascending=False).iloc[0]
 
         return pd.DataFrame([{
             'dataset': self.find_dataset(result['dataset']),

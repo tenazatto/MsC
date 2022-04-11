@@ -1,7 +1,15 @@
 import json
+import pandas as pd
 import os
 from datetime import datetime
 
+from mapek.ml.analyzer import MLMAPEKExecutionAnalyzer, MLMAPEKPipelineAnalyzer
+from mapek.ml.executor import MLMAPEKPipelineExecutor
+from mapek.ml.monitor import MLMAPEKPipelineMonitor
+from mapek.ml.planner import MLMAPEKDataChecksumPlanner, MLMAPEKAlgorithmValidationPlanner, \
+    MLMAPEKPipelineThresholdPlanner, MLMAPEKPipelinePlanner
+from mapek.orchestrator import MAPEKPipelineOrchestrator
+from pipeline.pipeline import Pipeline
 from pipeline.processors.enums import UnbiasPostProcAlgorithms, UnbiasDataAlgorithms, Preprocessors, Datasets
 
 
@@ -69,36 +77,110 @@ class PipelineRepository:
         data = sorted(
             map(
                 lambda item: {
-                    'checksum': item['checksum'],
-                    'date_start': item['date_start'],
-                    'date_end': item['date_end'],
-                    'execution_time_ms': item['execution_time_ms'],
-                    'dataset': item['pipeline_params']['dataset'],
-                    'preprocessor': item['pipeline_params']['preprocessor'],
-                    'unbias_data_algorithm': item['pipeline_params']['unbias_data_algorithm'],
-                    'algorithm': item['pipeline_params']['algorithm'],
-                    'unbias_postproc_algorithm': item['pipeline_params']['unbias_postproc_algorithm'],
-                    'metrics_summary': item['metrics_summary']
+                    'file_id': item[0],
+                    'data_checksum': item[1]['checksum'],
+                    'date_start': item[1]['date_start'],
+                    'date_end': item[1]['date_end'],
+                    'execution_time_ms': item[1]['execution_time_ms'],
+                    'dataset': item[1]['pipeline_params']['dataset'],
+                    'preprocessor': item[1]['pipeline_params']['preprocessor'],
+                    'unbias_data_algorithm': item[1]['pipeline_params']['unbias_data_algorithm'],
+                    'inproc_algorithm': item[1]['pipeline_params']['algorithm'],
+                    'unbias_postproc_algorithm': item[1]['pipeline_params']['unbias_postproc_algorithm'],
+                    'metrics_summary': item[1]['metrics_summary']
                 },
-                map(lambda item: json.load(open('output/metrics/' + item, 'r')), data)
+                map(lambda item: (item.replace('.json',''), json.load(open('output/metrics/' + item, 'r'))), data)
             ),
             key=lambda item: datetime.strptime(item['date_start'], '%d/%m/%Y %H:%M:%S.%f'), reverse=True
         )[0]
 
-        performance_metrics = list(filter(lambda x: 'accuracy' in x[0] or
-                                                  'precision' in x[0] or
-                                                  'recall' in x[0] or
-                                                  'f1_score' in x[0] or
-                                                  'auc' in x[0], data['metrics_summary'].items()))
+        metrics = list(
+            map(
+                lambda metric: {
+                    'file_id': data['file_id'],
+                    'data_checksum': data['data_checksum'],
+                    'metric_id': metric[0],
+                    'metric_name': metric[1]['name'],
+                    'description': metric[1]['explanation'],
+                    'value': metric[1]['value'][0] if type(metric[1]['value']) == list else metric[1]['value']
+                },
+                data['metrics_summary'].items()
+            )
+        )
 
-        fairness_metrics = list(filter(lambda x: 'average_abs_odds_difference' in x[0] or
-                                              'disparate_impact' in x[0] or
-                                              'equal_opportunity_difference' in x[0] or
-                                              'statistical_parity_difference' in x[0] or
-                                              'theil_index' in x[0], data['metrics_summary'].items()))
+        mapek = MAPEKPipelineOrchestrator(Pipeline(),
+                                          MLMAPEKPipelineMonitor(),
+                                          [MLMAPEKExecutionAnalyzer(), MLMAPEKPipelineAnalyzer()],
+                                          [MLMAPEKDataChecksumPlanner(last_checksum=True),
+                                           MLMAPEKAlgorithmValidationPlanner(), MLMAPEKPipelineThresholdPlanner(),
+                                           MLMAPEKPipelinePlanner()],
+                                          MLMAPEKPipelineExecutor())
 
+        df_score = mapek.do_analyze(pd.DataFrame(metrics), pd.DataFrame([data]))
+
+        self.put_metrics_and_score(data, df_score)
+
+        return data
+
+    def get_best_execution(self, pipeline_plan, df_score):
+        pipeline_plan_dict = pipeline_plan.iloc[0].to_dict()
+        df_score = df_score[
+            (df_score['dataset'] == ('Datasets.' + pipeline_plan_dict['dataset'].name)) &
+            (df_score['preprocessor'] == ('Preprocessors.' + pipeline_plan_dict['preprocessor'].name)) &
+            (df_score['unbias_data_algorithm'] == ('UnbiasDataAlgorithms.' + pipeline_plan_dict['unbias_data_algorithm'].name)) &
+            (df_score['inproc_algorithm'] == pipeline_plan_dict['inproc_algorithm_name']) &
+            (df_score['unbias_postproc_algorithm'] == ('UnbiasPostProcAlgorithms.' + pipeline_plan_dict['unbias_postproc_algorithm'].name))
+        ].reset_index()
+
+        data = os.listdir('output/metrics')
+        data = map(
+            lambda item: {
+                'file_id': item[0],
+                'data_checksum': item[1]['checksum'],
+                'date_start': item[1]['date_start'],
+                'date_end': item[1]['date_end'],
+                'execution_time_ms': item[1]['execution_time_ms'],
+                'dataset': item[1]['pipeline_params']['dataset'],
+                'preprocessor': item[1]['pipeline_params']['preprocessor'],
+                'unbias_data_algorithm': item[1]['pipeline_params']['unbias_data_algorithm'],
+                'inproc_algorithm': item[1]['pipeline_params']['algorithm'],
+                'unbias_postproc_algorithm': item[1]['pipeline_params']['unbias_postproc_algorithm'],
+                'metrics_summary': item[1]['metrics_summary']
+            },
+            map(lambda item: (item.replace('.json',''), json.load(open('output/metrics/' + item, 'r'))), data)
+        )
+        filter_dict = df_score.iloc[0].to_dict()
+        data = filter(lambda item: item['dataset'] == filter_dict['dataset'] and
+                                   item['preprocessor'] == filter_dict['preprocessor'] and
+                                   item['unbias_data_algorithm'] == filter_dict['unbias_data_algorithm'] and
+                                   item['inproc_algorithm'] == filter_dict['inproc_algorithm'] and
+                                   item['unbias_postproc_algorithm'] == filter_dict['unbias_postproc_algorithm'],data)
+        data = sorted(
+            data,
+            key=lambda item: datetime.strptime(item['date_start'], '%d/%m/%Y %H:%M:%S.%f'), reverse=True
+        )[0]
+
+        self.put_metrics_and_score(data, df_score)
+
+        return data
+
+    def put_metrics_and_score(self, data, df_score):
+        del data['file_id']
+        performance_metrics = list(filter(lambda x: 'accuracy' == x[0] or
+                                                    'precision' == x[0] or
+                                                    'recall' == x[0] or
+                                                    'f1_score' == x[0] or
+                                                    'auc' == x[0], data['metrics_summary'].items()))
+        fairness_metrics = list(filter(lambda x: 'average_abs_odds_difference' == x[0] or
+                                                 'disparate_impact' == x[0] or
+                                                 'equal_opportunity_difference' == x[0] or
+                                                 'statistical_parity_difference' == x[0] or
+                                                 'theil_index' == x[0], data['metrics_summary'].items()))
         del data['metrics_summary']
         data['performance_metrics'] = dict(performance_metrics)
         data['fairness_metrics'] = dict(fairness_metrics)
-
-        return data
+        data['scores'] = {
+            'performance_score': int(df_score['standard_score'][0]),
+            'fairness_score': int(df_score['fairness_score'][0]),
+            'group_score': int(df_score['score'][0])
+        }

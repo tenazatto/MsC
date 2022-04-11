@@ -16,8 +16,7 @@ def manual_pipeline():
 
 @pipeline.route('/auto', methods=['POST'])
 def auto_pipeline():
-    response = jsonify(status='Endpoint auto OK')
+    response = jsonify(pipeline_service.auto_execution(json.loads(request.data)))
     response.status = 201
-    pipeline_service.auto_execution(json.loads(request.data))
 
     return response
