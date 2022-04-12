@@ -122,16 +122,27 @@ class PipelineRepository:
 
         return data
 
-    def get_best_execution(self, pipeline_plan, df_score):
-        pipeline_plan_dict = pipeline_plan.iloc[0].to_dict()
+    def get_best_executions(self, pipeline_plan, df_score, num_best):
+        data = {}
+        data['pipelines'] = []
+
+        for i in range(0, num_best):
+            if len(pipeline_plan) > i:
+                data['pipelines'].append(self.get_best_execution_item(df_score, pipeline_plan, i))
+
+        return data
+
+    def get_best_execution_item(self, df_score, pipeline_plan, index):
+        pipeline_plan_dict = pipeline_plan.iloc[index].to_dict()
         df_score = df_score[
             (df_score['dataset'] == ('Datasets.' + pipeline_plan_dict['dataset'].name)) &
             (df_score['preprocessor'] == ('Preprocessors.' + pipeline_plan_dict['preprocessor'].name)) &
-            (df_score['unbias_data_algorithm'] == ('UnbiasDataAlgorithms.' + pipeline_plan_dict['unbias_data_algorithm'].name)) &
+            (df_score['unbias_data_algorithm'] == (
+                        'UnbiasDataAlgorithms.' + pipeline_plan_dict['unbias_data_algorithm'].name)) &
             (df_score['inproc_algorithm'] == pipeline_plan_dict['inproc_algorithm_name']) &
-            (df_score['unbias_postproc_algorithm'] == ('UnbiasPostProcAlgorithms.' + pipeline_plan_dict['unbias_postproc_algorithm'].name))
-        ].reset_index()
-
+            (df_score['unbias_postproc_algorithm'] == (
+                        'UnbiasPostProcAlgorithms.' + pipeline_plan_dict['unbias_postproc_algorithm'].name))
+            ].reset_index()
         data = os.listdir('output/metrics')
         data = map(
             lambda item: {
@@ -147,21 +158,19 @@ class PipelineRepository:
                 'unbias_postproc_algorithm': item[1]['pipeline_params']['unbias_postproc_algorithm'],
                 'metrics_summary': item[1]['metrics_summary']
             },
-            map(lambda item: (item.replace('.json',''), json.load(open('output/metrics/' + item, 'r'))), data)
+            map(lambda item: (item.replace('.json', ''), json.load(open('output/metrics/' + item, 'r'))), data)
         )
         filter_dict = df_score.iloc[0].to_dict()
         data = filter(lambda item: item['dataset'] == filter_dict['dataset'] and
                                    item['preprocessor'] == filter_dict['preprocessor'] and
                                    item['unbias_data_algorithm'] == filter_dict['unbias_data_algorithm'] and
                                    item['inproc_algorithm'] == filter_dict['inproc_algorithm'] and
-                                   item['unbias_postproc_algorithm'] == filter_dict['unbias_postproc_algorithm'],data)
+                                   item['unbias_postproc_algorithm'] == filter_dict['unbias_postproc_algorithm'], data)
         data = sorted(
             data,
             key=lambda item: datetime.strptime(item['date_start'], '%d/%m/%Y %H:%M:%S.%f'), reverse=True
         )[0]
-
         self.put_metrics_and_score(data, df_score)
-
         return data
 
     def put_metrics_and_score(self, data, df_score):

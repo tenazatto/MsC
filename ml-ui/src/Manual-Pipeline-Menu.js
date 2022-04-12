@@ -307,187 +307,195 @@ function ManualPipelineMenu(props) {
           </Box>
         </Box>
         : stepPipeline === 1 ? <Box sx={{textAlign: 'center'}}>Executando Pipeline...</Box> 
-        : <Box sx={{textAlign: 'center'}}>
-            <Accordion expanded={expandedAccordion === 'execution'} onChange={handleAccordionChange('execution')}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                  Execução
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Parâmetros utilizados e estatísticas da execução</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>Checksum do conjunto de dados</td>
-                        <td style={{fontSize: '13px'}}>{pipelineResults.data_checksum}</td>
-                      </tr>
-                      <tr>
-                        <td>Conjunto de dados utilizado</td>
-                        <td>{pipelineResults.dataset}</td>
-                      </tr>
-                      <tr>
-                        <td>Atributo protegido</td>
-                        <td>{pipelineResults.preprocessor}</td>
-                      </tr>
-                      <tr>
-                        <td>Algoritmo de redução de viés no dado</td>
-                        <td>{pipelineResults.unbias_data_algorithm}</td>
-                      </tr>
-                      <tr>
-                        <td>Algoritmo de treinamento (redução de viés: {pipelineResults.unbias_data_algorithm === 'UnbiasDataAlgorithms.NOTHING' 
-                                                                        && pipelineResults.unbias_postproc_algorithm === 'UnbiasDataAlgorithms.NOTHING' ? 
-                                                                        'Não' : 'Sim'})</td>
-                        <td>{pipelineResults.inproc_algorithm}</td>
-                      </tr>
-                      <tr>
-                        <td>Algoritmo de redução de viés no pós-processamento</td>
-                        <td>{pipelineResults.unbias_postproc_algorithm}</td>
-                      </tr>
-                      <tr>
-                        <td>Data de início da execução</td>
-                        <td>{pipelineResults.date_start}</td>
-                      </tr>
-                      <tr>
-                        <td>Data de fim da execução</td>
-                        <td>{pipelineResults.date_end}</td>
-                      </tr>
-                      <tr>
-                        <td>Tempo de Execução</td>
-                        <td>{pipelineResults.execution_time_ms + ' ms'}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion expanded={expandedAccordion === 'performance-metrics'} onChange={handleAccordionChange('performance-metrics')}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel2bh-content"
-                id="panel2bh-header"
-              >
-                <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                  Métricas de Performance
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a performance do modelo</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  <table>
-                    <tbody>
-                      {pipelineResults.performance_metrics.accuracy ?
-                      <tr>
-                        <td>Acurácia</td>
-                        <td>{pipelineResults.performance_metrics.accuracy.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.performance_metrics.precision ?
-                      <tr>
-                        <td>Precisão</td>
-                        <td>{pipelineResults.performance_metrics.precision.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.performance_metrics.recall ?
-                      <tr>
-                        <td>Recall</td>
-                        <td>{pipelineResults.performance_metrics.recall.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.performance_metrics.f1_score ?
-                      <tr>
-                        <td>F1-Score</td>
-                        <td>{pipelineResults.performance_metrics.f1_score.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.performance_metrics.auc ?
-                      <tr>
-                        <td>AUC (Area Under the ROC Curve)</td>
-                        <td>{pipelineResults.performance_metrics.auc.value}</td>
-                      </tr> : ''}
-                    </tbody>
-                  </table>
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion expanded={expandedAccordion === 'fairness-metrics'} onChange={handleAccordionChange('fairness-metrics')}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel3bh-content"
-                id="panel3bh-header"
-              >
-                <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                  Métricas de Fairness
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a justiça do modelo</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  <table>
-                    <tbody>
-                      {pipelineResults.fairness_metrics.statistical_parity_difference ?
-                      <tr>
-                        <td>Statistical Parity Difference</td>
-                        <td>{pipelineResults.fairness_metrics.statistical_parity_difference.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.fairness_metrics.disparate_impact ?
-                      <tr>
-                        <td>Disparate Impact</td>
-                        <td>{pipelineResults.fairness_metrics.disparate_impact.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.fairness_metrics.average_abs_odds_difference ?
-                      <tr>
-                        <td>Average Odds Difference</td>
-                        <td>{pipelineResults.fairness_metrics.average_abs_odds_difference.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.fairness_metrics.equal_opportunity_difference ?
-                      <tr>
-                        <td>Equal Opportunity Difference</td>
-                        <td>{pipelineResults.fairness_metrics.equal_opportunity_difference.value}</td>
-                      </tr> : ''}
-                      {pipelineResults.fairness_metrics.theil_index ?
-                      <tr>
-                        <td>Theil Index</td>
-                        <td>{pipelineResults.fairness_metrics.theil_index.value}</td>
-                      </tr> : ''}
-                    </tbody>
-                  </table>
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion expanded={expandedAccordion === 'score'} onChange={handleAccordionChange('score')}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel4bh-content"
-                id="panel4bh-header"
-              >
-                <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                  Pontuação
-                </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>Pontuação dada de acordo com os pesos e métricas utilizadas para a execução</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>Pontuação das métricas de performance</td>
-                        <td>{pipelineResults.scores.performance_score}</td>
-                      </tr>
-                      <tr>
-                      <td>Pontuação das métricas de fairness</td>
-                        <td>{pipelineResults.scores.fairness_score}</td>
-                      </tr>
-                      <tr>
-                      <td>Pontuação geral</td>
-                        <td>{pipelineResults.scores.group_score}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
+        : <Box sx={{marginTop: '20px'}}>
+            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <Box sx={{textAlign: 'center', width: '84%'}}>
+                <Accordion expanded={expandedAccordion === 'execution'} onChange={handleAccordionChange('execution')}>
+                  <AccordionSummary
+                    sx={{backgroundColor: '#00ddff'}}
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1bh-content"
+                    id="panel1bh-header"
+                  >
+                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                      Execução
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Parâmetros utilizados e estatísticas da execução</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Checksum do conjunto de dados</td>
+                            <td style={{fontSize: '13px'}}>{pipelineResults.data_checksum}</td>
+                          </tr>
+                          <tr>
+                            <td>Conjunto de dados utilizado</td>
+                            <td>{pipelineResults.dataset}</td>
+                          </tr>
+                          <tr>
+                            <td>Atributo protegido</td>
+                            <td>{pipelineResults.preprocessor}</td>
+                          </tr>
+                          <tr>
+                            <td>Algoritmo de redução de viés no dado</td>
+                            <td>{pipelineResults.unbias_data_algorithm}</td>
+                          </tr>
+                          <tr>
+                            <td>Algoritmo de treinamento (redução de viés: {pipelineResults.unbias_data_algorithm === 'UnbiasDataAlgorithms.NOTHING' 
+                                                                            && pipelineResults.unbias_postproc_algorithm === 'UnbiasDataAlgorithms.NOTHING' ? 
+                                                                            'Não' : 'Sim'})</td>
+                            <td>{pipelineResults.inproc_algorithm}</td>
+                          </tr>
+                          <tr>
+                            <td>Algoritmo de redução de viés no pós-processamento</td>
+                            <td>{pipelineResults.unbias_postproc_algorithm}</td>
+                          </tr>
+                          <tr>
+                            <td>Data de início da execução</td>
+                            <td>{pipelineResults.date_start}</td>
+                          </tr>
+                          <tr>
+                            <td>Data de fim da execução</td>
+                            <td>{pipelineResults.date_end}</td>
+                          </tr>
+                          <tr>
+                            <td>Tempo de Execução</td>
+                            <td>{pipelineResults.execution_time_ms + ' ms'}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion expanded={expandedAccordion === 'performance-metrics'} onChange={handleAccordionChange('performance-metrics')}>
+                  <AccordionSummary
+                    sx={{backgroundColor: '#00ddff'}}
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel2bh-content"
+                    id="panel2bh-header"
+                  >
+                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                      Métricas de Performance
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a performance do modelo</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      <table>
+                        <tbody>
+                          {pipelineResults.performance_metrics.accuracy ?
+                          <tr>
+                            <td>Acurácia</td>
+                            <td>{pipelineResults.performance_metrics.accuracy.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.performance_metrics.precision ?
+                          <tr>
+                            <td>Precisão</td>
+                            <td>{pipelineResults.performance_metrics.precision.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.performance_metrics.recall ?
+                          <tr>
+                            <td>Recall</td>
+                            <td>{pipelineResults.performance_metrics.recall.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.performance_metrics.f1_score ?
+                          <tr>
+                            <td>F1-Score</td>
+                            <td>{pipelineResults.performance_metrics.f1_score.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.performance_metrics.auc ?
+                          <tr>
+                            <td>AUC (Area Under the ROC Curve)</td>
+                            <td>{pipelineResults.performance_metrics.auc.value}</td>
+                          </tr> : ''}
+                        </tbody>
+                      </table>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion expanded={expandedAccordion === 'fairness-metrics'} onChange={handleAccordionChange('fairness-metrics')}>
+                  <AccordionSummary
+                    sx={{backgroundColor: '#00ddff'}}
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel3bh-content"
+                    id="panel3bh-header"
+                  >
+                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                      Métricas de Fairness
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a justiça do modelo</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      <table>
+                        <tbody>
+                          {pipelineResults.fairness_metrics.statistical_parity_difference ?
+                          <tr>
+                            <td>Statistical Parity Difference</td>
+                            <td>{pipelineResults.fairness_metrics.statistical_parity_difference.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.fairness_metrics.disparate_impact ?
+                          <tr>
+                            <td>Disparate Impact</td>
+                            <td>{pipelineResults.fairness_metrics.disparate_impact.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.fairness_metrics.average_abs_odds_difference ?
+                          <tr>
+                            <td>Average Odds Difference</td>
+                            <td>{pipelineResults.fairness_metrics.average_abs_odds_difference.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.fairness_metrics.equal_opportunity_difference ?
+                          <tr>
+                            <td>Equal Opportunity Difference</td>
+                            <td>{pipelineResults.fairness_metrics.equal_opportunity_difference.value}</td>
+                          </tr> : ''}
+                          {pipelineResults.fairness_metrics.theil_index ?
+                          <tr>
+                            <td>Theil Index</td>
+                            <td>{pipelineResults.fairness_metrics.theil_index.value}</td>
+                          </tr> : ''}
+                        </tbody>
+                      </table>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion expanded={expandedAccordion === 'score'} onChange={handleAccordionChange('score')}>
+                  <AccordionSummary
+                    sx={{backgroundColor: '#00ddff'}}
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel4bh-content"
+                    id="panel4bh-header"
+                  >
+                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                      Pontuação
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Pontuação dada de acordo com os pesos e métricas utilizadas para a execução</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Pontuação das métricas de performance</td>
+                            <td>{pipelineResults.scores.performance_score}</td>
+                          </tr>
+                          <tr>
+                          <td>Pontuação das métricas de fairness</td>
+                            <td>{pipelineResults.scores.fairness_score}</td>
+                          </tr>
+                          <tr>
+                          <td>Pontuação geral</td>
+                            <td>{pipelineResults.scores.group_score}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              </Box>
+            </Box>
           </Box>}
 
         <Snackbar open={validPlanningVisible} autoHideDuration={6000} onClose={handleCloseSuccessToast}>

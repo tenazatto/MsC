@@ -12,11 +12,6 @@
     ],
     [
       "Algorithms.LOGISTIC_REGRESSION",
-      "UnbiasDataAlgorithms.NOTHING",
-      "UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS"
-    ],
-    [
-      "Algorithms.LOGISTIC_REGRESSION",
       "UnbiasDataAlgorithms.REWEIGHING",
       "UnbiasPostProcAlgorithms.NOTHING"
     ],
@@ -39,16 +34,6 @@
       "Algorithms.RANDOM_FOREST",
       "UnbiasDataAlgorithms.NOTHING",
       "UnbiasPostProcAlgorithms.EQUALIZED_ODDS"
-    ],
-    [
-      "Algorithms.RANDOM_FOREST",
-      "UnbiasDataAlgorithms.NOTHING",
-      "UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS"
-    ],
-    [
-      "Algorithms.RANDOM_FOREST",
-      "UnbiasDataAlgorithms.NOTHING",
-      "UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION"
     ],
     [
       "Algorithms.RANDOM_FOREST",
@@ -82,16 +67,6 @@
     ],
     [
       "Algorithms.GRADIENT_BOOST",
-      "UnbiasDataAlgorithms.NOTHING",
-      "UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS"
-    ],
-    [
-      "Algorithms.GRADIENT_BOOST",
-      "UnbiasDataAlgorithms.NOTHING",
-      "UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION"
-    ],
-    [
-      "Algorithms.GRADIENT_BOOST",
       "UnbiasDataAlgorithms.REWEIGHING",
       "UnbiasPostProcAlgorithms.NOTHING"
     ],
@@ -119,16 +94,6 @@
       "Algorithms.SUPPORT_VECTOR_MACHINES",
       "UnbiasDataAlgorithms.NOTHING",
       "UnbiasPostProcAlgorithms.EQUALIZED_ODDS"
-    ],
-    [
-      "Algorithms.SUPPORT_VECTOR_MACHINES",
-      "UnbiasDataAlgorithms.NOTHING",
-      "UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS"
-    ],
-    [
-      "Algorithms.SUPPORT_VECTOR_MACHINES",
-      "UnbiasDataAlgorithms.NOTHING",
-      "UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION"
     ],
     [
       "Algorithms.SUPPORT_VECTOR_MACHINES",

@@ -17,17 +17,20 @@ class MAPEKPipelineOrchestrator:
     planners: List[MAPEKPlanner] = []
     executor: MAPEKExecutor = None
     pipeline: Pipeline = None
+    filters = None
 
     def __init__(self, pipeline: Pipeline,
                  monitor: MAPEKMonitor,
                  analyzers: List[MAPEKAnalyzer],
                  planners: List[MAPEKPlanner],
-                 executor: MAPEKExecutor):
+                 executor: MAPEKExecutor,
+                 filters=None):
         self.pipeline = pipeline
         self.monitor = monitor
         self.analyzers = analyzers
         self.planners = planners
         self.executor = executor
+        self.filters = filters
 
     def run(self, executions=0):
         infinite_execs = executions < 1
@@ -56,7 +59,7 @@ class MAPEKPipelineOrchestrator:
             df_score = analyzer.analyze(data=(df_analyzed, df_metrics), enabled=enabled)
         return df_score
 
-    def do_plan(self, df_score):
+    def do_plan(self, df_score, num_pipelines=0):
         planner_flags = json.load(open('config/mapek/planner_flags.json', 'r'))
         pipeline_plan = None
         for planner in self.planners:
@@ -64,7 +67,7 @@ class MAPEKPipelineOrchestrator:
             enabled = planner_flags[prop]
 
             pipeline_plan = df_score if pipeline_plan is None else pipeline_plan
-            pipeline_plan = planner.plan(data=pipeline_plan, enabled=enabled)
+            pipeline_plan = planner.plan(data=pipeline_plan, enabled=enabled, num_pipelines=num_pipelines)
         return pipeline_plan
 
     def get_flag_name(self, obj, type):

@@ -23,7 +23,7 @@ class PipelineService:
 
         return self.pipeline_repository.get_last_execution()
 
-    def auto_execution(self, request):
+    def auto_execution(self, num_pipelines, dataset, preprocessor):
         # main.mapek(self.pipeline_repository.get_dataset(request['dataset']))
         mapek = MAPEKPipelineOrchestrator(Pipeline(),
                                           MLMAPEKPipelineMonitor(),
@@ -33,8 +33,13 @@ class PipelineService:
                                            MLMAPEKPipelinePlanner()],
                                           MLMAPEKPipelineExecutor())
 
-        pipeline, metrics = mapek.monitor.monitor()
-        df_score = mapek.do_analyze(pd.DataFrame(metrics), pd.DataFrame(pipeline))
-        pipeline_plan = mapek.do_plan(df_score)
+        filters = {}
+        filters['dataset'] = self.pipeline_repository.get_dataset(dataset)
+        if preprocessor != '':
+            filters['preprocessor'] = self.pipeline_repository.get_preprocessor(preprocessor)
 
-        return self.pipeline_repository.get_best_execution(pipeline_plan, df_score)
+        pipeline, metrics = mapek.monitor.monitor(filters=filters)
+        df_score = mapek.do_analyze(pd.DataFrame(metrics), pd.DataFrame(pipeline))
+        pipeline_plan = mapek.do_plan(df_score, num_pipelines=num_pipelines)
+
+        return self.pipeline_repository.get_best_executions(pipeline_plan, df_score, num_pipelines)

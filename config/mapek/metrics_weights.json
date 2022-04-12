@@ -1,0 +1,56 @@
+{
+  "metrics_groups": [
+    {
+      "group_name": "standard",
+      "weight": 0.5,
+      "metrics": {
+        "accuracy": {
+          "weight": 0.2,
+          "normalize": null
+        },
+        "precision": {
+          "weight": 0.2,
+          "normalize": null
+        },
+        "recall": {
+          "weight": 0.2,
+          "normalize": null
+        },
+        "f1_score": {
+          "weight": 0.2,
+          "normalize": null
+        },
+        "auc": {
+          "weight": 0.2,
+          "normalize": null
+        }
+      }
+    },
+    {
+      "group_name": "fairness",
+      "weight": 0.5,
+      "metrics": {
+        "statistical_parity_difference": {
+          "weight": 0.2,
+          "normalize": "diff"
+        },
+        "equal_opportunity_difference": {
+          "weight": 0.2,
+          "normalize": "diff"
+        },
+        "average_abs_odds_difference": {
+          "weight": 0.2,
+          "normalize": "diff"
+        },
+        "disparate_impact": {
+          "weight": 0.2,
+          "normalize": "ratio"
+        },
+        "theil_index": {
+          "weight": 0.2,
+          "normalize": "diff"
+        }
+      }
+    }
+  ]
+}

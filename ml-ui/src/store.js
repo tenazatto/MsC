@@ -98,11 +98,29 @@ const pipelineResultsRedux = createSlice({
 export const selectPipelineResults = (state) => state.pipelineResults.value
 export const { setPipelineResults } = pipelineResultsRedux.actions
 
+const pipelineResultsAutoRedux = createSlice({
+  name: 'pipelineResultsAuto',
+  initialState: {
+    value: {
+      pipelines: []
+    },
+  },
+  reducers: {
+    setPipelineResultsAuto: (state, action) => {
+      state.value = action.payload;
+    },
+  },
+})
+
+export const selectPipelineResultsAuto = (state) => state.pipelineResultsAuto.value
+export const { setPipelineResultsAuto } = pipelineResultsAutoRedux.actions
+
 export default configureStore({
   reducer: {
     fairnessMetricsSelected: fairnessMetricsSelectedRedux.reducer,
     performanceMetricsSelected: performanceMetricsSelectedRedux.reducer,
     validAlgorithms: validAlgorithmsRedux.reducer,
     pipelineResults: pipelineResultsRedux.reducer,
+    pipelineResultsAuto: pipelineResultsAutoRedux.reducer,
   },
 });
