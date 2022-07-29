@@ -123,7 +123,7 @@ export default function Screen() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            SE_ML_MAPEK_Fairness_UI_Demo
+            FairPEK
           </Typography>
         </Toolbar>
       </AppBar>

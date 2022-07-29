@@ -46,6 +46,7 @@ class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
         return df_fairness_metrics, df_standard_metrics
 
     def apply_metrics_score(self, df_metrics_group, metrics_weights):
+        max_score = 1000
         df_score = pd.DataFrame(columns=['file_id', 'score'])
         for file_id in df_metrics_group['file_id'].unique():
             df_file = df_metrics_group[df_metrics_group['file_id'] == file_id]
@@ -54,7 +55,7 @@ class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
                 metric_final = self.normalize_metric(df_file[df_file['metric_id'] == metric].iloc[0]['value'],
                                                      metrics_weights[metric]['normalize'])
 
-                score += round(1000 * metrics_weights[metric]['weight'] * metric_final)
+                score += round(max_score * metrics_weights[metric]['weight'] * metric_final)
 
             df_score.loc[df_score.shape[0]] = [
                 file_id,
@@ -90,10 +91,10 @@ class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
         return metric
 
     def normalize_ratio(self, metric):
-        return 1 / metric if metric > 1 else metric
+        return 1-abs(1/metric-1) if metric > 1 else 1-abs(metric-1)
 
     def normalize_diff(self, metric):
-        return abs(1-metric)
+        return 1-abs(metric) if -1 < metric < 1 else 0
 
 
 class MLMAPEKPipelineAnalyzer(MAPEKAnalyzer):
