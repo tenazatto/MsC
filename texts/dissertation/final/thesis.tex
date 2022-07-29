@@ -30,6 +30,17 @@
 \usepackage{graphicx}
 
 \usepackage{listings}
+\usepackage{float}
+\usepackage{enumitem}
+
+%\usepackage{fancyhdr}
+%\usepackage{cite}
+%\usepackage{booktabs}
+%\usepackage{hyperref}
+%\usepackage{subfigure}
+%\usepackage{xparse}
+%\usepackage{amssymb}
+%\usepackage{svg}
 
 \renewcommand{\lstlistingname}{Código}
 \renewcommand{\lstlistlistingname}{Lista de \lstlistingname s}
@@ -38,6 +49,21 @@
 \definecolor{codegray}{rgb}{0.85,0.85,0.85}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{codeblack}{rgb}{0,0,0}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  %keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  %ndkeywordstyle=\color{codegray}\bfseries,
+  %identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  %commentstyle=\color{purple}\ttfamily,
+  %stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
 \lstdefinestyle{codigo}{
     backgroundcolor=\color{codegray},   
@@ -60,6 +86,7 @@
 
 \lstset{style=codigo}
 
+\DeclarePairedDelimiter{\round}\lfloor\rceil
 \newcommand\citetxt[1]{%
   \citeauthor{#1}~(\citeyear{#1})}
 \newcommand\citepar[1]{%
@@ -231,19 +258,26 @@
 % Se houver epígrafe, descomente e edite:
 \begin{epigrafe}
 {\it
-Alguma frase\\
-Para colocar,\\
-Mas é um dos últimos itens a se fazer.}
+Você não consegue ligar os pontos olhando pra frente; você só consegue ligá-los olhando pra trás. Então você tem que confiar que os pontos se ligarão algum dia no futuro. Você tem que confiar em algo – seu instinto, destino, vida, carma, o que for. Esta abordagem nunca me desapontou, e fez toda diferença na minha vida.}
 
-\hfill (Eu mesmo)
+\hfill (Steve Jobs)
 \end{epigrafe}
 
 
 % Agradecimentos ou Acknowledgements ou Agradecimientos
 \chapter{Agradecimentos}
 %Os agradecimentos devem ocupar uma única página.
-Agradecer posteriormente
+Primeiramente, à minha família, pela dedicação que tiveram em me criar, pela liberdade de escolha para fazer o que gosto e pela compreensão atual de que hoje seguimos caminhos completamente distintos, apesar de mantermos contato constantemente.
 
+A meus orientadores, Profa. Dra. Cecília Mary Fischer Rubira e Prof. Dr. Leonardo Montecchi, pelo desafio de orientar uma dissertação com temas fora de seus domínios de estudo, e também ao Prof. Dr. Gerberth Adín Ramírez Rivera, que me aceitou como orientador anteriormente, foi compreensivo no momento de minha desistência e que pude fazer reflexões com tal experiência que levei para esta dissertação final de alguma forma.
+
+A todas as pessoas com quem morei em Campinas nesses anos desde que comecei a frequentar aulas, presentes nas Repúblicas Borritos, KioBio e Galinheiro, pelos momentos de lazer que me fizeram relaxar das tensões encaradas em um curso de Pós-Graduação.
+
+A todas as pessoas que conheci na época em que eu estudei em Rio Claro e reencontrei em Campinas, e também a todas as pessoas que mantive contato de Rio Claro desde que comecei a frequentar aulas, principalmente por entender que as conexões e comunicações se mantém mesmo quando um ciclo se fecha e um ciclo diferente é iniciado.
+
+A todas as pessoas que trabalhei junto na CI\&T, Dextra e Zup, pela compreensão de que o estudo também é essencial para a evolução profissional de uma pessoa.
+
+E finalmente, a todas as pessoas que pude conhecer na Unicamp, pela troca de experiências e pelo contato com pessoas de altíssimo nível e acima de todas as minhas expectativas.
 
 % Sempre deve haver um resumo em português:
 \begin{resumo}
@@ -267,7 +301,7 @@ This Master's Degree dissertation aims to contribute to the theme of Artificial 
 \listoffigures
 
 % A lista de tabelas é opcional:
-% \listoftables
+\listoftables
 
 % A lista de abreviações e siglas é opcional:
 % \prefacesection{Lista de Abreviações e Siglas}
@@ -292,6 +326,9 @@ This Master's Degree dissertation aims to contribute to the theme of Artificial 
 \chapter{Introdução}
 
 % O corpo da dissertação ou tese começa aqui:
+
+\section{Motivação}
+
 Técnicas de Inteligência Artificial e Aprendizado de Máquina já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, com previsão de US\$ 57 bilhões em investimentos em 2021, 480\% maior em relação a 2017~\citep{Deloitte_2018}. No Brasil, o número de empresas de IA aumentou de 120 em 2018 para 206 em 2020~\citep{CIO_2021}.
 
 Isso se mostra possível devido a grande quantidade de dados processada diariamente pelas empresas, que coletam estatísticas toda vez que um usuário acessa suas aplicações. Com esses dados, podem traçar diferentes perfis e usar soluções de IA para ter tomadas de decisão mais assertivas com o objetivo de melhorar a experiência de usuário e corrigir problemas. Porém, muitas dessas soluções foram projetadas sem pensar em governança de dados como requisito de projeto, e se mostram ineficientes quando ela é tratada em consideração.
@@ -304,6 +341,8 @@ Devido a esses tipos de problemas, o termo \textit{Explainable AI} (XAI) ganha f
 
 No mesmo tema, é possível estabelecer métricas para determinar o quão o modelo está preparado para dados sensíveis \citep{Begley_2021}, termo que é conhecido como \textit{Fairness}. Com a evolução das pesquisas na comunidade acadêmica, foram descobertos algoritmos para redução dos vieses presentes nos conjuntos de dados, como \textit{Reweighing}~\citep{Kamiran_2011}, \textit{Adversarial Debiasing}~\citep{Zhang_2018} e \textit{Reject Option Classification}~\citep{Kamiran_2012}. Por consequência, ocorre melhora nas métricas em questão, mas pode desfavorecer métricas que já são amplamente utilizadas como garantia de um bom modelo desenvolvido com técnicas de Aprendizado de Máquina.
 
+\section{Objetivo}
+
 O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \textit{Pipeline} para \textit{Machine Learning} que seja completamente autônoma, por três fatores principais:
 
 \begin{itemize}
@@ -314,11 +353,67 @@ O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \text
 
 Para isso, além do desenvolvimento do \textit{Pipeline} em questão, será utilizada a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas.
 
+\section{Organização}
+
 O restante da dissertação se organizará da seguinte forma: o Capítulo 2 descreve os conceitos que irão ser abordados neste projeto; o Capítulo 3 mostra a metodologia e detalhamento do processo de desenvolvimento; o Capítulo 4 discute os resultados obtidos e, finalmente, o Capítulo 5 estabelece as conclusões, considerações finais e sugestões de trabalhos futuros e evoluções.
 
 \chapter{Conceitos Relacionados}
 
 \section{Ciência de Dados e Engenharia de Dados}
+
+\subsection{Engenharia de Dados}
+
+A engenharia de dados é o meio para entender um processo. Os dados podem ser gerados de várias maneiras, ou um subconjunto dos dados disponíveis pode usar técnicas de análise de dados de estatísticas, aprendizado de máquina, reconhecimento de padrões ou redes neurais, juntamente com outras tecnologias, como visualização, otimização, sistemas de banco de dados. dados, ferramentas de prototipagem e elicitação de conhecimento. O objetivo é usar os dados disponíveis ou gerar mais dados e assim entender o processo que está sendo investigado. O processo de analisar os dados, criar novas ferramentas de análise especificamente para a tarefa e trabalhar com especialistas do domínio é um aspecto fundamental dessa tarefa de engenharia. Atualmente é muito utilizado em conjunto com o termo \textit{Big Data}, para a limpeza, tratamento e estabelecimento de processos para governança de grandes volumes de dados.
+
+O termo \textit{Big Data} apareceu uma vez como conceito em 1974 e novamente em editoriais em 2006 e 2007, e somente em 2008 seu uso como conceito começou a aparecer regularmente em artigos científicos, mas implementações desse conceito começaram a partir de 2010~\citep{Raban_2020}. Quanto a engenharia de dados, embora periódicos como o IEEE Transactions on Knowledge and Data Engineering, cuja primeira edição foi lançada em 1989, e conferências como a IEEE International Conference on Data Engineering (ICDE), cuja primeira edição foi realizada em 1984, possam ser consideradas pontapés iniciais para discussões e artigos acadêmicos, o embrião da engenharia de dados vem do \textit{paper} \textit{"A Business Intelligence System"}, de 1958~\citep{Panoply_2017}. Nele, é mencionada a ideia de sistemas rodados por máquinas para abstrair e padronizar informações de vários setores da sociedade, como industrial, científico e de organizações governamentais, e como estas podem disseminar informação de uma maneira mais eficiente. Embora os anos 50/60 foram o embrião para o conceito, os anos 70/80 o amadureceram e construíram a base para a estrutura de engenharia de dados~\citep{Panoply_2017}.
+
+Nos anos 70/80, os problemas em engenharia de dados eram classificados de acordo com 3 atributos~\citep{IEEE_1989}:
+
+\begin{itemize}
+\item \textbf{Completude do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como completos ou incompletos. Se estiverem completos, não seria necessário congecimento adicional para a resolução do problema. Se estiverem incompletos, como grandes volumes de dados, seria necessário determinar heurísticas para encontrar um conjunto de dados mais específico para a resolução do problema.
+\item \textbf{Exatidão do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como exatos ou inexatos. Se estiverem exatos, poderiam ser representados em uma forma numérica ou lógica, como datas e coordenadas. Se estiverem inexatos, o número de casos possíveis seria infinito e seria impossível enumerar ou representar todos eles, sendo necessário determinar heurísticas para definir um número finito de possibilidades ou redefinir o significado de exatidão para que o que está disponível possa ser tratado como exato, como o reconhecimento de um objeto em uma imagem ou a definição do menor custo em uma determinada rota.
+\item \textbf{Conhecimento sobre o objetivo e especificações do problema:} Um objetivo de um problema pode ser bem ou mal definido. Um objetivo bem definido podia ser medido e representado em termos de parâmetros para que seja possível comparar a qualidade de uma solução com outra, enquanto um objetivo mal definido envolvia parâmetros que não podem ser mensurados ou não poder ser medido, sendo impossível comparar a qualidade de soluções alternativas e necessitando de tratamentos adicionais para que o objetivo deixe de ser mal definido e passe a ser bem definido. 
+\end{itemize}
+
+Dado estas categorias, é possível pensar em soluções que conversam com os objetivos da Engenharia de Software: Abordar diversos tipos de conceitos; como teoria, projeto, desenvolvimento, avaliação e manutenção de novos dados e técnicas, metodologias e sistemas de gerenciamento de conhecimento; em prol do desenvolvimento e manutenção de sistemas e soluções com qualidade e com o custo mais viável possível. Estes sistemas podem ter questões relacionadas ao cumprimento desses objetivos incluem estudos sobre os aspectos teóricos, ferramentas e metodologias de projeto, tradeoffs de projeto, representação e programabilidade, algoritmos e controle, confiabilidade e tolerância a falhas e projetos usando tecnologias existentes e emergentes. É tarefa do engenheiro de dados elaborar processos que reflitam tais questões em um sistema com objetivos definidos.
+
+\subsection{Ciência de Dados}
+
+Ciência de dados como um conceito precedeu o \textit{Big Data}, sendo um conjunto de princípios fundamentais que apoiam e orientam a extração baseada em princípios de informação e conhecimento de dados~\citep{Raban_2020}. Essa definição enfatiza a estreita relação de ciência de dados com a mineração de dados e, consequentemente, com a engenharia de dados. O termo foi cunhado nos anos 60 para descrever uma nova profissão que daria suporte à compreensão e interpretação da grande quantidade de dados que estavam sendo acumulados na época~\citep{Foote_2021}. Na academia, o termo começou a ser utilizado de modo mais formal a partir de 2001, quando os títulos dos artigos científicos começaram a usar, embora artigos já estavam focando em ciência de dados e usando o termo desde os anos 60~\citep{Raban_2020}~\citep{Foote_2021}. 
+
+A estatística e o uso de modelos estatísticos estão profundamente enraizados no campo da ciência de dados, pois começou com estatísticas e evoluiu para incluir conceitos e práticas principalmente para aplicações de IA. À medida que mais e mais dados se tornam disponíveis, por meio de comportamentos e tendências registradas em softwares espalhados pela Internet ou mesmo por aplicações empresariais, as empresas os coletam e armazenam em quantidades cada vez maiores. Uma vez que as portas foram abertas por empresas que buscam aumentar os lucros e impulsionar melhores tomadas de decisão, seu uso, em conjunto com \textit{Big Data}, começou a ser aplicado a outros campos, como medicina, engenharia e ciências sociais.
+
+Um cientista de dados funcional, ao contrário de um estatístico geral, tem compreensão da arquitetura de software e entende várias linguagens de programação. O cientista de dados define o problema, identifica as principais fontes de informação e projeta a estrutura para coletar e rastrear os dados necessários. O software é normalmente responsável por coletar, processar e modelar os dados. Eles usam os princípios da ciência de dados e toda sua visão multidisciplinar para obter conhecimentos mais profundos. A ciência de dados continua a evoluir como uma disciplina que usa ciência da computação e metodologia estatística para fazer previsões úteis e obter insights em uma ampla gama de campos. Embora seja usada em áreas como astronomia e medicina, também é usada nos negócios para ajudar a tomar decisões mais inteligentes.
+
+\subsection{O ciclo do dado: Semelhanças e diferenças entre Engenharia de Dados}
+
+Nos tempos atuais, empresas e instituições acadêmicas utilizam Engenharia de Dados e Ciência de Dados para otimizar as suas aplicações de IA. Embora tais termos sejam distintos e seus profissionais performam tarefas distintas, na prática é frequente a função de engenharia de dados ser feita por cientistas de dados e vice-versa pois ambas se complementam muito na criação de aplicações de IA. Um bom exemplo de como estas áreas se conversam está no \textit{paper} \textit{Concise Survey of Computer Methods}, de 1974~\citep{Panoply_2017}. Nele, Peter Naur detalha diversos métodos de processamento de dados e aplicações, o que poderia definir como um, mas a citação mais importante de seu \textit{paper} está justamente no termo ciência de dados. Também define que a utilidade de um dado e de seus processos deriva de sua aplicação no desenvolvimento e manutenção de modelos da realidade~\citep{Foote_2021}. Em outras palavras, a existência de um processo que trate os dados é tão importante quanto a construção de um modelo através de seus dados. Ao entender como os dados devem ser usados, é possível criar processos que auxiliem a otimizar os resultados obtidos e criar modelos cada vez mais próximos da realidade.
+
+A principal razão para ambas as áreas se conversarem esta no ciclo de vida do dado, fundamental para entender as oportunidades e os desafios de aproveitar ao máximo os dados digitais. Como um ser vivo, os dados têm um ciclo de vida, desde o nascimento, passando por uma vida ativa até alguma forma de expiração, podendo ser "imortalizado" dependendo de sua importância. Também como um organismo vivo e inteligente, sobrevive em um ambiente que fornece suporte físico, contexto social e significado existencial~\citep{Berman_2018}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{images/data_life_cycle.jpg}
+\caption {Ciclo de vida e ecossistema do dado~\citep{Berman_2018}.}
+\label{fig:cicloDado}
+\end{figure}
+
+Este ciclo, ilustrado na Figura \ref{fig:cicloDado}, é dividido em 5 etapas:
+
+\begin{itemize}
+\item \textbf{Aquisição:} Refere-se a processos de criação e coleta de dados, através de experimentos, sensores, pesquisas, sistemas, simulações, entre outros processos
+\item \textbf{Limpeza:} Refere-se a processos de limpeza, organização e filtragem dos dados adquiridos.
+\item \textbf{Uso/Reuso:} Refere-se a aplicações que os dados podem ter para a aquisição de novos conhecimentos, como análise, mineração, modelagem, enriquecimento, sintetização de novos dados, visualização e tomadas de decisão.
+\item \textbf{Publicação:} Refere-se ao compartilhamento destes dados após seu uso, podendo ter como meio alguma plataforma de compartilhamento, bases de dados ou artigos acadêmicos.
+\item \textbf{Preservação/Destruição:} Refere-se a processos de armazenamento, curadoria e validação do dado após seu uso e publicação. No contexto de validação, se o mesmo ainda continua útil para o contexto em que foi coletado, podendo ser atualizado ou destruído em caso negativo. Também pode ser comprimido ou indexado caso espaço ou desempenho sejam considerados gargalos para os usuários que forem usar os dados publicados.
+\end{itemize}
+
+Como exemplo, é possível citar os dados para experimentos do Grande Colisor de Hádrons (LHC), representando colisões de partículas dentro de um túnel de 17 milhas para testar as previsões de várias teorias da física de partículas e da física de alta energia~\citep{Berman_2018}. A maioria dos dados gerados é tecnicamente irrelevante e são descartados, mas isso não impede que uma enorme quantidade de dados seja influente e continua a ser analisada e preservada. Em 2012, dados sobre experimentos do LHC forneceram fortes evidências para o bóson de Higgs, apoiando a veracidade do Modelo Padrão da Física. Esta descoberta científica foi a "Descoberta do Ano" de 2012 da revista Science e o Prêmio Nobel de Física em 2013.
+
+As estimativas são de que, em 2040, haverá de 10 exabytes a 100 exabytes de dados influentes produzidos pelo LHC. Os dados retidos do LHC são anotados, preparados para preservação e arquivados em mais de uma dúzia de locais físicos. O resultado desse processo é divulgado à comunidade para análise e uso em mais de 100 outros locais de pesquisa. Além do desenvolvimento de protocolos de administração, disseminação e uso de dados, o ecossistema de dados do LHC também fornece um modelo econômico que suporta de forma sustentável os dados e sua infraestrutura. Essa combinação entre administração dos dados e administração econômica permitem que os dados sejam mantidos.
+
+O diagrama do ciclo de vida dos dados descrito na figura e o exemplo do LHC sugerem um conjunto contínuo de ações e transformações nos dados, mas em muitas comunidades científicas e disciplinas hoje essas etapas são isoladas. Os cientistas de domínio se concentram em gerar e usar dados. Cientistas da computação podem se concentrar em questões de plataforma e desempenho, incluindo mineração, organização, modelagem e visualização, bem como os mecanismos para extrair significado dos dados por meio de aprendizado de máquina e outras abordagens. Estatísticos podem se concentrar na matemática dos modelos de risco e inferência~\citep{Berman_2018}. Engenheiros de dados podem se concentrar na administração e preservação de dados gerados pelo cientista de domínio e no \textit{backend} do pipeline, seguindo a aquisição, decisões e ações no domínio da publicação, arquivamento e curadoria. Cientistas de dados podem unir o trabalho dos cientistas da computação e dos estatísticos para extrair novos conhecimentos e conhecer tomadas de decisão mais eficientes.
+
 
 \section{Machine Learning}
 
@@ -348,23 +443,21 @@ Com a evolução da computação, o treino de uma tarefa passou a ser cada vez m
 Tradicionalmente em um problema de classificação binária, uma previsão do classificador pode ter 4 tipos de resultados em uma matriz de confusão, presente na Tabela \ref{tbl:ConfusionMatrix}. Os Verdadeiros Positivos (VP, ou TP pelo termo em inglês \textit{True Positives}) e Verdadeiros Negativos (VN, ou TN pelo termo em inglês \textit{True Negatives}) são classificações corretamente previstas pelo classificador. Um Falso Positivo (FP) ocorre quando um caso previsto para estar na classe positiva quando o resultado real pertence à classe negativa, e um Falso Negativo (FN) ocorre quando um caso previsto para estar na classe negativa
 quando o resultado real pertence à classe positiva.
 
--- TODO reformatar Tabela
-
 \begin{table}[h]
 \label{tbl:ConfusionMatrix}
 \begin{center}
   \caption{Matriz de confusão}
   \resizebox{\linewidth}{!}{%
   \begin{tabular}{|c|c|c|c|}
-    \toprule
-    \multicolumn{4}{|c|}{Classe prevista}\\
-    \midrule
+    \hline
+    \multicolumn{4}{|c|}{\textbf{Classe prevista}}\\
+    \hline
     \multirow{3}{*}[-3ex]{\rotatebox[origin=c]{90}{\textbf{Classe atual}}} &  & \textbf{Positiva} & \textbf{Negativa}\\[3ex]
-    \cmidrule{2-4}
+    \cline{2-4}
      & \textbf{Positiva} & \makecell{Verdadeiros Positivos\\(VP/TP)} & \makecell{Falsos Positivos\\(FP)}\\[3ex]
-    \cmidrule{2-4}
+    \cline{2-4}
      & \textbf{Negativa} & \makecell{Falso Negativo\\(FN)} & \makecell{Verdadeiros Negativos\\(VN/TN)}\\[3ex]
-    \bottomrule
+    \hline
   \end{tabular}}
 \end{center}
 \end{table}
@@ -403,6 +496,111 @@ AUC = \frac{1}{2} \left( \frac{TP}{TP + FN} + \frac{TN}{TN + FP} \right)
 
 \subsection{Algoritmos}
 
+Existem diversos algoritmos de \textit{Machine Learning} utilizados para resolver os problemas de aprendizado supervisionado, não-supervisionado e por reforço. Nesta seção serão abordados apenas os algoritmos utilizados por este trabalho de Mestrado.
+
+\subsubsection{Regressão Logística}
+
+A Regressão Logística é um método de classificação baseado na aplicação da técnica de Regressão Linear. Como na Regressão Linear, ele assume uma relação linear entre os recursos e calcula a soma ponderada dos recursos mais um termo de viés. Neste método, o resultado não é utilizado diretamente, mas calcula a logística do resultado. Quando $w$ no peso das \textit{features} e o termo de viés é $b$, a probabilidade estimada do modelo de regressão logística é a seguinte:
+
+\begin{equation}
+\hat{p} = \sigma (w^{T}x + b)
+\end{equation}
+
+Logo após, a função logística $\sigma$ é calculada:
+
+\begin{equation}
+\sigma (z) = \frac{1}{1 + exp(-z)}
+\end{equation}
+
+Uma vez que o modelo de Regressão Logística estimou a probabilidade $\hat{p}$, a previsão de classificação é feita facilmente considerando a seguinte regra:
+
+\begin{equation}
+	\begin{aligned}
+	\hat{p} = 
+	\begin{cases}
+	1 & \text{Se $\hat{p} \geq 0,5$}\\
+	0 & \text{Se $\hat{p} < 0,5$}\\
+	\end{cases}
+	\end{aligned}
+\end{equation}
+
+O objetivo do treinamento de um modelo de classificação é de minimizar a diferença entre o resultado atual e o resultado previsto. Para medir o quão próximo a função resultante do treinamento se aproxima do conjunto de dados, a seguinte função de custo é calculada conforme equação abaixo. A função utilizada pode variar, tendo como exemplos a função por entropia cruzada ou a função por diferença de quadrados.
+
+\begin{equation}
+J(w,b) = \frac{1}{m} \sum^{m}_{i=1} L(\hat{y}^{(i)}, y^{(i)})
+\end{equation}
+
+Durante o treinamento do modelo de Regressão Logística, é preciso encontrar os parâmetros $w$ e $b$ que minimizem a função de custos globais. Como a função de custo é convexa, diferentes métodos de otimização, como o gradiente descendente, garantem encontrar o mínimo global.
+
+Para lidar com problemas com múltiplas classes para classificação, é possível calcular uma função de custo separada para cada rótulo de classe por observação e somar os resultados, técnica conhecida como \textit{One-Vs-All}. Outra técnica que pode generalizar o método de regressão logística para suportar várias classes diretamente é chamada de Regressão Softmax, ou Regressão Logística Multinomial, utilizando a função Softmax para substituir a função de probabilidade da Regressão Logística convencional:
+
+\begin{equation}
+\hat{p}(Y_i = n) = \frac{e^{\beta_{n} \cdot \textbf{X}_{i}}}{1 + \sum^{K-1}_{k=1} e^{\beta_{k} \cdot \textbf{X}_{i}}}
+\end{equation}
+
+\subsubsection{\textit{Support Vector Machines} (SVM)}
+
+\textit{Support Vector Machines} (SVM) é um algoritmo de aprendizado de máquina que pode ser usado para detecção linear, não linear, de classificação, regressão e até mesmo detecção de anomalias(\textit{Outliers}). A ideia fundamental por trás dessa técnica é que as classes de saída são separadas com um hiperplano maximizando a margem (distância máxima entre os pontos de dados de ambas as classes)~\citep{Steinwart_2008}. As \textit{Support Vector Machines} criam um ou vários hiperplanos em um espaço de $n$ dimensões. A dimensão dos hiperplanos depende do número de \textit{features}. Quando há duas \textit{features}, é apenas uma linha, ou quando há três \textit{features}, é um plano bidimensional.
+
+Para lidar com conjuntos de dados não lineares, uma abordagem é adicionar mais \textit{features}, como um recurso polinomial, ou a outra abordagem é usar \textit{kernels}, mapeando os dados de entrada de $n$ dimensões para um espaço de dimensão superior, onde os dados podem ser separados linearmente.
+
+\subsubsection{Regressão Kernel Ridge}
+
+A Regressão Kernel Ridge (\textit{Kernel Ridge Regression}/KRR) é um algoritmo de aprendizado de máquina proveniente da combinação de duas operações: A Regressão Ridge com o que é conhecido como "truque do kernel"~\citep{Witten_2016}. A Regressão Ridge substitui a função de custo tradicional por uma com um termo de penalização incluído, conforme ilustrado na Equação \ref{eqn:kernelLeastSquares}, utilizando o método dos mínimos quadrados. O "truque do kernel" é uma técnica mátemática que permite exemplificar problemas não-lineares de forma linear utilizando kernels, reduzindo a complexidade para uma simples operação matricial.
+
+\begin{equation}
+\label{eqn:kernelLeastSquares}
+\sum_{i} (y_{i} - w^{T}x_i)^{2} - \lambda \norm{w}^{2}
+\end{equation}
+
+Por causa de tais operações, A Regressão Kernel Ridge exige mais processamento do que uma regressão tradicional. No entanto, é vantajoso usá-la em casos que um ajuste não-linear é desejado ou onde há mais atributos do que elementos no conjunto de treinamento. Em casos onde há mais elementos no conjunto de treinamento do que atributos, a Regressão Kernel Ridge peca por não abranger o conceito "vetores de suporte" utilizado nas \textit{Support Vector Machines}, onde é necessário somar apenas o conjunto de vetores de suporte ao invés de todo o conjunto de treinamento. No entanto, as \textit{Support Vector Machines} exigem mais processamento.
+
+\subsubsection{Árvores de Decisão (\textit{Decision Trees})}
+
+Árvores de decisão (\textit{Decision Trees}) são um grupo de algoritmos de aprendizado de máquina que podem ser usados para classificação e regressão. Eles são os métodos de aprendizado mais comuns que são muito poderosos e capazes de ajustar conjuntos de dados complexos. Os algoritmos de Árvore de Decisão são baseados em uma abordagem de dividir e conquistar para os problemas de classificação~\citep{Witten_2016}. Uma Árvore de Decisão é feita pelo processo contínuo de dividir o conjunto de dados nos atributos da melhor maneira possível em diferentes classes até que um critério de parada específico seja alcançado. Nas Árvores de Decisão, as observações sobre os itens são mostradas em ramificações e as conclusões das observações são mostradas nos nós. Existem três tipos diferentes de nós: os nós raiz que indicam o início do processo de decisão e não têm arestas de entrada, os nós internos que têm exatamente uma entrada e pelo menos duas arestas de saída e os nós finais (ou as folhas).
+
+Sempre que o rótulo de classificação de destino assume valores discretos, a Árvore de Decisão é chamada de árvore de classificação e, sempre que recebe valores contínuos, é chamada de árvore de regressão. Um dos méritos do uso de Árvores de Decisão é que elas exigem pouco pré-processamento de dados e não há necessidade de dimensionamento ou centralização de dados. Treinando uma Árvore de Decisão, geralmente, é realizada com uma árvore menos complicada e mais abrangente. A complexidade de uma Árvore de Decisão pode ser controlada usando critérios de parada e métodos de poda~\citep{Rokach_2005}, existindo quatro métricas diferentes para poder medí-la: o número total de nós, o número total de folhas, a profundidade da árvore e o número de atributos usados.
+
+Os algoritmos usados para construir uma Árvore de Decisão a partir de um conjunto de dados são chamados de indutores. Normalmente, o objetivo desses algoritmos é encontrar a Árvore de Decisão ótima minimizando o erro de generalização, considerando o número mínimo de nós e a profundidade mínima da árvore. Os algoritmos da Árvore de Decisão funcionam de forma \textit{top-down}, pois escolhem a melhor variável em cada estágio que pode dividir o conjunto de dados em um atributo específico. Diferentes indutores usam critérios diferentes para encontrar a melhor variável.
+
+\subsubsection{\textit{Random Forest}}
+
+\textit{Random Forest} é um algoritmo de aprendizado de máquina que combina a simplicidade das Árvores de Decisão com a flexibilidade, resultando em melhorias na acurácia~\citep{Breiman_2001}. A principal ideia que o diferencia de uma Árvore de Decisão é o melhorar a redução de variância do \textit{Bagging} por diminuição de correlação entre as árvores sem aumentar muito a variância, pois se considera apenas um subconjunto aleatório de variáveis a cada passo~\citep{Breiman_2001}.
+
+\textit{Bagging} é uma técnica que gera uma coleção de classificadores introduzindo randomização na entrada do algoritmo, geralmente com excelentes resultados~\citep{Witten_2016}. No \textit{Random Forest}, ela é utilizada para gerar uma coleção de Árvores de Decisão simplificadas com a finalidade de generalizar o resultado no conjunto da obra.
+
+\subsubsection{\textit{Gradient Boosting}}
+
+\textit{Gradient Boosting}, também conhecido como \textit{Gradient Boosting Machine} (GBM) ou \textit{Gradient Boosted Regression Tree} (GBRT)~\citep{Chen_2016}, é um algoritmo de aprendizado de máquina que faz a classificação através da composição de pequenos modelos pela utilização do \textit{Boosting}~\citep{Friedman_2000}~\citep{Hastie_2009}. \textit{Gradient Boosting} faz uso de \textit{Boosting} para gradualmente aproximar um melhor modelo, de modo a somar submodelos ao modelo composto. Árvores de Decisão tendem a gerar \textit{overfitting}, e o \textit{Gradient Boosting} é uma possibilidade para solucionar este problema.
+
+\textit{Boosting} é uma combinação de modelos simples, chamados de modelos fracos, onde tipicamente estes modelos são Árvores de Decisão. O algoritmo combina classificadores fracos com intuito de produzir um classificador forte. Diferente do \textit{Bagging}, a criação de subconjuntos não é feita de maneira aleatória, e sim feita priorizando subconjuntos mal classificados~\citep{Hastie_2009}.
+
+\subsubsection{Redes Neurais Artificiais}
+
+As Redes Neurais Artificiais, muitas vezes chamadas apenas de Redes Neurais, são um grupo de métodos de modelagem de dados estatísticos não lineares, que a princípio foram inspirados nos cérebros e nas estruturas dos neurônios biológicos. Elas são a base do aprendizado profundo. Eles são poderosos, escaláveis e capazes de trabalhar com grandes tarefas complexas de aprendizado de máquina, como serviços de reconhecimento de imagem e reconhecimento de fala.
+
+As Redes Neurais Artificiais não são novas para os sistemas de computação, pois foram introduzidas pela primeira vez por Warren McCulloch e Walter Pitts em 1943~\citep{McCulloch_1943}. Desde então, o desenvolvimento dessas técnicas passou por altos e baixos, até ter uma adoção considerável graças aos avanços significativos no poder computacional tanto em hardware quanto em software, é possível treinar Redes Neurais complexas, e há uma enorme quantidade de dados disponíveis para uso em bancos de dados. As Redes Neurais podem ser divididas em dois grupos principais~\citep{Singh_2009}:
+
+\begin{itemize}
+\item \textbf{Redes retroalimentadas (\textit{Feedforward})}: Nessas redes, o fluxo de dados se move apenas na direção direta da camada de entrada para os nós de saída. Não há alimentação ou loop no sistema.
+\item \textbf{Redes recorrentes}: Este tipo de rede pode ter a opção de feedback e reutiliza os dados dos estágios posteriores para os estágios anteriores.
+\end{itemize}
+
+O processo simplificado de uma Rede Neural é o seguinte:
+
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item Os dados de entrada são fornecidos à rede, eles se propagam pelas camadas e o processo de encaminhamento produz a previsão.
+\item Calcula-se o erro entre o produto previsto e o produto real (função de custo).
+\item A Rede Neural usa um algoritmo de otimização para ajustar os pesos de forma a reduzir a função custo.
+\item O processo de encaminhamento inicia novamente e continua até que a taxa de erro seja minimizada.
+\end{enumerate}
+
+Algoritmos de otimização são métodos usados para minimizar o valor da função de custo ajustando os parâmetros internos do modelo. Algumas das técnicas de otimização mais comuns nas estruturas de aprendizado profundo são as seguintes: \textit{Stochastic Gradient Descent} (SGD)~\citep{Schmidt_2013}, \textit{Momentum}~\citep{Polyak_1964}, \textit{Nesterov Accelerated Gradient} (NAG)~\citep{Sutskever_2013}, \textit{Adaptive Gradient} (AdaGrad)~\citep{Duchi_2011}, \textit{Root mean square prop} (RMSprop)~\citep{Graves_2013}, \textit{Adaptive moment estimation}, (Adam)~\citep{Kingma_2014}, \textit{Nesterov and Adam optimizer} (Nadam)~\citep{Dozat_2016}.
+
+Toda Rede Neural consiste em alguns nós (neurônios), conexões ponderadas entre os nós e uma abordagem computacional chamada função de ativação usada para definir a saída de cada neurônio. Diferentes tipos de funções de ativação podem ser usados com esta técnica, como Sigmóide, tanh (tangente hiperbólica) ou ReLU (sigla de \textit{Rectified Linear Unit}).
+
+Redes Neurais consistem em diferentes camadas. O tipo mais simples de Rede Neural inclui uma camada de entrada que recebe informações de fontes externas, como valores de atributos do conjunto de dados de entrada. A camada de saída gera a saída da rede e as camadas ocultas que conectam a camada de entrada e a camada de saída entre si. O valor de entrada de cada nó em cada camada é calculado pela soma de todos os nós de entrada multiplicada pelo respectivo peso da interconexão entre os nós~\citep{Erb_1993}.
+
 \section{Fairness em Machine Learning}
 
 Como a coleta de dados está presente atualmente no dia-a-dia de variados setores da sociedade, o uso de \textit{Machine Learning} é extremamente versátil para tomadas de decisão, podendo ser utilizados em problemas como admissão de universidades, contratações, análise de crédito e reconhecimento de doenças. Com o aumento dessa influência, o uso de dados sensíveis em um contexto determinado também aumentou, e temas como uma IA ética e conceitos como vieses nos dados e \textit{Fairness} passaram a serem discutidas não apenas na Computação, mas em áreas como Direito. Algoritmos são mais objetivos, rápidos e são capazes de considerar uma grande magnitude de recursos que pessoas não são capazes. Entretanto, até o presente momento eles não são capazes de diferenciar contextos sociais, onde um resultado mais eficiente de acordo com os dados disponíveis podem amplificar as desigualdades sociais e tomar decisões de modo injusto~\citep{Mehrabi_2021}. 
@@ -411,17 +609,24 @@ Estes dados sensíveis, tendo como exemplos cor de pele, raça, sexo, idade e al
 
 É possível descrever o conceito de \textit{Fairness} no contexto de aprendizagem supervisionada, onde um modelo $f$ pode prever um conjunto de resultados $y$ a partir de um conjunto de \textit{features} $x$, evitando discriminação injusta em relação a um atributo protegido $a$. É permitido, mas não exigido, que $a$ seja um componente de $x$~\citep{Begley_2021}. Em outras palavras, um modelo de ML considerado justo é aquele onde a correlação de seu resultado é baixa em relação a dados de entrada considerados como sensíveis a discriminações.
 
-Geralmente, as descrições de justiça se dividem em dois grupos principais: justiça individual e justiça de grupo. O objetivo da justiça individual é que indivíduos semelhantes devem obter resultados semelhantes, enquanto na justiça de grupo, cada um dos grupos definidos pelo atributo protegido deve ser tratado igualmente.
-ser tratados igualmente.
-
--- TODO continuar
+Geralmente, as descrições de justiça se dividem em dois grupos principais: justiça individual e justiça de grupo. O objetivo da justiça individual é que indivíduos semelhantes devem obter resultados semelhantes, enquanto na justiça de grupo, cada um dos grupos definidos pelo atributo protegido devem ser tratados igualmente. No geral, os estudos atuais costumam realizar seus experimentos em casos de justiça de grupo, uma vez que o escopo de justiça de grupo é muito mais amplo e tende a exemplificar melhor a relação entre dados, relações sociais e vieses do mundo atual.
 
 \subsection{Métricas de Fairness}
 
-Considerando $Y=1$ a classe positiva, $Z=0$ o grupo não-privilegiado e $Z=1$ o grupo privilegiado, algumas das definições de \textit{Fairness} mais usadas são as seguintes:
+Para avaliar a justiça de um modelo, as métricas utilizadas diferem das métricas utilizadas para avaliação do modelo, que possuem o propósito de verificar se um modelo tem previsões confiáveis ou não. As métricas de \textit{Fairness} possuem um propósito diferente, pois verificam os dados de forma mais intimista. Elas não medem o modelo como um todo, mas o quanto os grupos e registros avaliados estão próximos dos outros. Enquanto as métricas mais tradicionais avaliam a performance do modelo e seus dados como um todo e seus resultados gerais, as métricas de \textit{Fairness} avaliam se os resultados gerais também se refletem em grupos específicos, para verificar se não há disparidade ou discriminação nos resultados propostos.
+
+Assim como algumas métricas utilizadas para avaliação, muitas métricas utilizam Verdadeiros Positivos, Verdadeiros Negativos, Falsos positivos e Falsos Negativos para analisar o quão justo o modelo é. Entretanto, diferente da acurácia, precisão e recall utilizados anteriormente, a medição das discriminações utiliza outras métricas, utilizadas ou não para avaliar a performance, para estabelecer novas métricas mais adequadas para a sua finalidade.
+
+Exemplos de métricas utilizadas para isso são a Taxa de Verdadeiros Positivos e a Taxa de Falsos Positivos. Enquanto a \textbf{Taxa de Verdadeiros Positivos} (TVP, ou TPR pelo termo em inglës \textbf{True Positive Rate}) é outro termo para denominar o recall, a \textbf{Taxa de Falsos Positivos} (TFP, ou FPR pelo termo em inglës \textbf{False Positive Rate}) é a fração de casos negativos previstos incorretamente como estando na classe positiva de todos os casos positivos reais:
+
+\begin{equation}
+FPR = \frac{FP}{FP + TN}
+\end{equation}
+
+Dada essas métricas iniciais, considerando $Y=1$ a classe positiva, $Z=0$ o grupo não-privilegiado e $Z=1$ o grupo privilegiado, algumas das definições de \textit{Fairness} mais usadas são as seguintes:
 
 \begin{itemize}
-\item \textbf{Diferença de paridade estatística, ou discriminação~\citep{Zemel_2013}:} Esta métrica é baseada na seguinte fórmula:
+\item \textbf{Diferença de paridade estatística (\textit{Statistical parity difference}), ou discriminação~\citep{Zemel_2013}:} Esta métrica é baseada na seguinte fórmula:
 
 \begin{equation}
 Pr(Y=1|Z=0)-Pr(Y=1|Z=1)
@@ -429,7 +634,7 @@ Pr(Y=1|Z=0)-Pr(Y=1|Z=1)
  
 Aqui, o viés ou paridade estatística é a diferença entre a probabilidade de que um indivíduo aleatório retirado dos não-privilegiados seja rotulado como 1 e a probabilidade de que um indivíduo aleatório dos privilegiados seja rotulado como 1. Portanto, um valor próximo de 0 é considerado justo.
 
-\item \textbf{Diferença de oportunidade igual~\citep{Biswas_2020}:} É a diferença entre a taxa positiva verdadeira do grupo não privilegiado e a taxa positiva verdadeira do grupo privilegiado:
+\item \textbf{Diferença de oportunidade igual (\textit{Equal opportunity difference})~\citep{Biswas_2020}:} É a diferença entre a taxa positiva verdadeira do grupo não privilegiado e a taxa positiva verdadeira do grupo privilegiado:
 
 \begin{equation}
 TPR_{Z=0} - TPR_{Z=1}
@@ -437,7 +642,7 @@ TPR_{Z=0} - TPR_{Z=1}
  
 Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz a igualdade de oportunidades quando a taxa positiva verdadeira de ambos os grupos são iguais~\citep{Hardt_2016}
 
-\item \textbf{Diferença de probabilidade média~\citep{Biswas_2020}:} Essa métrica usa a taxa de falsos positivos e a taxa positiva verdadeira para calcular a tendência, calculando a igualdade de probabilidades com a fórmula:
+\item \textbf{Diferença de probabilidade média (\textit{Average odds difference})~\citep{Biswas_2020}:} Essa métrica usa a taxa de falsos positivos e a taxa positiva verdadeira para calcular a tendência, calculando a igualdade de probabilidades com a fórmula:
 
 \begin{equation}
 \frac{1}{2}(|FPR_{Z=0} - FPR_{Z=1}|+|TPR_{Z=0} - TPR_{Z=1}|)
@@ -445,7 +650,7 @@ Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz 
  
 Precisa ser próximo a 0 para ser considerado justo.
 
-\item \textbf{Impacto de disparidade~\citep{Biswas_2020}:} Para esta métrica, é usada a seguinte fórmula:
+\item \textbf{Impacto de disparidade (\textit{Disparate impact})~\citep{Biswas_2020}:} Para esta métrica, é usada a seguinte fórmula:
 
 \begin{align*}
 \frac{Pr(Y=1|Z=0)}{Pr(Y=1|Z=1)}
@@ -453,7 +658,7 @@ Precisa ser próximo a 0 para ser considerado justo.
 
 Usa as mesmas probabilidades da diferença de paridade estatística, mas aqui são calculadas como proporção. Desta forma, um valor próximo de 1 é considerado justo.
 
-\item \textbf{Indíce de Theil~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com $\alpha$ igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
+\item \textbf{Índice de Theil (\textit{Theil index})~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com $\alpha$ igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
 
 \begin{align*}
 \frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
@@ -540,6 +745,51 @@ Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de
 
 \section{Proveniência de Dados}
 
+O termo proveniência é comumente usado no contexto da arte para denotar a história documentada ou a cadeia de propriedade de um objeto de arte~\citep{Moreau_2007}~\citep{Moreau_2008}~\citep{Moreau_2009}~\citep{Tan_2007}. A proveniência ajuda a determinar a autenticidade e, portanto, o valor dos objetos de arte. Passando para o contexto da computação e do processamento de dados, a proveniência dos dados, às vezes chamada de linhagem ou \textit{pedigree}, é a descrição das origens de um dado e o processo pelo qual ele chegou a um banco de dados~\citep{Buneman_2001}, contendo metadados informando "como", "quando", "onde", "por que" ele foi obtido e "quem" o obteve. Em outras palavras, o conceito, não somente inclui a origem do dado (identificação,responsável pelo dado, data de criação), mas também os processos aplicados a ele (algoritmos e os parâmetros utilizados para executá-lo)~\citep{Woodruff_1997}. Os principais benefícios da proveniência para a qualidade de dados são~\citep{Bose_2005}:
+
+\begin{itemize}
+\item \textbf{Comunica a qualidade de dados:} confiabilidade, adequação, acurácia, atualidade, redundância;
+\item Melhora a interpretação do dado: em relação a função do reconhecimento da fonte e na utilização do dado para um aspecto de tomada de decisão.
+\item \textbf{Justificativa do uso de um determinado dado:} em relação as limitações e intenções originais do uso de um determinado dado de conjuntos de dados ambientais.
+\item \textbf{Redução de erros:} no quesito do juízo da precisão do dado, no acompanhamento preciso da linhagem de conjuntos de dados científicos.
+\item \textbf{Passos do processamento:} permite que usuários não especialistas em dados entendam a capacidade de recuperar e entender os relacionamentos entre produtos de dados, scripts ou dados gerados por programas.
+\item \textbf{Criação de dados científicos:} permite identificar o processo utilizado para ajudar a identificar e avaliar os componentes básicos dos sistemas que fornecem a recuperação de linhagem para produtos de dados científicos.
+\item \textbf{Atualização de dados:} permite a partir do desenvolvimento de estudos formais para executar rastreamento de linhagem de dados em visões relacionais.
+\item \textbf{Modificação de \textit{schemas} de visões relacionais:} modelos gráficos e estudos experimentais.
+\item \textbf{Fontes de dados históricas:} permite identificar a origem e o subsequente histórico de processamento.
+\end{itemize}
+
+Tanto a comunidade científica quanto a empresarial adotaram o estilo de arquitetura orientada a serviços (SOA), que permite que os serviços sejam descobertos e compostos dinamicamente~\citep{Moreau_2008}. Os aplicativos baseados em SOA tornam-se mais dinâmicos e abertos, mas também precisam atender a novos requisitos. É preciso verificar se o processo que os trouxe resultados está em conformidade com regulamentações ou metodologias específicas, provar que os resultados são derivados independentemente de serviços ou bancos de dados com determinadas restrições de licença, e estabelecer que os dados foram capturados na fonte por instrumentos que ofereçam confiabilidade.
+
+Como tais verificações não são automatizadas, há sempre a possibilidade de erro humano: uma etapa pode não ser feita ou feita parcialmente, por uma falha em alguma verificação, ou mesmo por falta de suporte. Os dados podem não conter as informações históricas necessárias para fezerem as verificações. Portanto, há a necessidade de capturar informações extras (documentação do processo) que descrevam o que realmente ocorreu durante a execução. A documentação do processo é para os dados o que um registro de propriedade é para uma obra de arte. Os aplicativos capazes de realizar proveniência criam a documentação do processo e a armazenam em uma base de proveniência, cujo papel é oferecer um armazenamento seguro e persistente de longo prazo da documentação do processo, conforme ilustrado na Figura \ref{fig:dataProvenanceSOA}. Esse papel acomoda várias implantações: por exemplo, uma base de proveniência pode ser um serviço único e autônomo ou, para ser mais escalável, pode ser uma coleção de bases distribuídas~\citep{Moreau_2008}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.75]{images/provenance_lifecycle.png}
+\caption {Ciclo de vida da proveniência.~\citep{Moreau_2008}}
+\label{fig:dataProvenanceSOA}
+\end{figure}
+
+Uma vez registrada a documentação do processo, o resultado da proveniência dos dados pode ser recuperada consultando a base de proveniência e analisada para atender as necessidades do usuário da aplicação. Com o tempo, é preciso gerenciar e manter a base de proveniência e o conteúdo já obtido. Dado esse ponto, é possível dividir o ciclo de vida da proveniência de dados em quatro fases diferentes, sendo válido para todos os sistemas capazes de realizá-la~\citep{Moreau_2008}:
+
+\begin{itemize}
+\item Criação
+\item Registro
+\item Consulta
+\item Gerenciamento
+\end{itemize}
+
+É possível utilizar \textit{workflows} para gerenciar a proveniência~\citep{Davidson_2008}. No domínio científico, um \textit{workflow} é normalmente usado para executar tarefas complexas de processamento de dados. Um \textit{workflow} pode ser pensado como um programa que é uma série de etapas de computação e etapas definidas por processos executados manualmente por uma ou mais pessoas. A proveniência do \textit{workflow} refere-se ao registro de todo o histórico da saída final do \textit{workflow}~\citep{Tan_2007}. Nesse contexto, há duas formas distintas de proveniência~\citep{Davidson_2008}:
+
+\begin{itemize}
+\item \textbf{Prospectiva:} Trata-se da sequência de processos utilizados para a geração do dado, ou seja, a captura dos passos que devem ser seguidos para a geração de um dado produto.
+\item \textbf{Retrospectiva:} Trata-se das informações obtidas durante a execução dos processos de geração do dado. Compreende desde o tempo de duração de cada atividade executada até a origem dos dados de entrada. Além disso, não depende do tratamento da proveniência prospectiva para ser utilizado. Em outras palavras, é como se fosse um \textit{log} detalhado da execução de uma tarefa.
+\end{itemize}
+
+Um importante componente da proveniência é a obtenção de informações sobre causalidade. Nesse componente é guardada a descrição do processo, ou a sequência das etapas, que, junto comdados de entrada e seus respectivos parâmetros, levam à criação de uma base de dados. Assim as dependências dos processos são usadas para documentar sua criação, bem como auxiliar na reprodução e validação desse processo. A causalidade pode ser inferida tanto para a forma prospectiva como para a forma retrospectiva de proveniência~\citep{Davidson_2008}.
+
+Outro componente-chave para a proveniência são as informações definidas pelo usuário, a documentação. Por serem dados, em geral, advindos dos processos de anotação, não são capturado automaticamente. Com isso, possuem diferentes níveis de granulosidade e podem estar associados tanto para a forma prospectiva como para a forma retrospectiva de proveniência. Esse tipo de registro se torna muito importante, pois contém informações csobre decisões tomadas e observações feitas pelo usuário~\citep{Davidson_2008}.
+
 \section{Arquitetura de Software}
 
 O consenso sobre a definição de arquitetura de software foi adotado com a adoção do padrão IEEE 1471, que define arquitetura de software como \textit{"a organização fundamental de um sistema incorporado em seus componentes, seus relacionamentos entre si e com o meio ambiente e os princípios que orientam seu projeto e evolução"}. Com esta definição, o componente e o conector são reforçados como conceitos centrais da arquitetura de software~\citep{Bosch_2004}.
@@ -573,7 +823,7 @@ Um efetor (\textit{Effector}) ou mais executam as ações planejadas no recurso.
 \item \textbf{Conhecimento (\textit{Knowledge}):} A base de conhecimento é central e acessível por todas as partes do \textit{loop}. Separado a partir de dados coletados e analisados, ele contém conhecimento adicional, como modelos de arquitetura, modelos de metas, políticas e planos de mudança.
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{images/MAPE-K.png}
 \caption {Diagrama de funcionamento da arquitetura MAPE-K~\citep{Abbas_2010}.}
@@ -615,17 +865,1145 @@ Como desvantagens, é possível citar:
 \chapter{Metodologia}
 \label{sec:metodologia}
 
-\section{Detalhamento do processo e diagramas elaborados}
+\section{Detalhamento do processo}
+
+Dado as etapas da AI Reference Architecture, foram definidos os seguintes papeis onde um projeto de Machine Learning pode ter atuação e onde se encaixariam:
+
+\begin{itemize}
+\item \textbf{Especialista de domínio:} É a pessoa que detém de todo o conjunto de regras do qual a aplicação deve respeitar. Pode não ter conhecimento técnico, embora esse conhecimento possa ajudar na comunicação das regras com os demais papeis. Está presente nas fases de Coleta, Organização e Infusão do ciclo.
+
+\item \textbf{Engenheiro de Dados:} É a pessoa responsável pelos processos de coleta e transformação dos dados para o uso em outros processos, sejam eles de Softwares tradicionais ou aplicações de Machine Learning. Pode aplicar processos de governança antes de definir que o dado esteja pronto para ser usado por outras pessoas. Está presente nas fases de Coleta e Organização do ciclo.
+
+\item \textbf{Cientista de Dados:} É a pessoa responsável pela análise dos dados e do desenvolvimento do processo de Machine Learning após a transformação e tratamento dos dados. Pode realizar tratamentos próprios antes do treinamento, como \textit{Encoding} (\textit{Label Encoding}/\textit{One-hot Encoding}), normalização, processos de regularização como aumentação de dados, para melhorar a performance do mesmo. Está presente nas fases de Organização e Análise do ciclo.
+
+\item \textbf{Engenheiro de Software:} É a pessoa responsável por usar o modelo de Machine Learning obtido na fase de Análise em aplicações que façam sentido para seu uso, como assistentes, automações, dashboards e relatórios. Está presente apenas na fase de Infusão, mas pode ser considerado na fase de Análise para verificar com o Cientista de Dados como está o andamento dos modelos desenvolvidos e desenhar alternativas caso os mesmos não estejam prontos para uso.
+
+\end{itemize}
+
+Dado esses papeis e suas respectivas funções, foi desenhado um diagrama de atividades, presente na Figura \ref{fig:AIRoles}, determinando como eles se encaixariam no processo. Como o foco está na parte de Machine Learning, o detalhamento maior ficará na parte responsável pelo Cientista de Dados.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.25]{images/Diagrama_Atividades.jpg}
+\caption {Diagrama de atividades com subdivisão de cada papel em uma aplicação de IA utilizando métricas de Fairness, com base na IBM AI Reference Architecture~\citep{IBM_2021}}
+\label{fig:AIRoles}
+\end{figure}
+
+O desenvolvimento realizado neste trabalho pode ser dividido em 5 etapas maiores, que podem ser detalhadas e sub-divididas:
+
+\begin{itemize}
+\item \textbf{Obtenção dos conjuntos de dados:} Foi realizada uma pesquisa dos conjuntos de dados utilizados como experimento envolvendo algoritmos de redução de vieses e, após uma quantidade de conjuntos de dados, os mesmos foram encontrados e obtidos para serem analisados.
+
+\item \textbf{Transformação dos conjuntos de dados:} Como alguns dos conjuntos de dados obtidos diferentes valores qualitativos e codificados de acordo com o atributo, primeiro foi realizado uma transformação dos dados para garantir uma melhor legibilidade, o que já equivaleria minimamente ao trabalho do Engenheiro de Dados presente neste trabalho de Mestrado. Posteriormente, novas transformações foram realizadas devido a necessidade de separar grupo privilegiado ao grupo não-privilegiado, mas neste trabalho já equivaleria a parte do Cientista de Dados.
+
+\item \textbf{Desenvolvimento do Pipeline:} Como Machine Learning possui um processo muito bem definido, é possível subdividir este processo em etapas e subdividir cada uma dessas etapas em componentes isolados. O objetivo do desenvolvimento de um Pipeline é sistematizar todo esse processo de modo que supostas atualizações sejam incrementais e que seja possível realizar uma execução de forma autônoma a partir da próxima etapa. Para simplificar o processo, foi utilizada a arquitetura \textit{Pipe-and-Filter}, que é simples de ser entendida e pode ser encontrada em diferentes publicações.
+
+\item \textbf{Desenvolvimento dos processos de autonomia do Pipeline:} Após o desenvolvimento do Pipeline, foi desenvolvido um elemento autônomo para trabalhar em conjunto com o Pipeline como elemento gerenciado. Através das métricas obtidas em execuções anteriores, é possível inferir sugestões de melhores combinações para execução e garantia de um melhor resultado de forma mais eficiente. Para garantir uma maior flexibilidade nos resultados, foram implementadas diversas estratégias para garantir que essa sugestão seja customizada pelo Cientista de Dados e/ou pelo Especialista de Domínio se isso for necessário para as necessidades do problema.
+
+\item \textbf{Interface Humano-Computador:} Para facilitar o entendimento dos arquivos utilizados para configuração e utilização das estratégias da arquitetura MAPE-K, foi criada uma interface onde é possível realizar a configuração pela mesma, podendo também realizar uma execução do Pipeline isolada e uma execução com sugestões, acompanhando a análise realizada no gerenciador MAPE-K.
+
+\end{itemize}
+
+Para definição dos objetivos do Pipeline e da sua autonomia, foi realizado um detalhamento na forma de \textit{Assurance Cases}, onde o objetivo principal, que é a obtenção do modelo mais equilibrado entre métricas de avaliação, onde para melhor diferenciação de seu objetivo serão denominadas como métricas de Performance, e métricas de Fairness, é subdividido em diferentes estratégias, novamente subdividido em novos objetivos, e através de evidências é possível verificar o progresso do objetivo principal.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.1]{images/assurancecase.jpg}
+\caption {\textit{Assurance Cases} feitos para detalhar os objetivos necessários para executar o Pipeline mais adequado}
+\label{fig:AssuranceCase}
+\end{figure}
 
 \section{Arquitetura do código}
 
+\subsection{Transformação dos conjuntos de dados}
+
+Nesta etapa, os conjuntos de dados obtidos com atributos qualitativos codificados com uma documentação própria, como o \textit{German Credit Dataset}~\citep{ucigerman_2021}, são transformados com nomenclaturas mais legíveis e colocados em arquivos CSV. O Trecho \ref{cod:DataEngTransform}, colocado abaixo, ilustra um exemplo dessas operações.
+
+\begin{lstlisting}[language=Python, caption=Transformações do conjunto de dados \textit{German Credit Dataset},label=cod:DataEngTransform]
+def german_data_to_csv():
+    pd.set_option('display.max_columns', None)
+    df = pd.read_csv('datasets/german.data', sep=' ')
+    df.info()
+    print(df)
+
+    df['checking_account'] = df['checking_account'].map(
+        {'A11': '<0', 'A12': '0<=x<200', 'A13': '>=200', 'A14': 'None'}).astype(str)
+    df['credit_history'] = df['credit_history'].map(
+        {'A30': 'no_credits_taken', 'A31': 'all_credits_paid_bank',
+         'A32': 'existing_credits_paid', 'A33': 'delay_in_past', 'A34': 'critical'}).astype(str)
+    df['purpose'] = df['purpose'].map( 'radio/tv',
+         'A44': 'domestic_appliances', 'A45': 'repairs', 'A46': 'education', 'A47':
+        {'A40': 'car_new', 'A41': 'car_used', 'A42': 'furniture/equipment', 'A43': 'vacation', 'A48': 'retraining',
+         'A49': 'business', 'A410': 'others'}).astype(str)
+    df['savings_account'] = df['savings_account'].map(
+        {'A61': '<100', 'A62': '100<=x<500', 'A63': '500<=x<1000', 'A64': '>=1000', 'A65': 'unknown'}).astype(str)
+    df['present_employment_since'] = df['present_employment_since'].map(
+        {'A71': 'unemployed', 'A72': '<1', 'A73': '1<=x<4', 'A74': '4<=x<7', 'A75': '>=7'}).astype(str)
+    df['personal_status_sex'] = df['personal_status_sex'].map(
+        {'A91': 'male_divorced/separated', 'A92': 'female_divorced/separated/married', 'A93': 'male_single',
+         'A94': 'male_married/widowed', 'A95': 'female_single'}).astype(str)
+    df['other_debtors_guarantors'] = df['other_debtors_guarantors'].map(
+        {'A101': 'None', 'A102': 'co-applicant', 'A103': 'guarantor'}).astype(str)
+    df['property'] = df['property'].map(
+        {'A121': 'real_estate', 'A122': 'savings_insurance', 'A123': 'car_other', 'A124': 'unknown'}).astype(str)
+    df['installment_plans'] = df['installment_plans'].map(
+        {'A141': 'bank', 'A142': 'stores', 'A143': 'None'}).astype(str)
+    df['housing'] = df['housing'].map(
+        {'A151': 'rent', 'A152': 'own', 'A153': 'for_free'}).astype(str)
+    df['job'] = df['job'].map(
+        {'A171': 'unemployed', 'A172': 'unskilled', 'A173': 'skilled', 'A174': 'management'}).astype(str)
+    df['telephone'] = df['telephone'].map(
+        {'A191': 'none', 'A192': 'yes'}).astype(str)
+    df['foreign'] = df['foreign'].map(
+        {'A201': 'yes', 'A202': 'no'}).astype(str)
+    df['risk'] = df['risk'].map(
+        {1: 'good', 2: 'bad'}).astype(str)
+
+    print(df)
+    df.to_csv('datasets/german_credit_data.csv')
+\end{lstlisting}
+
+Nele, cada uma das colunas presentes no conjunto de dados que atribuem uma qualidade é renomeada de acordo com o equivalente presente em sua documentação. Esta etapa simularia uma transformação realizada por um Engenheiro de Dados para facilitar o trabalho de análise e implementação de um Cientista de Dados.
+
+\subsection{Pipeline}
+
+\subsubsection{Desenvolvimento de \textit{Framework}}
+
+Para facilitar o desenvolvimento do Pipeline e deixar seu código mais legível, foi vista durante seu desenvolvimento a necessidade de desenvolver um pequeno \textit{Framework} baseado na arquitetura \textit{Pipe-and-Filter} onde foram feitas adaptações devido a características e a limitações da linguagem \textit{Python}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{images/classdiagram_Pipe-and-Filter_framework.jpg}
+\caption {Diagrama de classes do \textit{Framework} baseado na arquitetura \textit{Pipe-and-Filter}}
+\label{fig:PipeAndFilterFramework}
+\end{figure}
+
+Conforme ilustrado na Figura \ref{fig:PipeAndFilterFramework}, o \textit{Framework} possui 3 classes: \textbf{PipeFilter}, \textbf{BasePipe} e \textbf{BaseFilter}. A classe \textbf{PipeFilter} foi criada para ser herdada pelas classes \textbf{BasePipe} e \textbf{BaseFilter} por duas limitações: Inexistência de interfaces no \textit{Python} e evitar erro de recursão de heranças acusado no momento da compilação. A classe \textbf{BasePipe} possui apenas um atributo \textbf{value} que é um dicionário que simboliza os dados que trafegam por esse Pipe. Como é um dicionário, ele é totalmente livre de quantos atributos o Pipe trafega, sendo assim a sua validação é responsabilidade da aplicação. A classe \textbf{BaseFilter} possui dois atributos \textbf{input} e \textbf{output} que simbolizam os Pipes de entrada e de saída do Filtro, e o uso desses dois Pipes mais a execução do Filtro vai estruturar o Pipeline como um todo.
+
+O Pipeline é realizado através de encadeamentos do método \textbf{to\_filter} com o método \textbf{to\_pipe}. O método \textbf{to\_filter} prepara um Filtro para utilizar o Pipe, setando o atributo \textbf{input} presente na classe de Filtro passada como parâmetro, e o método \textbf{to\_pipe} obtém o Pipe resultante do Filtro, chamando o método \textbf{execute} e obtendo o atributo \textbf{output} presente no Filtro para setar no atributo \textbf{value} presente na classe de Pipe passada como parâmetro. Isso forma encadeamentos de métodos que se assemelham muito com os de uma \textit{Fluent API}~\citep{Fowler_2005}, presente no Apêndice \ref{app:FluentAPI}, criando uma DSL (\textit{Domain-Specific Language}) cujo domínio é a estruturação de um Pipeline. O Trecho \ref{cod:PipeAndFilterMethods} mostra um breve exemplo de como é possível encadeá-los, onde \textbf{Pipe1}, \textbf{Pipe2} e \textbf{Pipe3} são classes que herdam \textbf{BasePipe} e \textbf{Filter1} e \textbf{Filter2} são classes que herdam \textbf{BaseFilter}.
+
+\begin{lstlisting}[language=Python, caption=Exemplo de uso do \textit{Framework} para encadeamento dos Pipelines,label=cod:PipeAndFilterMethods]
+root_pipe = Pipe1()
+
+pipe_with_filter_transformations = root_pipe.to_filter(Filter1())
+											.to_pipe(Pipe2())
+											.to_filter(Filter2())
+											.to_pipe(Pipe3())
+\end{lstlisting}
+
+Como a execução dos próprios filtros já é executada dentro do método \textbf{to\_pipe}, basta apenas realizar a instância das classes e executar os métodos \textbf{to\_filter} e \textbf{to\_pipe} para a execução do pipeline. Com isso, os algoritmos de Machine Learning ficam encapsulados em classes que herdam a classe \textbf{BaseFilter} e utilizam o método \textbf{execute} para executá-los. Desta forma, acontece a separação de interesses entre o componente que gerencia a execução do Pipeline e os componentes que gerenciam cada passo do Pipeline especificamente, garantindo um baixo acoplamento entre os componentes uma vez que é possível trocar de componentes que executam diferentes métodos sem afetar a execução do Pipeline. Consequentemente, conforme novos métodos são descobertos, adicioná-los ao Pipeline é extremamente simples e envolve poucas mudanças no código original. Ferramentas como o Apache Airflow~\citep{ApacheAirflow_2022} realizam uma abordagem semelhante através da classe \textbf{BaseOperator}, que pode ser herdada para implementar um operador customizado e executá-lo através de DAGs (\textit{Direct Acyclic Graphs})
+
+Utilizando o recurso de métodos especiais presente no Python~\citep{Pyspmethods_2022}, é possível manipular alguns \textit{tokens} como \textit{proxies} para executar os métodos já presentes no \textit{Framework}, simplificando a DSL e também simplificando o entendimento do Pipeline caso o Cientista de Dados tenha ciência do recurso. Para o método \textbf{to\_filter} foi escolhido o \textit{token} \textbf{$>$=}, pela semelhança com um funil, que é geralmente assemelhado a filtros em sistemas atuais, e para o \textit{token} o método \textbf{\_\_ge\_\_} é implementado como um \textit{proxy} do mesmo. Para o método \textbf{to\_pipe} foi escolhido o \textit{token} \textbf{==}, pela semelhança com um cano (pipe, em inglês), e para este \textit{token} o método \textbf{\_\_eq\_\_} é implementado como um \textit{proxy}.
+
+\begin{lstlisting}[language=Python, caption=Trecho \ref{cod:PipeAndFilterMethods} adaptado com métodos especiais da linguagem \textit{Python},label=cod:PipeAndFilterSpecialMethods]
+root_pipe = Pipe1()
+
+pipe_with_filter_transformations = root_pipe >= Filter1() == Pipe2() >= Filter2() == Pipe3()
+\end{lstlisting}
+
+Também foram implementados métodos para manipular os dicionários presentes nos Pipes conforme necessário. O método \textbf{merge(pipe)} junta os atributos presentes nos dicionários dos Pipes em um único Pipe, enquanto o método \textbf{partial\_pipe(attributes)} pega apenas os atributos presentes nos dicionários dos Pipes que forem especificados em uma lista de atributos definida no parâmetro \textbf{attributes}, conforme ilustrado no Trecho \ref{cod:PipeAndFilterManipulation}.
+
+Como métodos especiais, para o método \textbf{merge} foi escolhido o \textit{token} \textbf{+}, pela semelhança com uma operação de adição, e para este \textit{token} o método \textbf{\_\_add\_\_} é implementado como um \textit{proxy}. E para o método \textbf{partial\_pipe} foi escolhido os \textit{tokens} \textbf{[]}, colocados após o dicionário, pela semelhança com a operação de procurar com um item no dicionário (neste caso, é possível procurar um ou mais itens), e para este \textit{token} o método \textbf{\_\_getitem\_\_} é implementado como um \textit{proxy}. O Trecho \ref{cod:PipeAndFilterManipulationSpecial} mostra exemplos da modificação.
+
+\begin{lstlisting}[language=Python, caption=Manipulações para Pipes presentes no \textit{Framework},label=cod:PipeAndFilterManipulation]
+pipe1 = Pipe1()
+pipe1.value = {'attribute1': 1, 'attribute2': 2}
+
+pipe2 = Pipe2()
+pipe2.value = {'attribute3': 3, 'attribute4': 4}
+
+
+pipe3 = pipe1.merge(pipe2)
+print(pipe3) # Output - {'attribute1': 1, 'attribute2': 2, 'attribute3': 3, 'attribute4': 4}
+pipe4 = pipe3.partial_pipe(['attribute1', 'attribute3'])
+print(pipe4) # Output - {'attribute1': 1, 'attribute3': 3}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Manipulações para Pipes com métodos especiais,label=cod:PipeAndFilterManipulationSpecial]
+pipe1 = Pipe1()
+pipe1.value = {'attribute1': 1, 'attribute2': 2}
+
+pipe2 = Pipe2()
+pipe2.value = {'attribute3': 3, 'attribute4': 4}
+
+
+pipe3 = pipe1 + pipe2
+print(pipe3) # Output - {'attribute1': 1, 'attribute2': 2, 'attribute3': 3, 'attribute4': 4}
+pipe4 = pipe3['attribute1', 'attribute3']
+print(pipe4) # Output - {'attribute1': 1, 'attribute3': 3}
+\end{lstlisting}
+
+Após o desenvolvimento deste \textit{Framework}, foi realizada uma refatoração com a sua utilização e o desenvolvimento do Pipeline foi continuado.
+
+\subsubsection{Arquitetura e desenvolvimento do Pipeline}
+
+O Pipeline segue uma estrutura das fases de Pré-processamento, processamento e pós-processamento presentes em um processo para desenvolvimento de um modelo de Machine Learning, ilustrados na Figura \ref{fig:FairnessPipeline}. Os pontos de decisão entre redução de viés ou não presentes na figura são transparentes no código devido a implementação do \textit{Framework} já explicado na seção anterior e foram colocados para ilustrar melhor onde atuam os algoritmos de redução dos vieses.
+
+Além de tratar os dados, treinar o modelo e realizar testes sobre o mesmo, o Pipeline possui etapas para obter os metadados durante o processo e salvá-los junto com as métricas para obter a proveniência dos dados necessária para integrá-lo a um elemento autônomo. Para a execução dos algoritmos com redução de viés, é utilizada a biblioteca Ai Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}.
+
+Devido a natureza deste trabalho de Mestrado ser voltada à Engenharia de Software e a métricas de Fairness, detalhes do processo que também poderiam ser utilizados como estratégias mais sofisticadas para validação dos modelos, como \textit{k-fold Cross Validation}, e estratégias para regularização foram desconsiderados para evitar complexidade.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{images/ml-fairness-pipeline.jpg}
+\caption {Fases e etapas do Pipeline implementado}
+\label{fig:FairnessPipeline}
+\end{figure}
+
+Cada etapa ilustrada na figura se comporta da seguinte maneira:
+
+\begin{itemize}
+\item \textbf{Fase de Pré-Processamento:}
+	\begin{itemize}
+	\item \textbf{Armazenamento de metadados dos parâmetros iniciais:} Os parâmetros que irão determinar quais serão os conjuntos de dados, atributos protegidos e algoritmos utilizados em cada fase do Pipeline são armazenados em um Pipe e guardados para uma gravação em arquivo caso necessário.
+	\item \textbf{Obtenção do conjunto de dados e seus metadados:} De acordo com o parâmetro passado para o Pipeline, um Pipe relativo ao conjunto de dados em questão é selecionado, e os metadados presentes neste Pipe podem ser utilizados para uma gravação em arquivo caso necessário.
+	\item \textbf{Obtenção do atributo protegido, grupos e classes de classificação:}De acordo com o parâmetro passado para o Pipeline, um Pipe relativo ao atributo protegido em questão é selecionado, e informações de grupos privilegiados e não-privilegiados e classes para classificação, necessárias para executar os algoritmos presentes no AIF360, também estão presentes neste Pipe.
+	\item \textbf{Divisão do conjunto de dados (Treino/Validação/Testes):} Um Filtro relativo a divisão do conjunto de dados (entre conjunto de treino, conjunto de validação e conjunto de testes) é executado e suas divisões resultantes são colocadas em um Pipe.
+	\item \textbf{Pré-Processamento dos dados com base no atributo protegido:} As informações de atributo protegido são passadas para um Filtro para realizar um pré-processamento no conjunto de dados, preparando o conjunto de dados para o AIF360.
+	\item \textbf{Execução(ou não) de algoritmo para redução de viés:} De acordo com o parâmetro passado para o Pipeline, um algoritmo para redução de viés na fase de Pré-Processamento é colocado ou não para ser executado no Pipeline. 
+	\end{itemize}
+\item \textbf{Fase de Processamento/Treinamento:}
+	\begin{itemize}
+	\item \textbf{Execução de algoritmo de treinamento com(ou sem) redução de viés:} De acordo com o parâmetro passado para o Pipeline, um algoritmo de treinamento, podendo ter ou não ter redução de viés, é colocado ou não para ser executado no Pipeline.
+	\end{itemize}
+\item \textbf{Fase de Pós-Processamento/Testes:}
+	\begin{itemize}
+	\item \textbf{Execução(ou não) de algoritmo para redução de viés:} De acordo com o parâmetro passado para o Pipeline, um algoritmo para redução de viés na fase de Pós-Processamento é colocado ou não para ser executado no Pipeline.
+	\item \textbf{Cálculo de métricas (Performance/Fairness):} É realizado uma predição do algoritmo treinado com o conjunto de teste, e as predições são comparadas com os valores verdadeiros para obtenção das métricas.
+	\item \textbf{Armazenamento dos metadados e resultados:} Caso seja habilitado a gravação dos resultados, os metadados obtidos em etapas anteriores e o resultado das métricas são combinados e gravados em um arquivo JSON.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Componente MAPE-K}
+
+Os arquivos JSON gravados na última etapa a cada execução de Pipeline vão ser utilizados como insumos para análises elemento autônomo, seguindo o modelo de arquitetura MAPE-K. Em um Pipeline de Machine Learning, é possível guardar alguns metadados que podem servir de Base de Conhecimento inicial para a etapa de análise do componente a ser desenvolvido e que ajudariam na escolha do melhor modelo possível para execução:
+
+\begin{itemize}
+\item \textbf{Fase de Pré-Processamento:} Parâmetros utilizados para execução do Pipeline (Conjuntos de dados, Atributos protegidos e Algoritmos utilizados) e "assinatura"/checksum do conjunto de dados utilizado.
+\item \textbf{Fase de Processamento:} Parâmetros utilizados para execução dos algoritmos de treinamento.
+\item \textbf{Fase de Pós-Processamento:} Métricas do modelo resultante (Metricas de Performance e métricas de Fairness.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{images/ML-MAPE-K.jpg}
+\caption {Adequação do Pipeline ao gerenciador MAPE-K}
+\label{fig:MLMAPEK}
+\end{figure}
+
+Após a obtenção de tal Base de Conhecimento, e possível verificar como as etapas de cada parte do MAPE-K serão desenvolvidas. Conforme ilustrado na Figura \ref{fig:MLMAPEK}, as etapas de Análise e Planejamento foram subdivididas em diferentes estratégias para o MAPE-K ser configurável durante o processo de escolha, enquanto as etapas de monitoria e execução foram configuradas com uma única estratégia. As estratégias das etapas de Análise e Planejamento podem ser ativadas ou desativadas conforme o que é definido como \textit{Feature Toggles}~\citep{Rahman_2016}, presente no Apêndice \ref{app:FeatureToggles}, por meio de arquivos JSON presentes no projeto conforme ilustrado no Trecho \ref{cod:FeatureToggle}.
+
+\begin{lstlisting}[language=Python, caption=Exemplo de arquivo utilizando \textbf{(ver termo acima)},label=cod:FeatureToggle]
+{
+	"ml_algorithm_validation": true,
+	"ml_data_checksum": false,
+	"ml_pipeline": false,
+	"ml_pipeline_threshold": true	
+}
+\end{lstlisting}
+
+\subsubsection{Monitoria}
+
+Para a etapa de monitoria, os dados são obtidos em cada arquivo presente na base de conhecimento e separados em dois conjuntos diferentes: Um contendo os metadados e informações relativas a execução do Pipeline (checksum do conjunto de dados, estatísticas e parâmetros de execução do Pipeline) e outro contendo as métricas obtidas pelo modelo resultante dessa execução, ambos possuindo um identificador do arquivo para estabelecer consistência entre os dados dos dois conjuntos. Os arquivos podem ser filtrados pelo conjunto de dados e pelo atributo protegido, ou não possuir filtro obtendo todos os dados possíveis.
+
+\subsubsection{Análise}
+
+Para a etapa de análise, é realizado um cálculo de pesos baseado em uma seleção livre das métricas. O motivo de existir esse cálculo é mensurar o contexto do problema de acordo com uma análise prévia do Cientista de Dados e do Especialista de Domínio, e consolidar todas as métricas para simplificar as estratégias de planejamento. É possível encontrar abordagens similares e com objetivos similares, porém em diferentes contextos, pesquisando em artigos acadêmicos~\citep{Konstantinou_2017}.
+
+\begin{lstlisting}[language=Python, caption={Exemplo de arquivo contendo informações sobre as métricas, grupos e seus respectivos pesos},label=cod:MetricsWeights]
+{
+  "metrics_groups": [
+    {
+      "group_name": "standard",
+      "weight": 0.5,
+      "metrics": {
+        "accuracy": {
+          "weight": 0.5,
+          "normalize": null
+        },
+        "f1_score": {
+          "weight": 0.5,
+          "normalize": null
+        }
+      }
+    },
+    {
+      "group_name": "fairness",
+      "weight": 0.5,
+      "metrics": {
+        "statistical_parity_difference": {
+          "weight": 0.33,
+          "normalize": "diff"
+        },
+        "equal_opportunity_difference": {
+          "weight": 0.33,
+          "normalize": "diff"
+        },
+        "average_abs_odds_difference": {
+          "weight": 0.34,
+          "normalize": "diff"
+        }
+      }
+    }
+  ]
+}
+\end{lstlisting}
+
+As métricas são divididas em dois grupos (Métricas de performance e Metricas de Fairness), e dentro desse grupo pode-se colocar quantas métricas forem necessárias, desde que seja respeitado o contexto de cada grupo. A cada grupo é atribuído pesos diferentes, e a cada métrica desse grupo também é atribuído pesos diferentes, conforme ilustrado no Trecho \ref{cod:MetricsWeights}. Primeiro, normaliza-se as métricas $m_{F_i}$ para $m'_{F_i}$, referentes às métricas de Fairness, para todas ficarem em um intervalo de 0 a 1, conforme exibido na equação \ref{eqn:normalizationFairness}. Dessa forma, seus resultados ficam uniformes e é possível aplicar os pesos sem haver distorções no cálculo. No caso das métricas de Performance, todas possuem a mesma escala, por isso as métricas $m_{P_i}$ não são normalizadas. Depois, multiplica-se cada uma por seus pesos correspondentes $w_{P_i}$ e $w_{F_i}$, e realiza-se uma média ponderada dentro do grupo para atribuir uma pontuação $S_P$ para o grupo das Métricas de Performance e $S_F$ para o grupo das Metricas de Fairness, conforme exibido na equação \ref{eqn:groupScores}. Para facilitar a visualização das pontuações, multiplica-se as pontuações por um fator $X = 1000$ para o intervalo da pontuação ser de 0 a 1000 e arredonda-se o número. Após tais pontuações serem obtidas, a pontuação geral $S$ é calculada multiplicando-as por seus pesos correspondentes $w_P$ e $w_F$ e realizando a média ponderada, conforme exibido na equação \ref{eqn:totalScore}.
+
+\begin{equation}
+\label{eqn:normalizationFairness}
+	\begin{aligned}
+	m'_{F_i} = 
+	\begin{cases}
+	1-\lvert m_{F_i} \rvert & \text{caso $m_{F_i}$ envolva diferen\c{c}a e $-1 < m_{F_i} < 1$}\\
+	0 & \text{caso $m_{F_i}$ envolva diferen\c{c}a, e $m_{F_i} >= 1$ ou $m_{F_i} <= -1$}\\
+	1-\lvert \frac{1}{m_{F_i}}-1 \lvert & \text{caso $m_{F_i}$ envolva razão e $m_{F_i} > 1$}\\
+	1-\lvert m_{F_i}-1 \lvert & \text{caso $m_{F_i}$ envolva razão e $m_{F_i} <= 1$}\\
+	m_{F_i} & \text{caso contrário}
+	\end{cases}
+	\end{aligned}
+\end{equation}
+
+\begin{equation}
+\label{eqn:groupScores}
+	\begin{aligned}
+	S_F = \round*{X \times \frac{\sum_{i=1}^{n_F} w_{m'_{F_i}} \times m'_{F_i}}{\sum_{i=1}^{n} w_{m'_{F_i}}}}\\
+	S_P = \round*{X \times \frac{\sum_{i=1}^{n_P} w_{m_{P_i}} \times m_{P_i}}{\sum_{i=1}^{n} w_{m_{P_i}}}}
+	\end{aligned}
+\end{equation}
+
+\begin{equation}
+\label{eqn:totalScore}
+	S = \frac{w_F \times S_F + w_P \times S_P}{w_F + w_P}
+\end{equation}
+
+Nesta etapa, foram desenvolvidas as seguintes estratégias, cujos motivos para existir e funcionamento estão explicados abaixo:
+
+\begin{itemize}
+\item \textbf{Análise por execução das métricas:} É atribuída a cada execução presente no conjunto uma pontuação conforme o cálculo explicado acima, e as pontuações são passadas adiante para a fase de planejamento.
+\item \textbf{Análise por metadados:} Para o desenvolvimento de melhores estratégias de planejamento, alguns metadados, como data de execução, são analisados e o conjunto resultante é enriquecido com esses metadados mais específicos.
+\end{itemize}
+
+\subsubsection{Planejamento}
+
+Para a etapa de planejamento, foram desenvolvidas as seguintes estratégias, cujos motivos para existir e funcionamento estão explicados abaixo, para a escolha dos melhores modelos:
+
+\begin{itemize}
+\item \textbf{Dados mais recentes:} Os dados podem ser modificados de acordo com a execução e a qualidade das métricas são melhor definidas de acordo com a qualidade dos dados. Nesta estratégia, é realizado um filtro baseado na assinatura do dado com a execução mais recente, que só é possível de ser obtida se a análise dos metadados for executada.
+\item \textbf{Filtragem de algoritmos:} Alguns algoritmos podem estar mal implementados ou seus modelos podem estar com métricas que necessitam uma melhor análise do Cientista de Dados para serem consideradas confiáveis. Para isso não acontecer, é possível realizar um filtro de acordo com as combinações de algoritmos consideradas confiáveis antes de selecionar os modelos ideais.
+\item \textbf{Fase por resultados da análise:} Pelo mesmo motivo da estratégia anterior, métricas não confiáveis significam uma distorção na pontuação final. Para esse caso, foi criado um limiar de pontuação mínimo e máximo para determinar pontuações que podem ser consideradas confiáveis para avaliação.
+\item \textbf{Obtenção dos parâmetros para execução:} Alguns dos modelos restantes são selecionados de acordo com as maiores pontuações e os parâmetros presentes nestes modelos selecionados são obtidos.
+\end{itemize}
+
+Após a execução das mesmas, caso estejam ativadas, os parâmetros selecionados são passados para a etapa de execução.
+
+\subsubsection{Execução}
+
+Para a etapa de execução, os parâmetros selecionados na fase de planejamento são configurados como parâmetros para a execução do Pipeline, e esta execução pode ampliar a Base de Conhecimento ou não dependendo do valor da opção de gravação dos resultados.
+
+\subsection{Interface Humano-Computador}
+
+Durante o desenvolvimento do Pipeline e de seu componente autônomo, foi notado que o número de configurações e a complexidade das mesmas era muito grande, ocasionando problemas na hora de documentar e detalhar todo o processo executado. Para facilitar tais configurações, foi criada uma Interface Humano-Computador onde é condensada toda a organização das configurações e dos arquivos utilizados para a execução simples e autônoma do Pipeline, alem da própria realização destas execuções. A interface foi dividida em uma parte Frontend e outra parte Backend para ter mais flexibilidade, poder ter uma escolha de ferramentas mais adequada a cada parte e próxima ao padrão de aplicações atuais.
+
+O Backend foi desenvolvido em Python para reusar códigos já desenvolvido em etapas anteriores, usando o framework Flask para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do Pipeline.
+
+O Frontend foi desenvolvido em JavaScript devido a facilidade e a robustez para construir interfaces com a linguagem e ao acervo grande de ferramentas para facilitar o desenvolvimento, usando as bibliotecas React e Redux e a biblioteca de componentes Material UI para economizar tempo com componentes já prontos, uma vez que o foco deste trabalho não exige componentes específicos para a interface. O uso da Material UI permite um \textit{look-and-feel} similar a aplicativos desenvolvidos para o Sistema Operacional para dispositivos móveis Android, uma vez que é baseado nas \textit{guidelines} do Material Design elaborados pelo Google.
+
+A interface foi nomeada de FairPEK, junção dos termos Fairness e MAPE-K, e possui os seguintes detalhes:
+
+\subsubsection{Opções do Menu}
+
+Conforme ilustrado na Figura \ref{fig:opcoesMenu}, o menu pode ser expandido e recolhido, onde suas opções são selecionáveis independente da configuração, e foram colocados ícones ao lado do nome de sua opção para que a localização das opções seja acessível mesmo com o menu recolhido.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:opcoesMenu1][Opções de seleção de menu expandidas.]{\includegraphics[scale=0.4]{images/front/Menu.png}}
+    \subfigure[fig:opcoesMenu2][Opções de seleção de menu recolhidas.]{\includegraphics[scale=0.4]{images/front/Analise.png}}
+    \caption{Comportamento das opções de menu.}
+    \label{fig:opcoesMenu}
+\end{figure}
+
+No menu, as opções são divididas em Configuração e Execução. Em Configuração, há as opções Análise, Métricas e Planejamento relativas às configurações presentes no Componente MAPE-K. Em Execução, há as opções Pipeline Manual e Pipeline Autônomo relativas às maneiras de como realizar uma execução do Pipeline.
+
+\subsubsection{Configurações para Análise}
+
+Ao clicar a opção do menu "Análise", é exibida a tela ilustrada na Figura \ref{fig:configAnalise}. Ela possui apenas duas opções, relativas às estratégias desenvolvidas na parte de análise do componente MAPE-K. Ao clicar no botão "Salvar" localizado no canto superior direito, é chamada uma requisição que salva o arquivo com as opções selecionadas e é exibida uma indicação de sucesso no canto inferior esquerdo.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:configAnalise1][Opções para configurar etapa de análise.]{\includegraphics[scale=0.4]{images/front/Analise.png}}
+    \subfigure[fig:configAnalise2][Indicação de sucesso da operação.]{\includegraphics[scale=0.4]{images/front/Analise-Sucesso.png}}
+    \caption{Configuração da etapa de análise para o pipeline autônomo.}
+    \label{fig:configAnalise}
+\end{figure}
+
+Uma das duas estratégias está desabilitada pois foi desenvolvida como a estratégia padrão usada pelo componente MAPE-K. Se a estratégia de utilizar metadados não for habilitada, certas opções marcadas na etapa de planejamento podem não funcionar.
+
+\subsubsection{Configurações das Métricas}
+
+Ao clicar a opção do menu "Métricas", é exibida a tela ilustrada na Figura \ref{fig:configMetricas}. Ela é dividida em duas abas: Métricas de Avaliação e Métricas de Fairness, relativas aos grupos de métricas divididos no componente MAPE-K. Em ambas as abas, há os campos de peso para avaliação, que simboliza o peso no cálculo da pontuação final, e o campo de métricas para uso, que determina quais métricas serão utilizadas para o calculo da pontuação de cada grupo. Uma vez que há apenas duas abas, a alteração do campo de peso para avaliação de uma aba automaticamente alterará o campo de peso para avaliação da outra aba para complementar a soma de 100\% sem precisar de validações.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:configMetricas1][Configuração para Métricas de Performance.]{\includegraphics[scale=0.4]{images/front/Metricas-Performance.png}}
+    \subfigure[fig:configMetricas2][Configuração para Métricas de Fairness.]{\includegraphics[scale=0.4]{images/front/Metricas-Fairness.png}}
+    \caption{Configuração das métricas para etapa de análise do pipeline autônomo.}
+    \label{fig:configMetricas}
+\end{figure}
+
+A alteração do campo de métricas para uso implicará na presença de mais ou menos métricas para alterar os pesos para o cálculo da pontuação para o grupo de métricas. Uma vez que eu posso ter mais de duas métricas nesse caso, cpmplementar a soma de todas as métricas automaticamente para 100\% seria uma tarefa com maior complexidade, e por isso foi substituída por uma validação, conforme ilustrado na Figura \ref{fig:cenariosMetricas}. Ao clicar no botão "Salvar" localizado no canto superior direito, é realizada a validação da soma de todas as métricas e, em caso positivo, chamada uma requisição que salva o arquivo com as opções selecionadas e seus respectivos valores. Após este procedimento, será exibida uma indicação de sucesso ou erro de validação no canto inferior esquerdo indicando se o arquivo foi salvo ou não.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:cenariosMetricas1][Erros de validação ao concluir a operação.]{\includegraphics[scale=0.4]{images/front/Metricas-Erro.png}}
+    \subfigure[fig:cenariosMetricas2][Indicação de sucesso da operação.]{\includegraphics[scale=0.4]{images/front/Metricas-Sucesso.png}}
+    \caption{Cenários possíveis na configuração das métricas.}
+    \label{fig:cenariosMetricas}
+\end{figure}
+
+\subsubsection{Configurações para Planejamento}
+
+Ao clicar a opção do menu "Planejamento", é exibida a tela ilustrada na Figura \ref{fig:configPlanejamento}. Ela possui quatro opções, relativas às estratégias desenvolvidas na parte de análise do componente MAPE-K. Ao clicar no botão "Salvar" localizado no canto superior direito, são chamadas requisições que salvam os arquivos necessários e é exibida uma indicação de sucesso no canto inferior esquerdo.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:configPlanejamento1][Opções para configurar etapa de planejamento.]{\includegraphics[scale=0.4]{images/front/Planejamento.png}}
+    \subfigure[fig:configPlanejamento2][Indicação de sucesso da operação.]{\includegraphics[scale=0.4]{images/front/Planejamento-Sucesso.png}}
+    \caption{Configuração da etapa de planejamento para o pipeline autônomo.}
+    \label{fig:configPlanejamento}
+\end{figure}
+
+Uma das quatro estratégias está desabilitada pois foi desenvolvida como a estratégia padrão usada pelo componente MAPE-K. Se a estratégia de restrição de algoritmos for selecionada, é exibido um submenu contendo as combinações de algoritmos que podem ser selecionadas que são salvas em um arquivo separado para serem filtrados na etapa de planejamento. Se a estratégia de restrição por um limiar de pontuação for selecionada, é exibido um slider com uma pontuação mínima e uma pontuação máxima, e ambas as pontuações são salvas em um arquivo separado para serem filtrados na etapa de planejamento.
+
+\subsubsection{Execução simples do Pipeline}
+
+Ao clicar a opção do menu "Pipeline Manual", é exibida a tela ilustrada na Figura \ref{fig:pipelineManual}. Ela possui indicações de etapas divididas em Parametrização, Execução e Resultados, campos para selecionar o conjunto de dados e o atributo protegido e opções para selecionar onde a redução de viés será executada. Dependendo da opção selecionada, aparecem campos para selecionar o algoritmo de treinamento e o algoritmo de redução de viés. Ao clicar no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o Pipeline com as opções selecionadas, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de execução.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:pipelineManual1][Opções para executar o pipeline manualmente.]{\includegraphics[scale=0.35]{images/front/Pipeline-Manual-Parametros.png}}
+    \subfigure[fig:pipelineManual2][Pipeline em execução.]{\includegraphics[scale=0.3575
+    ]{images/front/Pipeline-Manual-Execucao.png}}
+    \caption{Execução simples e manual do Pipeline.}
+    \label{fig:pipelineManual}
+\end{figure}
+
+Após a execução ser concluída,  a indicação de etapa é atualizada para a etapa de resultados, conforme ilustração nas Figuras \ref{fig:pipelineManualInfo} e \ref{fig:pipelineManualMetricas}. Nela, os parâmetros gravados são organizados em 4 grupos: Execução, relativos aos parâmetros utilizados e estatísticas da execução, Métricas de Performance, relativas aos resultados das métricas de Performance, Métricas de Fairness, relativas aos resultados das métricas de Fairness, e Pontuação, relativas ao cálculo realizado com as configurações utilizadas na parte de métricas.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:pipelineManual1][Exibição dos parâmetros no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Parametros.png}}
+    \subfigure[fig:pipelineManual2][Exibição das pontuações no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Pontuacao.png}}
+    \caption{Informações do resultado do pipeline.}
+    \label{fig:pipelineManualInfo}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:pipelineManual1][Exibição das métricas de performance no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Performance.png}}
+    \subfigure[fig:pipelineManual2][Exibição das métricas de fairness no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Fairness.png}}
+    \caption{Métricas do resultado do pipeline.}
+    \label{fig:pipelineManualMetricas}
+\end{figure}
+
+\subsubsection{Execução autônoma do Pipeline}
+
+Ao clicar a opção do menu "Pipeline Autônomo", é exibida a tela ilustrada na Figura \ref{fig:pipelineAutonomo}. Ela possui indicações de etapas divididas em Parametrização, Análise, Opções, Execução e Resultados e um campo para selecionar o conjunto de dados. Ao clicar no botão "Executar" localizado no canto superior direito, é feita uma requisição para escolher o melhor conjunto de parâmetros baseado em execuções anteriores, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de análise.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:pipelineAutonomo1][Opções para configurar o pipeline de forma autônoma.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Parametros.png}}
+    \subfigure[fig:pipelineAutonomo2][Análise do componente MAPE-K em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Analise.png}}
+    \caption{Execução autônoma do Pipeline.}
+    \label{fig:pipelineAutonomo}
+\end{figure}
+
+Após a etapa de análise ser concluída, a indicação de etapa é atualizada para a etapa de opções, conforme ilustração na Figura \ref{fig:pipelineAutonomoSelecao}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes nas Figuras \ref{fig:pipelineManualInfo} e \ref{fig:pipelineManualMetricas} e podem ser consultados para selecionar a melhor escolha possível das 5 melhores sugestões de acordo com a pontuação calculada, podendo contestar ou não a melhor escolha sugerida pelo componente MAPE-K.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:pipelineAutonomoSelecao1][Opções para seleção de pipeline para execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Selecao.png}}
+    \subfigure[fig:pipelineAutonomoSelecao2][Parâmetros a serem utilizados para execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Selecao-Parametros.png}}
+    \caption{Seleção do pipeline após análise.}
+    \label{fig:pipelineAutonomoSelecao}
+\end{figure}
+
+Ao clicar novamente no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o Pipeline com a opção selecionada, e a indicação de etapa é atualizada para a etapa de execução. Após a execução ser concluída,  a indicação de etapa é atualizada para a etapa de resultados, conforme ilustração na Figura \ref{fig:pipelineAutonomoResultado}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes na Figura \ref{fig:pipelineAutonomoSelecao}, mas desta vez refletem as métricas e pontuação da execução realizada pelo Pipeline.
+
+,
+\begin{figure}[H]
+    \centering
+    \subfigure[fig:pipelineAutonomoResultado1][Pipeline em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Execucao.png}}
+    \subfigure[fig:pipelineAutonomoResultado2][Resultados da execução realizada.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Resultado.png}}
+    \caption{Execução do pipeline após seleção.}
+    \label{fig:pipelineAutonomoResultado}
+\end{figure}
+
 \section{Experimentos e limitações}
+
+Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objetivo:
+
+\begin{itemize}
+\item \textbf{Objetivo:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}
+
+\item \textbf{Conjunto de dados:} German Credit Dataset, presente em \citep{ucigerman_2021}.
+
+\item \textbf{Atributos protegidos:} Idade, ou Nacionalidade
+
+\item \textbf{Grupo privilegiado:} Idade maior ou igual a 25 anos; Nacionalidade Alemã
+
+\item \textbf{Grupo não-privilegiado:} Idade menor que 25 anos; Nacionalidade diferente da Alemã (Estrangeiro)
+
+\end{itemize}
+
+Para realizar este experimento, foi considerado o seguinte objetivo e consideradas as seguintes limitações:
+
+\begin{itemize}
+\item \textbf{Experimento:} Execução de um \textit{pipeline} de ML para obtenção de dados iniciais na base de conhecimento e discussão de um \textit{pipeline} de ML utilizando MAPE-K como facilitador da escolha de modelo.
+
+\item \textbf{Medição:} Serão medidas as pontuações de cada agrupamento de métricas (Performance e Fairness), e tais métricas também serão comparadas com o valor de cada uma para verificar seu impacto na pontuação.
+
+\item \textbf{Pré-condição 1:} Houveram \textit{pipelines} que já foram pré-executados e já formaram uma base de conhecimento. Para o experimento, foi considerado ao menos 1 execução para cada combinação de conjunto de dados, atributo protegido e algoritmos utilizados.
+
+\item \textbf{Pré-condição 2:} A base de conhecimento será capaz de explicar a imparcialidade/justiça de um modelo, mas não será capaz de explicar a influência de cada \textit{feature} aplicada no modelo.
+
+\item \textbf{Pré-condição 3:} Podem existir ruídos nos resultados finais devido ao German Credit Dataset ser uma base de dados com poucas amostras (apenas 1000), mas eles serão desconsiderados uma vez que o conjunto de dados ainda é considerado como \textit{benchmark} em alguns trabalhos acadêmicos \citep{Kamiran_2011}~\citep{Feldman_2015}~\citep{Celis_2019} e seus dados exemplificam muito bem uma situação real onde dados sensíveis podem ser utilizados e são possíveis de afetar a decisão de um modelo e, consequentemente, a situação de vida de uma pessoa.
+
+\item \textbf{Restrição 1:} O algoritmo de retirada de viés é feito em apenas uma parte das etapas (Pré-processamento/Processamento/Pós-processamento). Isto foi decidido pois não foram verificadas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta no desempenho.
+
+\item \textbf{Restrição 2:} Por não conseguirem rodar com sucesso, foram retirados os Pipelines que rodaram os seguintes algoritmos: Pré-processamento Otimizado.
+
+\item \textbf{Restrição 3:} Pipelines também foram retirados por apresentarem métricas com valores máximos, para evitar análises caso exista alguma falha não detectada na implementação. Como exemplo, os que possuíam Classificação baseada em Rejeição de Opções.
+
+\item \textbf{Restrição 4:} Para evitar pipelines com conjuntos de algoritmos ruins e também pelo mesmo motivo da restrição anterior, o intervalo de pontuação para análise foi limitado de 500 a 950.
+\end{itemize}
 
 \chapter{Resultados e Discussões}
 
+A execução do Pipeline utilizando o componente MAPE-K foi realizada com 3 pesagens diferentes na pontuação geral:
+
+\begin{itemize}
+\item 50\% para métricas de Performance e 50\% para métricas de Fairness, para uma configuração equilibrada.
+\item 75\% para métricas de Performance e 25\% para métricas de Fairness, para uma configuração que prioriza a performance em detrimento da justiça.
+\item 25\% para métricas de Performance e 75\% para métricas de Fairness, para uma configuração que prioriza a justiça em detrimento da performance.
+\end{itemize}
+
+Em todas as execuções são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento.
+
+Os resultados baseados nas pré-condições e restrições já comentadas no capítulo anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKGeral5050}, \ref{tbl:ScoreMAPEKGeral7525} e \ref{tbl:ScoreMAPEKGeral2575}:
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 50\% Performance/50\% Fairness}
+\label{tbl:ScoreMAPEKGeral5050}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Nenhum & Regressão Logística & Equalized Odds & 968 & 860 & \textbf{914} \\
+Nacionalidade & Nenhum & Random Forest & Calibrated Equalized Odds & 902 & 922 & \textbf{912} \\
+Nacionalidade & Nenhum & Gradient Boosting & Calibrated Equalized Odds & 870 & 925 & \textbf{898} \\
+Idade & Nenhum & Gradient Boosting & Equalized Odds & 927 & 862 & \textbf{894} \\
+Idade & Reweighing & Gradient Boosting & Nenhum & 804 & 931 & \textbf{868} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 75\% Performance/25\% Fairness}
+\label{tbl:ScoreMAPEKGeral7525}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Nenhum & Regressão Logística & Equalized Odds & 968 & 860 & \textbf{941} \\
+Idade & Nenhum & Gradient Boosting & Equalized Odds & 927 & 862 & \textbf{910} \\
+Nacionalidade & Nenhum & Random Forest & Calibrated Equalized Odds & 902 & 922 & \textbf{907} \\
+Nacionalidade & Nenhum & Gradient Boosting & Calibrated Equalized Odds & 870 & 925 & \textbf{883} \\
+Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{874} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 25\% Performance/75\% Fairness}
+\label{tbl:ScoreMAPEKGeral2575}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Disparate Impact Remover & Support Vector Machines & Nenhum & 747 & 989 & \textbf{928} \\
+Nacionalidade & Disparate Impact Remover & Support Vector Machines & Nenhum & 747 & 989 & \textbf{928} \\
+Idade & Nenhum & Adversarial Debiasing & Nenhum & 742 & 979 & \textbf{920} \\
+Nacionalidade & Reweighing & Support Vector Machines & Nenhum & 755 & 972 & \textbf{918} \\
+Nacionalidade & Learning Fair Representations & Support Vector Machines & Nenhum & 755 & 972 & \textbf{918} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+Nessas execuções, surpreende 2 observações. A primeira é o fato da predominância de algoritmos com redução de viés no pós-processamento/resultado especialmente em configurações que priorizavam performance, contrariando o esperado de que os algoritmos com redução de viés aumentavam justiça em detrimento da performance. A segunda é a predominância de algoritmos com redução de viés no pré-processamento/dado em configurações que priorizavam justiça, principalmente pois todos as execuções usavam \textit{Support Vector Machines} como algoritmo de treinamento.
+
+Diante destas 2 predominâncias envolvendo todos os pipelines executados, novos experimentos com restrições adicionais foram realizados para obter observações mais detalhadas a respeito dos resultados:
+
+\begin{itemize}
+\item Uso apenas de pipelines com o uso de algoritmos com redução de viés no pré - processamento/dado.
+\item Uso apenas de pipelines com o uso de algoritmos com redução de viés no processamento/treinamento.
+\item Uso apenas de pipelines com o uso de algoritmos com redução de viés no pós - processamento/resultado.
+\item Uso apenas de pipelines sem o uso de algoritmos com redução de viés.
+\end{itemize}
+
+As pré-condições, restrições e pesagens nas pontuações usadas anteriormente foram mantidas e seus resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKPreproc5050}, \ref{tbl:ScoreMAPEKPreproc7525}, \ref{tbl:ScoreMAPEKPreproc2575}, \ref{tbl:ScoreMAPEKInproc5050}, \ref{tbl:ScoreMAPEKInproc7525}, \ref{tbl:ScoreMAPEKInproc2575}, \ref{tbl:ScoreMAPEKPostproc5050}, \ref{tbl:ScoreMAPEKPostproc7525}, \ref{tbl:ScoreMAPEKPostproc2575}, \ref{tbl:ScoreMAPEKNoproc5050}, \ref{tbl:ScoreMAPEKNoproc7525} e \ref{tbl:ScoreMAPEKNoproc2575}:
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no dado - 50\% Performance/50\% Fairness}
+\label{tbl:ScoreMAPEKPreproc5050}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Reweighing & Gradient Boosting & Nenhum & 804 & 931 & \textbf{868} \\
+Idade & Learning Fair Representations & Gradient Boosting & Nenhum & 804 & 931 & \textbf{868} \\
+Idade & Disparate Impact Remover & Support Vector Machines & Nenhum & 747 & 989 & \textbf{868} \\
+Nacionalidade & Disparate Impact Remover & Support Vector Machines & Nenhum & 747 & 989 & \textbf{868} \\
+Nacionalidade & Learning Fair Representations & Support Vector Machines & Nenhum & 755 & 972 & \textbf{864} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no dado - 75\% Performance/25\% Fairness}
+\label{tbl:ScoreMAPEKPreproc7525}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Reweighing & Gradient Boosting & Nenhum & 804 & 931 & \textbf{836} \\
+Idade & Learning Fair Representations & Gradient Boosting & Nenhum & 804 & 931 & \textbf{836} \\
+Nacionalidade & Learning Fair Representations & Gradient Boosting & Nenhum & 811 & 878 & \textbf{828} \\
+Nacionalidade & Reweighing & Gradient Boosting & Nenhum & 811 & 878 & \textbf{828} \\
+Nacionalidade & Learning Fair Representations & Random Forest & Nenhum & 801 & 883 & \textbf{821} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no dado - 25\% Performance/75\% Fairness}
+\label{tbl:ScoreMAPEKPreproc2575}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Disparate Impact Remover & Support Vector Machines & Nenhum & 747 & 989 & \textbf{928} \\
+Nacionalidade & Disparate Impact Remover & Support Vector Machines & Nenhum & 747 & 989 & \textbf{928} \\
+Nacionalidade & Learning Fair Representations & Support Vector Machines & Nenhum & 755 & 972 & \textbf{918} \\
+Nacionalidade & Reweighing & Support Vector Machines & Nenhum & 755 & 972 & \textbf{918} \\
+Idade & Learning Fair Representations & Support Vector Machines & Nenhum & 755 & 969 & \textbf{916} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+Nos pipelines utilizando apenas algoritmos com redução de viés no dado, percebe-se a predominância dos algoritmos de treinamento \textit{Gradient Boosting} e \textit{Support Vector Machines}, sendo o \textit{Gradient Boosting} predominante em configurações priorizando performance e o \textit{Support Vector Machines} predominante em configurações priorizando justiça, o que começa a explicar a sua predominância também presente no resultado geral. Também é possível perceber mais 2 observações: A primeira observação é que a análise de apenas uma categoria de algoritmos dá mais clareza em ver como o cálculo utilizado nas 3 configurações faz com que o equilíbrio de ambas as métricas se torna mais importante do que a prioridade apenas em performance ou apenas em justiça, uma vez que há exemplos de conjuntos de algoritmos com pontuações ligeiramente maiores em performance que acabaram sendo pior avaliados pois a pontuação em \textit{Fairness} está bem menor, e vice-versa. A segunda observação é que o uso de um atributo protegido diferente (e, por consequência, com tratamento de dados diferente) e de um algoritmo de treinamento parecem impactar tanto quanto ou até mais que o próprio algoritmo com redução de viés no dado.
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no treinamento - 50\% Performance/50\% Fairness}
+\label{tbl:ScoreMAPEKInproc5050}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Nenhum & Adversarial Debiasing & Nenhum & 742 & 979 & \textbf{860} \\
+Nacionalidade & Nenhum & Grid Search Reduction & Nenhum & 789 & 895 & \textbf{845} \\
+Idade & Nenhum & Meta Fair Classifier & Nenhum & 776 & 910 & \textbf{843} \\
+Idade & Nenhum & Exponentiated Gradient Reduction & Nenhum & 811 & 869 & \textbf{840} \\
+Nacionalidade & Nenhum & Rich Subgroup Fairness & Nenhum & 791 & 856 & \textbf{824} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no treinamento - 75\% Performance/25\% Fairness}
+\label{tbl:ScoreMAPEKInproc7525}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Nenhum & Exponentiated Gradient Reduction & Nenhum & 811 & 869 & \textbf{826} \\
+Nacionalidade & Nenhum & Grid Search Reduction & Nenhum & 789 & 895 & \textbf{820} \\
+Idade & Nenhum & Meta Fair Classifier & Nenhum & 776 & 910 & \textbf{809} \\
+Nacionalidade & Nenhum & Exponentiated Gradient Reduction & Nenhum & 807 & 810 & \textbf{808} \\
+Nacionalidade & Nenhum & Rich Subgroup Fairness & Nenhum & 791 & 856 & \textbf{807} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no treinamento - 25\% Performance/75\% Fairness}
+\label{tbl:ScoreMAPEKInproc2575}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Nenhum & Adversarial Debiasing & Nenhum & 742 & 979 & \textbf{920} \\
+Idade & Nenhum & Meta Fair Classifier & Nenhum & 776 & 910 & \textbf{876} \\
+Nacionalidade & Nenhum & Grid Search Reduction & Nenhum & 795 & 895 & \textbf{870} \\
+Idade & Nenhum & Exponentiated Gradient Reduction & Nenhum & 811 & 869 & \textbf{854} \\
+Nacionalidade & Nenhum & Prejudice Remover & Nenhum & 770 & 874 & \textbf{848} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+Nos pipelines utilizando apenas algoritmos com redução de viés no treinamento, percebe-se uma variedade maior nos algoritmos, até porque não há usos de redução de viés em um pré ou um pós-processamento, com destaque para o \textit{Adversarial Debiasing} que foi bem avaliado pela pontuação alta em \textit{Fairness}. Nestes pipelines, as 2 observações percebidas nos pipelines utilizando apenas algoritmos com redução de viés no dado são reforçadas por uma maior variedade de pontuações e pelo algoritmo \textit{Exponentiated Gradient Reduction} com 2 exemplos diferentes na Tabela \ref{tbl:ScoreMAPEKInproc7525}, onde o uso da Nacionalidade como atributo protegido possui pontuações de performance e \textit{Fairness} piores que a Idade e conclundo que o processamento utilizado no atributo protegido pode afetar todas as métricas.
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no resultado - 50\% Performance/50\% Fairness}
+\label{tbl:ScoreMAPEKPostproc5050}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Nenhum & Regressão Logística & Equalized Odds & 968 & 860 & \textbf{914} \\
+Nacionalidade & Nenhum & Random Forest & Calibrated Equalized Odds & 902 & 922 & \textbf{912} \\
+Nacionalidade & Nenhum & Gradient Boosting & Calibrated Equalized Odds & 870 & 925 & \textbf{898} \\
+Idade & Nenhum & Gradient Boosting & Equalized Odds & 927 & 862 & \textbf{894} \\
+Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{849} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no resultado - 75\% Performance/25\% Fairness}
+\label{tbl:ScoreMAPEKPostproc7525}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Idade & Nenhum & Regressão Logística & Equalized Odds & 968 & 860 & \textbf{941} \\
+Idade & Nenhum & Gradient Boosting & Equalized Odds & 927 & 862 & \textbf{910} \\
+Nacionalidade & Nenhum & Random Forest & Calibrated Equalized Odds & 902 & 922 & \textbf{907} \\
+Nacionalidade & Nenhum & Gradient Boosting & Calibrated Equalized Odds & 870 & 925 & \textbf{883} \\
+Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{874} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas com redução de viés no resultado - 25\% Performance/75\% Fairness}
+\label{tbl:ScoreMAPEKPostproc2575}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Nacionalidade & Nenhum & Random Forest & Calibrated Equalized Odds & 902 & 922 & \textbf{917} \\
+Nacionalidade & Nenhum & Gradient Boosting & Calibrated Equalized Odds & 870 & 925 & \textbf{911} \\
+Idade & Nenhum & Regressão Logística & Equalized Odds & 968 & 860 & \textbf{887} \\
+Idade & Nenhum & Gradient Boosting & Equalized Odds & 927 & 862 & \textbf{878} \\
+Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{824} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+Nos pipelines utilizando apenas algoritmos com redução de viés no resultado, surpreende o fato de que os pipelines obtiveram as melhores pontuações em Performance e as piores pontuações em \textit{Fairness}, podendo indicar uma característica dos algoritmos \textit{Equalized Odds} e \textit{Calibrated Equalized Odds}. Entretanto, por conta da grande melhora por parte das métricas de performance, estes pipelines possuem um maior equilíbrio entre Performance e \textit{Fairness} e acabam garantindo maiores pontuações na média, justificando as melhores pontuações nas primeiras execuções onde foram considerados todos os métodos. Fora isto, as demais observações anteriores também se aplicam nestas execuções.
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas sem redução de viés - 50\% Performance/50\% Fairness}
+\label{tbl:ScoreMAPEKNoproc5050}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Nacionalidade & Nenhum & Support Vector Machines & Nenhum & 755 & 972 & \textbf{864} \\
+Idade & Nenhum & Support Vector Machines & Nenhum & 755 & 969 & \textbf{862} \\
+Nacionalidade & Nenhum & Random Forest & Nenhum & 802 & 885 & \textbf{844} \\
+Nacionalidade & Nenhum & Regressão Logística & Nenhum & 782 & 865 & \textbf{824} \\
+Nacionalidade & Nenhum & Gradient Boosting & Nenhum & 817 & 784 & \textbf{800} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas sem redução de viés - 75\% Performance/25\% Fairness}
+\label{tbl:ScoreMAPEKNoproc7525}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Nacionalidade & Nenhum & Random Forest & Nenhum & 802 & 885 & \textbf{823} \\
+Nacionalidade & Nenhum & Gradient Boosting & Nenhum & 817 & 784 & \textbf{809} \\
+Nacionalidade & Nenhum & Support Vector Machines & Nenhum & 755 & 972 & \textbf{809} \\
+Idade & Nenhum & Support Vector Machines & Nenhum & 755 & 969 & \textbf{808} \\
+Idade & Nenhum & Gradient Boosting & Nenhum & 817 & 778 & \textbf{807} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Apenas sem redução de viés - 25\% Performance/75\% Fairness}
+\label{tbl:ScoreMAPEKNoproc2575}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Nacionalidade & Nenhum & Support Vector Machines & Nenhum & 755 & 972 & \textbf{918} \\
+Idade & Nenhum & Support Vector Machines & Nenhum & 755 & 969 & \textbf{916} \\
+Nacionalidade & Nenhum & Random Forest & Nenhum & 802 & 885 & \textbf{864} \\
+Nacionalidade & Nenhum & Regressão Logística & Nenhum & 782 & 865 & \textbf{844} \\
+Idade & Nenhum & Regressão Logística & Nenhum & 782 & 802 & \textbf{797} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+Olhando os pipelines sem algoritmos com redução de viés, é curioso notar que, ao comparar com pipelines equivalentes mas com algoritmos usando redução de viés no dado, é possível notar que a hipótese principal se confirma em sua grande maioria: As pontuações em Performance são ligeiramente maiores e as pontuações em \textit{Fairness} são ligeiramente menores. É possível notar uma exceção no pipeline envolvendo o algoritmo \textit{Random Forest}, mas nos outros casos a hipótese é verificada com sucesso. Ao comparar com pipelines usando algoritmos com redução de viés no treinamento tal hipótese também se confirma, entretanto o uso de \textit{Support Vector Machines} parece ser uma exceção a regra, implicando que o uso do algoritmo possibilita modelos mais justos para o conjunto de dados utilizado. Ao comparar com pipelines usando algoritmos com redução de viés no resultado, a hipótese não se confirma devido a observação da grande melhora por parte das métricas de performance nos pipelines usando algoritmos com redução de viés no resultado, mas ao verificar a pontuação em \textit{Fairness} é possível notar uma ligeira melhora. Há a exceção de pipelines envolvendo \textit{Support Vector Machines} que são melhores nos pipelines sem algoritmos com redução de viés, mas no uso de outros algoritmos ocorre melhora na pontuação em \textit{Fairness}.
+
+Após a verificação das pontuações, foram catalogadas todas as métricas de todos os conjuntos de algoritmos em seus valores máximo, mínimo e médio para verificar a eficácia destas pontuações, definidas nas Tabelas \ref{tbl:PerformanceMetrics} e \ref{tbl:FairnessMetrics} exibidas abaixo.
+
+\begin{table}[H]
+    \begin{center} 
+        \caption{Métricas de performance das execuções de Pipeline}
+        \label{tbl:PerformanceMetrics}
+        \resizebox{\linewidth}{!}{%
+        \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c}
+            \multicolumn{4}{c|}{Pipeline} & \multicolumn{10}{c}{Métricas} \\
+            \hline
+            Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & \multicolumn{2}{c|}{Acurácia} & \multicolumn{2}{c|}{Precisão} & \multicolumn{2}{c|}{Recall} & \multicolumn{2}{c|}{F1-Score} & \multicolumn{2}{c}{AUC} \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,715 & \textbf{Mínimo} & 0,7143 & \textbf{Mínimo} & 0,9929 & \textbf{Mínimo} & 0,8309 & \textbf{Mínimo} & 0,5219 \\
+             & & & & \textbf{Máximo} & 0,715 & \textbf{Máximo} & 0,7143 & \textbf{Máximo} & 0,9929 & \textbf{Máximo} & 0,8309 & \textbf{Máximo} & 0,5219 \\
+             & & & & \textbf{Média} & 0,715 & \textbf{Média} & 0,7143 & \textbf{Média} & 0,9929 & \textbf{Média} & 0,8309 & \textbf{Média} & 0,5219 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,715 & \textbf{Mínimo} & 0,7143 & \textbf{Mínimo} & 0,9929 & \textbf{Mínimo} & 0,8309 & \textbf{Mínimo} & 0,5219 \\
+             & & & & \textbf{Máximo} & 0,715 & \textbf{Máximo} & 0,7143 & \textbf{Máximo} & 0,9929 & \textbf{Máximo} & 0,8309 & \textbf{Máximo} & 0,5219 \\
+             & & & & \textbf{Média} & 0,715 & \textbf{Média} & 0,7143 & \textbf{Média} & 0,9929 & \textbf{Média} & 0,8309 & \textbf{Média} & 0,5219 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,76 & \textbf{Mínimo} & 0,7784 & \textbf{Mínimo} & 0,9007 & \textbf{Mínimo} & 0,8442 & \textbf{Mínimo} & 0,6474 \\
+             & & & & \textbf{Máximo} & 0,79 & \textbf{Máximo} & 0,8037 & \textbf{Máximo} & 0,9291 & \textbf{Máximo} & 0,8618 & \textbf{Máximo} & 0,6933 \\
+             & & & & \textbf{Média} & 0,774 & \textbf{Média} & 0,7933 & \textbf{Média} & 0,9192 & \textbf{Média} & 0,8515 & \textbf{Média} & 0,6731 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Regressão Logística} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,75 & \textbf{Mínimo} & 0,7661 & \textbf{Mínimo} & 0,9291 & \textbf{Mínimo} & 0,8397 & \textbf{Mínimo} & 0,6256 \\
+             & & & & \textbf{Máximo} & 0,75 & \textbf{Máximo} & 0,7661 & \textbf{Máximo} & 0,9291 & \textbf{Máximo} & 0,8397 & \textbf{Máximo} & 0,6256 \\
+             & & & & \textbf{Média} & 0,75 & \textbf{Média} & 0,7661 & \textbf{Média} & 0,9291 & \textbf{Média} & 0,8397 & \textbf{Média} & 0,6256 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,79 & \textbf{Mínimo} & 0,8194 & \textbf{Mínimo} & 0,9007 & \textbf{Mínimo} & 0,8581 & \textbf{Mínimo} & 0,7131 \\
+             & & & & \textbf{Máximo} & 0,79 & \textbf{Máximo} & 0,8194 & \textbf{Máximo} & 0,9007 & \textbf{Máximo} & 0,8581 & \textbf{Máximo} & 0,7131 \\
+             & & & & \textbf{Média} & 0,79 & \textbf{Média} & 0,8194 & \textbf{Média} & 0,9007 & \textbf{Média} & 0,8581 & \textbf{Média} & 0,7131 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,79 & \textbf{Mínimo} & 0,8235 & \textbf{Mínimo} & 0,8936 & \textbf{Mínimo} & 0,8571 & \textbf{Mínimo} & 0,718 \\
+             & & & & \textbf{Máximo} & 0,79 & \textbf{Máximo} & 0,8235 & \textbf{Máximo} & 0,8936 & \textbf{Máximo} & 0,8571 & \textbf{Máximo} & 0,718 \\
+             & & & & \textbf{Média} & 0,79 & \textbf{Média} & 0,8235 & \textbf{Média} & 0,8936 & \textbf{Média} & 0,8571 & \textbf{Média} & 0,718 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Regressão Logística} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,75 & \textbf{Mínimo} & 0,7661 & \textbf{Mínimo} & 0,9291 & \textbf{Mínimo} & 0,8397 & \textbf{Mínimo} & 0,6256 \\
+             & & & & \textbf{Máximo} & 0,75 & \textbf{Máximo} & 0,7661 & \textbf{Máximo} & 0,9291 & \textbf{Máximo} & 0,8397 & \textbf{Máximo} & 0,6256 \\
+             & & & & \textbf{Média} & 0,75 & \textbf{Média} & 0,7661 & \textbf{Média} & 0,9291 & \textbf{Média} & 0,8397 & \textbf{Média} & 0,6256 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Reweighing} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,775 & \textbf{Mínimo} & 0,8 & \textbf{Mínimo} & 0,9078 & \textbf{Mínimo} & 0,8505 & \textbf{Mínimo} & 0,6827 \\
+             & & & & \textbf{Máximo} & 0,775 & \textbf{Máximo} & 0,8 & \textbf{Máximo} & 0,9078 & \textbf{Máximo} & 0,8505 & \textbf{Máximo} & 0,6827 \\
+             & & & & \textbf{Média} & 0,775 & \textbf{Média} & 0,8 & \textbf{Média} & 0,9078 & \textbf{Média} & 0,8505 & \textbf{Média} & 0,6827 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,775 & \textbf{Mínimo} & 0,8 & \textbf{Mínimo} & 0,9078 & \textbf{Mínimo} & 0,8505 & \textbf{Mínimo} & 0,6827 \\
+             & & & & \textbf{Máximo} & 0,775 & \textbf{Máximo} & 0,8 & \textbf{Máximo} & 0,9078 & \textbf{Máximo} & 0,8505 & \textbf{Máximo} & 0,6827 \\
+             & & & & \textbf{Média} & 0,775 & \textbf{Média} & 0,8 & \textbf{Média} & 0,9078 & \textbf{Média} & 0,8505 & \textbf{Média} & 0,6827 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Disparate Impact Remover} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,705 & \textbf{Mínimo} & 0,705 & \textbf{Mínimo} & 1 & \textbf{Mínimo} & 0,827 & \textbf{Mínimo} & 0,5 \\
+             & & & & \textbf{Máximo} & 0,705 & \textbf{Máximo} & 0,705 & \textbf{Máximo} & 1 & \textbf{Máximo} & 0,827 & \textbf{Máximo} & 0,5 \\
+             & & & & \textbf{Média} & 0,705 & \textbf{Média} & 0,705 & \textbf{Média} & 1 & \textbf{Média} & 0,827 & \textbf{Média} & 0,5 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Disparate Impact Remover} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,705 & \textbf{Mínimo} & 0,705 & \textbf{Mínimo} & 1 & \textbf{Mínimo} & 0,827 & \textbf{Mínimo} & 0,5 \\
+             & & & & \textbf{Máximo} & 0,705 & \textbf{Máximo} & 0,705 & \textbf{Máximo} & 1 & \textbf{Máximo} & 0,827 & \textbf{Máximo} & 0,5 \\
+             & & & & \textbf{Média} & 0,705 & \textbf{Média} & 0,705 & \textbf{Média} & 1 & \textbf{Média} & 0,827 & \textbf{Média} & 0,5 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,715 & \textbf{Mínimo} & 0,7143 & \textbf{Mínimo} & 0,9929 & \textbf{Mínimo} & 0,8309 & \textbf{Mínimo} & 0,5219 \\
+             & & & & \textbf{Máximo} & 0,715 & \textbf{Máximo} & 0,7143 & \textbf{Máximo} & 0,9929 & \textbf{Máximo} & 0,8309 & \textbf{Máximo} & 0,5219 \\
+             & & & & \textbf{Média} & 0,715 & \textbf{Média} & 0,7143 & \textbf{Média} & 0,9929 & \textbf{Média} & 0,8309 & \textbf{Média} & 0,5219 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,785 & \textbf{Mínimo} & 0,8063 & \textbf{Mínimo} & 0,9149 & \textbf{Mínimo} & 0,8571 & \textbf{Mínimo} & 0,6947 \\
+             & & & & \textbf{Máximo} & 0,785 & \textbf{Máximo} & 0,8063 & \textbf{Máximo} & 0,9149 & \textbf{Máximo} & 0,8571 & \textbf{Máximo} & 0,6947 \\
+             & & & & \textbf{Média} & 0,785 & \textbf{Média} & 0,8063 & \textbf{Média} & 0,9149 & \textbf{Média} & 0,8571 & \textbf{Média} & 0,6947 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Reweighing} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,785 & \textbf{Mínimo} & 0,8063 & \textbf{Mínimo} & 0,9149 & \textbf{Mínimo} & 0,8571 & \textbf{Mínimo} & 0,6947 \\
+             & & & & \textbf{Máximo} & 0,785 & \textbf{Máximo} & 0,8063 & \textbf{Máximo} & 0,9149 & \textbf{Máximo} & 0,8571 & \textbf{Máximo} & 0,6947 \\
+             & & & & \textbf{Média} & 0,785 & \textbf{Média} & 0,8063 & \textbf{Média} & 0,9149 & \textbf{Média} & 0,8571 & \textbf{Média} & 0,6947 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,76 & \textbf{Mínimo} & 0,7831 & \textbf{Mínimo} & 0,8936 & \textbf{Mínimo} & 0,84 & \textbf{Mínimo} & 0,6559 \\
+             & & & & \textbf{Máximo} & 0,79 & \textbf{Máximo} & 0,8113 & \textbf{Máximo} & 0,922 & \textbf{Máximo} & 0,86 & \textbf{Máximo} & 0,7032 \\
+             & & & & \textbf{Média} & 0,772 & \textbf{Média} & 0,7949 & \textbf{Média} & 0,9121 & \textbf{Média} & 0,8494 & \textbf{Média} & 0,6746 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Reweighing} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,715 & \textbf{Mínimo} & 0,7143 & \textbf{Mínimo} & 0,9929 & \textbf{Mínimo} & 0,8309 & \textbf{Mínimo} & 0,5219 \\
+             & & & & \textbf{Máximo} & 0,715 & \textbf{Máximo} & 0,7143 & \textbf{Máximo} & 0,9929 & \textbf{Máximo} & 0,8309 & \textbf{Máximo} & 0,5219 \\
+             & & & & \textbf{Média} & 0,715 & \textbf{Média} & 0,7143 & \textbf{Média} & 0,9929 & \textbf{Média} & 0,8309 & \textbf{Média} & 0,5219 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,715 & \textbf{Mínimo} & 0,7143 & \textbf{Mínimo} & 0,9929 & \textbf{Mínimo} & 0,8309 & \textbf{Mínimo} & 0,5219 \\
+             & & & & \textbf{Máximo} & 0,715 & \textbf{Máximo} & 0,7143 & \textbf{Máximo} & 0,9929 & \textbf{Máximo} & 0,8309 & \textbf{Máximo} & 0,5219 \\
+             & & & & \textbf{Média} & 0,715 & \textbf{Média} & 0,7143 & \textbf{Média} & 0,9929 & \textbf{Média} & 0,8309 & \textbf{Média} & 0,5219 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Adversarial Debiasing} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,295 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0,5 \\
+             & & & & \textbf{Máximo} & 0,705 & \textbf{Máximo} & 0,7097 & \textbf{Máximo} & 1 & \textbf{Máximo} & 0,827 & \textbf{Máximo} & 0.5105 \\
+             & & & & \textbf{Média} & 0,6317 & \textbf{Média} & 0,5888 & \textbf{Média} & 0,8168 & \textbf{Média} & 0,6842 & \textbf{Média} & 0,503 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Grid Search Reduction} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,75 & \textbf{Mínimo} & 0,7791 & \textbf{Mínimo} & 0,9007 & \textbf{Mínimo} & 0,8355 & \textbf{Mínimo} & 0,6453 \\
+             & & & & \textbf{Máximo} & 0,78 & \textbf{Máximo} & 0,7939 & \textbf{Máximo} & 0,9362 & \textbf{Máximo} & 0,8562 & \textbf{Máximo} & 0,6764 \\
+             & & & & \textbf{Média} & 0,765 & \textbf{Média} & 0,7857 & \textbf{Média} & 0,9167 & \textbf{Média} & 0,8461 & \textbf{Média} & 0,6596 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Meta Fair Classifier} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,73 & \textbf{Mínimo} & 0,7278 & \textbf{Mínimo} & 0,9291 & \textbf{Mínimo} & 0,8374 & \textbf{Mínimo} & 0,5522 \\
+             & & & & \textbf{Máximo} & 0,755 & \textbf{Máximo} & 0,7661 & \textbf{Máximo} & 0,9858 & \textbf{Máximo} & 0,8474 & \textbf{Máximo} & 0,6256 \\
+             & & & & \textbf{Média} & 0,742 & \textbf{Média} & 0,7466 & \textbf{Média} & 0,9617 & \textbf{Média} & 0,8402 & \textbf{Média} & 0,5893 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Exponentiated Gradient Reduction} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,785 & \textbf{Mínimo} & 0,8063 & \textbf{Mínimo} & 0,9149 & \textbf{Mínimo} & 0,8571 & \textbf{Mínimo} & 0,6947 \\
+             & & & & \textbf{Máximo} & 0,785 & \textbf{Máximo} & 0,8063 & \textbf{Máximo} & 0,9149 & \textbf{Máximo} & 0,8571 & \textbf{Máximo} & 0,6947 \\
+             & & & & \textbf{Média} & 0,785 & \textbf{Média} & 0,8063 & \textbf{Média} & 0,9149 & \textbf{Média} & 0,8571 & \textbf{Média} & 0,6947 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Rich Subgroup Fairness} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,76 & \textbf{Mínimo} & 0,808 & \textbf{Mínimo} & 0,8653 & \textbf{Mínimo} & 0,8356 & \textbf{Mínimo} & 0,6869 \\
+             & & & & \textbf{Máximo} & 0,76 & \textbf{Máximo} & 0,808 & \textbf{Máximo} & 0,8653 & \textbf{Máximo} & 0,8356 & \textbf{Máximo} & 0,6869 \\
+             & & & & \textbf{Média} & 0,76 & \textbf{Média} & 0,808 & \textbf{Média} & 0,8653 & \textbf{Média} & 0,8356 & \textbf{Média} & 0,6869 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Exponentiated Gradient Reduction} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,775 & \textbf{Mínimo} & 0,8038 & \textbf{Mínimo} & 0,9007 & \textbf{Mínimo} & 0,8495 & \textbf{Mínimo} & 0,6876 \\
+             & & & & \textbf{Máximo} & 0,785 & \textbf{Máximo} & 0,8101 & \textbf{Máximo} & 0,9078 & \textbf{Máximo} & 0,8562 & \textbf{Máximo} & 0,6997 \\
+             & & & & \textbf{Média} & 0,7788 & \textbf{Média} & 0,8057 & \textbf{Média} & 0,9043 & \textbf{Média} & 0,8521 & \textbf{Média} & 0,6915 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Prejudice Remover} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,735 & \textbf{Mínimo} & 0,7683 & \textbf{Mínimo} & 0,8936 & \textbf{Mínimo} & 0,8262 & \textbf{Mínimo} & 0,6248 \\
+             & & & & \textbf{Máximo} & 0,735 & \textbf{Máximo} & 0,7683 & \textbf{Máximo} & 0,8936 & \textbf{Máximo} & 0,8262 & \textbf{Máximo} & 0,6248 \\
+             & & & & \textbf{Média} & 0,735 & \textbf{Média} & 0,7683 & \textbf{Média} & 0,8936 & \textbf{Média} & 0,8262 & \textbf{Média} & 0,6248 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Regressão Logística} & \multirow{3}{*}{Equalized Odds} & \textbf{Mínimo} & 0,965 & \textbf{Mínimo} & 0,9589 & \textbf{Mínimo} & 0,9929 & \textbf{Mínimo} & 0,9756 & \textbf{Mínimo} & 0,9456 \\
+             & & & & \textbf{Máximo} & 0,965 & \textbf{Máximo} & 0,9589 & \textbf{Máximo} & 0,9929 & \textbf{Máximo} & 0,9756 & \textbf{Máximo} & 0,9456 \\
+             & & & & \textbf{Média} & 0,965 & \textbf{Média} & 0,9589 & \textbf{Média} & 0,9929 & \textbf{Média} & 0,9756 & \textbf{Média} & 0,9456 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Calibrated Equalized Odds} & \textbf{Mínimo} & 0,82 & \textbf{Mínimo} & 0,7966 & \textbf{Mínimo} & 1 & \textbf{Mínimo} & 0,8868 & \textbf{Mínimo} & 0,6949 \\
+             & & & & \textbf{Máximo} & 0,93 & \textbf{Máximo} & 0,9097 & \textbf{Máximo} & 1 & \textbf{Máximo} & 0,9527 & \textbf{Máximo} & 0,8814 \\
+             & & & & \textbf{Média} & 0,8925 & \textbf{Média} & 0,87 & \textbf{Média} & 1 & \textbf{Média} & 0,9299 & \textbf{Média} & 0,8178 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Calibrated Equalized Odds} & \textbf{Mínimo} & 0,84 & \textbf{Mínimo} & 0,8150 & \textbf{Mínimo} & 1 & \textbf{Mínimo} & 0,8981 & \textbf{Mínimo} & 0,7288 \\
+             & & & & \textbf{Máximo} & 0,875 & \textbf{Máximo} & 0,8494 & \textbf{Máximo} & 1 & \textbf{Máximo} & 0,9186 & \textbf{Máximo} & 0,7881 \\
+             & & & & \textbf{Média} & 0,855 & \textbf{Média} & 0,8296 & \textbf{Média} & 1 & \textbf{Média} & 0,9068 & \textbf{Média} & 0,7542 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Equalized Odds} & \textbf{Mínimo} & 0,905 & \textbf{Mínimo} & 0,9769 & \textbf{Mínimo} & 0,8723 & \textbf{Mínimo} & 0,9283 & \textbf{Mínimo} & 0,9249 \\
+             & & & & \textbf{Máximo} & 0,915 & \textbf{Máximo} & 0,9919 & \textbf{Máximo} & 0,9007 & \textbf{Máximo} & 0,9373 & \textbf{Máximo} & 0,9277 \\
+             & & & & \textbf{Média} & 0,9083 & \textbf{Média} & 0,9869 & \textbf{Média} & 0,8818 & \textbf{Média} & 0,9313 & \textbf{Média} & 0,9268 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Equalized Odds} & \textbf{Mínimo} & 0,8 & \textbf{Mínimo} & 0,9697 & \textbf{Mínimo} & 0,7234 & \textbf{Mínimo} & 0,8361 & \textbf{Mínimo} & 0,8532 \\
+             & & & & \textbf{Máximo} & 0,915 & \textbf{Máximo} & 0,9903 & \textbf{Máximo} & 0,9078 & \textbf{Máximo} & 0,9377 & \textbf{Máximo} & 0,92 \\
+             & & & & \textbf{Média} & 0,8733 & \textbf{Média} & 0,9789 & \textbf{Média} & 0,8392 & \textbf{Média} & 0,9011 & \textbf{Média} & 0,897 \\
+        \end{tabular}}
+    \end{center}
+\end{table}
+\begin{table}[H]
+    \begin{center}
+        \caption{Métricas de Fairness das execuções de Pipeline}
+        \label{tbl:FairnessMetrics}
+        \resizebox{\linewidth}{!}{%
+        \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c}
+            \multicolumn{4}{c|}{Pipeline} & \multicolumn{10}{c}{Métricas} \\
+            \hline
+            Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & \multicolumn{2}{c|}{Statistical Parity Difference} & \multicolumn{2}{c|}{Equal Opportunity Difference} & \multicolumn{2}{c|}{Average Odds Difference} & \multicolumn{2}{c|}{Disparate Impact} & \multicolumn{2}{c}{Theil Index} \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0209 & \textbf{Mínimo} & -0,0075 & \textbf{Mínimo} & -0,0296 & \textbf{Mínimo} & 0,9791 & \textbf{Mínimo} & 0,0615 \\
+             & & & & \textbf{Máximo} & -0,0209 & \textbf{Máximo} & -0,0075 & \textbf{Máximo} & -0,0296 & \textbf{Máximo} & 0,9791 & \textbf{Máximo} & 0,0615 \\
+             & & & & \textbf{Média} & -0,0209 & \textbf{Média} & -0,0075 & \textbf{Média} & -0,0296 & \textbf{Média} & 0,9791 & \textbf{Média} & 0,0615 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,0238 & \textbf{Mínimo} & 0,0084 & \textbf{Mínimo} & 0,0348 & \textbf{Mínimo} & 1,0244 & \textbf{Mínimo} & 0,0615 \\
+             & & & & \textbf{Máximo} & 0,0238 & \textbf{Máximo} & 0,0084 & \textbf{Máximo} & 0,0348 & \textbf{Máximo} & 1,0244 & \textbf{Máximo} & 0,0615 \\
+             & & & & \textbf{Média} & 0,0238 & \textbf{Média} & 0,0084 & \textbf{Média} & 0,0348 & \textbf{Média} & 1,0244 & \textbf{Média} & 0,0615 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,09831 & \textbf{Mínimo} & 0,0273 & \textbf{Mínimo} & -0,2191 & \textbf{Mínimo} & 0,8894 & \textbf{Mínimo} & 0,0955 \\
+             & & & & \textbf{Máximo} & 0,03898 & \textbf{Máximo} & 0,1899 & \textbf{Máximo} & -0,1378 & \textbf{Máximo} & 1,0501 & \textbf{Máximo} & 0,1173 \\
+             & & & & \textbf{Média} & -0,0520 & \textbf{Média} & 0,0733 & \textbf{Média} & -0,1806 & \textbf{Média} & 0.9428 & \textbf{Média} & 0,1045 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Regressão Logística} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,1518 & \textbf{Mínimo} & -0,0752 & \textbf{Mínimo} & -0,2014 & \textbf{Mínimo} & 0,8482 & \textbf{Mínimo} & 0,1013 \\
+             & & & & \textbf{Máximo} & -0,1518 & \textbf{Máximo} & -0,0752 & \textbf{Máximo} & -0,2014 & \textbf{Máximo} & 0,8482 & \textbf{Máximo} & 0,1013 \\
+             & & & & \textbf{Média} & -0,1518 & \textbf{Média} & -0,0752 & \textbf{Média} & -0,2014 & \textbf{Média} & 0,8482 & \textbf{Média} & 0,1013 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,1134 & \textbf{Mínimo} & 0,2923 & \textbf{Mínimo} & -0,1211 & \textbf{Mínimo} & 1,1702 & \textbf{Mínimo} & 0,1137 \\
+             & & & & \textbf{Máximo} & 0,1134 & \textbf{Máximo} & 0,2923 & \textbf{Máximo} & -0,1211 & \textbf{Máximo} & 1,1702 & \textbf{Máximo} & 0,1137 \\
+             & & & & \textbf{Média} & 0,1134 & \textbf{Média} & 0,2923 & \textbf{Média} & -0,1211 & \textbf{Média} & 1,1702 & \textbf{Média} & 0,1137 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,2411 & \textbf{Mínimo} & -0,1971 & \textbf{Mínimo} & -0,2537 & \textbf{Mínimo} & 0,7 & \textbf{Mínimo} & 0,1183 \\
+             & & & & \textbf{Máximo} & -0,2411 & \textbf{Máximo} & -0,1971 & \textbf{Máximo} & -0,2537 & \textbf{Máximo} & 0,7 & \textbf{Máximo} & 0,1183 \\
+             & & & & \textbf{Média} & -0,2411 & \textbf{Média} & -0,1971 & \textbf{Média} & -0,2537 & \textbf{Média} & 0,7 & \textbf{Média} & 0,1183 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Regressão Logística} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,1518 & \textbf{Mínimo} & -0,0752 & \textbf{Mínimo} & -0,2014 & \textbf{Mínimo} & 0,8482 & \textbf{Mínimo} & 0,1013 \\
+             & & & & \textbf{Máximo} & -0,1518 & \textbf{Máximo} & -0,0752 & \textbf{Máximo} & -0,2014 & \textbf{Máximo} & 0,8482 & \textbf{Máximo} & 0,1013 \\
+             & & & & \textbf{Média} & -0,1518 & \textbf{Média} & -0,0752 & \textbf{Média} & -0,2014 & \textbf{Média} & 0,8482 & \textbf{Média} & 0,1013 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Reweighing} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0595 & \textbf{Mínimo} & -0,0523 & \textbf{Mínimo} & -0,0517 & \textbf{Mínimo} & 0,9265 & \textbf{Mínimo} & 0,1118 \\
+             & & & & \textbf{Máximo} & -0,0595 & \textbf{Máximo} & -0,0523 & \textbf{Máximo} & -0,0517 & \textbf{Máximo} & 0,9265 & \textbf{Máximo} & 0,1118 \\
+             & & & & \textbf{Média} & -0,0595 & \textbf{Média} & -0,0523 & \textbf{Média} & -0,0517 & \textbf{Média} & 0,9265 & \textbf{Média} & 0,1118 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0595 & \textbf{Mínimo} & -0,0523 & \textbf{Mínimo} & -0,0517 & \textbf{Mínimo} & 0,9265 & \textbf{Mínimo} & 0,1118 \\
+             & & & & \textbf{Máximo} & -0,0595 & \textbf{Máximo} & -0,0523 & \textbf{Máximo} & -0,0517 & \textbf{Máximo} & 0,9265 & \textbf{Máximo} & 0,1118 \\
+             & & & & \textbf{Média} & -0,0595 & \textbf{Média} & -0,0523 & \textbf{Média} & -0,0517 & \textbf{Média} & 0,9265 & \textbf{Média} & 0,1118 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Disparate Impact Remover} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 1 & \textbf{Mínimo} & 0,0573 \\
+             & & & & \textbf{Máximo} & 0 & \textbf{Máximo} & 0 & \textbf{Máximo} & 0 & \textbf{Máximo} & 1 & \textbf{Máximo} & 0,0573 \\
+             & & & & \textbf{Média} & 0 & \textbf{Média} & 0 & \textbf{Média} & 0 & \textbf{Média} & 1 & \textbf{Média} & 0,0573 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Disparate Impact Remover} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 1 & \textbf{Mínimo} & 0,0573 \\
+             & & & & \textbf{Máximo} & 0 & \textbf{Máximo} & 0 & \textbf{Máximo} & 0 & \textbf{Máximo} & 1 & \textbf{Máximo} & 0,0573 \\
+             & & & & \textbf{Média} & 0 & \textbf{Média} & 0 & \textbf{Média} & 0 & \textbf{Média} & 1 & \textbf{Média} & 0,0573 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0209 & \textbf{Mínimo} & -0,0075 & \textbf{Mínimo} & -0,0296 & \textbf{Mínimo} & 0,9791 & \textbf{Mínimo} & 0,0615 \\
+             & & & & \textbf{Máximo} & -0,0209 & \textbf{Máximo} & -0,0075 & \textbf{Máximo} & -0,0296 & \textbf{Máximo} & 0,9791 & \textbf{Máximo} & 0,0615 \\
+             & & & & \textbf{Média} & -0,0209 & \textbf{Média} & -0,0075 & \textbf{Média} & -0,0296 & \textbf{Média} & 0,9791 & \textbf{Média} & 0,0615 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0931 & \textbf{Mínimo} & 0,0423 & \textbf{Mínimo} & -0,2202 & \textbf{Mínimo} & 0,8953 & \textbf{Mínimo} & 0,1055 \\
+             & & & & \textbf{Máximo} & -0,0931 & \textbf{Máximo} & 0,0423 & \textbf{Máximo} & -0,2202 & \textbf{Máximo} & 0,8953 & \textbf{Máximo} & 0,1055 \\
+             & & & & \textbf{Média} & -0,0931 & \textbf{Média} & 0,0423 & \textbf{Média} & -0,2202 & \textbf{Média} & 0,8953 & \textbf{Média} & 0,1055 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Reweighing} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0931 & \textbf{Mínimo} & 0,0423 & \textbf{Mínimo} & -0,2202 & \textbf{Mínimo} & 0,8953 & \textbf{Mínimo} & 0,1055 \\
+             & & & & \textbf{Máximo} & -0,0931 & \textbf{Máximo} & 0,0423 & \textbf{Máximo} & -0,2202 & \textbf{Máximo} & 0,8953 & \textbf{Máximo} & 0,1055 \\
+             & & & & \textbf{Média} & -0,0931 & \textbf{Média} & 0,0423 & \textbf{Média} & -0,2202 & \textbf{Média} & 0,8953 & \textbf{Média} & 0,1055 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0983 & \textbf{Mínimo} & 0,0197 & \textbf{Mínimo} & -0,2289 & \textbf{Mínimo} & 0,8894 & \textbf{Mínimo} & 0,1025 \\
+             & & & & \textbf{Máximo} & 0,0285 & \textbf{Máximo} & 0,1673 & \textbf{Máximo} & -0,1405 & \textbf{Máximo} & 1,0367 & \textbf{Máximo} & 0,1237 \\
+             & & & & \textbf{Média} & -0,0604 & \textbf{Média} & 0,0658 & \textbf{Média} & -0,1895 & \textbf{Média} & 0,933 & \textbf{Média} & 0,1095 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Reweighing} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0209 & \textbf{Mínimo} & -0,0075 & \textbf{Mínimo} & -0,0296 & \textbf{Mínimo} & 0,9791 & \textbf{Mínimo} & 0,0615 \\
+             & & & & \textbf{Máximo} & -0,0209 & \textbf{Máximo} & -0,0075 & \textbf{Máximo} & -0,0296 & \textbf{Máximo} & 0,9791 & \textbf{Máximo} & 0,0615 \\
+             & & & & \textbf{Média} & -0,0209 & \textbf{Média} & -0,0075 & \textbf{Média} & -0,0296 & \textbf{Média} & 0,9791 & \textbf{Média} & 0,0615 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Learning Fair Representations} & \multirow{3}{*}{Support Vector Machines} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,0238 & \textbf{Mínimo} & 0,0084 & \textbf{Mínimo} & 0,0348 & \textbf{Mínimo} & 1,0244 & \textbf{Mínimo} & 0,0615 \\
+             & & & & \textbf{Máximo} & 0,0238 & \textbf{Máximo} & 0,0084 & \textbf{Máximo} & 0,0348 & \textbf{Máximo} & 1,0244 & \textbf{Máximo} & 0,0615 \\
+             & & & & \textbf{Média} & 0,0238 & \textbf{Média} & 0,0084 & \textbf{Média} & 0,0348 & \textbf{Média} & 1,0244 & \textbf{Média} & 0,0615 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Adversarial Debiasing} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & -0,0086 & \textbf{Mínimo} & 1 & \textbf{Mínimo} & 0,0573 \\
+             & & & & \textbf{Máximo} & 0,0104 & \textbf{Máximo} & 0,042 & \textbf{Máximo} & 0,0017 & \textbf{Máximo} & 1,0109 & \textbf{Máximo} & 1,2208 \\
+             & & & & \textbf{Média} & 0,0032 & \textbf{Média} & 0,0106 & \textbf{Média} & -0,0012 & \textbf{Média} & N/A & \textbf{Média} & 0,2629 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Grid Search Reduction} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,0826 & \textbf{Mínimo} & 0,0273 & \textbf{Mínimo} & -0,1933 & \textbf{Mínimo} & 0,9071 & \textbf{Mínimo} & 0,0932 \\
+             & & & & \textbf{Máximo} & -0,0512 & \textbf{Máximo} & 0,0648 & \textbf{Máximo} & -0,1659 & \textbf{Máximo} & 0,9424 & \textbf{Máximo} & 0,1204 \\
+             & & & & \textbf{Média} & -0,0695 & \textbf{Média} & 0,0442 & \textbf{Média} & -0,1827 & \textbf{Média} & 0,9218 & \textbf{Média} & 0,1076 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Meta Fair Classifier} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,1548 & \textbf{Mínimo} & -0,0943 & \textbf{Mínimo} & -0,1849 & \textbf{Mínimo} & 0,8289 & \textbf{Mínimo} & 0,0652 \\
+             & & & & \textbf{Máximo} & -0,0208 & \textbf{Máximo} & 0,0168 & \textbf{Máximo} & -0,0406 & \textbf{Máximo} & 0,9783 & \textbf{Máximo} & 0,1013 \\
+             & & & & \textbf{Média} & -0,0926 & \textbf{Média} & -0,0408 & \textbf{Média} & -0,1186 & \textbf{Média} & 0,8979 & \textbf{Média} & 0,0802 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Exponentiated Gradient Reduction} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,1339 & \textbf{Mínimo} & -0,1146 & \textbf{Mínimo} & -0,1328 & \textbf{Mínimo} & 0,837 & \textbf{Mínimo} & 0,1055 \\
+             & & & & \textbf{Máximo} & -0,1339 & \textbf{Máximo} & -0,1146 & \textbf{Máximo} & -0,1328 & \textbf{Máximo} & 0,837 & \textbf{Máximo} & 0,1055 \\
+             & & & & \textbf{Média} & -0,1339 & \textbf{Média} & -0,1146 & \textbf{Média} & -0,1328 & \textbf{Média} & 0,837 & \textbf{Média} & 0,1055 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Rich Subgroup Fairness} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,1402 & \textbf{Mínimo} & -0,0103 & \textbf{Mínimo} & -0,2638 & \textbf{Mínimo} & 0,8423 & \textbf{Mínimo} & 0,1427 \\
+             & & & & \textbf{Máximo} & -0,1402 & \textbf{Máximo} & -0,0103 & \textbf{Máximo} & -0,2638 & \textbf{Máximo} & 0,8423 & \textbf{Máximo} & 0,1427 \\
+             & & & & \textbf{Média} & -0,1402 & \textbf{Média} & -0,0103 & \textbf{Média} & -0,2638 & \textbf{Média} & 0,8423 & \textbf{Média} & 0,1427 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Exponentiated Gradient Reduction} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & -0,2199 & \textbf{Mínimo} & -0,1053 & \textbf{Mínimo} & -0,2989 & \textbf{Mínimo} & 0,7801 & \textbf{Mínimo} & 0,1101 \\
+             & & & & \textbf{Máximo} & -0,2147 & \textbf{Máximo} & -0,0977 & \textbf{Máximo} & -0,2903 & \textbf{Máximo} & 0,7853 & \textbf{Máximo} & 0,1165 \\
+             & & & & \textbf{Média} & -0,2186 & \textbf{Média} & -0,1015 & \textbf{Média} & -0,2943 & \textbf{Média} & 0,7814 & \textbf{Média} & 0,1135 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Prejudice Remover} & \multirow{3}{*}{Nenhum} & \textbf{Mínimo} & 0,0442 & \textbf{Mínimo} & 0,1523 & \textbf{Mínimo} & -0,1049 & \textbf{Mínimo} &  1,057 & \textbf{Mínimo} & 0,1274 \\
+             & & & & \textbf{Máximo} & 0,0442 & \textbf{Máximo} & 0,1523 & \textbf{Máximo} & -0,1049 & \textbf{Máximo} & 1,057 & \textbf{Máximo} & 0,1274 \\
+             & & & & \textbf{Média} & 0,0442 & \textbf{Média} & 0,1523 & \textbf{Média} & -0,1049 & \textbf{Média} & 1,057 & \textbf{Média} & 0,1274 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Regressão Logística} & \multirow{3}{*}{Equalized Odds} & \textbf{Mínimo} & 0,1726 & \textbf{Mínimo} & 0,0084 & \textbf{Mínimo} & 0,3042 & \textbf{Mínimo} & 1.2458 & \textbf{Mínimo} & 0.0159 \\
+             & & & & \textbf{Máximo} & 0,1726 & \textbf{Máximo} & 0,0084 & \textbf{Máximo} & 0,3042 & \textbf{Máximo} & 1.2458 & \textbf{Máximo} & 0.0159 \\
+             & & & & \textbf{Média} & 0,1726 & \textbf{Média} & 0,0084 & \textbf{Média} & 0,3042 & \textbf{Média} & 1.2458 & \textbf{Média} & 0.0159 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Calibrated Equalized Odds} & \textbf{Mínimo} & -0,1193 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0,1207 & \textbf{Mínimo} & 0,8658 & \textbf{Mínimo} & 0,02303 \\
+             & & & & \textbf{Máximo} & -0,0041 & \textbf{Máximo} & 0 & \textbf{Máximo} & 0,3103 & \textbf{Máximo} & 0,9954 & \textbf{Máximo} & 0,046 \\
+             & & & & \textbf{Média} & -0,08 & \textbf{Média} & 0 & \textbf{Média} & 0,1853 & \textbf{Média} & 0,91 & \textbf{Média} & 0,0314 \\
+            \hline
+            \multirow{3}{*}{Nacionalidade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Calibrated Equalized Odds} & \textbf{Mínimo} & -0,0617 & \textbf{Mínimo} & 0 & \textbf{Mínimo} & 0,2155 & \textbf{Mínimo} & 0,9306 & \textbf{Mínimo} & 0,0362 \\
+             & & & & \textbf{Máximo} & -0,025 & \textbf{Máximo} & 0 & \textbf{Máximo} & 0,2759 & \textbf{Máximo} & 0,9719 & \textbf{Máximo} & 0,0428 \\
+             & & & & \textbf{Média} & -0,0407 & \textbf{Média} & 0 & \textbf{Média} & 0,25 & \textbf{Média} & 0,9542 & \textbf{Média} & 0,0401 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Gradient Boosting} & \multirow{3}{*}{Equalized Odds} & \textbf{Mínimo} & 0,1176 & \textbf{Mínimo} & 0,1177 & \textbf{Mínimo} & 0,1256 & \textbf{Mínimo} & 1,1955 & \textbf{Mínimo} & 0,0786 \\
+             & & & & \textbf{Máximo} & 0,1563 & \textbf{Máximo} & 0,1513 & \textbf{Máximo} & 0,2088 & \textbf{Máximo} & 1,25 & \textbf{Máximo} & 0,0964 \\
+             & & & & \textbf{Média} & 0,1305 & \textbf{Média} & 0,1401 & \textbf{Média} & 0,1534 & \textbf{Média} & 1,2137 & \textbf{Média} & 0,0905 \\
+            \hline
+            \multirow{3}{*}{Idade} & \multirow{3}{*}{Nenhum} & \multirow{3}{*}{Random Forest} & \multirow{3}{*}{Equalized Odds} & \textbf{Mínimo} & 0,1682 & \textbf{Mínimo} & 0,1092 & \textbf{Mínimo} & 0,2139 & \textbf{Mínimo} & 1,2743 & \textbf{Mínimo} & 0,0751 \\
+             & & & & \textbf{Máximo} & 0,2426 & \textbf{Máximo} & 0,3277 & \textbf{Máximo} & 0,2546 & \textbf{Máximo} & 1,5094 & \textbf{Máximo} & 0,2193 \\
+             & & & & \textbf{Média} & 0,1974 & \textbf{Média} & 0,1905 & \textbf{Média} & 0,2286 & \textbf{Média} & 1,3571 & \textbf{Média} & 0,1279 \\
+            \end{tabular}}
+        \end{center}
+    \end{table}
+
+Com estes dados, é possível reforçar com clareza observações notadas anteriormente: Boas métricas de Performance nos casos onde algoritmos com redução de viés no resultado foram utilizados, boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, mudanças nas métricas de \textit{Fairness} dependendo do algoritmo de treinamento ou do atributo protegido utilizado independente de utilizar redução de viés no \textit{pipeline} ou não. Este reforço comprova que o cálculo utilizado para a etapa de Análise no componente MAPE-K foi eficaz em consolidar as métricas existentes sem afetar a análise dos resultados.
+
+Entretanto, perceber qual \textit{pipeline} possui o melhor equilíbrio entre estes dois grupos de métricas com contextos completamente diferentes ainda se torna difuso diante da grande quantidade de métricas e conjuntos de algoritmos utilizados. Além disso, a diferença entre as métricas é extremamente pequena e dificulta ainda mais a escolha. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais \textit{pipelines} são mais equilibrados, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação.
+
+Deste modo, pode-se concluir também que, em um contexto de desenvolvimento, o processo simplifica a decisão do Cientista de Dados e reduz significantemente o tempo para obtenção e implantação de um modelo otimizado, pois não exigirá execuções em diversos algoritmos uma vez que já há uma base de conhecimento prévia. Além disso, poderá poupar processamento e custos para a resolução de diversos outros problemas, uma vez que as execuções economizadas pelas equipes que utilizariam esse processo abrem margem para que outras equipes utilizem esse processamento.
+
+O uso da AI Reference Architecture para definição dos papeis permite visualizar com clareza quais pessoas, quais etapas e projetos para desenvolvimento de funcionalidades e aplicações são necessários para ir da obtenção dos dados, passando pela implantação do modelo até chegar ao consumo pelo cliente final. Deste modo, é possível traçar melhores planejamentos para desenvolvimento de uma aplicação baseada em Inteligência Artificial.
+
+O uso de \textit{Assurance Cases} permitiu uma melhor visualização em no contexto da aplicação a ser implementada, com suas funcionalidades, objetivos e algoritmos a serem implementados e cumpridos. Desta forma, também é possível dividir melhor as tarefas para uma equipe implementá-la e permitir que todos os membros tenham uma visão de todos os detalhes a serem implementados e testados.
+
+\begin{lstlisting}[language=Python, caption=Método para escolha do algoritmo com redução de viés no pós-processamento,label=cod:DataPostprocessExample]
+    def data_postprocess(self, test_pipe, prediction_pipe, fairness_pipe, unbias_postproc_algorithm):
+        unbias_postproc_options = [
+            (UnbiasPostProcAlgorithms.EQUALIZED_ODDS, EqualizedOddsFilter()),
+            (UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS, CalibratedEqualizedOddsFilter()),
+            (UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION, RejectOptionClassificationFilter())
+        ]
+
+        for option, filter in unbias_postproc_options:
+            if unbias_postproc_algorithm == option:
+                init_pipe = test_pipe + prediction_pipe + fairness_pipe['unprivileged_group', 'privileged_group']
+                init_pipe >= filter == prediction_pipe
+                break
+
+        return prediction_pipe
+\end{lstlisting}
+
+Quanto a Arquitetura de Software, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{Pipeline} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço. A maior clareza do código levou a uma maior rapidez para seu entendimento e para novas implementações, uma vez que a separação dos interesses permite um código mais coeso, onde contextos diferentes são entendidos de maneira separada e é possível notar rapidamente qual a parte defeituosa caso um diagnóstico de \textit{bugs} seja necessário.
+
+Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o \textit{pipeline} para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um \textit{workflow} muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
+
+Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{pipeline}. Também há de se considerar que, mesmo que o pipeline evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
+
+Ao usar uma interface humano-computador para intermediar as interações entre o componente MAPE-K e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{pipeline} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através de um componente orquestrador das etapas do MAPE-K. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários.
+
+O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps (ver Apêndice \ref{app:MLOps}), uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. Isso necessitaria de algumas adaptações, como um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{pipeline} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}.
+
 \chapter{Conclusões}
 
+- Falar da possibilidade, viabilidade e resumir discussões do capítulo anterior
 
+- Mostrar trade-offs
+
+- Mostrar situações de uso e não uso
+
+- Como trabalho futuro, citar possíveis ajustes para evolução do processo
 
 % As referências:
 \bibliographystyle{plainnat}
@@ -699,6 +2077,43 @@ O Código \ref{code:makeFluent} representa o mesmo sistema usando uma implementa
                 .priorityRush();
     }
 \end{lstlisting}
+
+\section{\textit{Feature Toggles}}
+\label{app:FeatureToggles}
+
+\textit{Feature toggles} é um conceito antigo e conceitualmente simples: Basicamente, é uma variável usada em uma instrução condicional para proteger blocos de código, com o objetivo de habilitar ou desabilitar o código de uma feature nesses blocos para teste ou liberação~\citep{Rahman_2016}. Inicialmente elas foram pensadas para serem colocadas em tempo de compilação, excluindo a execução das features no binário de um aplicativo. Atualmente, é possível implementar \textit{feature toggles} que permitem que as \textit{features} sejam ativadas ou desativadas em tempo de execução, geralmente através de um arquivo ou através de uma variável introduzida no Sistema Operacional do \textit{software} executado. O Código \ref{code:makeFeatureToggle} mostra um exemplo de \textit{feature toggle}, onde a escolha dinâmica de um algoritmo de pesquisa depende do valor da \textit{toggle} useNewAlgorithm. Se o valor dessa \textit{toggle} for true, o novo algoritmo de pesquisa será usado, caso contrário, o método Search chamará o algoritmo de pesquisa antigo.
+
+\begin{lstlisting}[language=JavaScript, label={code:makeFeatureToggle}, caption=Implementação de uma \textit{Feature Toggle}~\citep{Mahdavi-hezaveh_2021}]
+function Search() {
+    var useNewAlgorithm = false;
+    if(useNewAlgorithm){
+        return newSearchAlgorithm();
+    }else{
+        return oldSearchAlgorithm();
+    }
+}
+\end{lstlisting}
+
+O uso de \textit{feature toggles} é uma técnica frequentemente usada em contextos de integração contínua (CI) e entrega contínua (CD) que permite às equipes integrar e testar uma nova \textit{feature} de forma incremental, mesmo quando ela não está pronta para ser lançada~\citep{Mahdavi-hezaveh_2021}. Os desenvolvedores também usam \textit{feature toggles} para outros fins, como implantação gradual e experimentos. No entanto, a \textit{feature toggle} pode se transformar em débito técnico. O uso de \textit{feature toggles} adiciona mais pontos de decisão ao código, o que adiciona mais complexidade. Essa maior complexidade leva à necessidade de remover \textit{toggles} quando a \textit{feature} estiver concluída, ou olhar com mais atenção para os testes do sistema a ser implementado com a técnica.
+
+Embora agilize testes ou coleta de dados importantes para as empresas, o uso de \textit{feature toggles} sem seguir boas práticas pode ser prejudicial, levando a grandes prejuízos: Em 2012, os desenvolvedores do Knight Capital Group, uma empresa americana de serviços financeiros globais, atualizaram seu roteador algorítmico automatizado de alta velocidade que, inadvertidamente, reaproveitou um feature toggle, ativando a funcionalidade que não era utilizada há 8 anos. Em 2 minutos, os desenvolvedores perceberam que o código implantado se comportou incorretamente, mas levaram 45 minutos para interromper o sistema. Durante esse período, a Knight Capital perdeu quase 400 milhões de dólares, o que fez com que o grupo falisse~\citep{Mahdavi-hezaveh_2021}. 
+
+Por ser uma técnica simples de ser implementada, as linguagens de programação fornecem o necessário para implementar \textit{feature toggles} há muito tempo. No entanto, o primeiro uso desta técnica para suportar CI/CD foi no Flickr em 2009~\citep{Mahdavi-hezaveh_2021}. Atualmente, empresas como Google, Facebook e Netflix utilizam esta técnica, podendo auxiliar na redução do tempo de atualização de seus aplicativos para poucas semanas ou até diariamente~\citep{Rahman_2016}. Nos \textit{softwares}, as \textit{feature toggles} podem ser categorizadas em cinco tipos~\citep{Mahdavi-hezaveh_2021}:
+
+\begin{itemize}
+\item \textbf{\textit{Toggles} de lançamento:} \textit{Toggles} usadas para adicionar novas features em um contexto de \textit{trunk-based development}. No \textit{trunk-based development}, todos os desenvolvedores fazem o \textit{commit} das alterações para uma \textit{branch} compartilhada. Usando \textit{toggles} de lançamento no desenvolvimento baseado em tronco suporta CI/CD para features parcialmente concluídas.
+\item \textbf{\textit{Toggles} de experimento:} \textit{Toggles} usadas para realizar experimentação no \textit{software}, para avaliar novas alterações de recursos e observar sua influência no comportamento do usuário.
+\item \textbf{\textit{Toggles} de operação:} \textit{Toggles} usadas para controlar o aspecto operacional do comportamento do sistema. Quando uma nova feature é implantada, os operadores do sistema podem desabilitar o recurso rapidamente se ela apresentar alguma inconformidade.
+\item \textbf{\textit{Toggles} de permissão:} \textit{Toggles} usadas para fornecer a funcionalidade apropriada para um usuário, por exemplo \textit{features} especiais para usuários \textit{premium} ou pagos. \textit{Toggles} de permissão também são chamados de \textit{toggles} de negócios de longo prazo.
+\item \textbf{\textit{Toggles} de desenvolvimento:} \textit{Toggles} usados para habilitar ou desabilitar certos recursos para testar e depurar código.
+\end{itemize}
+
+\textit{Toggles} de permissão, \textit{toggles} de operação e \textit{toggles} de desenvolvimento são \textit{toggles} de longa duração com base em sua finalidade de uso no código. As \textit{toggles} de lançamento e \textit{toggles} de experimento são \textit{toggles} de curta duração~\citep{Mahdavi-hezaveh_2021}.
+
+\section{\textit{MLOps}}
+\label{app:MLOps}
+
+Blablabla
 
 %\chapter{Apêndice}
 

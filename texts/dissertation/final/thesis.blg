@@ -7,68 +7,85 @@ Reallocating 'name_of_file' (item size: 1) to 5 items.
 Reallocating 'name_of_file' (item size: 1) to 7 items.
 Database file #1: full.bib
 Database file #2: thesis.bib
-Warning--I didn't find a database entry for "Kamiran_2009"
 Warning--I didn't find a database entry for "Mehrabi_2019"
+Warning--I didn't find a database entry for "Konstantinou_2017"
+Warning--to sort, need author or key in IBM_2021
 Warning--to sort, need author or key in Deloitte_2018
 Warning--to sort, need author or key in CIO_2021
 Warning--to sort, need author or key in LGPD_2021
 Warning--to sort, need author or key in IBM_2005
+Warning--to sort, need author or key in Panoply_2017
 Warning--to sort, need author or key in Copeland_2016
 Warning--to sort, need author or key in MLWikipedia_2021
 Warning--to sort, need author or key in MLSAS_2021
-Warning--to sort, need author or key in IBM_2021
+Warning--to sort, need author, editor, or key in Hastie_2009
+Warning--to sort, need author or key in ucigerman_2021
+Warning--to sort, need author or key in ApacheAirflow_2022
+Warning--to sort, need author or key in Pyspmethods_2022
+Warning--to sort, need author or key in AIF360_2022
+Warning--to sort, need author or key in scikit_2022
+Warning--empty year in AIF360_2022
+Warning--empty year in ApacheAirflow_2022
 Warning--empty year in Copeland_2016
 Warning--empty year in IBM_2021
 Warning--empty year in MLSAS_2021
 Warning--empty year in MLWikipedia_2021
+Warning--empty year in Pyspmethods_2022
+Warning--empty year in scikit_2022
+Warning--empty year in ucigerman_2021
 Warning--empty author in IBM_2005
+Warning--empty author and editor in Hastie_2009
+Warning--empty author in Panoply_2017
 Warning--empty booktitle in Abbas_2010
 Warning--empty journal in Biswas_2020
 Warning--empty booktitle in Bosch_2004
+Warning--empty booktitle in Dozat_2016
+Warning--empty journal in Moreau_2009
+Warning--empty journal in Graves_2013
 Warning--empty journal in Kephart_2003
 Warning--empty journal in Maleki_2013
 Warning--empty journal in Mougan_2022
 Warning--empty journal in Speicher_2018
 Warning--empty booktitle in Zhang_2018
-You've used 40 entries,
+You've used 78 entries,
             2773 wiz_defined-function locations,
-            1476 strings with 32543 characters,
-and the built_in function-call counts, 19671 in all, are:
-= -- 1738
-> -- 1112
-< -- 30
-+ -- 384
-- -- 342
-* -- 1484
-:= -- 2737
-add.period$ -- 121
-call.type$ -- 40
-change.case$ -- 235
-chr.to.int$ -- 38
-cite$ -- 109
-duplicate$ -- 972
-empty$ -- 1658
-format.name$ -- 386
-if$ -- 4345
+            1695 strings with 39179 characters,
+and the built_in function-call counts, 37630 in all, are:
+= -- 3305
+> -- 2233
+< -- 58
++ -- 770
+- -- 690
+* -- 2846
+:= -- 5369
+add.period$ -- 233
+call.type$ -- 78
+change.case$ -- 464
+chr.to.int$ -- 76
+cite$ -- 209
+duplicate$ -- 1828
+empty$ -- 3082
+format.name$ -- 787
+if$ -- 8226
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 27
-newline$ -- 209
-num.names$ -- 128
-pop$ -- 599
+missing$ -- 59
+newline$ -- 396
+num.names$ -- 252
+pop$ -- 1120
 preamble$ -- 1
-purify$ -- 194
+purify$ -- 386
 quote$ -- 0
-skip$ -- 863
+skip$ -- 1621
 stack$ -- 0
-substring$ -- 577
-swap$ -- 226
-text.length$ -- 19
+substring$ -- 1035
+swap$ -- 379
+text.length$ -- 28
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 440
-warning$ -- 21
-while$ -- 134
+type$ -- 843
+warning$ -- 38
+while$ -- 250
 width$ -- 0
-write$ -- 498
-(There were 23 warnings)
+write$ -- 964
+(There were 40 warnings)

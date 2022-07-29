@@ -1,9 +1,18 @@
-\begin{thebibliography}{40}
+\begin{thebibliography}{78}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[AIF()]{AIF360_2022}
+Ai fairness 360.
+\newblock URL \url{https://aif360.mybluemix.net}.
+
+\bibitem[Apa()]{ApacheAirflow_2022}
+Statlog (german credit data) data set.
+\newblock URL
+  \url{https://airflow.apache.org/docs/apache-airflow/stable/index.html}.
 
 \bibitem[Cop()]{Copeland_2016}
 What’s the difference between artificial intelligence, machine learning and
@@ -25,9 +34,35 @@ Machine learning: o que é e qual sua importância?
 Aprendizado de máquina.
 \newblock URL \url{https://pt.wikipedia.org/wiki/Aprendizado_de_máquina}.
 
+\bibitem[Pys()]{Pyspmethods_2022}
+Python - special method names.
+\newblock URL
+  \url{https://docs.python.org/3/reference/datamodel.html#special-method-names}.
+
+\bibitem[sci()]{scikit_2022}
+scikit-learn.
+\newblock URL \url{https://scikit-learn.org}.
+
+\bibitem[uci()]{ucigerman_2021}
+Statlog (german credit data) data set.
+\newblock URL
+  \url{https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data)}.
+
 \bibitem[IBM(2005)]{IBM_2005}
 An architectural blueprint for autonomic computing.
 \newblock Technical report, IBM, 2005.
+\newblock URL
+  \url{https://www-03.ibm.com/autonomic/pdfs/AC%20Blueprint%20White%20Paper%20V7.pdf}.
+
+\bibitem[Has(2009)]{Hastie_2009}
+\emph{The elements of statistical learning: data mining, inference and
+  prediction}.
+\newblock Springer, 2009.
+\newblock URL \url{https://hastie.su.domains/Papers/ESLII.pdf}.
+
+\bibitem[Pan(2017)]{Panoply_2017}
+Data engineering - introduction and epochs.
+\newblock Technical report, panoply.io, 2017.
 \newblock URL
   \url{https://www-03.ibm.com/autonomic/pdfs/AC%20Blueprint%20White%20Paper%20V7.pdf}.
 
@@ -82,6 +117,14 @@ Alejandro~Barredo Arrieta, Natalia~D{\'{\i}}az Rodr{\'{\i}}guez, Javier~Del
 Tom Begley, Tobias Schwedes, Christopher Frye, and Ilya Feige.
 \newblock Explainability for fair machine learning, 2021.
 
+\bibitem[Berman et~al.(2018)Berman, Rutenbar, Hailpern, Christensen, Davidson,
+  Estrin, Franklin, Martonosi, Raghavan, Stodden, and Szalay]{Berman_2018}
+Francine Berman, Rob Rutenbar, Brent Hailpern, Henrik Christensen, Susan
+  Davidson, Deborah Estrin, Michael Franklin, Margaret Martonosi, Padma
+  Raghavan, Victoria Stodden, and Alexander~S. Szalay.
+\newblock Realizing the potential of data science.
+\newblock \emph{Communications of the ACM}, 61:\penalty0 67--72, 2018.
+
 \bibitem[Biswas and Rajan(2020)]{Biswas_2020}
 Sumon Biswas and Hridesh Rajan.
 \newblock Do the machine learning models on a crowd sourced platform exhibit
@@ -93,6 +136,22 @@ Jan Bosch.
 \newblock Software architecture: The next step.
 \newblock pages 194--199, 2004.
 
+\bibitem[Bose and Frew(2005)]{Bose_2005}
+Rajendra Bose and James Frew.
+\newblock Lineage retrieval for scientific data processing: A survey.
+\newblock \emph{ACM Comput. Surv.}, page 1–28, 2005.
+
+\bibitem[Breiman(2001)]{Breiman_2001}
+L~Breiman.
+\newblock Random forests.
+\newblock \emph{Machine Learning}, 45:\penalty0 5--32, 2001.
+
+\bibitem[Buneman et~al.(2001)Buneman, Khanna, and Tan]{Buneman_2001}
+Peter Buneman, Sanjeev Khanna, and Wang~Chiew Tan.
+\newblock Why and where: A characterization of data provenance.
+\newblock In \emph{Proceedings of the 8th International Conference on Database
+  Theory}, page 316–330, 2001.
+
 \bibitem[Buolamwini and Gebru(2018)]{Buolamwini_2018}
 Joy Buolamwini and Timnit Gebru.
 \newblock Gender shades: Intersectional accuracy disparities in commercial
@@ -100,6 +159,12 @@ Joy Buolamwini and Timnit Gebru.
 \newblock In \emph{Conference on Fairness, Accountability and Transparency},
   volume~81 of \emph{Proceedings of Machine Learning Research}, pages 77--91,
   2018.
+
+\bibitem[Calders et~al.(2009)Calders, Kamiran, and Pechenizkiy]{Kamiran_2009}
+Toon Calders, Faisal Kamiran, and Mykola Pechenizkiy.
+\newblock Building classifiers with independency constraints.
+\newblock In \emph{2009 IEEE International Conference on Data Mining
+  Workshops}, pages 13--18, 2009.
 
 \bibitem[Calmon et~al.(2017)Calmon, Wei, Vinzamuri, Natesan~Ramamurthy, and
   Varshney]{Calmon_2017}
@@ -117,12 +182,51 @@ L~Elisa Celis, Lingxiao Huang, Vijay Keswani, and Nisheeth~K Vishnoi.
 \newblock In \emph{Proceedings of the conference on fairness, accountability,
   and transparency}, pages 319--328, 2019.
 
+\bibitem[Chen and Guestrin(2016)]{Chen_2016}
+Tianqi Chen and Carlos Guestrin.
+\newblock Xgboost: A scalable tree boosting system.
+\newblock In \emph{22nd ACM SIGKDD International Conference}, pages 785--794,
+  2016.
+
 \bibitem[d'Alessandro et~al.(2017)d'Alessandro, O'Neil, and
   LaGatta]{dAlessandro_2017}
 Brian d'Alessandro, Cathy O'Neil, and Tom LaGatta.
 \newblock Conscientious classification: A data scientist's guide to
   discrimination-aware classification.
 \newblock \emph{Big Data}, pages 120--134, 2017.
+
+\bibitem[Davidson and Freire(2008)]{Davidson_2008}
+Susan~B. Davidson and Juliana Freire.
+\newblock Provenance and scientific workflows: Challenges and opportunities.
+\newblock In \emph{Proceedings of the 2008 ACM SIGMOD International Conference
+  on Management of Data}, page 1345–1350, 2008.
+
+\bibitem[Dozat(2016)]{Dozat_2016}
+Timothy Dozat.
+\newblock Incorporating nesterov momentum into adam.
+\newblock 2016.
+
+\bibitem[Duchi et~al.(2011)Duchi, Hazan, and Singer]{Duchi_2011}
+John Duchi, Elad Hazan, and Yoram Singer.
+\newblock Adaptive subgradient methods for online learning and stochastic
+  optimization.
+\newblock \emph{Journal of Machine Learning Research}, 12:\penalty0 2121--2159,
+  2011.
+
+\bibitem[(Editor et~al.(2009)(Editor, Plale, Miles, Goble, Missier, Barga,
+  Simmhan, Futrelle, Mcgrath, Myers, Paulson, Bowers, Ludäscher, Kwasnikowska,
+  Van~den Bussche, Ellqvist, Freire, and Groth]{Moreau_2009}
+Luc (Editor, Beth Plale, Simon Miles, Carole Goble, Paolo Missier, Roger Barga,
+  Yogesh Simmhan, Joe Futrelle, Robert Mcgrath, James Myers, Patrick Paulson,
+  Shawn Bowers, Bertram Ludäscher, Natalia Kwasnikowska, Jan Van~den Bussche,
+  Tommy Ellqvist, Juliana Freire, and Paul Groth.
+\newblock The open provenance model (v1.01).
+\newblock 2009.
+
+\bibitem[Erb(1993)]{Erb_1993}
+R.~J. Erb.
+\newblock Introduction to backpropagation neural network computation.
+\newblock \emph{Pharmaceutical Research}, 10:\penalty0 165--170, 1993.
 
 \bibitem[Feldman et~al.(2015)Feldman, Friedler, Moeller, Scheidegger, and
   Venkatasubramanian]{Feldman_2015}
@@ -133,16 +237,31 @@ Michael Feldman, Sorelle~A. Friedler, John Moeller, Carlos Scheidegger, and
   on Knowledge Discovery and Data Mining}, page 259–268, 2015.
 \newblock URL \url{https://doi.org/10.1145/2783258.2783311}.
 
+\bibitem[Foote(2021)]{Foote_2021}
+Keith~D. Foote.
+\newblock A brief history of data science, 2021.
+\newblock URL \url{https://www.dataversity.net/brief-history-data-science/}.
+
 \bibitem[Fowler(2005)]{Fowler_2005}
 Martin Fowler.
 \newblock Fluentinterface, 2005.
 \newblock URL \url{https://martinfowler.com/bliki/FluentInterface.html}.
+
+\bibitem[Friedman(2000)]{Friedman_2000}
+Jerome Friedman.
+\newblock Greedy function approximation: A gradient boosting machine.
+\newblock \emph{The Annals of Statistics}, 29, 2000.
 
 \bibitem[Garlan and Shaw(1993)]{Garlan_1993}
 David Garlan and Mary Shaw.
 \newblock An introduction to software architecture.
 \newblock In \emph{Advances in Software Engineering and Knowledge Engineering},
   1993.
+
+\bibitem[Graves(2013)]{Graves_2013}
+Alex Graves.
+\newblock Generating sequences with recurrent neural networks.
+\newblock 2013.
 
 \bibitem[Hardt et~al.(2016)Hardt, Price, Price, and Srebro]{Hardt_2016}
 Moritz Hardt, Eric Price, Eric Price, and Nati Srebro.
@@ -205,6 +324,18 @@ Bahador Khalegi.
 \newblock URL
   \url{https://towardsdatascience.com/the-how-of-explainable-ai-pre-modelling-explainability-699150495fe4}.
 
+\bibitem[Kingma and Ba(2014)]{Kingma_2014}
+Diederik Kingma and Jimmy Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock \emph{International Conference on Learning Representations}, 2014.
+
+\bibitem[Mahdavi-hezaveh et~al.(2021)Mahdavi-hezaveh, Dremann, and
+  Williams]{Mahdavi-hezaveh_2021}
+Rezvan Mahdavi-hezaveh, Jacob Dremann, and Laurie Williams.
+\newblock Software development with feature toggles: practices used by
+  practitioners.
+\newblock \emph{Empirical Software Engineering}, 2021.
+
 \bibitem[Maleki et~al.(2013)Maleki, Tran{-}Thanh, Hines, Rahwan, and
   Rogers]{Maleki_2013}
 Sasan Maleki, Long Tran{-}Thanh, Greg Hines, Talal Rahwan, and Alex Rogers.
@@ -212,12 +343,38 @@ Sasan Maleki, Long Tran{-}Thanh, Greg Hines, Talal Rahwan, and Alex Rogers.
   approximation with/without stratifying.
 \newblock 2013.
 
+\bibitem[Mcculloch and Pitts(1943)]{McCulloch_1943}
+Warren Mcculloch and Walter Pitts.
+\newblock A logical calculus of ideas immanent in nervous activity.
+\newblock \emph{Bulletin of Mathematical Biophysics}, 5:\penalty0 127--147,
+  1943.
+
 \bibitem[Mehrabi et~al.(2021)Mehrabi, Morstatter, Saxena, Lerman, and
   Galstyan]{Mehrabi_2021}
 Ninareh Mehrabi, Fred Morstatter, Nripsuta Saxena, Kristina Lerman, and Aram
   Galstyan.
 \newblock A survey on bias and fairness in machine learning.
 \newblock \emph{ACM Computing Surveys}, pages 1--35, 2021.
+
+\bibitem[Moreau et~al.(2007)Moreau, Ludäscher, Altintas, Barga, Bowers,
+  Callahan, Chin, Clifford, Cohen, Cohen-Boulakia, Davidson, Deelman,
+  Digiampietri, Foster, Freire, Frew, Futrelle, Gibson, Gil, and
+  Zhao]{Moreau_2007}
+Luc Moreau, Bertram Ludäscher, Ilkay Altintas, Roger Barga, Shawn Bowers,
+  Steven Callahan, George Chin, Ben Clifford, Shirley Cohen, Sarah
+  Cohen-Boulakia, Susan Davidson, Ewa Deelman, Luciano Digiampietri, Ian
+  Foster, Juliana Freire, James Frew, Joe Futrelle, Tara Gibson, Yolanda Gil,
+  and Jun Zhao.
+\newblock The first provenance challenge.
+\newblock \emph{Concurrency and Computation: Practice and Experience}, 2007.
+
+\bibitem[Moreau et~al.(2008)Moreau, Groth, Miles, Vázquez-Salceda, Ibbotson,
+  Sheng, Munroe, Rana, Schreiber, Tan, and Varga]{Moreau_2008}
+Luc Moreau, Paul Groth, Simon Miles, Javier Vázquez-Salceda, John Ibbotson,
+  Jian Sheng, Steve Munroe, Omer Rana, Andreas Schreiber, Victor Tan, and
+  László Varga.
+\newblock The provenance of electronic data.
+\newblock \emph{Communications of the ACM}, pages 52--58, 2008.
 
 \bibitem[Mougan et~al.(2022)Mougan, {\'{A}}lvarez, Patro, Ruggieri, and
   Staab]{Mougan_2022}
@@ -242,6 +399,48 @@ Geoff Pleiss, Manish Raghavan, Felix Wu, Jon Kleinberg, and Kilian~Q
 \newblock URL
   \url{https://proceedings.neurips.cc/paper/2017/file/b8b9c74ac526fffbeb2d39ab038d1cd7-Paper.pdf}.
 
+\bibitem[Polyak(1964)]{Polyak_1964}
+Boris Polyak.
+\newblock Some methods of speeding up the convergence of iteration methods.
+\newblock \emph{Ussr Computational Mathematics and Mathematical Physics},
+  4:\penalty0 1--17, 1964.
+
+\bibitem[Raban and Gordon(2020)]{Raban_2020}
+Daphne Raban and Avishag Gordon.
+\newblock The evolution of data science and big data research: A bibliometric
+  analysis.
+\newblock \emph{Scientometrics}, 122:\penalty0 1563–1581, 2020.
+
+\bibitem[Rahman et~al.(2016)Rahman, Querel, Rigby, and Adams]{Rahman_2016}
+Md~Tajmilur Rahman, Louis-Philippe Querel, Peter~C. Rigby, and Bram Adams.
+\newblock Feature toggles: Practitioner practices and a case study.
+\newblock In \emph{Proceedings of the 13th International Conference on Mining
+  Software Repositories}, page 201–211. Association for Computing Machinery,
+  2016.
+
+\bibitem[Ramamoorthy and Wah(1989)]{IEEE_1989}
+C.v Ramamoorthy and Benjamin Wah.
+\newblock Knowledge and data engineering.
+\newblock \emph{IEEE Transactions on Knowledge and Data Engineering},
+  1:\penalty0 9 -- 16, 1989.
+
+\bibitem[Rokach and Maimon(2005)]{Rokach_2005}
+Lior Rokach and Oded Maimon.
+\newblock Top-down induction of decision trees classifiers—a survey.
+\newblock \emph{Systems, Man, and Cybernetics, Part C: Applications and
+  Reviews, IEEE Transactions on}, 35:\penalty0 476 -- 487, 2005.
+
+\bibitem[Schmidt et~al.(2013)Schmidt, Roux, and Bach]{Schmidt_2013}
+Mark Schmidt, Nicolas Roux, and Francis Bach.
+\newblock Minimizing finite sums with the stochastic average gradient.
+\newblock \emph{Mathematical Programming}, 162, 2013.
+
+\bibitem[Singh and Chauhan(2009)]{Singh_2009}
+Yashpal Singh and Alok~Singh Chauhan.
+\newblock Neural networks in data mining.
+\newblock \emph{Journal of Theoretical \& Applied Information Technology}, 5,
+  2009.
+
 \bibitem[Speicher et~al.(2018)Speicher, Heidari, Grgic-Hlaca, Gummadi, Singla,
   Weller, and Zafar]{Speicher_2018}
 Till Speicher, Hoda Heidari, Nina Grgic-Hlaca, Krishna~P. Gummadi, Adish
@@ -250,6 +449,13 @@ Till Speicher, Hoda Heidari, Nina Grgic-Hlaca, Krishna~P. Gummadi, Adish
 \newblock 2018.
 \newblock URL \url{http://dx.doi.org/10.1145/3219819.3220046}.
 
+\bibitem[Steinwart and Christmann(2008)]{Steinwart_2008}
+Ingo Steinwart and Andreas Christmann.
+\newblock \emph{Support Vector Machines}.
+\newblock Springer Science \& Business Media, 2008.
+\newblock URL
+  \url{http://www.lamda.nju.edu.cn/zhangt/seminar/RKHS/pdf/Support%20Vector%20Machines%20-%20Ingo%20Steinwart,%20Andreas%20Christmann.pdf}.
+
 \bibitem[Sundararajan et~al.(2017)Sundararajan, Taly, and
   Yan]{Sundararajan_2017}
 Mukund Sundararajan, Ankur Taly, and Qiqi Yan.
@@ -257,6 +463,32 @@ Mukund Sundararajan, Ankur Taly, and Qiqi Yan.
 \newblock In \emph{Proceedings of the 34th International Conference on Machine
   Learning}, volume~70 of \emph{Proceedings of Machine Learning Research},
   pages 3319--3328, 2017.
+
+\bibitem[Sutskever et~al.(2013)Sutskever, Martens, Dahl, and
+  Hinton]{Sutskever_2013}
+I.~Sutskever, J.~Martens, G.~Dahl, and G.~Hinton.
+\newblock On the importance of initialization and momentum in deep learning.
+\newblock \emph{30th International Conference on Machine Learning, ICML 2013},
+  pages 1139--1147, 01 2013.
+
+\bibitem[Tan(2007)]{Tan_2007}
+Wang-chiew Tan.
+\newblock Provenance in databases: Past, current, and future.
+\newblock \emph{IEEE Data Eng. Bull.}, pages 3--12, 2007.
+
+\bibitem[Witten et~al.(2016)Witten, Frank, and Hall]{Witten_2016}
+Ian~H. Witten, Eibe Frank, and Mark~A. Hall.
+\newblock \emph{Data Mining: Practical machine learning tools and techniques}.
+\newblock Morgan Kaufmann, 2016.
+\newblock URL
+  \url{https://www.wi.hs-wismar.de/~cleve/vorl/projects/dm/ss13/HierarClustern/Literatur/WittenFrank-DM-3rd.pdf}.
+
+\bibitem[Woodruff and Stonebraker(1997)]{Woodruff_1997}
+Allison Woodruff and Michael Stonebraker.
+\newblock Supporting fine-grained data lineage in a database visualization
+  environment.
+\newblock Technical report, EECS Department, University of California,
+  Berkeley, 1997.
 
 \bibitem[Zemel et~al.(2013)Zemel, Wu, Swersky, Pitassi, and Dwork]{Zemel_2013}
 Rich Zemel, Yu~Wu, Kevin Swersky, Toni Pitassi, and Cynthia Dwork.
