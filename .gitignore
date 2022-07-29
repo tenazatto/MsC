@@ -3,3 +3,26 @@ __pycache__
 
 /output/
 _markdown_project
+
+/texts/dissertation/drafts/*.aux
+/texts/dissertation/drafts/*.bbl
+/texts/dissertation/drafts/*.blg
+/texts/dissertation/drafts/*.log
+/texts/dissertation/drafts/*.out
+/texts/dissertation/drafts/*.synctex.gz
+
+/texts/dissertation/final/*.aux
+/texts/dissertation/final/*.bbl
+/texts/dissertation/final/*.blg
+/texts/dissertation/final/*.log
+/texts/dissertation/final/*.lof
+/texts/dissertation/final/*.out
+/texts/dissertation/final/*.lot
+/texts/dissertation/final/*.synctex.gz
+
+/texts/qualify/*.aux
+/texts/qualify/*.bbl
+/texts/qualify/*.blg
+/texts/qualify/*.log
+/texts/qualify/*.out
+/texts/qualify/*.synctex.gz
