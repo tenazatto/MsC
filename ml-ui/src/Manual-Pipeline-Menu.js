@@ -183,6 +183,7 @@ function ManualPipelineMenu(props) {
                 >
                   <MenuItem value={'Datasets.ADULT_INCOME'}>Adult Income Dataset</MenuItem>
                   <MenuItem value={'Datasets.GERMAN_CREDIT'}>German Credit Dataset</MenuItem>
+                  <MenuItem value={'Datasets.LENDINGCLUB'}>Lendingclub Dataset</MenuItem>
                 </Select>
                 <FormHelperText>Conjunto de dados a ser treinado</FormHelperText>
               </FormControl>
