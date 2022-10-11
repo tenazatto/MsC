@@ -8,15 +8,19 @@ from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorit
     UnbiasPostProcAlgorithms
 
 from pipeline.pipeline import Pipeline
+from data_engineering import lending_club_data_to_csv
 
 
 def execute_all():
     pipe = Pipeline()
     datasets = [
         # (Datasets.ADULT_INCOME, Preprocessors.SEX),
-        (Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN),
-        # (Datasets.GERMAN_CREDIT, Preprocessors.AGE)
+        # (Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN),
+        # (Datasets.GERMAN_CREDIT, Preprocessors.AGE),
+        (Datasets.LENDINGCLUB, Preprocessors.INCOME)
     ]
+    # process_options = [(Algorithms.LOGISTIC_REGRESSION, UnbiasDataAlgorithms.REWEIGHING, UnbiasPostProcAlgorithms.NOTHING)]
+
     process_options = [
         (Algorithms.LOGISTIC_REGRESSION, UnbiasDataAlgorithms.NOTHING, UnbiasPostProcAlgorithms.NOTHING),
         (Algorithms.LOGISTIC_REGRESSION, UnbiasDataAlgorithms.NOTHING, UnbiasPostProcAlgorithms.EQUALIZED_ODDS),
@@ -90,5 +94,6 @@ def mapek(dataset=None):
 
 
 if __name__ == '__main__':
-    # execute_all()
-    mapek()
+    execute_all()
+    # mapek()
+    # lending_club_data_to_csv()
