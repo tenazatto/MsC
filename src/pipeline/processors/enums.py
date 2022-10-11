@@ -8,12 +8,14 @@ class ExtendedEnum(Enum):
 class Datasets(ExtendedEnum):
     ADULT_INCOME = 1
     GERMAN_CREDIT = 2
+    LENDINGCLUB = 3
 
 
 class Preprocessors(ExtendedEnum):
     SEX = 1
     AGE = 2
     FOREIGN = 3
+    INCOME = 4
 
 
 class Algorithms:

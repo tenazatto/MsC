@@ -32,3 +32,9 @@ class AdultDataset(Dataset):
 
     def __init__(self):
         super().__init__()
+
+class LendingclubDataset(Dataset):
+    dataset_path = 'src/datasets/lendingclub_dataset.csv'
+
+    def __init__(self):
+        super().__init__()

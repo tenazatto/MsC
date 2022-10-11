@@ -8,7 +8,8 @@ class PipelineValidation:
         existant_preprocessors = \
             (dataset == Datasets.ADULT_INCOME and preprocessor == Preprocessors.SEX) or \
             (dataset == Datasets.GERMAN_CREDIT and preprocessor == Preprocessors.AGE) or \
-            (dataset == Datasets.GERMAN_CREDIT and preprocessor == Preprocessors.FOREIGN)
+            (dataset == Datasets.GERMAN_CREDIT and preprocessor == Preprocessors.FOREIGN) or \
+            (dataset == Datasets.LENDINGCLUB and preprocessor == Preprocessors.INCOME)
 
         existant_algorithms = \
             (algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \

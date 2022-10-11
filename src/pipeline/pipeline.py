@@ -7,6 +7,8 @@ from pipeline.metrics.metrics_print import MetricsPrintFilter
 from pipeline.metrics.ml_model import MLModelMetricsFilter
 from pipeline.metrics.unbias_inproc_algorithms import UnbiasInProcAlgorithmMetricsFilter
 from pipeline.pipe_filter.pipe import BasePipe
+from pipeline.processors.preprocessors.data.lendingclub_income import LendingclubIncomePreprocessor, \
+    LendingclubIncomeFairnessPipe
 from pipeline.validation import PipelineValidation
 from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, Algorithms, UnbiasInProcAlgorithms, \
     UnbiasPostProcAlgorithms
@@ -24,7 +26,7 @@ from pipeline.processors.postprocessors.calibrated_equalized_odds import Calibra
 from pipeline.processors.postprocessors.equalized_odds import EqualizedOddsFilter
 from pipeline.processors.postprocessors.reject_option_classification import RejectOptionClassificationFilter
 from pipeline.processors.preprocessors.data.adult_sex import AdultSexPreprocessor, AdultSexFairnessPipe
-from pipeline.processors.preprocessors.data.dataset import AdultDataset, GermanDataset
+from pipeline.processors.preprocessors.data.dataset import AdultDataset, GermanDataset, LendingclubDataset
 from pipeline.processors.preprocessors.data.german_age import GermanAgePreprocessor, GermanAgeFairnessPipe
 from pipeline.processors.preprocessors.data.german_foreign import GermanForeignPreprocessor, GermanForeignFairnessPipe
 from pipeline.processors.preprocessors.data.train_test_split import TrainTestSplit
@@ -83,6 +85,7 @@ class Pipeline:
             ([Datasets.ADULT_INCOME, Preprocessors.SEX], (AdultDataset(), AdultSexPreprocessor(), AdultSexFairnessPipe())),
             ([Datasets.GERMAN_CREDIT, Preprocessors.AGE], (GermanDataset(), GermanAgePreprocessor(), GermanAgeFairnessPipe())),
             ([Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN], (GermanDataset(), GermanForeignPreprocessor(), GermanForeignFairnessPipe())),
+            ([Datasets.LENDINGCLUB, Preprocessors.INCOME], (LendingclubDataset(), LendingclubIncomePreprocessor(), LendingclubIncomeFairnessPipe())),
         ]
 
         for option, pipe_filter in options:
