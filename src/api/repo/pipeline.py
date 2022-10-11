@@ -17,7 +17,8 @@ class PipelineRepository:
     def get_dataset(self, dataset):
         indexes = {
             'Datasets.ADULT_INCOME': Datasets.ADULT_INCOME,
-            'Datasets.GERMAN_CREDIT': Datasets.GERMAN_CREDIT
+            'Datasets.GERMAN_CREDIT': Datasets.GERMAN_CREDIT,
+            'Datasets.LENDINGCLUB': Datasets.LENDINGCLUB,
         }
 
         return next(filter(lambda a: a[0] == dataset, indexes.items()))[1]
