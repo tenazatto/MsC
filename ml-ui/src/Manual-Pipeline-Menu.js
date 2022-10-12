@@ -202,7 +202,7 @@ function ManualPipelineMenu(props) {
                 >
                   <MenuItem value={'Preprocessors.SEX'}>Sexo (Masculino/Feminino)</MenuItem>
                 </Select>
-                :
+                : dataset === 'Datasets.ADULT_INCOME' ?
                 <Select
                   sx={{fontSize: '14px'}}
                   value={protectedAtt}
@@ -212,6 +212,16 @@ function ManualPipelineMenu(props) {
                 >
                   <MenuItem value={'Preprocessors.AGE'}>Idade (-25 anos/+25 anos)</MenuItem>
                   <MenuItem value={'Preprocessors.FOREIGN'}>Nacionalidade (Local/Estrangeiro)</MenuItem>
+                </Select>
+                :
+                <Select
+                  sx={{fontSize: '14px'}}
+                  value={protectedAtt}
+                  onChange={handleProtectedAttChange}
+                  displayEmpty
+                  inputProps={{ 'aria-label': 'Without label' }}
+                >
+                  <MenuItem value={'Preprocessors.INCOME'}>Renda (-1 Salário Mínimo/1+ Salários Mínimos)</MenuItem>
                 </Select>
                 }
                 <FormHelperText>Atributo protegido para medir justiça</FormHelperText>
