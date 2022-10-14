@@ -3,8 +3,8 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 
-from pipeline.pipe_filter.pipe import BaseFilter
-from pipeline.processors.enums import Algorithms
+from src.pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.processors.enums import Algorithms
 
 
 class ExponentiatedGradientReductionFilter(BaseFilter):

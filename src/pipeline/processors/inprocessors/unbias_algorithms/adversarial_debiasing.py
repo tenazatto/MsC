@@ -1,7 +1,7 @@
 import tensorflow as tf
 from aif360.algorithms.inprocessing import AdversarialDebiasing
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class AdversarialDebiasingFilter(BaseFilter):

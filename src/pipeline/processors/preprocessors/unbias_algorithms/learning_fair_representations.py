@@ -1,7 +1,7 @@
 from aif360.datasets import BinaryLabelDataset
 from aif360.algorithms.preprocessing import Reweighing
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 import pandas as pd
 

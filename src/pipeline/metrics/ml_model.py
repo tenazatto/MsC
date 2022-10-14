@@ -3,8 +3,8 @@ import pandas as pd
 from aif360.datasets import BinaryLabelDataset
 from aif360.metrics import ClassificationMetric
 
-from pipeline.metrics.explainer import EnhancedMetricTextExplainer
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.metrics.explainer import EnhancedMetricTextExplainer
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class MLModelMetricsFilter(BaseFilter):

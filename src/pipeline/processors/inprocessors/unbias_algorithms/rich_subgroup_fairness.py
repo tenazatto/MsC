@@ -2,8 +2,8 @@ from aif360.algorithms.inprocessing import GerryFairClassifier
 from sklearn import linear_model, svm, tree
 from sklearn.kernel_ridge import KernelRidge
 
-from pipeline.pipe_filter.pipe import BaseFilter
-from pipeline.processors.enums import Algorithms
+from src.pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.processors.enums import Algorithms
 
 
 class RichSubgroupFairnessFilter(BaseFilter):

@@ -1,6 +1,6 @@
 from aif360.algorithms.inprocessing import PrejudiceRemover
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class PrejudiceRemoverFilter(BaseFilter):

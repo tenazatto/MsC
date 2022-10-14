@@ -1,6 +1,6 @@
 from sklearn.model_selection import train_test_split
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class TrainValidTestSplit(BaseFilter):

@@ -1,25 +1,20 @@
-from mapek.ml.analyzer import MLMAPEKExecutionAnalyzer, MLMAPEKPipelineAnalyzer
-from mapek.ml.executor import MLMAPEKPipelineExecutor
-from mapek.ml.monitor import MLMAPEKPipelineMonitor
-from mapek.ml.planner import MLMAPEKPipelinePlanner, MLMAPEKAlgorithmValidationPlanner, MLMAPEKDataChecksumPlanner, \
-    MLMAPEKPipelineThresholdPlanner
-from mapek.orchestrator import MAPEKPipelineOrchestrator
-from pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasInProcAlgorithms, Algorithms, \
-    UnbiasPostProcAlgorithms
+import argparse
 
-from pipeline.pipeline import Pipeline
-from data_engineering import lending_club_data_to_csv
+from src.pipeline.pipeline import Pipeline
+from src.pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasInProcAlgorithms, Algorithms, \
+    UnbiasPostProcAlgorithms
 
 
 def execute_all():
+    parser = argparse.ArgumentParser(description="Execuções de pipeline para determinado dataset")
+    parser.add_argument("--dataset", help="Conjunto de dados tratado com atributo protegido",
+                        choices=['ADULT_INCOME_SEX',
+                                 'GERMAN_CREDIT_FOREIGN', 'GERMAN_CREDIT_AGE',
+                                 'LENDINGCLUB_INCOME'])
+    args = parser.parse_args()
+
     pipe = Pipeline()
-    datasets = [
-        # (Datasets.ADULT_INCOME, Preprocessors.SEX),
-        # (Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN),
-        # (Datasets.GERMAN_CREDIT, Preprocessors.AGE),
-        (Datasets.LENDINGCLUB, Preprocessors.INCOME)
-    ]
-    # process_options = [(Algorithms.LOGISTIC_REGRESSION, UnbiasDataAlgorithms.REWEIGHING, UnbiasPostProcAlgorithms.NOTHING)]
+    datasets = []
 
     process_options = [
         (Algorithms.LOGISTIC_REGRESSION, UnbiasDataAlgorithms.NOTHING, UnbiasPostProcAlgorithms.NOTHING),
@@ -73,27 +68,19 @@ def execute_all():
         (UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION, UnbiasDataAlgorithms.NOTHING, UnbiasPostProcAlgorithms.NOTHING)
     ]
 
+    if args.dataset == 'ADULT_INCOME_SEX':
+        datasets.append((Datasets.ADULT_INCOME, Preprocessors.SEX))
+    elif args.dataset == 'ADULT_INCOME_FOREIGN':
+        datasets.append((Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN))
+    elif args.dataset == 'GERMAN_CREDIT_AGE':
+        datasets.append((Datasets.GERMAN_CREDIT, Preprocessors.AGE))
+    elif args.dataset == 'LENDINGCLUB_INCOME':
+        datasets.append((Datasets.LENDINGCLUB, Preprocessors.INCOME))
+
     for dataset, preprocessor in datasets:
         for preproc_alg, inproc_alg, postproc_alg in process_options:
             pipe.start(dataset, preprocessor, preproc_alg, inproc_alg, postproc_alg)
 
 
-def execute_single(dataset, preprocessor, preproc_alg, inproc_alg, postproc_alg):
-    pipe = Pipeline()
-    pipe.start(dataset, preprocessor, inproc_alg, preproc_alg, postproc_alg)
-
-
-def mapek(dataset=None):
-    mapek = MAPEKPipelineOrchestrator(Pipeline(),
-                                      MLMAPEKPipelineMonitor(),
-                                      [MLMAPEKExecutionAnalyzer(), MLMAPEKPipelineAnalyzer()],
-                                      [MLMAPEKDataChecksumPlanner(last_checksum=True), MLMAPEKAlgorithmValidationPlanner(), MLMAPEKPipelineThresholdPlanner(), MLMAPEKPipelinePlanner()],
-                                      MLMAPEKPipelineExecutor())
-    print("Executando MAPE-K")
-    mapek.run()
-
-
 if __name__ == '__main__':
     execute_all()
-    # mapek()
-    # lending_club_data_to_csv()

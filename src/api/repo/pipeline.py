@@ -9,8 +9,8 @@ from mapek.ml.monitor import MLMAPEKPipelineMonitor
 from mapek.ml.planner import MLMAPEKDataChecksumPlanner, MLMAPEKAlgorithmValidationPlanner, \
     MLMAPEKPipelineThresholdPlanner, MLMAPEKPipelinePlanner
 from mapek.orchestrator import MAPEKPipelineOrchestrator
-from pipeline.pipeline import Pipeline
-from pipeline.processors.enums import UnbiasPostProcAlgorithms, UnbiasDataAlgorithms, Preprocessors, Datasets
+from src.pipeline.pipeline import Pipeline
+from src.pipeline.processors.enums import UnbiasPostProcAlgorithms, UnbiasDataAlgorithms, Preprocessors, Datasets
 
 
 class PipelineRepository:

@@ -2,7 +2,7 @@ import pandas as pd
 from aif360.algorithms.preprocessing import DisparateImpactRemover
 from aif360.datasets import BinaryLabelDataset
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class DisparateImpactRemoverUnbiasAlgorithm(BaseFilter):

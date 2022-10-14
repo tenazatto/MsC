@@ -1,6 +1,6 @@
 from sklearn.linear_model import LogisticRegression
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class LogisticRegressionFilter(BaseFilter):

@@ -3,7 +3,7 @@ import json
 import os
 from typing import Dict, Any
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class MetricsFileWriterFilter(BaseFilter):

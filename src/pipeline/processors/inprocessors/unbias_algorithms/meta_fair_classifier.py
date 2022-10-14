@@ -1,6 +1,6 @@
 from aif360.algorithms.inprocessing import MetaFairClassifier
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class MetaFairClassifierFilter(BaseFilter):

@@ -1,6 +1,6 @@
 from sklearn import metrics
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class MetricsPrintFilter(BaseFilter):

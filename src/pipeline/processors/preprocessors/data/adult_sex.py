@@ -3,7 +3,7 @@ import pandas as pd
 
 from aif360.algorithms.preprocessing.optim_preproc_helpers.distortion_functions import get_distortion_adult
 
-from pipeline.processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
+from src.pipeline.processors.preprocessors.data.fairness import FairnessPreprocessor, FairnessPipe
 
 
 class AdultSexFairnessPipe(FairnessPipe):

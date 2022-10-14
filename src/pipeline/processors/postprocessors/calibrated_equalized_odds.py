@@ -1,6 +1,6 @@
 from aif360.algorithms.postprocessing import CalibratedEqOddsPostprocessing
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class CalibratedEqualizedOddsFilter(BaseFilter):

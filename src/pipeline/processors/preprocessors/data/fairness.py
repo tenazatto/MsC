@@ -1,4 +1,4 @@
-from pipeline.pipe_filter.pipe import BaseFilter, BasePipe
+from src.pipeline.pipe_filter.pipe import BaseFilter, BasePipe
 
 
 class FairnessPipe(BasePipe):

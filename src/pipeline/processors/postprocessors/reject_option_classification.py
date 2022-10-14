@@ -3,7 +3,7 @@ import tensorflow as tf
 from aif360.algorithms.inprocessing import PrejudiceRemover, AdversarialDebiasing
 from aif360.algorithms.postprocessing import RejectOptionClassification
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class RejectOptionClassificationFilter(BaseFilter):

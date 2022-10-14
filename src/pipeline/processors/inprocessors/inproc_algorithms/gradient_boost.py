@@ -1,6 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class GradientBoostFilter(BaseFilter):

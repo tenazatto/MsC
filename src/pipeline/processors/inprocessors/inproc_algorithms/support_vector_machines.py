@@ -1,6 +1,6 @@
 from sklearn.svm import SVC
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class SVMFilter(BaseFilter):

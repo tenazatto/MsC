@@ -3,7 +3,7 @@ from aif360.algorithms.preprocessing import OptimPreproc
 from aif360.algorithms.preprocessing.optim_preproc_helpers.opt_tools import OptTools
 from aif360.datasets import BinaryLabelDataset
 
-from pipeline.pipe_filter.pipe import BaseFilter
+from src.pipeline.pipe_filter.pipe import BaseFilter
 
 
 class OptimizedPreprocessingUnbiasAlgorithm(BaseFilter):

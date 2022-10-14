@@ -8,7 +8,7 @@ from mapek.steps.analyzer import MAPEKAnalyzer
 from mapek.steps.executor import MAPEKExecutor
 from mapek.steps.monitor import MAPEKMonitor
 from mapek.steps.planner import MAPEKPlanner
-from pipeline.pipeline import Pipeline
+from src.pipeline.pipeline import Pipeline
 
 
 class MAPEKPipelineOrchestrator:
@@ -32,13 +32,15 @@ class MAPEKPipelineOrchestrator:
         self.executor = executor
         self.filters = filters
 
-    def run(self, executions=0):
+    def run(self, executions=0, dataset=None, preprocessor=None):
         infinite_execs = executions < 1
         num_executions = 0
 
         while infinite_execs or num_executions < executions:
             date_start = datetime.now()
-            df_pipeline, df_metrics = self.monitor.monitor()
+            filters = self.build_filters(dataset, preprocessor)
+
+            df_pipeline, df_metrics = self.monitor.monitor(filters=filters)
 
             df_score = self.do_analyze(df_metrics, df_pipeline)
 
@@ -47,6 +49,14 @@ class MAPEKPipelineOrchestrator:
             self.executor.execute(data=(self.pipeline, pipeline_plan))
             date_end = datetime.now()
             print('Execução realizada em ' + str(math.floor((date_end - date_start).total_seconds() * 1000)) + ' ms')
+
+    def build_filters(self, dataset, preprocessor):
+        filters = {} if dataset is not None or preprocessor is not None else None
+        if dataset is not None:
+            filters['dataset'] = dataset
+        if preprocessor is not None:
+            filters['preprocessor'] = preprocessor
+        return filters
 
     def do_analyze(self, df_metrics, df_pipeline):
         analyzer_flags = json.load(open('config/mapek/analyzer_flags.json', 'r'))

@@ -1,6 +1,7 @@
 import hashlib
+import os
 
-from pipeline.pipe_filter.pipe import BasePipe
+from src.pipeline.pipe_filter.pipe import BasePipe
 
 import pandas as pd
 
@@ -18,23 +19,24 @@ class Dataset(BasePipe):
         }
 
     def __init__(self):
-        self.load_dataset()
+        if os.path.isfile(self.dataset_path):
+            self.load_dataset()
 
 
 class GermanDataset(Dataset):
-    dataset_path = 'src/datasets/german_credit_data.csv'
+    dataset_path = 'datasets/german_credit_data.csv'
 
     def __init__(self):
         super().__init__()
 
 class AdultDataset(Dataset):
-    dataset_path = 'src/datasets/adult.csv'
+    dataset_path = 'datasets/adult.csv'
 
     def __init__(self):
         super().__init__()
 
 class LendingclubDataset(Dataset):
-    dataset_path = 'src/datasets/lendingclub_dataset.csv'
+    dataset_path = 'datasets/lendingclub_dataset.csv'
 
     def __init__(self):
         super().__init__()
