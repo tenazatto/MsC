@@ -27,7 +27,8 @@ class PipelineRepository:
         indexes = {
             'Preprocessors.SEX': Preprocessors.SEX,
             'Preprocessors.AGE': Preprocessors.AGE,
-            'Preprocessors.FOREIGN': Preprocessors.FOREIGN
+            'Preprocessors.FOREIGN': Preprocessors.FOREIGN,
+            'Preprocessors.INCOME': Preprocessors.INCOME
         }
 
         return next(filter(lambda a: a[0] == preprocessor, indexes.items()))[1]
