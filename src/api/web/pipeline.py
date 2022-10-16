@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, jsonify, request
 
-from api.service.pipeline import PipelineService
+from src.api.service.pipeline import PipelineService
 
 pipeline = Blueprint('pipeline', __name__, url_prefix='/pipeline')
 pipeline_service = PipelineService()

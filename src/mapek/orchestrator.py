@@ -4,10 +4,10 @@ import re
 from datetime import datetime
 from typing import List
 
-from mapek.steps.analyzer import MAPEKAnalyzer
-from mapek.steps.executor import MAPEKExecutor
-from mapek.steps.monitor import MAPEKMonitor
-from mapek.steps.planner import MAPEKPlanner
+from src.mapek.steps.analyzer import MAPEKAnalyzer
+from src.mapek.steps.executor import MAPEKExecutor
+from src.mapek.steps.monitor import MAPEKMonitor
+from src.mapek.steps.planner import MAPEKPlanner
 from src.pipeline.pipeline import Pipeline
 
 

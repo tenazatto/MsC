@@ -1,4 +1,4 @@
-from mapek.steps.executor import MAPEKExecutor
+from src.mapek.steps.executor import MAPEKExecutor
 
 
 class MLMAPEKPipelineExecutor(MAPEKExecutor):

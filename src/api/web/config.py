@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, jsonify, request
 
-from api.service.config import ConfigService
+from src.api.service.config import ConfigService
 
 config = Blueprint('config', __name__, url_prefix='/config')
 config_service = ConfigService()

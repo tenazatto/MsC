@@ -1,7 +1,7 @@
 import json
 
 import pandas as pd
-from mapek.steps.planner import MAPEKPlanner
+from src.mapek.steps.planner import MAPEKPlanner
 from src.pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlgorithms, UnbiasPostProcAlgorithms
 from src.pipeline.validation import MAPEKValidation
 

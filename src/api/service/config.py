@@ -1,4 +1,4 @@
-from api.repo.config import ConfigRepository
+from src.api.repo.config import ConfigRepository
 
 
 class ConfigService:

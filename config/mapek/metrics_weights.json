@@ -2,7 +2,7 @@
   "metrics_groups": [
     {
       "group_name": "standard",
-      "weight": 0.5,
+      "weight": 0.25,
       "metrics": {
         "accuracy": {
           "weight": 0.2,
@@ -28,7 +28,7 @@
     },
     {
       "group_name": "fairness",
-      "weight": 0.5,
+      "weight": 0.75,
       "metrics": {
         "statistical_parity_difference": {
           "weight": 0.2,

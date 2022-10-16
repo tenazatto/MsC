@@ -3,12 +3,12 @@ import pandas as pd
 import os
 from datetime import datetime
 
-from mapek.ml.analyzer import MLMAPEKExecutionAnalyzer, MLMAPEKPipelineAnalyzer
-from mapek.ml.executor import MLMAPEKPipelineExecutor
-from mapek.ml.monitor import MLMAPEKPipelineMonitor
-from mapek.ml.planner import MLMAPEKDataChecksumPlanner, MLMAPEKAlgorithmValidationPlanner, \
+from src.mapek.ml.analyzer import MLMAPEKExecutionAnalyzer, MLMAPEKPipelineAnalyzer
+from src.mapek.ml.executor import MLMAPEKPipelineExecutor
+from src.mapek.ml.monitor import MLMAPEKPipelineMonitor
+from src.mapek.ml.planner import MLMAPEKDataChecksumPlanner, MLMAPEKAlgorithmValidationPlanner, \
     MLMAPEKPipelineThresholdPlanner, MLMAPEKPipelinePlanner
-from mapek.orchestrator import MAPEKPipelineOrchestrator
+from src.mapek.orchestrator import MAPEKPipelineOrchestrator
 from src.pipeline.pipeline import Pipeline
 from src.pipeline.processors.enums import UnbiasPostProcAlgorithms, UnbiasDataAlgorithms, Preprocessors, Datasets
 

@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from tqdm import tqdm
 
-from mapek.steps.monitor import MAPEKMonitor
+from src.mapek.steps.monitor import MAPEKMonitor
 
 
 class MLMAPEKPipelineMonitor(MAPEKMonitor):

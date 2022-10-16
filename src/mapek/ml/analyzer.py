@@ -2,7 +2,7 @@ import json
 
 import pandas as pd
 
-from mapek.steps.analyzer import MAPEKAnalyzer
+from src.mapek.steps.analyzer import MAPEKAnalyzer
 
 
 class MLMAPEKExecutionAnalyzer(MAPEKAnalyzer):
