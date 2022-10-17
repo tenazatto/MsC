@@ -11,6 +11,20 @@ _markdown_project
 /texts/dissertation/drafts/*.out
 /texts/dissertation/drafts/*.synctex.gz
 
+/texts/dissertation/attachments/docs/install/*.aux
+/texts/dissertation/attachments/docs/install/*.bbl
+/texts/dissertation/attachments/docs/install/*.blg
+/texts/dissertation/attachments/docs/install/*.log
+/texts/dissertation/attachments/docs/install/*.out
+/texts/dissertation/attachments/docs/install/*.synctex.gz
+
+/texts/dissertation/attachments/docs/maintenance/*.aux
+/texts/dissertation/attachments/docs/maintenance/*.bbl
+/texts/dissertation/attachments/docs/maintenance/*.blg
+/texts/dissertation/attachments/docs/maintenance/*.log
+/texts/dissertation/attachments/docs/maintenance/*.out
+/texts/dissertation/attachments/docs/maintenance/*.synctex.gz
+
 /texts/dissertation/final/*.aux
 /texts/dissertation/final/*.bbl
 /texts/dissertation/final/*.blg

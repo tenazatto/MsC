@@ -1,0 +1,262 @@
+\documentclass[letterpaper]{article}
+% \IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage[portuges,brazil,english]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{nccmath}
+\usepackage{hyperref}
+\usepackage{multirow}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+
+\renewcommand{\lstlistingname}{Trecho}
+\renewcommand{\lstlistlistingname}{Lista de \lstlistingname s}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.85,0.85,0.85}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+
+\lstdefinestyle{codigo}{
+    backgroundcolor=\color{codegray},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codeblack},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+
+\lstset{style=codigo}    
+    
+\begin{document}
+
+\title{FairPEK - Documentação}
+\author{Instalação}
+% \author{\IEEEauthorblockN{Rodrigo Rusa}
+% \IEEEauthorblockA{
+% 208592 \\
+% rodrigorusa@gmail.com}
+% \and
+% \IEEEauthorblockN{Thales Eduardo Nazatto}
+% \IEEEauthorblockA{
+% 074388 \\
+% tenazatto@gmail.com}}
+
+\maketitle
+
+\section{Introdução}
+
+Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 etapas principais:
+
+\begin{itemize}
+    \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
+    \item {\textbf{Pipeline de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
+    \item {\textbf{Autonomia do Pipeline (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Pipeline, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
+    \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
+    \begin{itemize}
+        \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
+        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Componente MAPE-K.
+    \end{itemize}
+\end{itemize}
+
+\section{Programas necessários para instalação}
+
+\begin{itemize}
+    \item {\textbf{Python:}} É a linguagem de programação utilizada para montar e executar todas as etapas com a exceção do Frontend da interface. É disponível no site \url{https://www.python.org/} e é necessária a versão \textbf{3.8} ou superior.
+    \item {\textbf{Node.js:}} É o programa necessário para montar o Frontend da interface. É disponível no site \url{https://nodejs.org/} e foi testado na versão \textbf{16.14.2}, embora outras versões podem ser executadas sem problemas de compatibilidade.
+    \item {\textbf{Git:}} É o programa necessário para realizar o download do código-fonte e realizar atualizações no mesmo. É disponível no site \url{https://git-scm.com/} e foi testado na versão \textbf{2.35.1}, embora outras versões podem ser executadas sem problemas de compatibilidade.
+\end{itemize}
+
+\section{Instalação do sistema}
+
+A partir desta parte, os exemplos serão realizados utilizando o Git Bash no Sistema Operacional Windows. Entretanto, no Linux e no Mac os passos são semelhantes por ambos também utilizarem esta linha de comando.
+
+\subsection{Obtenção do código-fonte}
+
+O sistema se encontra no repositório \url{https://github.com/tenazatto/MsC}. Para obter seu código-fonte, basta digitar o seguinte comando:
+
+\begin{quote}\textbf{git clone https://github.com/tenazatto/MsC.git}\end{quote}
+
+O Git baixará todos os arquivos e após o download é possível ver a pasta e seus arquivos na pasta \textbf{MsC}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images/git-clone.png}
+%\caption {Fases e etapas do Pipeline implementado}
+\label{fig:DocInstallGitClone}
+\end{figure}
+
+\subsection{Montagem de ambiente}
+
+Para evitar problemas de versão com bibliotecas de outros projetos instalados, é possível criar um ambiente virtual para realizar a instalação das bibliotecas separadamente. Para criar, é necessário o \textbf{virtualenv} instalado no Python. Caso ele não esteja instalado, ele é obtido através do comando:
+
+\begin{quote}\textbf{pip install virtualenv}\end{quote}
+
+Para criar um novo ambiente virtual, é preciso digitar o comando
+
+\begin{quote}python3 -m venv ./(nome do ambiente)\end{quote}
+
+Como exemplo, nesta documentação foi criado o documento \textbf{testenv}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images/virtualenv-sh.png}
+%\caption {Fases e etapas do Pipeline implementado}
+\label{fig:DocInstallVirtualEnvShell}
+\end{figure}
+
+Após o término, aparecerá uma nova pasta de mesmo nome
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.25]{images/virtualenv.png}
+%\caption {Fases e etapas do Pipeline implementado}
+\label{fig:DocInstallVirtualEnvFolder}
+\end{figure}
+
+Após criar o ambiente virtual, é preciso ativá-lo para utilizar
+
+\begin{quote}\textbf{source ./(nome do ambiente)/Scripts/activate}\end{quote}
+
+Para verificar se o ambiente foi ativado, é possível verificar, ao digitar qualquer comando no bash, que o nome do ambiente virtual aparece logo abaixo.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images/virtualenv-check.png}
+%\caption {Fases e etapas do Pipeline implementado}
+\label{fig:DocInstallVirtualEnvCheck}
+\end{figure}
+
+Para desativar o ambiente virtual, é preciso digitar o comando
+
+\begin{quote}\textbf{deactivate}\end{quote}
+
+Para verificar se o ambiente foi desativado, é possível verificar, ao digitar qualquer comando no bash, que o nome do ambiente virtual não irá mais aparecer até ser ativado novamente.
+
+No caso do Node.js não é necessário realizar tais etapas, pois a instalação das bibliotecas nesta documentação é realizada de maneira local
+
+\subsection{Instalação das bibliotecas}
+
+\subsubsection{Python}
+
+Com o ambiente virtual criado e ativado, é possível utilizar o arquivo \textbf{src/requirements.txt} para instalar todas as bibliotecas necessárias através do comando
+
+\begin{quote}\textbf{pip install -r ./src/requirements.txt}\end{quote}
+
+\subsubsection{Node.js}
+
+Para o Node.js, como o arquivo \textbf{package.json} está dentro da pasta \textbf{ml-ui}, é possível acessar essa pasta e digitar o comando
+
+\begin{quote}\textbf{npm install}\end{quote}
+
+\section{Execução do sistema}
+
+\subsection{Engenharia de dados}
+
+Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rodar a etapa de Engenharia de dados basta digitar o seguinte comando
+
+\begin{quote}\textbf{python -m src.data\_engineering.data\_engineering\_start -{}-data (Opção)}\end{quote}
+
+No momento, há 3 opções disponíveis:
+
+\begin{itemize}
+    \item {\textbf{GERMAN\_CREDIT:}} Manipula o German Credit Dataset, cujo arquivo está na localização \textbf{datasets/german.data}, para utilização no Pipeline.
+    \item {\textbf{LENDINGCLUB:}} Baixa e manipula o Lendingclub Dataset para utilização no Pipeline.
+    \item {\textbf{METRICS:}} Obtém o maior valor, menor valor e a média de cada métrica para cada Pipeline já executado.
+\end{itemize}
+
+\subsection{Pipeline de IA}
+
+Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rodar todos os Pipelines possíveis basta digitar o seguinte comando
+
+\begin{quote}\textbf{python -m src.pipeline.pipeline\_start -{}-dataset (Opção)}\end{quote}
+
+No momento, há 4 opções disponíveis:
+
+\begin{itemize}
+    \item {\textbf{ADULT\_INCOME\_SEX:}} Executa os Pipelines para o Adult Income Dataset, cujo arquivo está na localização \textbf{datasets/adult.csv}, utilizando Sexo (Masculino/Feminino) como atributo protegido.
+    \item {\textbf{GERMAN\_CREDIT\_FOREIGN:}} Executa os Pipelines para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Nacionalidade (Alemão/Estrangeiro) como atributo protegido.
+    \item {\textbf{GERMAN\_CREDIT\_AGE:}} Executa os Pipelines para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Idade (-25 anos/25 ou + anos) como atributo protegido.
+    \item {\textbf{LENDINGCLUB\_INCOME:}} Executa os Pipelines para o Lendingclub Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Renda (-1 salário mínimo/1 ou + salários mínimos) como atributo protegido.
+\end{itemize}
+
+Após a execução, é possível ver a geração das métricas dentro da pasta \textbf{output/metrics}, necessárias para a execução da próxima etapa.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.25]{images/metrics.png}
+%\caption {Fases e etapas do Pipeline implementado}
+\label{fig:DocInstallMetrics}
+\end{figure}
+
+\subsection{Autonomia do Pipeline}
+
+Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Pipeline executado, é possível verificar como a etapa de autonomia funciona com o seguinte comando
+
+\begin{quote}\textbf{python -m src.mapek.mapek\_start}\end{quote}
+
+Nesta etapa, ele escolhe o Pipeline que apresentou as melhores métricas, porém a filtragem por conjunto de dados está desenvolvida até o momento apenas na próxima etapa. Como ele roda ininterruptamente, é preciso interromper sua execução.
+
+\subsection{Interface}
+
+\subsubsection{Backend}
+
+Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Pipeline executado, é possível rodar o Backend da interface com o seguinte comando
+
+\begin{quote}\textbf{python -m src.api.flask\_start}\end{quote}
+
+Ele vai iniciar um servidor na porta 8080, necessário para rodar as requisições que o Frontend vai solicitar
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.4]{images/backend-start.png}
+%\caption {Fases e etapas do Pipeline implementado}
+\label{fig:DocInstallVirtualEnvBackendStart}
+\end{figure}
+
+\subsubsection{Frontend}
+
+Dentro da pasta \textbf{MsC/ml-ui}, é possível rodar o Frontend da interface com o seguinte comando
+
+\begin{quote}\textbf{npm start}\end{quote}
+
+Ele vai iniciar o navegador acessando um servidor na porta 3000, e deverá iniciar a tela no menu de Análise
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.2]{images/ml-ui.png}
+%\caption {Fases e etapas do Pipeline implementado}
+\label{fig:DocInstallMLUI}
+\end{figure}
+
+% \begin{thebibliography}{00}
+% \bibitem{b1} Deriving the Normal Equation: \url{https://ayearofai.com/rohan-3-deriving-the-normal-equation-using-matrix-calculus-1a1b16f65dda}
+% \bibitem{b2} Diamonds dataset: \url{https://www.kaggle.com/shivam2503/diamonds}
+% \bibitem{b3} Scikit Learn: \url{http://scikit-learn.org}
+% \bibitem{Gartner_2022} Scikit Learn: \url{http://scikit-learn.org}
+% \bibitem{Hummer_2019} Scikit Learn: \url{http://scikit-learn.org}
+% \bibitem{Sculley_2015} Scikit Learn: \url{http://scikit-learn.org}
+% \end{thebibliography}
+
+\end{document}
+
+

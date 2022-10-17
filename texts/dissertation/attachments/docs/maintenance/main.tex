@@ -1,0 +1,649 @@
+\documentclass[letterpaper]{article}
+% \IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage[portuges,brazil,english]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{nccmath}
+\usepackage{hyperref}
+\usepackage{multirow}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+
+\renewcommand{\lstlistingname}{Trecho}
+\renewcommand{\lstlistlistingname}{Lista de \lstlistingname s}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.85,0.85,0.85}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{codeblack}{rgb}{0,0,0}
+
+\lstdefinestyle{codigo}{
+    backgroundcolor=\color{codegray},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codeblack},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+
+\lstset{style=codigo}        
+    
+\begin{document}
+
+\title{FairPEK - Documentação}
+\author{Manutenção}
+% \author{\IEEEauthorblockN{Rodrigo Rusa}
+% \IEEEauthorblockA{
+% 208592 \\
+% rodrigorusa@gmail.com}
+% \and
+% \IEEEauthorblockN{Thales Eduardo Nazatto}
+% \IEEEauthorblockA{
+% 074388 \\
+% tenazatto@gmail.com}}
+
+\maketitle
+
+\section{Introdução}
+
+Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 etapas principais:
+
+\begin{itemize}
+    \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
+    \item {\textbf{Pipeline de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
+    \item {\textbf{Autonomia do Pipeline (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Pipeline, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
+    \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
+    \begin{itemize}
+        \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
+        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Componente MAPE-K.
+    \end{itemize}
+\end{itemize}
+
+\section{Arquitetura do Pipeline e Framework}
+
+O Pipeline usa uma arquitetura chamada de Pipe-and-Filter, onde Pipes, que transportam os dados, são ligados por Filters, que realizam as manipulações desses dados. Pipes e Filters se encadeiam para formar uma sequência de operações, caracterizando todo o Pipeline. Para auxiliar no desenvolvimento, um pequeno framework foi criado, para facilitar as operações necessárias entre Pipes e Filters. 
+
+\subsection{Estrutura}
+
+Pipes herdam a classe \textbf{BasePipe}. Essa classe possui o atributo \textbf{value}, que caracteriza os dados transformados, em formato de um dicionário Python
+
+\begin{lstlisting}[language=Python, label=cod:FairnessPipeClass]
+class FairnessPipe(BasePipe):
+    privileged\_group = []
+    unprivileged_group = []
+
+    label_names = []
+    protected_attribute_names = []
+
+    optim_options = {}
+
+    def __init__(self):
+        self.value = {
+            'privileged_group': self.privileged_group,
+            'unprivileged_group': self.unprivileged_group,
+            'label_names': self.label_names,
+            'protected_attribute_names': self.protected_attribute_names,
+            'optim_options': self.optim_options
+        }
+\end{lstlisting}
+
+Filters herdam a classe \textbf{BaseFilter}. Essa classe possui dois Pipes (input e output) e um método chamado \textbf{execute}, que é onde as operações de transformação do Pipe de input são executadas para serem colocadas no Pipe de output
+
+\begin{lstlisting}[language=Python, label=cod:TrainTestSplitClass]
+from sklearn.model_selection import train_test_split
+
+from src.pipeline.pipe_filter.pipe import BaseFilter
+
+
+class TrainTestSplit(BaseFilter):
+    test_size = 0.2
+
+    def __init__(self, test_size=0.2):
+        self.test_size = test_size
+
+    def execute(self):
+        df_x = self.input['df_x']
+        df_y = self.input['df_y']
+
+        x_train, x_test, y_train, y_test = train_test_split(df_x, df_y, test_size=self.test_size, random_state=42)
+
+        self.output = {
+            'x_train': x_train,
+            'x_test': x_test,
+            'y_train': y_train,
+            'y_test': y_test,
+            'checksum': self.input['checksum']
+        }
+\end{lstlisting}
+
+\subsection{Operações}
+
+No Framework, estão presentes as seguintes operações:
+
+\subsection{Ligação de Pipe com Filter}
+
+Para juntar um Pipe com um Filter, basta realizar o comando \textbf{>=}, caracterizando o transporte a um Filter.
+
+\begin{lstlisting}[language=Python, label=cod:PipeToFilter]
+    Pipe1() >= Filter1()
+\end{lstlisting}
+
+Se o Pipe estiver carregando os dados corretos, o Filter será automaticamente executado.
+
+\subsection{Ligação de Filter com Pipe}
+
+Para juntar um Filter com um Pipe, basta realizar o comando \textbf{==}, caracterizando o transporte a um Pipe.
+
+\begin{lstlisting}[language=Python, label=cod:FilterToPipe]
+    Filter1() == Pipe1()
+\end{lstlisting}
+
+Se o Filter esiver corretamente implementado, o Pipe será caracterizado como a saída desse mesmo Filter.
+
+\subsection{Seleção parcial de dados presentes no Pipe}
+
+Para selecionar apenas alguns atributos presentes no Pipe, basta adicionar colchetes e colocar os campos desejados.
+
+\begin{lstlisting}[language=Python, label=cod:PartialPipe]
+    pipe1['campo1', 'campo2', 'campo3']
+\end{lstlisting}
+
+\subsection{Junção de Pipes}
+
+Pra juntar os dados de dois pipes em um só, basta realizar o comando \textbf{+}, caracterizando uma junção de Pipes.
+
+\begin{lstlisting}[language=Python, label=cod:MergePipes]
+    pipe1 + pipe2
+\end{lstlisting}
+
+\section{Incrementos no Pipeline}
+
+Aqui estão dois exemplos de como é possível realizar a manuntenção do Pipeline
+
+\subsection{Adicionando um novo Conjunto de Dados}
+
+\subsubsection{Engenharia de dados}
+
+\begin{enumerate}
+\item Geralmente conjuntos de dados não vem filtrados, e é preciso um trabalho de Engenharia de dados para realizar experimentos com melhores resultados. Neste sistema, a parte de Engenharia de dados se encontra na pasta \textbf{src/data\_engineering}.
+
+\item Os métodos onde os processamentos são realizados ficam no arquivo \textbf{data\_engineering.py}. Para adicionar um novo processamento, basta adicionar um novo método neste arquivo.
+
+\item Importar o novo método no arquivo \textbf{data\_engineering\_start.py}.
+
+\item Adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.add\_argument}
+
+\begin{lstlisting}[language=Python, label=cod:ParserAddArgument]
+    parser.add_argument("--data", help="Selecao do gerador do conjunto de dados tratado",
+                        choices=['GERMAN_CREDIT', 'LENDINGCLUB', 'METRICS'])
+\end{lstlisting}
+
+\item Adicionar uma nova condição com a opção adicionada
+\end{enumerate}
+
+\subsubsection{Pipeline}
+
+\begin{enumerate}
+\item Neste sistema, a parte do Pipeline se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Pipes que armazenam os conjuntos de dados se encontram na pasta \textbf{processors/preprocessors/data}.
+
+\item No arquivo \textbf{dataset.py}, criar uma classe que herda a classe \textbf{Dataset}, preenchendo os atributos \textbf{dataset\_path} com o caminho do arquivo.
+
+\begin{lstlisting}[language=Python, label=cod:FairnessPipe]
+class LendingclubDataset(Dataset):
+    dataset_path = 'datasets/lendingclub_dataset.csv'
+
+    def __init__(self):
+        super().__init__()
+\end{lstlisting}
+
+\item Criar um novo arquivo.
+
+\item Criar uma classe que herda a classe \textbf{FairnessPipe}, preenchendo os atributos \textbf{privileged\_group}, \textbf{unprivileged\_group}, \textbf{label\_names}, \textbf{protected\_attribute\_names} e \textbf{optim\_options}.
+
+\begin{lstlisting}[language=Python, label=cod:FairnessPipe]
+class LendingclubIncomeFairnessPipe(FairnessPipe):
+    privileged_group = [{'annual_inc': 1}]
+    unprivileged_group = [{'annual_inc': 0}]
+
+    label_names = ['loan_status']
+    protected_attribute_names = ['annual_inc']
+
+    optim_options = {
+        "distortion_fun": get_distortion_german,
+        "epsilon": 0.05,
+        "clist": [0.99, 1.99, 2.99],
+        "dlist": [.1, 0.05, 0]
+    }
+
+    def __init__(self):
+        super().__init__()
+\end{lstlisting}
+
+\item Criar uma classe que herda a classe \textbf{FairnessPreprocessor}, preenchendo o método \textbf{dataset\_preprocess} e retornando um DataFrame Pandas de dados de entrada e um DataFrame de dados de saída.
+
+\begin{lstlisting}[language=Python, label=cod:FairnessPreprocessor]
+class LendingclubIncomePreprocessor(FairnessPreprocessor):
+    def dataset_preprocess(self, df):
+        df.info()
+
+        SAMPLE_PERCENTAGE = 100
+        df_sample_nok = df[df['loan_status'] == 'Charged Off'].sample(frac=SAMPLE_PERCENTAGE/100)
+        df_sample_ok = df[df['loan_status'] == 'Fully Paid'].sample(frac=SAMPLE_PERCENTAGE / 100)
+        df_sample = pd.concat([df_sample_ok, df_sample_nok])
+
+        df_x = df_sample.drop('loan_status', axis=1)
+        df_y = pd.DataFrame(df_sample.loan_status)
+
+        return df_x, df_y
+\end{lstlisting}
+
+\item No arquivo \textbf{enums.py}, colocar novas opções nas classes \textbf{Datasets} e \textbf{Preprocessors}.
+
+\begin{lstlisting}[language=Python, label=cod:EnumOptions]
+class Datasets(ExtendedEnum):
+    ADULT_INCOME = 1
+    GERMAN_CREDIT = 2
+    LENDINGCLUB = 3
+
+
+class Preprocessors(ExtendedEnum):
+    SEX = 1
+    AGE = 2
+    FOREIGN = 3
+    INCOME = 4
+\end{lstlisting}
+
+\item No arquivo \textbf{validation.py}, atualizar a variável \textbf{existant\_preprocessors} com as novas opções colocadas no item anterior.
+
+\begin{lstlisting}[language=Python, label=cod:ValidationPreprocessors]
+        existant_preprocessors = \
+            (dataset == Datasets.ADULT_INCOME and preprocessor == Preprocessors.SEX) or \
+            (dataset == Datasets.GERMAN_CREDIT and preprocessor == Preprocessors.AGE) or \
+            (dataset == Datasets.GERMAN_CREDIT and preprocessor == Preprocessors.FOREIGN) or \
+            (dataset == Datasets.LENDINGCLUB and preprocessor == Preprocessors.INCOME)
+\end{lstlisting}
+
+\item No arquivo \textbf{pipeline.py}, encontrar o método \textbf{select\_data\_preprocessor}, atualizar a variável \textbf{options} com as novas opções e classes implementadas nos itens anteriores.
+
+\begin{lstlisting}[language=Python, label=cod:PipelinePreprocessors]
+    def select_data_preprocessor(self, dataset, preprocessor):
+        choice = [dataset, preprocessor]
+        options = [
+            ([Datasets.ADULT_INCOME, Preprocessors.SEX], (AdultDataset(), AdultSexPreprocessor(), AdultSexFairnessPipe())),
+            ([Datasets.GERMAN_CREDIT, Preprocessors.AGE], (GermanDataset(), GermanAgePreprocessor(), GermanAgeFairnessPipe())),
+            ([Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN], (GermanDataset(), GermanForeignPreprocessor(), GermanForeignFairnessPipe())),
+            ([Datasets.LENDINGCLUB, Preprocessors.INCOME], (LendingclubDataset(), LendingclubIncomePreprocessor(), LendingclubIncomeFairnessPipe())),
+        ]
+
+        for option, pipe_filter in options:
+            if choice == option:
+                dataset_pipe, data_preprocessor_filter, fairness_pipe = pipe_filter
+                preprocessed_data_pipe = dataset_pipe >= data_preprocessor_filter == self.new_pipe()
+                break
+
+        return preprocessed_data_pipe, fairness_pipe
+\end{lstlisting}
+
+\item No arquivo \textbf{pipeline\_start.py}, adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.add\_argument}.
+
+\begin{lstlisting}[language=Python, label=cod:ParserAddArgumentPipeline]
+    parser.add_argument("--dataset", help="Conjunto de dados tratado com atributo protegido",
+                        choices=['ADULT_INCOME_SEX',
+                                 'GERMAN_CREDIT_FOREIGN', 'GERMAN_CREDIT_AGE',
+                                 'LENDINGCLUB_INCOME'])
+\end{lstlisting}
+
+\item Adicionar uma nova condição com a opção adicionada
+
+\end{enumerate}
+
+\subsubsection{Interface (Backend)}
+
+\begin{enumerate}
+\item Neste sistema, a parte do Backend se encontra na pasta \textbf{src/api}. Dentro dela, no arquivo \textbf{repo/pipeline.py}, adicionar a opção no método \textbf{get\_dataset}.
+
+\begin{lstlisting}[language=Python, label=cod:AddDataset]
+    def get_dataset(self, dataset):
+        indexes = {
+            'Datasets.ADULT_INCOME': Datasets.ADULT_INCOME,
+            'Datasets.GERMAN_CREDIT': Datasets.GERMAN_CREDIT,
+            'Datasets.LENDINGCLUB': Datasets.LENDINGCLUB,
+        }
+
+        return next(filter(lambda a: a[0] == dataset, indexes.items()))[1]
+\end{lstlisting}
+
+\item No arquivo \textbf{repo/pipeline.py}, adicionar a opção no método \textbf{get\_preprocessor}.
+
+\begin{lstlisting}[language=Python, label=cod:AddDataset]
+    def get_preprocessor(self, preprocessor):
+        indexes = {
+            'Preprocessors.SEX': Preprocessors.SEX,
+            'Preprocessors.AGE': Preprocessors.AGE,
+            'Preprocessors.FOREIGN': Preprocessors.FOREIGN
+        }
+
+        return next(filter(lambda a: a[0] == preprocessor, indexes.items()))[1]
+\end{lstlisting}
+\end{enumerate}
+
+\subsubsection{Interface (Frontend)}
+
+\begin{enumerate}
+\item Neste sistema, a parte do Backend se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Auto-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de conjunto de dados.
+
+\begin{lstlisting}[language=Python, label=cod:AddDatasetAuto]
+<Select
+  sx={{fontSize: '14px'}}
+  value={dataset}
+  onChange={handleDatasetChange}
+  displayEmpty
+  inputProps={{ 'aria-label': 'Without label' }}
+>
+  <MenuItem value={'Datasets.ADULT_INCOME'}>Adult Income Dataset</MenuItem>
+  <MenuItem value={'Datasets.GERMAN_CREDIT'}>German Credit Dataset</MenuItem>
+  <MenuItem value={'Datasets.LENDINGCLUB'}>Lendingclub Dataset</MenuItem>
+</Select>
+\end{lstlisting}
+
+\item No arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de conjunto de dados.
+
+\begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
+<Select
+  sx={{fontSize: '14px'}}
+  value={dataset}
+  onChange={handleDatasetChange}
+  displayEmpty
+  inputProps={{ 'aria-label': 'Without label' }}
+>
+  <MenuItem value={'Datasets.ADULT_INCOME'}>Adult Income Dataset</MenuItem>
+  <MenuItem value={'Datasets.GERMAN_CREDIT'}>German Credit Dataset</MenuItem>
+  <MenuItem value={'Datasets.LENDINGCLUB'}>Lendingclub Dataset</MenuItem>
+</Select>
+\end{lstlisting}
+
+\item No arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de pré-processadores.
+
+\begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
+<FormControl sx={{ m: 1, width: 300, marginLeft: '35px' }}>
+  {dataset === 'Datasets.ADULT_INCOME' ?
+    <Select
+      sx={{fontSize: '14px'}}
+      value={protectedAtt}
+      onChange={handleProtectedAttChange}
+      displayEmpty
+      inputProps={{ 'aria-label': 'Without label' }}
+    >
+      <MenuItem value={'Preprocessors.SEX'}>Sexo (Masculino/Feminino)</MenuItem>
+    </Select>
+  : dataset === 'Datasets.ADULT_INCOME' ?
+    <Select
+      sx={{fontSize: '14px'}}
+      value={protectedAtt}
+      onChange={handleProtectedAttChange}
+      displayEmpty
+      inputProps={{ 'aria-label': 'Without label' }}
+    >
+      <MenuItem value={'Preprocessors.AGE'}>Idade (-25 anos/+25 anos)</MenuItem>
+      <MenuItem value={'Preprocessors.FOREIGN'}>Nacionalidade (Local/Estrangeiro)</MenuItem>
+    </Select>
+  :
+    <Select
+      sx={{fontSize: '14px'}}
+      value={protectedAtt}
+      onChange={handleProtectedAttChange}
+      displayEmpty
+      inputProps={{ 'aria-label': 'Without label' }}
+    >
+      <MenuItem value={'Preprocessors.INCOME'}>Renda (-1 Salario Minimo/1+ Salarios Minimos)</MenuItem>
+    </Select>
+  }
+  <FormHelperText>Atributo protegido para medir justica</FormHelperText>
+</FormControl>
+\end{lstlisting}
+\end{enumerate}
+
+\subsection{Adicionando um novo Algoritmo}
+
+\subsubsection{Pipeline}
+
+\begin{enumerate}
+\item No arquivo \textbf{enums.py}, colocar novas opções na classe \textbf{Algorithms}.
+
+\begin{lstlisting}[language=Python, label=cod:EnumAlgorithmOptions]
+class Algorithms:
+    LOGISTIC_REGRESSION = 1
+    RANDOM_FOREST = 2
+    GRADIENT_BOOST = 3
+    SUPPORT_VECTOR_MACHINES = 4
+    LINEAR_REGRESSION = 901
+    DECISION_TREE = 902
+    KERNEL_RIDGE = 903
+\end{lstlisting}
+
+\item No arquivo \textbf{pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{find\_algorithm}.
+
+\begin{lstlisting}[language=Python, label=cod:FindAlgorithm]
+    def find_algorithm(self, algorithm):
+        indexes = {
+            'Algorithms.LOGISTIC_REGRESSION': 1,
+            'Algorithms.RANDOM_FOREST': 2,
+            'Algorithms.GRADIENT_BOOST': 3,
+            'Algorithms.SUPPORT_VECTOR_MACHINES': 4,
+            'Algorithms.LINEAR_REGRESSION': 901,
+            'Algorithms.DECISION_TREE': 902,
+            'Algorithms.KERNEL_RIDGE': 903,
+            'UnbiasInProcAlgorithms.PREJUDICE_REMOVER': 101,
+            'UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING': 102,
+            'UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION': 103,
+            'UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS': 104,
+            'UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION': 105,
+            'UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER': 106,
+            'UnbiasInProcAlgorithms.ART_CLASSIFIER': 107
+        }
+
+        return next(filter(lambda a: a[1] == algorithm, indexes.items()))[0]
+\end{lstlisting}
+
+\item Os Filters que armazenam os conjuntos de dados se encontram na pasta \textbf{processors/inprocessors}. Nesta pasta, criar um novo arquivo.
+
+\item Os Filters que executam os algoritmos se encontram na pasta \textbf{processors/inprocessors/inproc\_algorithms}. Nesta pasta, criar um novo arquivo.
+
+\item Criar uma classe que herda a classe \textbf{BaseFilter}.
+
+\begin{lstlisting}[language=Python, label=cod:BaseFilter]
+class GradientBoostFilter(BaseFilter):
+    weighed = False
+
+    def __init__(self, weighed=False):
+        self.weighed = weighed
+\end{lstlisting}
+
+\item Implementar nesta classe o método \textbf{execute}, atribuindo em \textbf{self.output} um dicionário Python com os atributos \textbf{y\_pred} e \textbf{scores}.
+
+\begin{lstlisting}[language=Python, label=cod:FilterExecute]
+    def execute(self):
+        y_pred, scores = self.gradient_boost_weighed() if self.weighed else self.gradient_boost()
+
+        self.output = {
+            'y_pred': y_pred,
+            'scores': scores
+        }
+\end{lstlisting}
+
+\item Encontrar o método \textbf{process}, atualizar a variável \textbf{process\_options} com as novas opções e classes implementadas nos itens anteriores.
+
+\begin{lstlisting}[language=Python, label=cod:ProcessAlgorithm]
+    def process(self, process_pipe, algorithm, unbias_data_algorithm):
+        weighed_algorithm = unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING or \
+                            unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS
+
+        process_options = [
+            (Algorithms.LOGISTIC_REGRESSION, LogisticRegressionFilter(weighed=weighed_algorithm)),
+            (Algorithms.RANDOM_FOREST, RandomForestFilter(weighed=weighed_algorithm)),
+            (Algorithms.GRADIENT_BOOST, GradientBoostFilter(weighed=weighed_algorithm)),
+            (Algorithms.SUPPORT_VECTOR_MACHINES, SVMFilter(weighed=weighed_algorithm)),
+            (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, PrejudiceRemoverFilter()),
+            (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, AdversarialDebiasingFilter()),
+            (UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION, ExponentiatedGradientReductionFilter(algorithm=Algorithms.GRADIENT_BOOST)),
+            (UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS, RichSubgroupFairnessFilter(algorithm=Algorithms.DECISION_TREE)),
+            (UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER, MetaFairClassifierFilter()),
+            (UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION, GridSearchReductionFilter(algorithm=Algorithms.RANDOM_FOREST))
+        ]
+
+        for option, filter in process_options:
+            if algorithm == option:
+                prediction_pipe = process_pipe >= filter == self.new_pipe()
+                break
+
+        return prediction_pipe
+\end{lstlisting}
+
+\item No arquivo \textbf{pipeline\_start.py}, adicionar as opções (adaptadas a opção corrente) na variável \textbf{process\_options}.
+
+\begin{lstlisting}[language=Python, label=cod:ParserAddArgumentPipeline]
+    process_options = [
+        (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.NOTHING, UnbiasPostProcAlgorithms.NOTHING),
+        (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.NOTHING, UnbiasPostProcAlgorithms.EQUALIZED_ODDS),
+        (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.NOTHING,
+         UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS),
+        (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.NOTHING,
+         UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION),
+        (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.REWEIGHING, UnbiasPostProcAlgorithms.NOTHING),
+        (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER,
+         UnbiasPostProcAlgorithms.NOTHING),
+        # (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING, UnbiasPostProcAlgorithms.NOTHING),
+        (Algorithms.NOVA_OPCAO, UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS,
+         UnbiasPostProcAlgorithms.NOTHING)
+    ]
+\end{lstlisting}
+
+\item Adicionar uma nova condição com a opção adicionada
+
+\end{enumerate}
+
+\subsubsection{Interface (Backend)}
+
+\begin{enumerate}
+\item No arquivo \textbf{repo/pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{get\_inproc\_algorithm}.
+
+\begin{lstlisting}[language=Python, label=cod:getInprocAlgorithm]
+    def get_inproc_algorithm(self, algorithm):
+        indexes = {
+            'Algorithms.LOGISTIC_REGRESSION': 1,
+            'Algorithms.RANDOM_FOREST': 2,
+            'Algorithms.GRADIENT_BOOST': 3,
+            'Algorithms.SUPPORT_VECTOR_MACHINES': 4,
+            'Algorithms.LINEAR_REGRESSION': 901,
+            'Algorithms.DECISION_TREE': 902,
+            'Algorithms.KERNEL_RIDGE': 903,
+            'UnbiasInProcAlgorithms.PREJUDICE_REMOVER': 101,
+            'UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING': 102,
+            'UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION': 103,
+            'UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS': 104,
+            'UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION': 105,
+            'UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER': 106,
+            'UnbiasInProcAlgorithms.ART_CLASSIFIER': 107
+        }
+
+        return next(filter(lambda a: a[0] == algorithm, indexes.items()))[1]
+\end{lstlisting}
+\end{enumerate}
+
+\subsubsection{Interface (Frontend)}
+
+\begin{enumerate}
+\item No arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de algoritmos.
+
+\begin{lstlisting}[language=Python, label=cod:AddAlgorithmManual]
+<Select
+  sx={{fontSize: '14px'}}
+  value={trainAlgorithm}
+  onChange={handleTrainAlgorithmChange}
+  displayEmpty
+  inputProps={{ 'aria-label': 'Without label' }}
+>
+  <MenuItem value={'Algorithms.LOGISTIC_REGRESSION'}>Logistic Regression</MenuItem>
+  <MenuItem value={'Algorithms.RANDOM_FOREST'}>Random Forest</MenuItem>
+  <MenuItem value={'Algorithms.GRADIENT_BOOST'}>Gradient Boost</MenuItem>
+  <MenuItem value={'Algorithms.SUPPORT_VECTOR_MACHINES'}>Support Vector Machines</MenuItem>
+</Select>
+\end{lstlisting}
+
+\item No arquivo \textbf{Planning-Menu.js}, adicionar as opções (adaptadas a opção corrente) na variável \textbf{validAlgorithms}.
+\end{enumerate}
+
+\begin{lstlisting}[language=Python, label=cod:AddPlanningConfig]
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Nome da nova opcao", "Sem metodo", "Sem metodo"],
+      selected: true
+    },
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.EQUALIZED_ODDS"],
+      labels: ["Nome da nova opcao", "Sem metodo", "Equalized Odds"],
+      selected: true
+    },
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS"],
+      labels: ["Nome da nova opcao", "Sem metodo", "Calibrated Equalized Odds"],
+      selected: true
+    },
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION"],
+      labels: ["Nome da nova opcao", "Sem metodo", "Reject Option Classification"],
+      selected: true
+    },
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.REWEIGHING", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Nome da nova opcao", "Reweighing", "Sem metodo"],
+      selected: true
+    },
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Nome da nova opcao", "Disparate Impact Remover", "Sem metodo"],
+      selected: true
+    },
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Nome da nova opcao", "Optimized Preprocessing", "Sem metodo"],
+      selected: true
+    },
+    {
+      options: ["Algorithms.NOVA_OPCAO", "UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Nome da nova opcao", "Learning Fair Representations", "Sem metodo"],
+      selected: true
+    }
+\end{lstlisting}
+
+% \begin{thebibliography}{00}
+% \bibitem{b1} Deriving the Normal Equation: \url{https://ayearofai.com/rohan-3-deriving-the-normal-equation-using-matrix-calculus-1a1b16f65dda}
+% \bibitem{b2} Diamonds dataset: \url{https://www.kaggle.com/shivam2503/diamonds}
+% \bibitem{b3} Scikit Learn: \url{http://scikit-learn.org}
+% \bibitem{Gartner_2022} Scikit Learn: \url{http://scikit-learn.org}
+% \bibitem{Hummer_2019} Scikit Learn: \url{http://scikit-learn.org}
+% \bibitem{Sculley_2015} Scikit Learn: \url{http://scikit-learn.org}
+% \end{thebibliography}
+
+\end{document}
+
+
