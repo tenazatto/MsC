@@ -1340,7 +1340,9 @@ Ao clicar novamente no botão "Executar" localizado no canto superior direito, �
     \label{fig:pipelineAutonomoResultado}
 \end{figure}
 
-\section{Experimentos e limitações}
+\chapter{Estudo de Caso 1: Classificação de Crédito (German Credit Dataset)}
+
+\section{Contexto e limitações}
 
 Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objetivo:
 
@@ -1348,6 +1350,8 @@ Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objet
 \item \textbf{Objetivo:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}
 
 \item \textbf{Conjunto de dados:} German Credit Dataset, presente em \citep{ucigerman_2021}.
+
+\item \textbf{Transformações realizadas no conjunto de dados:} Mudanças nos valores dos atributos para valores de interpretação mais simples, para que o Cientista de Dados possa categorizar o dado posteriormente e de forma mais fácil no Pipeline.
 
 \item \textbf{Atributos protegidos:} Idade, ou Nacionalidade
 
@@ -1364,6 +1368,16 @@ Para realizar este experimento, foi considerado o seguinte objetivo e considerad
 
 \item \textbf{Medição:} Serão medidas as pontuações de cada agrupamento de métricas (Performance e Fairness), e tais métricas também serão comparadas com o valor de cada uma para verificar seu impacto na pontuação.
 
+\item \textbf{Obtenção dos dados:} A execução do Pipeline utilizando o componente MAPE-K foi realizada com 3 pesagens diferentes na pontuação geral:
+
+\begin{itemize}
+\item 50\% para métricas de Performance e 50\% para métricas de Fairness, para uma configuração equilibrada.
+\item 75\% para métricas de Performance e 25\% para métricas de Fairness, para uma configuração que prioriza a performance em detrimento da justiça.
+\item 25\% para métricas de Performance e 75\% para métricas de Fairness, para uma configuração que prioriza a justiça em detrimento da performance.
+\end{itemize}
+
+Em todas as execuções são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento.
+
 \item \textbf{Pré-condição 1:} Houveram \textit{pipelines} que já foram pré-executados e já formaram uma base de conhecimento. Para o experimento, foi considerado ao menos 1 execução para cada combinação de conjunto de dados, atributo protegido e algoritmos utilizados.
 
 \item \textbf{Pré-condição 2:} A base de conhecimento será capaz de explicar a imparcialidade/justiça de um modelo, mas não será capaz de explicar a influência de cada \textit{feature} aplicada no modelo.
@@ -1379,19 +1393,9 @@ Para realizar este experimento, foi considerado o seguinte objetivo e considerad
 \item \textbf{Restrição 4:} Para evitar pipelines com conjuntos de algoritmos ruins e também pelo mesmo motivo da restrição anterior, o intervalo de pontuação para análise foi limitado de 500 a 950.
 \end{itemize}
 
-\chapter{Resultados e Discussões}
+\section{Resultados e Discussões}
 
-A execução do Pipeline utilizando o componente MAPE-K foi realizada com 3 pesagens diferentes na pontuação geral:
-
-\begin{itemize}
-\item 50\% para métricas de Performance e 50\% para métricas de Fairness, para uma configuração equilibrada.
-\item 75\% para métricas de Performance e 25\% para métricas de Fairness, para uma configuração que prioriza a performance em detrimento da justiça.
-\item 25\% para métricas de Performance e 75\% para métricas de Fairness, para uma configuração que prioriza a justiça em detrimento da performance.
-\end{itemize}
-
-Em todas as execuções são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento.
-
-Os resultados baseados nas pré-condições e restrições já comentadas no capítulo anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKGeral5050}, \ref{tbl:ScoreMAPEKGeral7525} e \ref{tbl:ScoreMAPEKGeral2575}:
+Os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKGeral5050}, \ref{tbl:ScoreMAPEKGeral7525} e \ref{tbl:ScoreMAPEKGeral2575}:
 
 \begin{table}[H]
 \begin{center}
@@ -1958,7 +1962,7 @@ Após a verificação das pontuações, foram catalogadas todas as métricas de 
         \end{center}
     \end{table}
 
-Com estes dados, é possível reforçar com clareza observações notadas anteriormente: Boas métricas de Performance nos casos onde algoritmos com redução de viés no resultado foram utilizados, boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, mudanças nas métricas de \textit{Fairness} dependendo do algoritmo de treinamento ou do atributo protegido utilizado independente de utilizar redução de viés no \textit{pipeline} ou não. Este reforço comprova que o cálculo utilizado para a etapa de Análise no componente MAPE-K foi eficaz em consolidar as métricas existentes sem afetar a análise dos resultados. É possível notar a existência de métricas fora do esperado (\textit{outliers}) em alguns valores mínimos e máximos, mas o cálculo por média ponderada ameniza o impacto desses valores no resultado final.
+Com estes dados, é possível reforçar com clareza observações notadas anteriormente: Boas métricas de Performance nos casos onde algoritmos com redução de viés no resultado foram utilizados, boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, mudanças nas métricas de \textit{Fairness} dependendo do algoritmo de treinamento ou do atributo protegido utilizado independente de utilizar redução de viés no \textit{pipeline} ou não. Este reforço comprova que o cálculo utilizado para a etapa de Análise no componente MAPE-K foi eficaz em consolidar as métricas existentes sem afetar a análise dos resultados.
 
 Entretanto, perceber qual \textit{pipeline} possui o melhor equilíbrio entre estes dois grupos de métricas com contextos completamente diferentes ainda se torna difuso diante da grande quantidade de métricas e conjuntos de algoritmos utilizados. Além disso, a diferença entre as métricas é extremamente pequena e dificulta ainda mais a escolha. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais \textit{pipelines} são mais equilibrados, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação.
 
@@ -1967,6 +1971,140 @@ Deste modo, pode-se concluir também que, em um contexto de desenvolvimento, o p
 O uso da AI Reference Architecture para definição dos papeis permite visualizar com clareza quais pessoas, quais etapas e projetos para desenvolvimento de funcionalidades e aplicações são necessários para ir da obtenção dos dados, passando pela implantação do modelo até chegar ao consumo pelo cliente final. Deste modo, é possível traçar melhores planejamentos para desenvolvimento de uma aplicação baseada em Inteligência Artificial.
 
 O uso de \textit{Assurance Cases} permitiu uma melhor visualização em no contexto da aplicação a ser implementada, com suas funcionalidades, objetivos e algoritmos a serem implementados e cumpridos. Desta forma, também é possível dividir melhor as tarefas para uma equipe implementá-la e permitir que todos os membros tenham uma visão de todos os detalhes a serem implementados e testados.
+
+Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o \textit{pipeline} para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um \textit{workflow} muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
+
+Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{pipeline}. Também há de se considerar que, mesmo que o pipeline evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
+
+Ao usar uma interface humano-computador para intermediar as interações entre o componente MAPE-K e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{pipeline} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através de um componente orquestrador das etapas do MAPE-K. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários.
+
+O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps (ver Apêndice \ref{app:ModelOps}), uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. Isso necessitaria de algumas adaptações, como um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{pipeline} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}.
+
+\chapter{Estudo de Caso 2: Classificação de Crédito (Lendingclub Dataset) e evolução do sistema}
+
+\section{Contexto e limitações}
+
+Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objetivo:
+
+\begin{itemize}
+\item \textbf{Objetivo:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}.
+
+\item \textbf{Conjunto de dados:} Lendingclub Dataset, presente em \citep{lendingclub_2022}.
+
+\item \textbf{Transformações realizadas no conjunto de dados:} Filtragem de linhas que não definiam classificação boa ou ruim de crédito; seleção de 20 \textit{features} utilizando algoritmo de informação mútua~\citep{Ross_2014}, mais uma \textit{feature} para caracterizar dado sensível (atributo protegido) e feature de classificação de crédito, totalizando 22 \textit{features} no total.
+
+\item \textbf{Atributos protegidos:} Renda
+
+\item \textbf{Grupo privilegiado:} Renda de 1 ou mais salários mínimos
+
+\item \textbf{Grupo não-privilegiado:} Renda de menos de 1 salário mínimo
+
+\end{itemize}
+
+Para realizar este Estudo de Caso, foi considerado o seguinte objetivo e consideradas as seguintes limitações:
+
+\begin{itemize}
+\item \textbf{Experimento:} Realização das mesmas condições do Estudo de Caso 1 para discussão da manutenção do \textit{pipeline} e reforço da viabilidade do MAPE-K em casos mais próximos do mundo real.
+
+\item \textbf{Medição:} Além das medições do Estudo de Caso 1, serão medidas a quantidade de linhas modificadas e sua relação com a quantidade de linhas escritas.
+
+\item \textbf{Obtenção dos dados:} A execução do Pipeline utilizando o componente MAPE-K foi realizada nas mesmas condições do Estudo de Caso 1.
+
+\item \textbf{Pré-condições:} Por se tratar de um outro conjunto de dados, as pré-condições 1 e 2 do Estudo de Caso 1 foram mantidas, e a pré-condição 3 foi desconsiderada.
+
+\item \textbf{Restrições:} As 4 restrições determinadas no Estudo de Caso 1 foram mantidas, com uma diferença: Na Restrição 4, como o \textit{Lendingclub Dataset} possui resultados mais eficientes do que o \textit{German Credit Dataset}, o intervalo de pontuação para análise foi ampliado de 500 a 980, mas as motivações para esse valor permanecem as mesmas.
+\end{itemize}
+
+\section{Resultados e Discussões}
+
+Os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubGeral5050}, \ref{tbl:ScoreMAPEKLendingclubGeral7525} e \ref{tbl:ScoreMAPEKLendingclubGeral2575}:
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 50\% Performance/50\% Fairness}
+\label{tbl:ScoreMAPEKLendingclubGeral5050}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Renda & Learning Fair Representations & Random Forest & Nenhum & 991 & 968 & \textbf{979} \\
+Renda & Nenhum & Gradient Boosting & Equalized Odds & 988 & 969 & \textbf{978} \\
+Renda & Reweighing & Random Forest & Nenhum & 991 & 963 & \textbf{977} \\
+Renda & Learning Fair Representations & Regressão Logística & Nenhum & 981 & 973 & \textbf{977} \\
+Renda & Reweighing & Gradient Boosting & Nenhum & 987 & 964 & \textbf{976} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 75\% Performance/25\% Fairness}
+\label{tbl:ScoreMAPEKLendingclubGeral7525}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Renda & Nenhum & Regressão Logística & Equalized Odds & 985 & 965 & \textbf{980} \\
+Renda & Learning Fair Representations & Gradient Boosting & Nenhum & 987 & 960 & \textbf{980} \\
+Renda & Learning Fair Representations & Regressão Logística & Nenhum & 981 & 973 & \textbf{979} \\
+Renda & Nenhum & Grid Search Reduction & Nenhum & 989 & 950 & \textbf{979} \\
+Renda & Reweighing & Regressão Logística & Nenhum & 981 & 965 & \textbf{977} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\begin{center}
+  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 25\% Performance/75\% Fairness}
+\label{tbl:ScoreMAPEKLendingclubGeral2575}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{c|c|c|c|c|c|c}
+\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\hline
+Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
+\hline
+Renda & Learning Fair Representations & Regressão Logística & Nenhum & 981 & 973 & \textbf{975} \\
+Renda & Nenhum & Gradient Boosting & Equalized Odds & 988 & 969 & \textbf{974} \\
+Renda & Learning Fair Representations & Random Forest & Nenhum & 991 & 968 & \textbf{973} \\
+Renda & Nenhum & Exponentiated Gradient Reduction & Nenhum & 986 & 966 & \textbf{971} \\
+Renda & Reweighing & Gradient Boosting & Nenhum & 987 & 964 & \textbf{970} \\
+\end{tabular}}
+\end{center}
+\end{table}
+
+Nessas execuções, a principal observação notada é que a relação de algoritmos com melhores desempenhos mudou completamente, com predominância do algoritmo \textit{Learning Fair Representations} para redução de viés e Regressão Logística para algoritmo de treinamento. Também se nota que algoritmos com redução de viés no pós-processamento e algoritmos de treinamento como \textit{Support Vector Machines} não foram tão eficientes. Com isso, pode-se concluir que, ao mudar o contexto do problema e os dados envolvidos, o MAPE-K pode ajudar a enxergar tais sutilezas e ajudar em uma decisão de forma mais eficiente e ágil.
+
+Para processar o Lendingclub Dataset, foram necessárias modificações para realizar a evolução do sistema e adicionar este conjunto de dados como opção no Pipeline. Estas foram contadas de acordo com seus \textit{commits} realizados no repositório e exibidos  na Tabela \ref{tbl:ManutencaoPipelineDataset}:
+
+\begin{table}[H]
+\begin{center}
+  \caption{Quantidade de modificações realizadas ao adicionar um novo conjunto de dados ao \textit{Pipeline}}
+\label{tbl:ManutencaoPipelineDataset}
+  \resizebox{\linewidth}{!}{%
+{\def\arraystretch{1.5}
+\begin{tabular}{c|c|c|c|c|c|c}
+Parte do Sistema & \makecell{Quantidade de\\linhas alteradas} & Total de linhas & \makecell{Quantidade de\\arquivos alterados} & Total de arquivos & \makecell{Porcentagem de\\linhas alteradas} & \makecell{Porcentagem de\\arquivos alterados} \\
+\hline
+\makecell{Transformação do\\Conjunto de Dados} & 122 & 277 & 2 & 3 & \textbf{44,04\%} & \textbf{66,67\%} \\
+\textit{Pipeline} de IA & 76 & 1982 & 5 & 38 & \textbf{3,84\%} & \textbf{13,16\%} \\
+Componente MAPE-K & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
+\makecell{Interface Humano-Computador\\(\textit{Frontend})} & 13 & 2905 & 2 & 14 & \textbf{0,45\%} & \textbf{14,29\%} \\
+\makecell{Interface Humano-Computador\\(\textit{Backend})} & 4 & 432 & 1 & 7 & \textbf{0,93\%} & \textbf{14,29\%} \\
+\hline
+\textbf{TOTAL} & \textbf{215} & \textbf{6053} & \textbf{10} & \textbf{72} & \textbf{3,55\%} & \textbf{13,89\%} \\
+\end{tabular}}}
+\end{center}
+\end{table}
+
+A primeira conclusão que é possível discutir é que a adição do conjunto de dados não exigiu modificações no Componente MAPE-K, mesmo os resultados sendo completamente diferentes do Estudo de Caso 1. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no Pipeline sem realizar modificações. O Componente MAPE-K só exigirá modificações se os metadados salvos do Pipeline forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o Pipeline. 
+
+Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no Pipeline de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no Pipeline de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o pipeline (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
+
+Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{Pipeline} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço.
 
 \begin{lstlisting}[language=Python, caption=Método para escolha do algoritmo com redução de viés no pós-processamento,label=cod:DataPostprocessExample]
     def data_postprocess(self, test_pipe, prediction_pipe, fairness_pipe, unbias_postproc_algorithm):
@@ -1985,11 +2123,17 @@ O uso de \textit{Assurance Cases} permitiu uma melhor visualização em no conte
         return prediction_pipe
 \end{lstlisting}
 
-Quanto a Arquitetura de Software, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{Pipeline} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço. A maior clareza do código levou a uma maior rapidez para seu entendimento e para novas implementações, uma vez que a separação dos interesses permite um código mais coeso, onde contextos diferentes são entendidos de maneira separada e é possível notar rapidamente qual a parte defeituosa caso um diagnóstico de \textit{bugs} seja necessário.
+Dito isso, realizar a manutenção/evolução do sistema no Pipeline e na Interface Humano-Computador é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
 
-Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o \textit{pipeline} para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um \textit{workflow} muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
+\chapter{Estudo de Caso 3: Evolução do sistema com outros desenvolvedores}
 
-Ao usar uma interface humano-computador para intermediar as interações entre o componente MAPE-K e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{pipeline} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através de um componente orquestrador das etapas do MAPE-K. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários. O uso da interface também levou a um resultado inesperado: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps (ver Apêndice \ref{app:ModelOps}), uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral.
+\section{Contexto e limitações}
+
+Teste
+
+\section{Resultados e Discussões}
+
+Teste
 
 \chapter{Conclusões}
 
@@ -2162,9 +2306,10 @@ Isso pode ser feito por uma aplicação própria para realizar este gerenciament
 
 %\chapter{Apêndice}
 
-%\annex
-%\chapter{Anexo}
-%\chapter{Anexo}
+\annex
+\chapter{Documentação de Instalação}
+
+\chapter{Documentação de Manutenção}
 
 
 \end{document}

@@ -32,6 +32,7 @@ _markdown_project
 /texts/dissertation/final/*.lof
 /texts/dissertation/final/*.out
 /texts/dissertation/final/*.lot
+/texts/dissertation/final/*.toc
 /texts/dissertation/final/*.synctex.gz
 
 /texts/qualify/*.aux
