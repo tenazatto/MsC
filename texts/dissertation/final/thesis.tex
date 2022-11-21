@@ -209,7 +209,7 @@
 %\autora{Nome da Autora}
 
 % Sempre deve haver um título em português:
-\titulo{Construção de um \textit{Pipeline} de \textit{Machine Learning} autônomo com métricas de \textit{Fairness}}
+\titulo{\textit{Workflow} autonômico para aplicações de \textit{Machine Learning} utilizando métricas de \textit{Fairness}}
 \title{text}
 
 % Se a língua for o inglês ou o espanhol defina:
@@ -281,13 +281,14 @@ E finalmente, a todas as pessoas que pude conhecer na Unicamp, pela troca de exp
 
 % Sempre deve haver um resumo em português:
 \begin{resumo}
-Esta dissertação de Mestrado possui o objetivo de contribuir com o tema de Inteligência Artificial (IA) do ponto de vista da Engenharia de Software, visto que o uso de IA envolvendo grandes volumes de dados vem crescendo conforme nossa sociedade migra processos manuais de trabalho para soluções digitais e necessita de tomadas de decisão mais rápidas e assertivas. Entretanto, as métricas usadas inicialmente para definir a eficácia de um algoritmo se mostraram limitadas devido a barreiras éticas e legais, resultando em vieses que refletem a sociedade de maneira que não era esperada pelos desenvolvedores da solução. Desta forma, o uso de novas métricas, como métricas de Fairness, e proveniência de dados pode ajudar neste problema. Desenvolvendo um pipeline autônomo utilizando a arquitetura MAPE-K, documentando métodos e ferramentas, e realizando estudos de caso, é esperado que este problema seja controlado e facilite o desenvolvimento de softwares com o uso responsável de dados.
+O uso de Inteligência Artificial (IA) envolvendo grandes volumes de dados vem crescendo conforme nossa sociedade migra processos manuais de trabalho para soluções digitais e necessita de tomadas de decisão mais rápidas e assertivas, mas, devido a barreiras éticas e legais, métricas usadas inicialmente para definir a eficácia de um algoritmo se mostraram limitadas para medir vieses que refletem a sociedade de maneira que não era esperada pelos desenvolvedores da solução. Para resolver tal problema, novos algoritmos foram desenvolvidos e um novo conjunto de métricas, denominado como métricas de Fairness, é utilizado para determinar um equilíbrio entre grupos que sofrem discriminações. Com a introdução deste novo conjunto de algoritmos e métricas, novos problemas surgem, aumentando a complexidade da análise do Cientista de Dados para obter modelos de forma otimizada. Esta dissertação de Mestrado possui o objetivo de contribuir com o tema de Inteligência Artificial (IA) do ponto de vista da Engenharia de Software, apresentando um \textit{Workflow} para aplicações de \textit{Machine Learning} que pode ser executado de maneira autônoma sem a necessidade de experimentar uma grande quantidade de técnicas e pode ser mais assertivo em encontrar opções mais otimizadas para diferentes contextos. Para isso, é utilizado a arquitetura Pipe-and-Filter para realizar o \textit{Workflow}, utilizando proveniência de dados para gravação de metadados, e a arquitetura MAPE-K para determinar essa autonomia. Foram realizados diversos estudos de caso para determinar se o MAPE-K pode ser viável na resolução destes problemas, e se o \textit{Workflow} pode ser evoluído sem grande complexidade, e foi possível notar que as arquiteturas propostas conseguiram ser robustas e modulares, possibilitando estudos de Engenharia de Software em aplicações com o uso responsável de dados.
+
 \end{resumo}
 
 
 % Sempre deve haver um abstract:
 \begin{abstract}
-This Master's Degree dissertation aims to contribute to the theme of Artificial Intelligence (AI) from the Software Engineering point of view, since the use of AI involving large volumes of data has been growing as our society migrates manual work processes to digital solutions and needs faster and more assertive decision making. However, the metrics used initially to define the effectiveness of an algorithm proved to be limited due to ethical and legal barriers, resulting in biases that reflect society in a way that was not expected by the solution developers. Thus, the use of new metrics, like Fairness metrics, and data provenance can help with this problem. By developing an autonomous pipeline using MAPE-K architecture, documenting methods and tools, and making case studies, it is expected that this problem will be controlled and facilitate software development with the responsible use of data.
+The use of Artificial Intelligence (AI) involving big data volumes has been growing as our society migrates manual work processes to digital solutions and requires faster and more assertive decision-making, but due to ethical and legal barriers, metrics initially used to defining the effectiveness of an algorithm proved to be limited in measuring biases that reflect society in scenarios that were not expected by the developers of the solution. To solve this problem, new algorithms were developed and a new set of metrics, called Fairness metrics, is used to determine a balance between groups that suffer discrimination. With the introduction of this new set of algorithms and metrics, new problems arise, increasing the complexity of the Data Scientist's analysis to obtain the best models possible to these contexts. This Master's thesis aims to contribute to the topic of Artificial Intelligence (AI) from the point of view of Software Engineering, presenting a \textit{Workflow} for \textit{Machine Learning} applications that can be run autonomously without the need to do trial-and-error cycles with a lot of techniques and can be more assertive in finding options that are more optimized for different contexts. For this, the Pipe-and-Filter architecture is used to develop the \textit{Workflow}, using data provenance to record metadata, and the MAPE-K architecture to determine this autonomy. Several case studies were carried out to determine if MAPE-K can be viable in solving these problems, and if \textit{Workflow} can be evolved without great complexity, and it was possible to notice that the proposed architectures managed to be robust and modular, enabling Software Engineering studies in applications with the responsible use of data.
 \end{abstract}
 
 
@@ -343,7 +344,7 @@ No mesmo tema, é possível estabelecer métricas para determinar o quão o mode
 
 \section{Objetivo}
 
-O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \textit{Pipeline} para \textit{Machine Learning} que seja completamente autônoma, por três fatores principais:
+O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \textit{Workflow} para aplicações de \textit{Machine Learning} que seja completamente autônoma, por três fatores principais:
 
 \begin{itemize}
 \item Facilitar a criação de modelos justos e confiáveis com a automatização da escolha dos algoritmos, cuja complexidade aumenta com a escolha dos algoritmos a serem utilizados e suas execuções nas etapas corretas do processo, onde eles foram escolhidos para atuar.
@@ -351,7 +352,17 @@ O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \text
 \item Considerar proveniência de dados como requisito no design de uma solução de IA, e como uma alternativa a XAI através da utilização de metadados.
 \end{itemize}
 
-Para isso, além do desenvolvimento do \textit{Pipeline} em questão, será utilizada a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
+\section{Solução Proposta}
+
+Foi desenvolvido um sistema, que pode ser dividido em 4 etapas principais: Engenharia de dados, \textit{Workflow} de IA, Autonomia do \textit{Workflow} e Interface Humano-Computador, que serão detalhados no Capítulo onde se discute sobre a metodologia adotada.
+
+Para o desenvolvimento do \textit{workflow}, será utilizada a arquitetura \textit{Pipe-and-Filter}. Para a autonomia deste, será criado um componente utilizando a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
+
+\section{Resultados Obtidos}
+
+Esta pesquisa mostra que a escolha da arquitetura \textit{Pipe-and-Filter} se mostra favorável para o desenvolvimento de um \textit{workflow} para aplicações envolvendo IA, permitindo que ele seja modular e que sejam feitas evoluções sem exigir grandes esforços. O uso da arquitetura MAPE-K também se mostrou favorável, permitindo diversos resultados para diferentes contextos de problema e uma simplificação da análise realizada pelo Cientista de Dados, podendo resultar em economia de tempo. Ela também possibilitou um balanço entre performance e justiça através da adição de pesos para cada métrica na parte de análise. Embora os pesos não sejam parte da arquitetura, a divisão presente na arquitetura permite que o desenvolvimento seja pensado de maneira mais clara.
+
+Embora a proveniência de dados não teve o mesmo efeito da aplicação de um método feito para XAI, a obtenção de metadados do \textit{workflow} se mostrou essencial para alimentar o componente baseado na arquitetura MAPE-K e possibilitou a análise e tomadas de decisão baseadas em dados. É possível realizar análises mais detalhadas conforme novas execuções forem realizadas, consequentemente podendo resultar em melhores escolhas de algoritmos para contextos distintos, e até considerar novas aplicações de IA caso o volume de dados seja consideravelmente grande. Posteriormente, é possível também rever quais dados podem ser adicionados para que o objetivo de XAI possa ser alcançado de maneira satisfatória.
 
 \section{Organização}
 
@@ -862,6 +873,45 @@ Como desvantagens, é possível citar:
 \item Podem forçar um resultado médio na transmissão de dados em situações onde muitos filtros sejam encadeados com um único filtro, resultando em trabalho adicional para cada filtro separar seus dados e analisar o que for necessário. Isso, por sua vez, pode levar tanto à perda de desempenho quanto ao aumento da complexidade na escrita dos próprios filtros.
 \end{itemize}
 
+\section{Estado da Arte}
+
+Os principais trabalhos encontrados envolvendo métricas de \textit{Fairness} e sua arquitetura vêm do time de engenharia do LinkedIn.~\citet{Geyik_2019} falam sobre as métricas utilizadas e os algoritmos implementados sobre ranqueamento dos dados.~\citet{Kenthapadi_2019} fala sobre como o conceito de \textit{Fairness} pode ser implementado em uma aplicação de IA, e mostra a arquitetura sobre ela.
+
+Quanto ao desenvolvimento do \textit{Workflow} e arquiteturas, é possível mencionar a própria IBM AI Reference Architecture~\citep{IBM_2021} como modelo para desenvolvimento de aplicações. Uma outra arquitetura que é comparável a arquitetura \textit{Pipe-and-Filter} é a FBFlow do Facebook~\citep{Dunn_2016}. O uso de DAGs (\textit{Direct Acyclic Graphs}) para a execução de um determinado processo ou \textit{workflow} é uma alternativa simples de ser implementada e interpretada pelos desenvolvedores, onde é possível conectar o método de ML juntamente com o cálculo de métricas para serem automatizados e organizados de forma simultânea. Há diferenças entre DAGs e \textit{pipes} e filtros, mas o objetivo de ambos acaba sendo o mesmo: Conectar diversos processos menores para formar um sistema coeso.
+
+Quanto ao desenvolvimento da parte que utiliza o MAPE-K para garantir a autonomia, já há diversos artigos detalhando como o MAPE-K é importante para organizar o processo de decisão, como o \textit{"An architectural blueprint for autonomic computing"}~\citep{IBM_2005}, que detalha todas as suas bases. Para o desenvolvimento da parte de análise, um trabalho que pode ser mencionado é o artigo \textit{"The VADA Architecture for Cost-Effective Data Wrangling"}~\citep{Konstantinou_2017}, que utiliza pesos para dar contexto aos dados medidos. Embora não seja o principal tema do artigo, indicar a importância dos dados analisados garantiu a autonomia necessária sem exigir manutenção na parte de análise.
+
+Quanto a Proveniência de Dados, é possível citar o artigo \textit{"Provenance and Scientific Workflows:
+Challenges and Opportunities"}~\citep{Davidson_2008}, onde é discutido como há oportunidades de prover dados em \textit{workflows}, como captura de etapas e informações de execução e geração do dado. No contexto deste trabalho, a proveniência é utilizada para alimentar a tomada de decisão realizada pela implementação da arquitetura MAPE-K e são utilizados metadados da próptia execução do \textit{workflow}, como algoritmos utilizados em cada etapa e conjunto de dados utilizado.
+
+\begin{table}[h]
+\begin{center}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{cccccccccc}
+    \toprule
+    \multicolumn{2}{c}{\multirow{2}{*}{\bf Referências}} & \multicolumn{2}{c}{\multirow{2}{*}{\bf Descrição}} & \multicolumn{6}{c}{Conceitos}\\
+    \cmidrule{5-10}
+%    \hline
+    \multicolumn{4}{c}{} & \bf Ciência/Eng. Dados & \bf ML & \bf Fairness & \bf Eng. Software & \bf Prov. dados & \bf Arq. Software\\
+    \midrule
+    \multicolumn{2}{c}{Geyik et al., 2019} & \multicolumn{2}{c}{\makecell{Métricas utilizadas \\ Ranqueamento dos dados}} &  & \cmark & \cmark & \cmark &  & \\[3ex]
+%    \hline
+    \multicolumn{2}{c}{Kenthapadi et al., 2019} & \multicolumn{2}{c}{Arquitetura/implementação de métricas de Fairness} &  & \cmark & \cmark & \cmark &  & \\[2ex]
+%    \hline
+    \multicolumn{2}{c}{\makecell{IBM Analytics and \\ AI Reference Architecture}} & \multicolumn{2}{c}{\makecell{Arquitetura de referência para Dados e ML}} & \cmark & \cmark &  & \cmark &  & \\[3ex]
+%    \hline
+    \multicolumn{2}{c}{\makecell{An architectural blueprint \\ for autonomic computing}} & \multicolumn{2}{c}{\makecell{Arquitetura para sistemas autônomos}} &  &  &  & \cmark &  & \cmark\\[3ex]
+%    \hline
+    \multicolumn{2}{c}{\makecell{FBFlow - Facebook \\ (Dunn, 2016)}} & \multicolumn{2}{c}{\makecell{Uso de DAGs para determinar \textit{workflow} \\ Execução/interpretação de processos de ML}} &  & \cmark & \cmark & \cmark &  & \cmark\\
+%    \hline
+    \multicolumn{2}{c}{\makecell{Konstantinou et al.,2017}} & \multicolumn{2}{c}{\makecell{Arquitetura para entrelaçamento de dados \\ Utilização de pesos para determinar contexto aos dados}} & \cmark &  &  &  & \cmark & \cmark\\[3ex]
+%    \hline
+    \multicolumn{2}{c}{\makecell{Davidson et al.,2008}} & \multicolumn{2}{c}{\makecell{Oportunidades de proveniência de dados em \textit{workflows} \\ Captura de passos e dados de execução}} &  &  &  &  & \cmark & \\[3ex]
+    \bottomrule
+  \end{tabular}}
+\end{center}
+\end{table}
+
 \chapter{Metodologia}
 \label{sec:metodologia}
 
@@ -896,20 +946,20 @@ O desenvolvimento realizado neste trabalho pode ser dividido em 5 etapas maiores
 
 \item \textbf{Transformação dos conjuntos de dados:} Como alguns dos conjuntos de dados obtidos diferentes valores qualitativos e codificados de acordo com o atributo, primeiro foi realizado uma transformação dos dados para garantir uma melhor legibilidade, o que já equivaleria minimamente ao trabalho do Engenheiro de Dados presente neste trabalho de Mestrado. Posteriormente, novas transformações foram realizadas devido a necessidade de separar grupo privilegiado ao grupo não-privilegiado, mas neste trabalho já equivaleria a parte do Cientista de Dados.
 
-\item \textbf{Desenvolvimento do Pipeline:} Como Machine Learning possui um processo muito bem definido, é possível subdividir este processo em etapas e subdividir cada uma dessas etapas em componentes isolados. O objetivo do desenvolvimento de um Pipeline é sistematizar todo esse processo de modo que supostas atualizações sejam incrementais e que seja possível realizar uma execução de forma autônoma a partir da próxima etapa. Para simplificar o processo, foi utilizada a arquitetura \textit{Pipe-and-Filter}, que é simples de ser entendida e pode ser encontrada em diferentes publicações.
+\item \textbf{Desenvolvimento do Workflow:} Como Machine Learning possui um processo muito bem definido, é possível subdividir este processo em etapas e subdividir cada uma dessas etapas em componentes isolados. O objetivo do desenvolvimento de um \textit{Workflow} é sistematizar todo esse processo de modo que supostas atualizações sejam incrementais e que seja possível realizar uma execução de forma autônoma a partir da próxima etapa. Para simplificar o processo, foi utilizada a arquitetura \textit{Pipe-and-Filter}, que é simples de ser entendida e pode ser encontrada em diferentes publicações.
 
-\item \textbf{Desenvolvimento dos processos de autonomia do Pipeline:} Após o desenvolvimento do Pipeline, foi desenvolvido um elemento autônomo para trabalhar em conjunto com o Pipeline como elemento gerenciado. Através das métricas obtidas em execuções anteriores, é possível inferir sugestões de melhores combinações para execução e garantia de um melhor resultado de forma mais eficiente. Para garantir uma maior flexibilidade nos resultados, foram implementadas diversas estratégias para garantir que essa sugestão seja customizada pelo Cientista de Dados e/ou pelo Especialista de Domínio se isso for necessário para as necessidades do problema.
+\item \textbf{Desenvolvimento dos processos de autonomia do Workflow:} Após o desenvolvimento do \textit{Workflow}, foi desenvolvido um elemento autônomo para trabalhar em conjunto com o \textit{Workflow} como elemento gerenciado. Através das métricas obtidas em execuções anteriores, é possível inferir sugestões de melhores combinações para execução e garantia de um melhor resultado de forma mais eficiente. Para garantir uma maior flexibilidade nos resultados, foram implementadas diversas estratégias para garantir que essa sugestão seja customizada pelo Cientista de Dados e/ou pelo Especialista de Domínio se isso for necessário para as necessidades do problema.
 
-\item \textbf{Interface Humano-Computador:} Para facilitar o entendimento dos arquivos utilizados para configuração e utilização das estratégias da arquitetura MAPE-K, foi criada uma interface onde é possível realizar a configuração pela mesma, podendo também realizar uma execução do Pipeline isolada e uma execução com sugestões, acompanhando a análise realizada no gerenciador MAPE-K.
+\item \textbf{Interface Humano-Computador:} Para facilitar o entendimento dos arquivos utilizados para configuração e utilização das estratégias da arquitetura MAPE-K, foi criada uma interface onde é possível realizar a configuração pela mesma, podendo também realizar uma execução do \textit{Workflow} isolada e uma execução com sugestões, acompanhando a análise realizada no gerenciador MAPE-K.
 
 \end{itemize}
 
-Para definição dos objetivos do Pipeline e da sua autonomia, foi realizado um detalhamento na forma de \textit{Assurance Cases}, onde o objetivo principal, que é a obtenção do modelo mais equilibrado entre métricas de avaliação, onde para melhor diferenciação de seu objetivo serão denominadas como métricas de Performance, e métricas de Fairness, é subdividido em diferentes estratégias, novamente subdividido em novos objetivos, e através de evidências é possível verificar o progresso do objetivo principal.
+Para definição dos objetivos do \textit{Workflow} e da sua autonomia, foi realizado um detalhamento na forma de \textit{Assurance Cases}, onde o objetivo principal, que é a obtenção do modelo mais equilibrado entre métricas de avaliação, onde para melhor diferenciação de seu objetivo serão denominadas como métricas de Performance, e métricas de Fairness, é subdividido em diferentes estratégias, novamente subdividido em novos objetivos, e através de evidências é possível verificar o progresso do objetivo principal.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.1]{images/assurancecase.jpg}
-\caption {\textit{Assurance Cases} feitos para detalhar os objetivos necessários para executar o Pipeline mais adequado}
+\caption {\textit{Assurance Cases} feitos para detalhar os objetivos necessários para executar o Workflow mais adequado}
 \label{fig:AssuranceCase}
 \end{figure}
 
@@ -965,11 +1015,11 @@ def german_data_to_csv():
 
 Nele, cada uma das colunas presentes no conjunto de dados que atribuem uma qualidade é renomeada de acordo com o equivalente presente em sua documentação. Esta etapa simularia uma transformação realizada por um Engenheiro de Dados para facilitar o trabalho de análise e implementação de um Cientista de Dados.
 
-\subsection{Pipeline}
+\subsection{Workflow}
 
 \subsubsection{Desenvolvimento de \textit{Framework}}
 
-Para facilitar o desenvolvimento do Pipeline e deixar seu código mais legível, foi vista durante seu desenvolvimento a necessidade de desenvolver um pequeno \textit{Framework} baseado na arquitetura \textit{Pipe-and-Filter} onde foram feitas adaptações devido a características e a limitações da linguagem \textit{Python}.
+Para facilitar o desenvolvimento do \textit{Workflow} e deixar seu código mais legível, foi vista durante seu desenvolvimento a necessidade de desenvolver um pequeno \textit{Framework} baseado na arquitetura \textit{Pipe-and-Filter} onde foram feitas adaptações devido a características e a limitações da linguagem \textit{Python}.
 
 \begin{figure}[H]
 \centering
@@ -978,11 +1028,11 @@ Para facilitar o desenvolvimento do Pipeline e deixar seu código mais legível,
 \label{fig:PipeAndFilterFramework}
 \end{figure}
 
-Conforme ilustrado na Figura \ref{fig:PipeAndFilterFramework}, o \textit{Framework} possui 3 classes: \textbf{PipeFilter}, \textbf{BasePipe} e \textbf{BaseFilter}. A classe \textbf{PipeFilter} foi criada para ser herdada pelas classes \textbf{BasePipe} e \textbf{BaseFilter} por duas limitações: Inexistência de interfaces no \textit{Python} e evitar erro de recursão de heranças acusado no momento da compilação. A classe \textbf{BasePipe} possui apenas um atributo \textbf{value} que é um dicionário que simboliza os dados que trafegam por esse Pipe. Como é um dicionário, ele é totalmente livre de quantos atributos o Pipe trafega, sendo assim a sua validação é responsabilidade da aplicação. A classe \textbf{BaseFilter} possui dois atributos \textbf{input} e \textbf{output} que simbolizam os Pipes de entrada e de saída do Filtro, e o uso desses dois Pipes mais a execução do Filtro vai estruturar o Pipeline como um todo.
+Conforme ilustrado na Figura \ref{fig:PipeAndFilterFramework}, o \textit{Framework} possui 3 classes: \textbf{PipeFilter}, \textbf{BasePipe} e \textbf{BaseFilter}. A classe \textbf{PipeFilter} foi criada para ser herdada pelas classes \textbf{BasePipe} e \textbf{BaseFilter} por duas limitações: Inexistência de interfaces no \textit{Python} e evitar erro de recursão de heranças acusado no momento da compilação. A classe \textbf{BasePipe} possui apenas um atributo \textbf{value} que é um dicionário que simboliza os dados que trafegam por esse Pipe. Como é um dicionário, ele é totalmente livre de quantos atributos o Pipe trafega, sendo assim a sua validação é responsabilidade da aplicação. A classe \textbf{BaseFilter} possui dois atributos \textbf{input} e \textbf{output} que simbolizam os Pipes de entrada e de saída do Filtro, e o uso desses dois Pipes mais a execução do Filtro vai estruturar o \textit{Workflow} como um todo.
 
-O Pipeline é realizado através de encadeamentos do método \textbf{to\_filter} com o método \textbf{to\_pipe}. O método \textbf{to\_filter} prepara um Filtro para utilizar o Pipe, setando o atributo \textbf{input} presente na classe de Filtro passada como parâmetro, e o método \textbf{to\_pipe} obtém o Pipe resultante do Filtro, chamando o método \textbf{execute} e obtendo o atributo \textbf{output} presente no Filtro para setar no atributo \textbf{value} presente na classe de Pipe passada como parâmetro. Isso forma encadeamentos de métodos que se assemelham muito com os de uma \textit{Fluent API}~\citep{Fowler_2005}, presente no Apêndice \ref{app:FluentAPI}, criando uma DSL (\textit{Domain-Specific Language}) cujo domínio é a estruturação de um Pipeline. O Trecho \ref{cod:PipeAndFilterMethods} mostra um breve exemplo de como é possível encadeá-los, onde \textbf{Pipe1}, \textbf{Pipe2} e \textbf{Pipe3} são classes que herdam \textbf{BasePipe} e \textbf{Filter1} e \textbf{Filter2} são classes que herdam \textbf{BaseFilter}.
+O \textit{Workflow} é realizado através de encadeamentos do método \textbf{to\_filter} com o método \textbf{to\_pipe}. O método \textbf{to\_filter} prepara um Filtro para utilizar o Pipe, setando o atributo \textbf{input} presente na classe de Filtro passada como parâmetro, e o método \textbf{to\_pipe} obtém o Pipe resultante do Filtro, chamando o método \textbf{execute} e obtendo o atributo \textbf{output} presente no Filtro para setar no atributo \textbf{value} presente na classe de Pipe passada como parâmetro. Isso forma encadeamentos de métodos que se assemelham muito com os de uma \textit{Fluent API}~\citep{Fowler_2005}, presente no Apêndice \ref{app:FluentAPI}, criando uma DSL (\textit{Domain-Specific Language}) cujo domínio é a estruturação de um \textit{Workflow}. O Trecho \ref{cod:PipeAndFilterMethods} mostra um breve exemplo de como é possível encadeá-los, onde \textbf{Pipe1}, \textbf{Pipe2} e \textbf{Pipe3} são classes que herdam \textbf{BasePipe} e \textbf{Filter1} e \textbf{Filter2} são classes que herdam \textbf{BaseFilter}.
 
-\begin{lstlisting}[language=Python, caption=Exemplo de uso do \textit{Framework} para encadeamento dos Pipelines,label=cod:PipeAndFilterMethods]
+\begin{lstlisting}[language=Python, caption=Exemplo de uso do \textit{Framework} para encadeamento dos Workflows,label=cod:PipeAndFilterMethods]
 root_pipe = Pipe1()
 
 pipe_with_filter_transformations = root_pipe.to_filter(Filter1())
@@ -991,9 +1041,9 @@ pipe_with_filter_transformations = root_pipe.to_filter(Filter1())
 											.to_pipe(Pipe3())
 \end{lstlisting}
 
-Como a execução dos próprios filtros já é executada dentro do método \textbf{to\_pipe}, basta apenas realizar a instância das classes e executar os métodos \textbf{to\_filter} e \textbf{to\_pipe} para a execução do pipeline. Com isso, os algoritmos de Machine Learning ficam encapsulados em classes que herdam a classe \textbf{BaseFilter} e utilizam o método \textbf{execute} para executá-los. Desta forma, acontece a separação de interesses entre o componente que gerencia a execução do Pipeline e os componentes que gerenciam cada passo do Pipeline especificamente, garantindo um baixo acoplamento entre os componentes uma vez que é possível trocar de componentes que executam diferentes métodos sem afetar a execução do Pipeline. Consequentemente, conforme novos métodos são descobertos, adicioná-los ao Pipeline é extremamente simples e envolve poucas mudanças no código original. Ferramentas como o Apache Airflow~\citep{ApacheAirflow_2022} realizam uma abordagem semelhante através da classe \textbf{BaseOperator}, que pode ser herdada para implementar um operador customizado e executá-lo através de DAGs (\textit{Direct Acyclic Graphs})
+Como a execução dos próprios filtros já é executada dentro do método \textbf{to\_pipe}, basta apenas realizar a instância das classes e executar os métodos \textbf{to\_filter} e \textbf{to\_pipe} para a execução do \textit{workflow}. Com isso, os algoritmos de Machine Learning ficam encapsulados em classes que herdam a classe \textbf{BaseFilter} e utilizam o método \textbf{execute} para executá-los. Desta forma, acontece a separação de interesses entre o componente que gerencia a execução do \textit{Workflow} e os componentes que gerenciam cada passo do \textit{Workflow} especificamente, garantindo um baixo acoplamento entre os componentes uma vez que é possível trocar de componentes que executam diferentes métodos sem afetar a execução do \textit{Workflow}. Consequentemente, conforme novos métodos são descobertos, adicioná-los ao \textit{Workflow} é extremamente simples e envolve poucas mudanças no código original. Ferramentas como o Apache Airflow~\citep{ApacheAirflow_2022} realizam uma abordagem semelhante através da classe \textbf{BaseOperator}, que pode ser herdada para implementar um operador customizado e executá-lo através de DAGs (\textit{Direct Acyclic Graphs})
 
-Utilizando o recurso de métodos especiais presente no Python~\citep{Pyspmethods_2022}, é possível manipular alguns \textit{tokens} como \textit{proxies} para executar os métodos já presentes no \textit{Framework}, simplificando a DSL e também simplificando o entendimento do Pipeline caso o Cientista de Dados tenha ciência do recurso. Para o método \textbf{to\_filter} foi escolhido o \textit{token} \textbf{$>$=}, pela semelhança com um funil, que é geralmente assemelhado a filtros em sistemas atuais, e para o \textit{token} o método \textbf{\_\_ge\_\_} é implementado como um \textit{proxy} do mesmo. Para o método \textbf{to\_pipe} foi escolhido o \textit{token} \textbf{==}, pela semelhança com um cano (pipe, em inglês), e para este \textit{token} o método \textbf{\_\_eq\_\_} é implementado como um \textit{proxy}.
+Utilizando o recurso de métodos especiais presente no Python~\citep{Pyspmethods_2022}, é possível manipular alguns \textit{tokens} como \textit{proxies} para executar os métodos já presentes no \textit{Framework}, simplificando a DSL e também simplificando o entendimento do \textit{Workflow} caso o Cientista de Dados tenha ciência do recurso. Para o método \textbf{to\_filter} foi escolhido o \textit{token} \textbf{$>$=}, pela semelhança com um funil, que é geralmente assemelhado a filtros em sistemas atuais, e para o \textit{token} o método \textbf{\_\_ge\_\_} é implementado como um \textit{proxy} do mesmo. Para o método \textbf{to\_pipe} foi escolhido o \textit{token} \textbf{==}, pela semelhança com um cano (pipe, em inglês), e para este \textit{token} o método \textbf{\_\_eq\_\_} é implementado como um \textit{proxy}.
 
 \begin{lstlisting}[language=Python, caption=Trecho \ref{cod:PipeAndFilterMethods} adaptado com métodos especiais da linguagem \textit{Python},label=cod:PipeAndFilterSpecialMethods]
 root_pipe = Pipe1()
@@ -1033,20 +1083,20 @@ pipe4 = pipe3['attribute1', 'attribute3']
 print(pipe4) # Output - {'attribute1': 1, 'attribute3': 3}
 \end{lstlisting}
 
-Após o desenvolvimento deste \textit{Framework}, foi realizada uma refatoração com a sua utilização e o desenvolvimento do Pipeline foi continuado.
+Após o desenvolvimento deste \textit{Framework}, foi realizada uma refatoração com a sua utilização e o desenvolvimento do \textit{Workflow} foi continuado.
 
-\subsubsection{Arquitetura e desenvolvimento do Pipeline}
+\subsubsection{Arquitetura e desenvolvimento do Workflow}
 
-O Pipeline segue uma estrutura das fases de Pré-processamento, processamento e pós-processamento presentes em um processo para desenvolvimento de um modelo de Machine Learning, ilustrados na Figura \ref{fig:FairnessPipeline}. Os pontos de decisão entre redução de viés ou não presentes na figura são transparentes no código devido a implementação do \textit{Framework} já explicado na seção anterior e foram colocados para ilustrar melhor onde atuam os algoritmos de redução dos vieses.
+O \textit{Workflow} segue uma estrutura das fases de Pré-processamento, processamento e pós-processamento presentes em um processo para desenvolvimento de um modelo de Machine Learning, ilustrados na Figura \ref{fig:FairnessPipeline}. Os pontos de decisão entre redução de viés ou não presentes na figura são transparentes no código devido a implementação do \textit{Framework} já explicado na seção anterior e foram colocados para ilustrar melhor onde atuam os algoritmos de redução dos vieses.
 
-Além de tratar os dados, treinar o modelo e realizar testes sobre o mesmo, o Pipeline possui etapas para obter os metadados durante o processo e salvá-los junto com as métricas para obter a proveniência dos dados necessária para integrá-lo a um elemento autônomo. Para a execução dos algoritmos com redução de viés, é utilizada a biblioteca Ai Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}.
+Além de tratar os dados, treinar o modelo e realizar testes sobre o mesmo, o \textit{Workflow} possui etapas para obter os metadados durante o processo e salvá-los junto com as métricas para obter a proveniência dos dados necessária para integrá-lo a um elemento autônomo. Para a execução dos algoritmos com redução de viés, é utilizada a biblioteca Ai Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}.
 
 Devido a natureza deste trabalho de Mestrado ser voltada à Engenharia de Software e a métricas de Fairness, detalhes do processo que também poderiam ser utilizados como estratégias mais sofisticadas para validação dos modelos, como \textit{k-fold Cross Validation}, e estratégias para regularização foram desconsiderados para evitar complexidade.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{images/ml-fairness-pipeline.jpg}
-\caption {Fases e etapas do Pipeline implementado}
+\caption {Fases e etapas do Workflow implementado}
 \label{fig:FairnessPipeline}
 \end{figure}
 
@@ -1055,20 +1105,20 @@ Cada etapa ilustrada na figura se comporta da seguinte maneira:
 \begin{itemize}
 \item \textbf{Fase de Pré-Processamento:}
 	\begin{itemize}
-	\item \textbf{Armazenamento de metadados dos parâmetros iniciais:} Os parâmetros que irão determinar quais serão os conjuntos de dados, atributos protegidos e algoritmos utilizados em cada fase do Pipeline são armazenados em um Pipe e guardados para uma gravação em arquivo caso necessário.
-	\item \textbf{Obtenção do conjunto de dados e seus metadados:} De acordo com o parâmetro passado para o Pipeline, um Pipe relativo ao conjunto de dados em questão é selecionado, e os metadados presentes neste Pipe podem ser utilizados para uma gravação em arquivo caso necessário.
-	\item \textbf{Obtenção do atributo protegido, grupos e classes de classificação:}De acordo com o parâmetro passado para o Pipeline, um Pipe relativo ao atributo protegido em questão é selecionado, e informações de grupos privilegiados e não-privilegiados e classes para classificação, necessárias para executar os algoritmos presentes no AIF360, também estão presentes neste Pipe.
+	\item \textbf{Armazenamento de metadados dos parâmetros iniciais:} Os parâmetros que irão determinar quais serão os conjuntos de dados, atributos protegidos e algoritmos utilizados em cada fase do \textit{Workflow} são armazenados em um Pipe e guardados para uma gravação em arquivo caso necessário.
+	\item \textbf{Obtenção do conjunto de dados e seus metadados:} De acordo com o parâmetro passado para o \textit{Workflow}, um Pipe relativo ao conjunto de dados em questão é selecionado, e os metadados presentes neste Pipe podem ser utilizados para uma gravação em arquivo caso necessário.
+	\item \textbf{Obtenção do atributo protegido, grupos e classes de classificação:}De acordo com o parâmetro passado para o \textit{Workflow}, um Pipe relativo ao atributo protegido em questão é selecionado, e informações de grupos privilegiados e não-privilegiados e classes para classificação, necessárias para executar os algoritmos presentes no AIF360, também estão presentes neste Pipe.
 	\item \textbf{Divisão do conjunto de dados (Treino/Validação/Testes):} Um Filtro relativo a divisão do conjunto de dados (entre conjunto de treino, conjunto de validação e conjunto de testes) é executado e suas divisões resultantes são colocadas em um Pipe.
 	\item \textbf{Pré-Processamento dos dados com base no atributo protegido:} As informações de atributo protegido são passadas para um Filtro para realizar um pré-processamento no conjunto de dados, preparando o conjunto de dados para o AIF360.
-	\item \textbf{Execução(ou não) de algoritmo para redução de viés:} De acordo com o parâmetro passado para o Pipeline, um algoritmo para redução de viés na fase de Pré-Processamento é colocado ou não para ser executado no Pipeline. 
+	\item \textbf{Execução(ou não) de algoritmo para redução de viés:} De acordo com o parâmetro passado para o \textit{Workflow}, um algoritmo para redução de viés na fase de Pré-Processamento é colocado ou não para ser executado no \textit{Workflow}. 
 	\end{itemize}
 \item \textbf{Fase de Processamento/Treinamento:}
 	\begin{itemize}
-	\item \textbf{Execução de algoritmo de treinamento com(ou sem) redução de viés:} De acordo com o parâmetro passado para o Pipeline, um algoritmo de treinamento, podendo ter ou não ter redução de viés, é colocado ou não para ser executado no Pipeline.
+	\item \textbf{Execução de algoritmo de treinamento com(ou sem) redução de viés:} De acordo com o parâmetro passado para o \textit{Workflow}, um algoritmo de treinamento, podendo ter ou não ter redução de viés, é colocado ou não para ser executado no \textit{Workflow}.
 	\end{itemize}
 \item \textbf{Fase de Pós-Processamento/Testes:}
 	\begin{itemize}
-	\item \textbf{Execução(ou não) de algoritmo para redução de viés:} De acordo com o parâmetro passado para o Pipeline, um algoritmo para redução de viés na fase de Pós-Processamento é colocado ou não para ser executado no Pipeline.
+	\item \textbf{Execução(ou não) de algoritmo para redução de viés:} De acordo com o parâmetro passado para o \textit{Workflow}, um algoritmo para redução de viés na fase de Pós-Processamento é colocado ou não para ser executado no \textit{Workflow}.
 	\item \textbf{Cálculo de métricas (Performance/Fairness):} É realizado uma predição do algoritmo treinado com o conjunto de teste, e as predições são comparadas com os valores verdadeiros para obtenção das métricas.
 	\item \textbf{Armazenamento dos metadados e resultados:} Caso seja habilitado a gravação dos resultados, os metadados obtidos em etapas anteriores e o resultado das métricas são combinados e gravados em um arquivo JSON.
 	\end{itemize}
@@ -1076,10 +1126,10 @@ Cada etapa ilustrada na figura se comporta da seguinte maneira:
 
 \subsection{Componente MAPE-K}
 
-Os arquivos JSON gravados na última etapa a cada execução de Pipeline vão ser utilizados como insumos para análises elemento autônomo, seguindo o modelo de arquitetura MAPE-K. Em um Pipeline de Machine Learning, é possível guardar alguns metadados que podem servir de Base de Conhecimento inicial para a etapa de análise do componente a ser desenvolvido e que ajudariam na escolha do melhor modelo possível para execução:
+Os arquivos JSON gravados na última etapa a cada execução de \textit{Workflow} vão ser utilizados como insumos para análises elemento autônomo, seguindo o modelo de arquitetura MAPE-K. Em um \textit{Workflow} de Machine Learning, é possível guardar alguns metadados que podem servir de Base de Conhecimento inicial para a etapa de análise do componente a ser desenvolvido e que ajudariam na escolha do melhor modelo possível para execução:
 
 \begin{itemize}
-\item \textbf{Fase de Pré-Processamento:} Parâmetros utilizados para execução do Pipeline (Conjuntos de dados, Atributos protegidos e Algoritmos utilizados) e "assinatura"/checksum do conjunto de dados utilizado.
+\item \textbf{Fase de Pré-Processamento:} Parâmetros utilizados para execução do \textit{Workflow} (Conjuntos de dados, Atributos protegidos e Algoritmos utilizados) e "assinatura"/checksum do conjunto de dados utilizado.
 \item \textbf{Fase de Processamento:} Parâmetros utilizados para execução dos algoritmos de treinamento.
 \item \textbf{Fase de Pós-Processamento:} Métricas do modelo resultante (Metricas de Performance e métricas de Fairness.
 \end{itemize}
@@ -1087,7 +1137,7 @@ Os arquivos JSON gravados na última etapa a cada execução de Pipeline vão se
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{images/ML-MAPE-K.jpg}
-\caption {Adequação do Pipeline ao gerenciador MAPE-K}
+\caption {Adequação do workflow ao gerenciador MAPE-K}
 \label{fig:MLMAPEK}
 \end{figure}
 
@@ -1104,7 +1154,7 @@ Após a obtenção de tal Base de Conhecimento, e possível verificar como as et
 
 \subsubsection{Monitoria}
 
-Para a etapa de monitoria, os dados são obtidos em cada arquivo presente na base de conhecimento e separados em dois conjuntos diferentes: Um contendo os metadados e informações relativas a execução do Pipeline (checksum do conjunto de dados, estatísticas e parâmetros de execução do Pipeline) e outro contendo as métricas obtidas pelo modelo resultante dessa execução, ambos possuindo um identificador do arquivo para estabelecer consistência entre os dados dos dois conjuntos. Os arquivos podem ser filtrados pelo conjunto de dados e pelo atributo protegido, ou não possuir filtro obtendo todos os dados possíveis.
+Para a etapa de monitoria, os dados são obtidos em cada arquivo presente na base de conhecimento e separados em dois conjuntos diferentes: Um contendo os metadados e informações relativas a execução do \textit{Workflow} (checksum do conjunto de dados, estatísticas e parâmetros de execução do \textit{Workflow}) e outro contendo as métricas obtidas pelo modelo resultante dessa execução, ambos possuindo um identificador do arquivo para estabelecer consistência entre os dados dos dois conjuntos. Os arquivos podem ser filtrados pelo conjunto de dados e pelo atributo protegido, ou não possuir filtro obtendo todos os dados possíveis.
 
 \subsubsection{Análise}
 
@@ -1200,13 +1250,13 @@ Após a execução das mesmas, caso estejam ativadas, os parâmetros selecionado
 
 \subsubsection{Execução}
 
-Para a etapa de execução, os parâmetros selecionados na fase de planejamento são configurados como parâmetros para a execução do Pipeline, e esta execução pode ampliar a Base de Conhecimento ou não dependendo do valor da opção de gravação dos resultados.
+Para a etapa de execução, os parâmetros selecionados na fase de planejamento são configurados como parâmetros para a execução do \textit{Workflow}, e esta execução pode ampliar a Base de Conhecimento ou não dependendo do valor da opção de gravação dos resultados.
 
 \subsection{Interface Humano-Computador}
 
-Durante o desenvolvimento do Pipeline e de seu componente autônomo, foi notado que o número de configurações e a complexidade das mesmas era muito grande, ocasionando problemas na hora de documentar e detalhar todo o processo executado. Para facilitar tais configurações, foi criada uma Interface Humano-Computador onde é condensada toda a organização das configurações e dos arquivos utilizados para a execução simples e autônoma do Pipeline, alem da própria realização destas execuções. A interface foi dividida em uma parte Frontend e outra parte Backend para ter mais flexibilidade, poder ter uma escolha de ferramentas mais adequada a cada parte e próxima ao padrão de aplicações atuais.
+Durante o desenvolvimento do \textit{Workflow} e de seu componente autônomo, foi notado que o número de configurações e a complexidade das mesmas era muito grande, ocasionando problemas na hora de documentar e detalhar todo o processo executado. Para facilitar tais configurações, foi criada uma Interface Humano-Computador onde é condensada toda a organização das configurações e dos arquivos utilizados para a execução simples e autônoma do \textit{Workflow}, alem da própria realização destas execuções. A interface foi dividida em uma parte Frontend e outra parte Backend para ter mais flexibilidade, poder ter uma escolha de ferramentas mais adequada a cada parte e próxima ao padrão de aplicações atuais.
 
-O Backend foi desenvolvido em Python para reusar códigos já desenvolvido em etapas anteriores, usando o framework Flask para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do Pipeline.
+O Backend foi desenvolvido em Python para reusar códigos já desenvolvido em etapas anteriores, usando o framework Flask para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do \textit{Workflow}.
 
 O Frontend foi desenvolvido em JavaScript devido a facilidade e a robustez para construir interfaces com a linguagem e ao acervo grande de ferramentas para facilitar o desenvolvimento, usando as bibliotecas React e Redux e a biblioteca de componentes Material UI para economizar tempo com componentes já prontos, uma vez que o foco deste trabalho não exige componentes específicos para a interface. O uso da Material UI permite um \textit{look-and-feel} similar a aplicativos desenvolvidos para o Sistema Operacional para dispositivos móveis Android, uma vez que é baseado nas \textit{guidelines} do Material Design elaborados pelo Google.
 
@@ -1224,7 +1274,7 @@ Conforme ilustrado na Figura \ref{fig:opcoesMenu}, o menu pode ser expandido e r
     \label{fig:opcoesMenu}
 \end{figure}
 
-No menu, as opções são divididas em Configuração e Execução. Em Configuração, há as opções Análise, Métricas e Planejamento relativas às configurações presentes no Componente MAPE-K. Em Execução, há as opções Pipeline Manual e Pipeline Autônomo relativas às maneiras de como realizar uma execução do Pipeline.
+No menu, as opções são divididas em Configuração e Execução. Em Configuração, há as opções Análise, Métricas e Planejamento relativas às configurações presentes no Componente MAPE-K. Em Execução, há as opções Pipeline Manual e Pipeline Autônomo relativas às maneiras de como realizar uma execução do \textit{Workflow}.
 
 \subsubsection{Configurações para Análise}
 
@@ -1234,7 +1284,7 @@ Ao clicar a opção do menu "Análise", é exibida a tela ilustrada na Figura \r
     \centering
     \subfigure[fig:configAnalise1][Opções para configurar etapa de análise.]{\includegraphics[scale=0.4]{images/front/Analise.png}}
     \subfigure[fig:configAnalise2][Indicação de sucesso da operação.]{\includegraphics[scale=0.4]{images/front/Analise-Sucesso.png}}
-    \caption{Configuração da etapa de análise para o pipeline autônomo.}
+    \caption{Configuração da etapa de análise para o workflow autônomo.}
     \label{fig:configAnalise}
 \end{figure}
 
@@ -1248,7 +1298,7 @@ Ao clicar a opção do menu "Métricas", é exibida a tela ilustrada na Figura \
     \centering
     \subfigure[fig:configMetricas1][Configuração para Métricas de Performance.]{\includegraphics[scale=0.4]{images/front/Metricas-Performance.png}}
     \subfigure[fig:configMetricas2][Configuração para Métricas de Fairness.]{\includegraphics[scale=0.4]{images/front/Metricas-Fairness.png}}
-    \caption{Configuração das métricas para etapa de análise do pipeline autônomo.}
+    \caption{Configuração das métricas para etapa de análise do workflow autônomo.}
     \label{fig:configMetricas}
 \end{figure}
 
@@ -1270,22 +1320,22 @@ Ao clicar a opção do menu "Planejamento", é exibida a tela ilustrada na Figur
     \centering
     \subfigure[fig:configPlanejamento1][Opções para configurar etapa de planejamento.]{\includegraphics[scale=0.4]{images/front/Planejamento.png}}
     \subfigure[fig:configPlanejamento2][Indicação de sucesso da operação.]{\includegraphics[scale=0.4]{images/front/Planejamento-Sucesso.png}}
-    \caption{Configuração da etapa de planejamento para o pipeline autônomo.}
+    \caption{Configuração da etapa de planejamento para o workflow autônomo.}
     \label{fig:configPlanejamento}
 \end{figure}
 
 Uma das quatro estratégias está desabilitada pois foi desenvolvida como a estratégia padrão usada pelo componente MAPE-K. Se a estratégia de restrição de algoritmos for selecionada, é exibido um submenu contendo as combinações de algoritmos que podem ser selecionadas que são salvas em um arquivo separado para serem filtrados na etapa de planejamento. Se a estratégia de restrição por um limiar de pontuação for selecionada, é exibido um slider com uma pontuação mínima e uma pontuação máxima, e ambas as pontuações são salvas em um arquivo separado para serem filtrados na etapa de planejamento.
 
-\subsubsection{Execução simples do Pipeline}
+\subsubsection{Execução simples do Workflow}
 
-Ao clicar a opção do menu "Pipeline Manual", é exibida a tela ilustrada na Figura \ref{fig:pipelineManual}. Ela possui indicações de etapas divididas em Parametrização, Execução e Resultados, campos para selecionar o conjunto de dados e o atributo protegido e opções para selecionar onde a redução de viés será executada. Dependendo da opção selecionada, aparecem campos para selecionar o algoritmo de treinamento e o algoritmo de redução de viés. Ao clicar no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o Pipeline com as opções selecionadas, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de execução.
+Ao clicar a opção do menu "Pipeline Manual", é exibida a tela ilustrada na Figura \ref{fig:pipelineManual}. Ela possui indicações de etapas divididas em Parametrização, Execução e Resultados, campos para selecionar o conjunto de dados e o atributo protegido e opções para selecionar onde a redução de viés será executada. Dependendo da opção selecionada, aparecem campos para selecionar o algoritmo de treinamento e o algoritmo de redução de viés. Ao clicar no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o \textit{Workflow} com as opções selecionadas, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de execução.
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineManual1][Opções para executar o pipeline manualmente.]{\includegraphics[scale=0.35]{images/front/Pipeline-Manual-Parametros.png}}
-    \subfigure[fig:pipelineManual2][Pipeline em execução.]{\includegraphics[scale=0.3575
+    \subfigure[fig:pipelineManual1][Opções para executar o workflow manualmente.]{\includegraphics[scale=0.35]{images/front/Pipeline-Manual-Parametros.png}}
+    \subfigure[fig:pipelineManual2][Workflow em execução.]{\includegraphics[scale=0.3575
     ]{images/front/Pipeline-Manual-Execucao.png}}
-    \caption{Execução simples e manual do Pipeline.}
+    \caption{Execução simples e manual do Workflow.}
     \label{fig:pipelineManual}
 \end{figure}
 
@@ -1293,29 +1343,29 @@ Após a execução ser concluída,  a indicação de etapa é atualizada para a 
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineManual1][Exibição dos parâmetros no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Parametros.png}}
-    \subfigure[fig:pipelineManual2][Exibição das pontuações no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Pontuacao.png}}
-    \caption{Informações do resultado do pipeline.}
+    \subfigure[fig:pipelineManual1][Exibição dos parâmetros no resultado do workflow.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Parametros.png}}
+    \subfigure[fig:pipelineManual2][Exibição das pontuações no resultado do workflow.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Pontuacao.png}}
+    \caption{Informações do resultado do workflow.}
     \label{fig:pipelineManualInfo}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineManual1][Exibição das métricas de performance no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Performance.png}}
-    \subfigure[fig:pipelineManual2][Exibição das métricas de fairness no resultado do pipeline.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Fairness.png}}
-    \caption{Métricas do resultado do pipeline.}
+    \subfigure[fig:pipelineManual1][Exibição das métricas de performance no resultado do workflow.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Performance.png}}
+    \subfigure[fig:pipelineManual2][Exibição das métricas de fairness no resultado do workflow.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Fairness.png}}
+    \caption{Métricas do resultado do workflow.}
     \label{fig:pipelineManualMetricas}
 \end{figure}
 
-\subsubsection{Execução autônoma do Pipeline}
+\subsubsection{Execução autônoma do Workflow}
 
 Ao clicar a opção do menu "Pipeline Autônomo", é exibida a tela ilustrada na Figura \ref{fig:pipelineAutonomo}. Ela possui indicações de etapas divididas em Parametrização, Análise, Opções, Execução e Resultados e um campo para selecionar o conjunto de dados. Ao clicar no botão "Executar" localizado no canto superior direito, é feita uma requisição para escolher o melhor conjunto de parâmetros baseado em execuções anteriores, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de análise.
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineAutonomo1][Opções para configurar o pipeline de forma autônoma.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Parametros.png}}
+    \subfigure[fig:pipelineAutonomo1][Opções para configurar o workflow de forma autônoma.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Parametros.png}}
     \subfigure[fig:pipelineAutonomo2][Análise do componente MAPE-K em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Analise.png}}
-    \caption{Execução autônoma do Pipeline.}
+    \caption{Execução autônoma do Workflow.}
     \label{fig:pipelineAutonomo}
 \end{figure}
 
@@ -1323,24 +1373,26 @@ Após a etapa de análise ser concluída, a indicação de etapa é atualizada p
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineAutonomoSelecao1][Opções para seleção de pipeline para execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Selecao.png}}
+    \subfigure[fig:pipelineAutonomoSelecao1][Opções para seleção de workflow para execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Selecao.png}}
     \subfigure[fig:pipelineAutonomoSelecao2][Parâmetros a serem utilizados para execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Selecao-Parametros.png}}
-    \caption{Seleção do pipeline após análise.}
+    \caption{Seleção do workflow após análise.}
     \label{fig:pipelineAutonomoSelecao}
 \end{figure}
 
-Ao clicar novamente no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o Pipeline com a opção selecionada, e a indicação de etapa é atualizada para a etapa de execução. Após a execução ser concluída,  a indicação de etapa é atualizada para a etapa de resultados, conforme ilustração na Figura \ref{fig:pipelineAutonomoResultado}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes na Figura \ref{fig:pipelineAutonomoSelecao}, mas desta vez refletem as métricas e pontuação da execução realizada pelo Pipeline.
+Ao clicar novamente no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o \textit{Workflow} com a opção selecionada, e a indicação de etapa é atualizada para a etapa de execução. Após a execução ser concluída,  a indicação de etapa é atualizada para a etapa de resultados, conforme ilustração na Figura \ref{fig:pipelineAutonomoResultado}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes na Figura \ref{fig:pipelineAutonomoSelecao}, mas desta vez refletem as métricas e pontuação da execução realizada pelo \textit{Workflow}.
 
 ,
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineAutonomoResultado1][Pipeline em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Execucao.png}}
+    \subfigure[fig:pipelineAutonomoResultado1][Workflow em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Execucao.png}}
     \subfigure[fig:pipelineAutonomoResultado2][Resultados da execução realizada.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Resultado.png}}
-    \caption{Execução do pipeline após seleção.}
+    \caption{Execução do workflow após seleção.}
     \label{fig:pipelineAutonomoResultado}
 \end{figure}
 
 \chapter{Estudo de Caso 1: Classificação de Crédito (German Credit Dataset)}
+
+Neste Estudo de Caso, o maior foco foi colocado em testar e verificar como o MAPE-K se comporta em um cenário com diversas execuções prévias de \textit{Workflows}. Como as execuções geraram uma base de conhecimento, o componente MAPE-K pode executar uma análise através destes dados e determinar um plano indicando a gama de algoritmos que utilizará para obter melhores resultados. Foram notados resultados em outras escolhas realizadas para a construção desta aplicação, mas que serão melhor discutidos nos estudos seguintes.
 
 \section{Contexto e limitações}
 
@@ -1351,7 +1403,7 @@ Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objet
 
 \item \textbf{Conjunto de dados:} German Credit Dataset, presente em \citep{ucigerman_2021}.
 
-\item \textbf{Transformações realizadas no conjunto de dados:} Mudanças nos valores dos atributos para valores de interpretação mais simples, para que o Cientista de Dados possa categorizar o dado posteriormente e de forma mais fácil no Pipeline.
+\item \textbf{Transformações realizadas no conjunto de dados:} Mudanças nos valores dos atributos para valores de interpretação mais simples, para que o Cientista de Dados possa categorizar o dado posteriormente e de forma mais fácil no \textit{Workflow}.
 
 \item \textbf{Atributos protegidos:} Idade, ou Nacionalidade
 
@@ -1364,11 +1416,11 @@ Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objet
 Para realizar este experimento, foi considerado o seguinte objetivo e consideradas as seguintes limitações:
 
 \begin{itemize}
-\item \textbf{Experimento:} Execução de um \textit{pipeline} de ML para obtenção de dados iniciais na base de conhecimento e discussão de um \textit{pipeline} de ML utilizando MAPE-K como facilitador da escolha de modelo.
+\item \textbf{Experimento:} Execução de um \textit{workflow} de ML para obtenção de dados iniciais na base de conhecimento e discussão de um \textit{workflow} de ML utilizando MAPE-K como facilitador da escolha de modelo.
 
 \item \textbf{Medição:} Serão medidas as pontuações de cada agrupamento de métricas (Performance e Fairness), e tais métricas também serão comparadas com o valor de cada uma para verificar seu impacto na pontuação.
 
-\item \textbf{Obtenção dos dados:} A execução do Pipeline utilizando o componente MAPE-K foi realizada com 3 pesagens diferentes na pontuação geral:
+\item \textbf{Obtenção dos dados:} A execução do \textit{Pipeline} utilizando o componente MAPE-K foi realizada com 3 pesagens diferentes na pontuação geral:
 
 \begin{itemize}
 \item 50\% para métricas de Performance e 50\% para métricas de Fairness, para uma configuração equilibrada.
@@ -1378,7 +1430,7 @@ Para realizar este experimento, foi considerado o seguinte objetivo e considerad
 
 Em todas as execuções são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento.
 
-\item \textbf{Pré-condição 1:} Houveram \textit{pipelines} que já foram pré-executados e já formaram uma base de conhecimento. Para o experimento, foi considerado ao menos 1 execução para cada combinação de conjunto de dados, atributo protegido e algoritmos utilizados.
+\item \textbf{Pré-condição 1:} Houveram \textit{workflows} que já foram pré-executados e já formaram uma base de conhecimento. Para o experimento, foi considerado ao menos 1 execução para cada combinação de conjunto de dados, atributo protegido e algoritmos utilizados.
 
 \item \textbf{Pré-condição 2:} A base de conhecimento será capaz de explicar a imparcialidade/justiça de um modelo, mas não será capaz de explicar a influência de cada \textit{feature} aplicada no modelo.
 
@@ -1386,11 +1438,11 @@ Em todas as execuções são utilizadas as métricas Acurácia, Precisão, \text
 
 \item \textbf{Restrição 1:} O algoritmo de retirada de viés é feito em apenas uma parte das etapas (Pré-processamento/Processamento/Pós-processamento). Isto foi decidido pois não foram verificadas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta no desempenho.
 
-\item \textbf{Restrição 2:} Por não conseguirem rodar com sucesso, foram retirados os Pipelines que rodaram os seguintes algoritmos: Pré-processamento Otimizado.
+\item \textbf{Restrição 2:} Por não conseguirem rodar com sucesso, foram retirados os \textit{Workflows} que rodaram os seguintes algoritmos: Pré-processamento Otimizado.
 
-\item \textbf{Restrição 3:} Pipelines também foram retirados por apresentarem métricas com valores máximos, para evitar análises caso exista alguma falha não detectada na implementação. Como exemplo, os que possuíam Classificação baseada em Rejeição de Opções.
+\item \textbf{Restrição 3:} \textit{Workflows} também foram retirados por apresentarem métricas com valores máximos, para evitar análises caso exista alguma falha não detectada na implementação. Como exemplo, os que possuíam Classificação baseada em Rejeição de Opções.
 
-\item \textbf{Restrição 4:} Para evitar pipelines com conjuntos de algoritmos ruins e também pelo mesmo motivo da restrição anterior, o intervalo de pontuação para análise foi limitado de 500 a 950.
+\item \textbf{Restrição 4:} Para evitar \textit{workflows} com conjuntos de algoritmos ruins e também pelo mesmo motivo da restrição anterior, o intervalo de pontuação para análise foi limitado de 500 a 950.
 \end{itemize}
 
 \section{Resultados e Discussões}
@@ -1403,7 +1455,7 @@ Os resultados baseados nas pré-condições e restrições já comentadas na se�
 \label{tbl:ScoreMAPEKGeral5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1422,7 +1474,7 @@ Idade & Reweighing & Gradient Boosting & Nenhum & 804 & 931 & \textbf{868} \\
 \label{tbl:ScoreMAPEKGeral7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1441,7 +1493,7 @@ Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{874} \\
 \label{tbl:ScoreMAPEKGeral2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1456,13 +1508,13 @@ Nacionalidade & Learning Fair Representations & Support Vector Machines & Nenhum
 
 Nessas execuções, surpreende 2 observações. A primeira é o fato da predominância de algoritmos com redução de viés no pós-processamento/resultado especialmente em configurações que priorizavam performance, contrariando o esperado de que os algoritmos com redução de viés aumentavam justiça em detrimento da performance. A segunda é a predominância de algoritmos com redução de viés no pré-processamento/dado em configurações que priorizavam justiça, principalmente pois todos as execuções usavam \textit{Support Vector Machines} como algoritmo de treinamento.
 
-Diante destas 2 predominâncias envolvendo todos os pipelines executados, novos experimentos com restrições adicionais foram realizados para obter observações mais detalhadas a respeito dos resultados:
+Diante destas 2 predominâncias envolvendo todos os \textit{workflows} executados, novos experimentos com restrições adicionais foram realizados para obter observações mais detalhadas a respeito dos resultados:
 
 \begin{itemize}
-\item Uso apenas de pipelines com o uso de algoritmos com redução de viés no pré - processamento/dado.
-\item Uso apenas de pipelines com o uso de algoritmos com redução de viés no processamento/treinamento.
-\item Uso apenas de pipelines com o uso de algoritmos com redução de viés no pós - processamento/resultado.
-\item Uso apenas de pipelines sem o uso de algoritmos com redução de viés.
+\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no pré - processamento/dado.
+\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no processamento/treinamento.
+\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no pós - processamento/resultado.
+\item Uso apenas de \textit{workflows} sem o uso de algoritmos com redução de viés.
 \end{itemize}
 
 As pré-condições, restrições e pesagens nas pontuações usadas anteriormente foram mantidas e seus resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKPreproc5050}, \ref{tbl:ScoreMAPEKPreproc7525}, \ref{tbl:ScoreMAPEKPreproc2575}, \ref{tbl:ScoreMAPEKInproc5050}, \ref{tbl:ScoreMAPEKInproc7525}, \ref{tbl:ScoreMAPEKInproc2575}, \ref{tbl:ScoreMAPEKPostproc5050}, \ref{tbl:ScoreMAPEKPostproc7525}, \ref{tbl:ScoreMAPEKPostproc2575}, \ref{tbl:ScoreMAPEKNoproc5050}, \ref{tbl:ScoreMAPEKNoproc7525} e \ref{tbl:ScoreMAPEKNoproc2575}:
@@ -1473,7 +1525,7 @@ As pré-condições, restrições e pesagens nas pontuações usadas anteriormen
 \label{tbl:ScoreMAPEKPreproc5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1492,7 +1544,7 @@ Nacionalidade & Learning Fair Representations & Support Vector Machines & Nenhum
 \label{tbl:ScoreMAPEKPreproc7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1511,7 +1563,7 @@ Nacionalidade & Learning Fair Representations & Random Forest & Nenhum & 801 & 8
 \label{tbl:ScoreMAPEKPreproc2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1524,7 +1576,7 @@ Idade & Learning Fair Representations & Support Vector Machines & Nenhum & 755 &
 \end{center}
 \end{table}
 
-Nos pipelines utilizando apenas algoritmos com redução de viés no dado, percebe-se a predominância dos algoritmos de treinamento \textit{Gradient Boosting} e \textit{Support Vector Machines}, sendo o \textit{Gradient Boosting} predominante em configurações priorizando performance e o \textit{Support Vector Machines} predominante em configurações priorizando justiça, o que começa a explicar a sua predominância também presente no resultado geral. Também é possível perceber mais 2 observações: A primeira observação é que a análise de apenas uma categoria de algoritmos dá mais clareza em ver como o cálculo utilizado nas 3 configurações faz com que o equilíbrio de ambas as métricas se torna mais importante do que a prioridade apenas em performance ou apenas em justiça, uma vez que há exemplos de conjuntos de algoritmos com pontuações ligeiramente maiores em performance que acabaram sendo pior avaliados pois a pontuação em \textit{Fairness} está bem menor, e vice-versa. A segunda observação é que o uso de um atributo protegido diferente (e, por consequência, com tratamento de dados diferente) e de um algoritmo de treinamento parecem impactar tanto quanto ou até mais que o próprio algoritmo com redução de viés no dado.
+Nos \textit{workflows} utilizando apenas algoritmos com redução de viés no dado, percebe-se a predominância dos algoritmos de treinamento \textit{Gradient Boosting} e \textit{Support Vector Machines}, sendo o \textit{Gradient Boosting} predominante em configurações priorizando performance e o \textit{Support Vector Machines} predominante em configurações priorizando justiça, o que começa a explicar a sua predominância também presente no resultado geral. Também é possível perceber mais 2 observações: A primeira observação é que a análise de apenas uma categoria de algoritmos dá mais clareza em ver como o cálculo utilizado nas 3 configurações faz com que o equilíbrio de ambas as métricas se torna mais importante do que a prioridade apenas em performance ou apenas em justiça, uma vez que há exemplos de conjuntos de algoritmos com pontuações ligeiramente maiores em performance que acabaram sendo pior avaliados pois a pontuação em \textit{Fairness} está bem menor, e vice-versa. A segunda observação é que o uso de um atributo protegido diferente (e, por consequência, com tratamento de dados diferente) e de um algoritmo de treinamento parecem impactar tanto quanto ou até mais que o próprio algoritmo com redução de viés no dado.
 
 \begin{table}[H]
 \begin{center}
@@ -1532,7 +1584,7 @@ Nos pipelines utilizando apenas algoritmos com redução de viés no dado, perce
 \label{tbl:ScoreMAPEKInproc5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1551,7 +1603,7 @@ Nacionalidade & Nenhum & Rich Subgroup Fairness & Nenhum & 791 & 856 & \textbf{8
 \label{tbl:ScoreMAPEKInproc7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1570,7 +1622,7 @@ Nacionalidade & Nenhum & Rich Subgroup Fairness & Nenhum & 791 & 856 & \textbf{8
 \label{tbl:ScoreMAPEKInproc2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1583,7 +1635,7 @@ Nacionalidade & Nenhum & Prejudice Remover & Nenhum & 770 & 874 & \textbf{848} \
 \end{center}
 \end{table}
 
-Nos pipelines utilizando apenas algoritmos com redução de viés no treinamento, percebe-se uma variedade maior nos algoritmos, até porque não há usos de redução de viés em um pré ou um pós-processamento, com destaque para o \textit{Adversarial Debiasing} que foi bem avaliado pela pontuação alta em \textit{Fairness}. Nestes pipelines, as 2 observações percebidas nos pipelines utilizando apenas algoritmos com redução de viés no dado são reforçadas por uma maior variedade de pontuações e pelo algoritmo \textit{Exponentiated Gradient Reduction} com 2 exemplos diferentes na Tabela \ref{tbl:ScoreMAPEKInproc7525}, onde o uso da Nacionalidade como atributo protegido possui pontuações de performance e \textit{Fairness} piores que a Idade e conclundo que o processamento utilizado no atributo protegido pode afetar todas as métricas.
+Nos \textit{workflows} utilizando apenas algoritmos com redução de viés no treinamento, percebe-se uma variedade maior nos algoritmos, até porque não há usos de redução de viés em um pré ou um pós-processamento, com destaque para o \textit{Adversarial Debiasing} que foi bem avaliado pela pontuação alta em \textit{Fairness}. Nestes \textit{workflows}, as 2 observações percebidas nos \textit{workflows} utilizando apenas algoritmos com redução de viés no dado são reforçadas por uma maior variedade de pontuações e pelo algoritmo \textit{Exponentiated Gradient Reduction} com 2 exemplos diferentes na Tabela \ref{tbl:ScoreMAPEKInproc7525}, onde o uso da Nacionalidade como atributo protegido possui pontuações de performance e \textit{Fairness} piores que a Idade e conclundo que o processamento utilizado no atributo protegido pode afetar todas as métricas.
 
 \begin{table}[H]
 \begin{center}
@@ -1591,7 +1643,7 @@ Nos pipelines utilizando apenas algoritmos com redução de viés no treinamento
 \label{tbl:ScoreMAPEKPostproc5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1610,7 +1662,7 @@ Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{849} \\
 \label{tbl:ScoreMAPEKPostproc7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1629,7 +1681,7 @@ Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{874} \\
 \label{tbl:ScoreMAPEKPostproc2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1642,7 +1694,7 @@ Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{824} \\
 \end{center}
 \end{table}
 
-Nos pipelines utilizando apenas algoritmos com redução de viés no resultado, surpreende o fato de que os pipelines obtiveram as melhores pontuações em Performance e as piores pontuações em \textit{Fairness}, podendo indicar uma característica dos algoritmos \textit{Equalized Odds} e \textit{Calibrated Equalized Odds}. Entretanto, por conta da grande melhora por parte das métricas de performance, estes pipelines possuem um maior equilíbrio entre Performance e \textit{Fairness} e acabam garantindo maiores pontuações na média, justificando as melhores pontuações nas primeiras execuções onde foram considerados todos os métodos. Fora isto, as demais observações anteriores também se aplicam nestas execuções.
+Nos \textit{workflows} utilizando apenas algoritmos com redução de viés no resultado, surpreende o fato de que os \textit{workflows} obtiveram as melhores pontuações em Performance e as piores pontuações em \textit{Fairness}, podendo indicar uma característica dos algoritmos \textit{Equalized Odds} e \textit{Calibrated Equalized Odds}. Entretanto, por conta da grande melhora por parte das métricas de performance, estes \textit{workflows} possuem um maior equilíbrio entre Performance e \textit{Fairness} e acabam garantindo maiores pontuações na média, justificando as melhores pontuações nas primeiras execuções onde foram considerados todos os métodos. Fora isto, as demais observações anteriores também se aplicam nestas execuções.
 
 \begin{table}[H]
 \begin{center}
@@ -1650,7 +1702,7 @@ Nos pipelines utilizando apenas algoritmos com redução de viés no resultado, 
 \label{tbl:ScoreMAPEKNoproc5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1669,7 +1721,7 @@ Nacionalidade & Nenhum & Gradient Boosting & Nenhum & 817 & 784 & \textbf{800} \
 \label{tbl:ScoreMAPEKNoproc7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1688,7 +1740,7 @@ Idade & Nenhum & Gradient Boosting & Nenhum & 817 & 778 & \textbf{807} \\
 \label{tbl:ScoreMAPEKNoproc2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -1701,17 +1753,17 @@ Idade & Nenhum & Regressão Logística & Nenhum & 782 & 802 & \textbf{797} \\
 \end{center}
 \end{table}
 
-Olhando os pipelines sem algoritmos com redução de viés, é curioso notar que, ao comparar com pipelines equivalentes mas com algoritmos usando redução de viés no dado, é possível notar que a hipótese principal se confirma em sua grande maioria: As pontuações em Performance são ligeiramente maiores e as pontuações em \textit{Fairness} são ligeiramente menores. É possível notar uma exceção no pipeline envolvendo o algoritmo \textit{Random Forest}, mas nos outros casos a hipótese é verificada com sucesso. Ao comparar com pipelines usando algoritmos com redução de viés no treinamento tal hipótese também se confirma, entretanto o uso de \textit{Support Vector Machines} parece ser uma exceção a regra, implicando que o uso do algoritmo possibilita modelos mais justos para o conjunto de dados utilizado. Ao comparar com pipelines usando algoritmos com redução de viés no resultado, a hipótese não se confirma devido a observação da grande melhora por parte das métricas de performance nos pipelines usando algoritmos com redução de viés no resultado, mas ao verificar a pontuação em \textit{Fairness} é possível notar uma ligeira melhora. Há a exceção de pipelines envolvendo \textit{Support Vector Machines} que são melhores nos pipelines sem algoritmos com redução de viés, mas no uso de outros algoritmos ocorre melhora na pontuação em \textit{Fairness}.
+Olhando os \textit{workflows} sem algoritmos com redução de viés, é curioso notar que, ao comparar com \textit{workflows} equivalentes mas com algoritmos usando redução de viés no dado, é possível notar que a hipótese principal se confirma em sua grande maioria: As pontuações em Performance são ligeiramente maiores e as pontuações em \textit{Fairness} são ligeiramente menores. É possível notar uma exceção no \textit{workflow} envolvendo o algoritmo \textit{Random Forest}, mas nos outros casos a hipótese é verificada com sucesso. Ao comparar com \textit{workflows} usando algoritmos com redução de viés no treinamento tal hipótese também se confirma, entretanto o uso de \textit{Support Vector Machines} parece ser uma exceção a regra, implicando que o uso do algoritmo possibilita modelos mais justos para o conjunto de dados utilizado. Ao comparar com \textit{workflows} usando algoritmos com redução de viés no resultado, a hipótese não se confirma devido a observação da grande melhora por parte das métricas de performance nos \textit{workflows} usando algoritmos com redução de viés no resultado, mas ao verificar a pontuação em \textit{Fairness} é possível notar uma ligeira melhora. Há a exceção de \textit{workflows} envolvendo \textit{Support Vector Machines} que são melhores nos \textit{workflows} sem algoritmos com redução de viés, mas no uso de outros algoritmos ocorre melhora na pontuação em \textit{Fairness}.
 
 Após a verificação das pontuações, foram catalogadas todas as métricas de todos os conjuntos de algoritmos em seus valores máximo, mínimo e médio para verificar a eficácia destas pontuações, definidas nas Tabelas \ref{tbl:PerformanceMetrics} e \ref{tbl:FairnessMetrics} exibidas abaixo.
 
 \begin{table}[H]
     \begin{center} 
-        \caption{Métricas de performance das execuções de Pipeline}
+        \caption{Métricas de performance das execuções de Workflows}
         \label{tbl:PerformanceMetrics}
         \resizebox{\linewidth}{!}{%
         \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c}
-            \multicolumn{4}{c|}{Pipeline} & \multicolumn{10}{c}{Métricas} \\
+            \multicolumn{4}{c|}{Workflow} & \multicolumn{10}{c}{Métricas} \\
             \hline
             Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & \multicolumn{2}{c|}{Acurácia} & \multicolumn{2}{c|}{Precisão} & \multicolumn{2}{c|}{Recall} & \multicolumn{2}{c|}{F1-Score} & \multicolumn{2}{c}{AUC} \\
             \hline
@@ -1835,11 +1887,11 @@ Após a verificação das pontuações, foram catalogadas todas as métricas de 
 \end{table}
 \begin{table}[H]
     \begin{center}
-        \caption{Métricas de Fairness das execuções de Pipeline}
+        \caption{Métricas de Fairness das execuções de Workflows}
         \label{tbl:FairnessMetrics}
         \resizebox{\linewidth}{!}{%
         \begin{tabular}{c|c|c|c|c|c|c|c|c|c|c|c|c|c}
-            \multicolumn{4}{c|}{Pipeline} & \multicolumn{10}{c}{Métricas} \\
+            \multicolumn{4}{c|}{Workflow} & \multicolumn{10}{c}{Métricas} \\
             \hline
             Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & \multicolumn{2}{c|}{Statistical Parity Difference} & \multicolumn{2}{c|}{Equal Opportunity Difference} & \multicolumn{2}{c|}{Average Odds Difference} & \multicolumn{2}{c|}{Disparate Impact} & \multicolumn{2}{c}{Theil Index} \\
             \hline
@@ -1962,9 +2014,9 @@ Após a verificação das pontuações, foram catalogadas todas as métricas de 
         \end{center}
     \end{table}
 
-Com estes dados, é possível reforçar com clareza observações notadas anteriormente: Boas métricas de Performance nos casos onde algoritmos com redução de viés no resultado foram utilizados, boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, mudanças nas métricas de \textit{Fairness} dependendo do algoritmo de treinamento ou do atributo protegido utilizado independente de utilizar redução de viés no \textit{pipeline} ou não. Este reforço comprova que o cálculo utilizado para a etapa de Análise no componente MAPE-K foi eficaz em consolidar as métricas existentes sem afetar a análise dos resultados.
+Com estes dados, é possível reforçar com clareza observações notadas anteriormente: Boas métricas de Performance nos casos onde algoritmos com redução de viés no resultado foram utilizados, boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, mudanças nas métricas de \textit{Fairness} dependendo do algoritmo de treinamento ou do atributo protegido utilizado independente de utilizar redução de viés no \textit{workflow} ou não. Este reforço comprova que o cálculo utilizado para a etapa de Análise no componente MAPE-K foi eficaz em consolidar as métricas existentes sem afetar a análise dos resultados.
 
-Entretanto, perceber qual \textit{pipeline} possui o melhor equilíbrio entre estes dois grupos de métricas com contextos completamente diferentes ainda se torna difuso diante da grande quantidade de métricas e conjuntos de algoritmos utilizados. Além disso, a diferença entre as métricas é extremamente pequena e dificulta ainda mais a escolha. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais \textit{pipelines} são mais equilibrados, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação.
+Entretanto, perceber qual \textit{workflow} possui o melhor equilíbrio entre estes dois grupos de métricas com contextos completamente diferentes ainda se torna difuso diante da grande quantidade de métricas e conjuntos de algoritmos utilizados. Além disso, a diferença entre as métricas é extremamente pequena e dificulta ainda mais a escolha. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais \textit{workflows} são mais equilibrados, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação.
 
 Deste modo, pode-se concluir também que, em um contexto de desenvolvimento, o processo simplifica a decisão do Cientista de Dados e reduz significantemente o tempo para obtenção e implantação de um modelo otimizado, pois não exigirá execuções em diversos algoritmos uma vez que já há uma base de conhecimento prévia. Além disso, poderá poupar processamento e custos para a resolução de diversos outros problemas, uma vez que as execuções economizadas pelas equipes que utilizariam esse processo abrem margem para que outras equipes utilizem esse processamento.
 
@@ -1972,15 +2024,17 @@ O uso da AI Reference Architecture para definição dos papeis permite visualiza
 
 O uso de \textit{Assurance Cases} permitiu uma melhor visualização em no contexto da aplicação a ser implementada, com suas funcionalidades, objetivos e algoritmos a serem implementados e cumpridos. Desta forma, também é possível dividir melhor as tarefas para uma equipe implementá-la e permitir que todos os membros tenham uma visão de todos os detalhes a serem implementados e testados.
 
-Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o \textit{pipeline} para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um \textit{workflow} muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
+Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o \textit{workflow} para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um \textit{workflow} muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
 
-Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{pipeline}. Também há de se considerar que, mesmo que o pipeline evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
+Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
 
-Ao usar uma interface humano-computador para intermediar as interações entre o componente MAPE-K e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{pipeline} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através de um componente orquestrador das etapas do MAPE-K. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários.
+Ao usar uma interface humano-computador para intermediar as interações entre o componente MAPE-K e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{workflow} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através de um componente orquestrador das etapas do MAPE-K. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários.
 
-O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps (ver Apêndice \ref{app:ModelOps}), uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. Isso necessitaria de algumas adaptações, como um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{pipeline} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}.
+O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps (ver Apêndice \ref{app:ModelOps}), uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. Isso necessitaria de algumas adaptações, como um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{workflow} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}.
 
 \chapter{Estudo de Caso 2: Classificação de Crédito (Lendingclub Dataset) e evolução do sistema}
+
+Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo conjunto de dados mais próximo de conjuntos de dados reais. Além de reforçar a versatilidade do MAPE-K em diferentes contextos, um maior foco foi colocado na manutenção do sistema, discutindo se as etapas e arquiteturas escolhidas são viáveis para evoluir e manter o \textit{Workflow} sem grandes deteriorações nas ideias originais de seu desenvolvimento.
 
 \section{Contexto e limitações}
 
@@ -2004,11 +2058,11 @@ Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objet
 Para realizar este Estudo de Caso, foi considerado o seguinte objetivo e consideradas as seguintes limitações:
 
 \begin{itemize}
-\item \textbf{Experimento:} Realização das mesmas condições do Estudo de Caso 1 para discussão da manutenção do \textit{pipeline} e reforço da viabilidade do MAPE-K em casos mais próximos do mundo real.
+\item \textbf{Experimento:} Realização das mesmas condições do Estudo de Caso 1 para discussão da manutenção do \textit{workflow} e reforço da viabilidade do MAPE-K em casos mais próximos do mundo real.
 
 \item \textbf{Medição:} Além das medições do Estudo de Caso 1, serão medidas a quantidade de linhas modificadas e sua relação com a quantidade de linhas escritas.
 
-\item \textbf{Obtenção dos dados:} A execução do Pipeline utilizando o componente MAPE-K foi realizada nas mesmas condições do Estudo de Caso 1.
+\item \textbf{Obtenção dos dados:} A execução do Workflow utilizando o componente MAPE-K foi realizada nas mesmas condições do Estudo de Caso 1.
 
 \item \textbf{Pré-condições:} Por se tratar de um outro conjunto de dados, as pré-condições 1 e 2 do Estudo de Caso 1 foram mantidas, e a pré-condição 3 foi desconsiderada.
 
@@ -2025,7 +2079,7 @@ Os resultados baseados nas pré-condições e restrições já comentadas na se�
 \label{tbl:ScoreMAPEKLendingclubGeral5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -2044,7 +2098,7 @@ Renda & Reweighing & Gradient Boosting & Nenhum & 987 & 964 & \textbf{976} \\
 \label{tbl:ScoreMAPEKLendingclubGeral7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -2063,7 +2117,7 @@ Renda & Reweighing & Regressão Logística & Nenhum & 981 & 965 & \textbf{977} \
 \label{tbl:ScoreMAPEKLendingclubGeral2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
-\multicolumn{4}{c|}{Pipeline} & \multicolumn{3}{c}{Pontuação} \\
+\multicolumn{4}{c|}{Workflow} & \multicolumn{3}{c}{Pontuação} \\
 \hline
 Atributo protegido & Pré-processamento & Treinamento & Pós-processamento & Performance & Fairness & \textbf{Geral} \\
 \hline
@@ -2078,11 +2132,11 @@ Renda & Reweighing & Gradient Boosting & Nenhum & 987 & 964 & \textbf{970} \\
 
 Nessas execuções, a principal observação notada é que a relação de algoritmos com melhores desempenhos mudou completamente, com predominância do algoritmo \textit{Learning Fair Representations} para redução de viés e Regressão Logística para algoritmo de treinamento. Também se nota que algoritmos com redução de viés no pós-processamento e algoritmos de treinamento como \textit{Support Vector Machines} não foram tão eficientes. Com isso, pode-se concluir que, ao mudar o contexto do problema e os dados envolvidos, o MAPE-K pode ajudar a enxergar tais sutilezas e ajudar em uma decisão de forma mais eficiente e ágil.
 
-Para processar o Lendingclub Dataset, foram necessárias modificações para realizar a evolução do sistema e adicionar este conjunto de dados como opção no Pipeline. Estas foram contadas de acordo com seus \textit{commits} realizados no repositório e exibidos  na Tabela \ref{tbl:ManutencaoPipelineDataset}:
+Para processar o Lendingclub Dataset, foram necessárias modificações para realizar a evolução do sistema e adicionar este conjunto de dados como opção no \textit{Workflow}. Estas foram contadas de acordo com seus \textit{commits} realizados no repositório e exibidos  na Tabela \ref{tbl:ManutencaoPipelineDataset}:
 
 \begin{table}[H]
 \begin{center}
-  \caption{Quantidade de modificações realizadas ao adicionar um novo conjunto de dados ao \textit{Pipeline}}
+  \caption{Quantidade de modificações realizadas ao adicionar um novo conjunto de dados ao \textit{Workflow}}
 \label{tbl:ManutencaoPipelineDataset}
   \resizebox{\linewidth}{!}{%
 {\def\arraystretch{1.5}
@@ -2090,7 +2144,7 @@ Para processar o Lendingclub Dataset, foram necessárias modificações para rea
 Parte do Sistema & \makecell{Quantidade de\\linhas alteradas} & Total de linhas & \makecell{Quantidade de\\arquivos alterados} & Total de arquivos & \makecell{Porcentagem de\\linhas alteradas} & \makecell{Porcentagem de\\arquivos alterados} \\
 \hline
 \makecell{Transformação do\\Conjunto de Dados} & 122 & 277 & 2 & 3 & \textbf{44,04\%} & \textbf{66,67\%} \\
-\textit{Pipeline} de IA & 76 & 1982 & 5 & 38 & \textbf{3,84\%} & \textbf{13,16\%} \\
+\textit{Workflow} de IA & 76 & 1982 & 5 & 38 & \textbf{3,84\%} & \textbf{13,16\%} \\
 Componente MAPE-K & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
 \makecell{Interface Humano-Computador\\(\textit{Frontend})} & 13 & 2905 & 2 & 14 & \textbf{0,45\%} & \textbf{14,29\%} \\
 \makecell{Interface Humano-Computador\\(\textit{Backend})} & 4 & 432 & 1 & 7 & \textbf{0,93\%} & \textbf{14,29\%} \\
@@ -2100,11 +2154,11 @@ Componente MAPE-K & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
 \end{center}
 \end{table}
 
-A primeira conclusão que é possível discutir é que a adição do conjunto de dados não exigiu modificações no Componente MAPE-K, mesmo os resultados sendo completamente diferentes do Estudo de Caso 1. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no Pipeline sem realizar modificações. O Componente MAPE-K só exigirá modificações se os metadados salvos do Pipeline forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o Pipeline. 
+A primeira conclusão que é possível discutir é que a adição do conjunto de dados não exigiu modificações no Componente MAPE-K, mesmo os resultados sendo completamente diferentes do Estudo de Caso 1. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Componente MAPE-K só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o \textit{Workflow}. 
 
-Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no Pipeline de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no Pipeline de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o pipeline (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
+Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no \textit{Workflow} de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o \textit{workflow} (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
 
-Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{Pipeline} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço.
+Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{workflow} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço.
 
 \begin{lstlisting}[language=Python, caption=Método para escolha do algoritmo com redução de viés no pós-processamento,label=cod:DataPostprocessExample]
     def data_postprocess(self, test_pipe, prediction_pipe, fairness_pipe, unbias_postproc_algorithm):
@@ -2123,9 +2177,11 @@ Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquite
         return prediction_pipe
 \end{lstlisting}
 
-Dito isso, realizar a manutenção/evolução do sistema no Pipeline e na Interface Humano-Computador é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
+Dito isso, realizar a manutenção/evolução do sistema no \textit{Workflow} e na Interface Humano-Computador é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
 
 \chapter{Estudo de Caso 3: Evolução do sistema com outros desenvolvedores}
+
+Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo algoritmo de classificação. O foco ainda é na manutenção do sistema, mas desta vez foi colocado para outros desenvolvedores desenvolverem a solução. A discussão se focará mais se as arquiteturas escolhidas são versáteis e simples o suficiente para que pessoas entendam o contexto do sistema e façam novas evoluções.
 
 \section{Contexto e limitações}
 
@@ -2137,17 +2193,17 @@ Teste
 
 \chapter{Conclusões}
 
-Neste projeto, pode-se dizer que o conjunto da arquitetura de \textit{Pipe-And-Filter} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{Pipeline} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a proveniência dos dados, presente durante a avaliação dos modelos no \textit{Pipeline}, foi possível coletar os dados e métricas para a elaboração de uma Base de Conhecimento. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes três conceitos, foi possível estabelecer um \textit{Pipeline} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
+Neste projeto, pode-se dizer que o conjunto da arquitetura de \textit{Pipe-And-Filter} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a proveniência dos dados, presente durante a avaliação dos modelos no \textit{workflow}, foi possível coletar os dados e métricas para a elaboração de uma Base de Conhecimento. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes três conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
 
-Embora o \textit{Pipe-And-Filter} seja um modelo que facilite o encapsulamento e a segmentação dos procedimentos do \textit{Pipeline}, ele ainda é preso a limitações de fatores externos ao código, como o Hardware de onde será rodado e os dados a serem trabalhados. Desse modo, ao realizar a implementação, quem desenvolve terá de escolher um equilíbrio entre memória, armazenamento e performance. Por exemplo, como neste projeto os conjuntos de dados avaliados eram pequenos, eles puderam ser armazenados em memória e garantir performance máxima, mas conforme o número de dados avaliados for crescendo é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com o mesmo custo, não necessitando da contratação de mais desenvolvedores e evitando gastos com infra-estrutura.
+Embora o \textit{Pipe-And-Filter} seja um modelo que facilite o encapsulamento e a segmentação dos procedimentos do \textit{workflow}, ele ainda é preso a limitações de fatores externos ao código, como o Hardware de onde será rodado e os dados a serem trabalhados. Desse modo, ao realizar a implementação, quem desenvolve terá de escolher um equilíbrio entre memória, armazenamento e performance. Por exemplo, como neste projeto os conjuntos de dados avaliados eram pequenos, eles puderam ser armazenados em memória e garantir performance máxima, mas conforme o número de dados avaliados for crescendo é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com o mesmo custo, não necessitando da contratação de mais desenvolvedores e evitando gastos com infra-estrutura.
 
-Embora olhar para a proveniência dos dados permita o armazenamento de dados importantes para estabelecer um elo entre o \textit{Pipeline} e o componente MAPE-K, a qualidade dos dados é um ponto que deverá ser observado conforme o número de dados for crescente. É possível ter resultados fora do comum (\textit{outliers}), alguns atributos podem não permitir uma avaliação acurada, ou a quantidade de atributos pode não ser suficiente para avaliar. Antes da proveniência ser implementada, os próprios  dados precisam ser modelados conforme o problema exige. Após a implementação, é preciso realizar processos de limpeza dos dados conforme execuções no \textit{Pipeline} vão sendo realizadas.
+Embora olhar para a proveniência dos dados permita o armazenamento de dados importantes para estabelecer um elo entre o \textit{workflow} e o componente MAPE-K, a qualidade dos dados é um ponto que deverá ser observado conforme o número de dados for crescente. É possível ter resultados fora do comum (\textit{outliers}), alguns atributos podem não permitir uma avaliação acurada, ou a quantidade de atributos pode não ser suficiente para avaliar. Antes da proveniência ser implementada, os próprios  dados precisam ser modelados conforme o problema exige. Após a implementação, é preciso realizar processos de limpeza dos dados conforme execuções no \textit{workflow} vão sendo realizadas.
 
-Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{pipeline}. Também há de se considerar que, mesmo que o pipeline evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
+Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
 
-Apesar da autonomia tornar o processo de decisão por uma gama de algoritmos mais simples e rápido para o Cientista de Dados, o número de configurações necessárias para dar autonomia ao \textit{Pipeline} pode ser um entrave para que este opte por este tipo de abordagem e fique com a abordagem mais tradicional. Este fato, além de mostrar a importância de uma boa documentação para facilitar o entendimento da pessoa que irá usar a solução, mostra como a interface humano-computador simplifica o entendimento do processo utilizado para a obtenção do \textit{Pipeline} e pode ser um caminho mais interessante para uma maior adoção do que a implementação de configurações no próprio projeto, que são mais simples de serem implementadas mas podem ser consideradas frustrantes para uma pessoa fora deste processo de desenvolvimento.
+Apesar da autonomia tornar o processo de decisão por uma gama de algoritmos mais simples e rápido para o Cientista de Dados, o número de configurações necessárias para dar autonomia ao \textit{workflow} pode ser um entrave para que este opte por este tipo de abordagem e fique com a abordagem mais tradicional. Este fato, além de mostrar a importância de uma boa documentação para facilitar o entendimento da pessoa que irá usar a solução, mostra como a interface humano-computador simplifica o entendimento do processo utilizado para a obtenção do \textit{workflow} e pode ser um caminho mais interessante para uma maior adoção do que a implementação de configurações no próprio projeto, que são mais simples de serem implementadas mas podem ser consideradas frustrantes para uma pessoa fora deste processo de desenvolvimento.
 
-Por fim, a AI Reference Architecture e os \textit{Assurance Cases} são bons guias para evoluir a ideia de uma aplicação de IA de um contexto generalizado para um foco maior nos pequenos detalhes a serem realizados dentro da fase de desenvolvimento, e a evolução deste método para um foco mais profundo nos problemas de MLOps é um caminho interessante a ser seguido. Como trabalhos futuros, é possível focar em adaptações no sistema para tais problemas, como mecanismos para deploy dos modelos obtidos, um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{pipeline} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}. Também é possível explorar mais experimentos de como a mudança nas configurações presentes no componente MAPE-K afeta a escolha dos melhores \textit{Pipelines} e propor novas modificações após a realização dos mesmos.
+Por fim, a AI Reference Architecture e os \textit{Assurance Cases} são bons guias para evoluir a ideia de uma aplicação de IA de um contexto generalizado para um foco maior nos pequenos detalhes a serem realizados dentro da fase de desenvolvimento, e a evolução deste método para um foco mais profundo nos problemas de MLOps é um caminho interessante a ser seguido. Como trabalhos futuros, é possível focar em adaptações no sistema para tais problemas, como mecanismos para deploy dos modelos obtidos, um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{workflow} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}. Também é possível explorar mais experimentos de como a mudança nas configurações presentes no componente MAPE-K afeta a escolha dos melhores \textit{Workflows} e propor novas modificações após a realização dos mesmos.
 
 % As referências:
 \bibliographystyle{plainnat}
