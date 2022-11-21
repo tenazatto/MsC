@@ -420,6 +420,22 @@ class Preprocessors(ExtendedEnum):
   <FormHelperText>Atributo protegido para medir justica</FormHelperText>
 </FormControl>
 \end{lstlisting}
+
+\item No arquivo \textbf{Manual-Pipeline-Menu.js} adicionar a condição para a opção colocada na etapa de Pipeline no método \textbf{handleDatasetChange}.
+
+\begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
+  const handleDatasetChange = (event) => {
+    setDataset(event.target.value);
+
+    if (event.target.value === 'Datasets.ADULT_INCOME') {
+      setProtectedAtt('Preprocessors.SEX');
+    } else if (event.target.value === 'Datasets.GERMAN_CREDIT') {
+      setProtectedAtt('Preprocessors.AGE');
+    } else {
+      setProtectedAtt('Preprocessors.INCOME');
+    }
+  }
+\end{lstlisting}
 \end{enumerate}
 
 \subsection{Adicionando um novo Algoritmo}
