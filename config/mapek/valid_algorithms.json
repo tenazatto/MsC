@@ -91,6 +91,36 @@
       "UnbiasPostProcAlgorithms.NOTHING"
     ],
     [
+      "Algorithms.NAIVE_BAYES",
+      "UnbiasDataAlgorithms.NOTHING",
+      "UnbiasPostProcAlgorithms.NOTHING"
+    ],
+    [
+      "Algorithms.NAIVE_BAYES",
+      "UnbiasDataAlgorithms.NOTHING",
+      "UnbiasPostProcAlgorithms.EQUALIZED_ODDS"
+    ],
+    [
+      "Algorithms.NAIVE_BAYES",
+      "UnbiasDataAlgorithms.NOTHING",
+      "UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS"
+    ],
+    [
+      "Algorithms.NAIVE_BAYES",
+      "UnbiasDataAlgorithms.REWEIGHING",
+      "UnbiasPostProcAlgorithms.NOTHING"
+    ],
+    [
+      "Algorithms.NAIVE_BAYES",
+      "UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER",
+      "UnbiasPostProcAlgorithms.NOTHING"
+    ],
+    [
+      "Algorithms.NAIVE_BAYES",
+      "UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS",
+      "UnbiasPostProcAlgorithms.NOTHING"
+    ],
+    [
       "Algorithms.SUPPORT_VECTOR_MACHINES",
       "UnbiasDataAlgorithms.NOTHING",
       "UnbiasPostProcAlgorithms.NOTHING"

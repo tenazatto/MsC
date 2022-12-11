@@ -53,6 +53,7 @@ class PipelineRepository:
             'Algorithms.LINEAR_REGRESSION': 901,
             'Algorithms.DECISION_TREE': 902,
             'Algorithms.KERNEL_RIDGE': 903,
+            'Algorithms.NAIVE_BAYES': 5,
             'UnbiasInProcAlgorithms.PREJUDICE_REMOVER': 101,
             'UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING': 102,
             'UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION': 103,

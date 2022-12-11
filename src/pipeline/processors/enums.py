@@ -26,6 +26,7 @@ class Algorithms:
     LINEAR_REGRESSION = 901
     DECISION_TREE = 902
     KERNEL_RIDGE = 903
+    NAIVE_BAYES = 5
 
 
 class UnbiasInProcAlgorithms(Algorithms):

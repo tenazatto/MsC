@@ -36,6 +36,14 @@ class PipelineValidation:
             (algorithm == Algorithms.GRADIENT_BOOST and unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
             (algorithm == Algorithms.GRADIENT_BOOST and unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
             (algorithm == Algorithms.GRADIENT_BOOST and unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.EQUALIZED_ODDS) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NAIVE_BAYES and unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
             (algorithm == Algorithms.SUPPORT_VECTOR_MACHINES and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
             (algorithm == Algorithms.SUPPORT_VECTOR_MACHINES and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.EQUALIZED_ODDS) or \
             (algorithm == Algorithms.SUPPORT_VECTOR_MACHINES and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS) or \

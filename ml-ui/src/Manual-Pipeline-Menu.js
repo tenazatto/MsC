@@ -260,6 +260,7 @@ function ManualPipelineMenu(props) {
                   <MenuItem value={'Algorithms.LOGISTIC_REGRESSION'}>Logistic Regression</MenuItem>
                   <MenuItem value={'Algorithms.RANDOM_FOREST'}>Random Forest</MenuItem>
                   <MenuItem value={'Algorithms.GRADIENT_BOOST'}>Gradient Boost</MenuItem>
+                  <MenuItem value={'Algorithms.NAIVE_BAYES'}>Naive Bayes</MenuItem>
                   <MenuItem value={'Algorithms.SUPPORT_VECTOR_MACHINES'}>Support Vector Machines</MenuItem>
                 </Select>
                 :

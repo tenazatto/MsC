@@ -166,6 +166,46 @@ function PlanningMenu(props) {
       selected: true
     },
     {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Naive Bayes", "Sem método", "Sem método"],
+      selected: true
+    },
+    {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.EQUALIZED_ODDS"],
+      labels: ["Naive Bayes", "Sem método", "Equalized Odds"],
+      selected: true
+    },
+    {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS"],
+      labels: ["Naive Bayes", "Sem método", "Calibrated Equalized Odds"],
+      selected: true
+    },
+    {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION"],
+      labels: ["Naive Bayes", "Sem método", "Reject Option Classification"],
+      selected: true
+    },
+    {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.REWEIGHING", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Naive Bayes", "Reweighing", "Sem método"],
+      selected: true
+    },
+    {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Naive Bayes", "Disparate Impact Remover", "Sem método"],
+      selected: true
+    },
+    {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Naive Bayes", "Optimized Preprocessing", "Sem método"],
+      selected: true
+    },
+    {   
+      options: ["Algorithms.NAIVE_BAYES", "UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS", "UnbiasPostProcAlgorithms.NOTHING"],
+      labels: ["Naive Bayes", "Learning Fair Representations", "Sem método"],
+      selected: true
+    },
+    {   
       options: ["Algorithms.SUPPORT_VECTOR_MACHINES", "UnbiasDataAlgorithms.NOTHING", "UnbiasPostProcAlgorithms.NOTHING"],
       labels: ["Support Vector Machines", "Sem método", "Sem método"],
       selected: true

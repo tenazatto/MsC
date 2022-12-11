@@ -14,6 +14,7 @@ from src.pipeline.processors.enums import Datasets, Preprocessors, UnbiasDataAlg
     UnbiasPostProcAlgorithms
 from src.pipeline.processors.inprocessors.unbias_algorithms.adversarial_debiasing import AdversarialDebiasingFilter
 from src.pipeline.processors.inprocessors.inproc_algorithms.gradient_boost import GradientBoostFilter
+from src.pipeline.processors.inprocessors.inproc_algorithms.naive_bayes import NaiveBayesFilter
 from src.pipeline.processors.inprocessors.inproc_algorithms.logistic_regression import LogisticRegressionFilter
 from src.pipeline.processors.inprocessors.unbias_algorithms.expo_grad_reduction import ExponentiatedGradientReductionFilter
 from src.pipeline.processors.inprocessors.unbias_algorithms.grid_search_reduction import GridSearchReductionFilter
@@ -53,6 +54,7 @@ class Pipeline:
             'Algorithms.LINEAR_REGRESSION': 901,
             'Algorithms.DECISION_TREE': 902,
             'Algorithms.KERNEL_RIDGE': 903,
+            'Algorithms.NAIVE_BAYES': 5,
             'UnbiasInProcAlgorithms.PREJUDICE_REMOVER': 101,
             'UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING': 102,
             'UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION': 103,
@@ -205,6 +207,7 @@ class Pipeline:
             (Algorithms.LOGISTIC_REGRESSION, LogisticRegressionFilter(weighed=weighed_algorithm)),
             (Algorithms.RANDOM_FOREST, RandomForestFilter(weighed=weighed_algorithm)),
             (Algorithms.GRADIENT_BOOST, GradientBoostFilter(weighed=weighed_algorithm)),
+            (Algorithms.NAIVE_BAYES, NaiveBayesFilter(weighed=weighed_algorithm)),
             (Algorithms.SUPPORT_VECTOR_MACHINES, SVMFilter(weighed=weighed_algorithm)),
             (UnbiasInProcAlgorithms.PREJUDICE_REMOVER, PrejudiceRemoverFilter()),
             (UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING, AdversarialDebiasingFilter()),
