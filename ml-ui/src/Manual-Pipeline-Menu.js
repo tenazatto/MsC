@@ -91,8 +91,10 @@ function ManualPipelineMenu(props) {
 
     if (event.target.value === 'Datasets.ADULT_INCOME') {
       setProtectedAtt('Preprocessors.SEX');
-    } else {
+    } else if (event.target.value === 'Datasets.GERMAN_CREDIT') {
       setProtectedAtt('Preprocessors.AGE');
+    } else {
+      setProtectedAtt('Preprocessors.INCOME');
     }
   }
 
@@ -202,7 +204,7 @@ function ManualPipelineMenu(props) {
                 >
                   <MenuItem value={'Preprocessors.SEX'}>Sexo (Masculino/Feminino)</MenuItem>
                 </Select>
-                : dataset === 'Datasets.ADULT_INCOME' ?
+                : dataset === 'Datasets.GERMAN_CREDIT' ?
                 <Select
                   sx={{fontSize: '14px'}}
                   value={protectedAtt}
