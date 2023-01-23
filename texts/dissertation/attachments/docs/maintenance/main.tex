@@ -69,8 +69,8 @@ Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Softwa
 
 \begin{itemize}
     \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
-    \item {\textbf{Pipeline de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
-    \item {\textbf{Autonomia do Pipeline (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Pipeline, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
+    \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
+    \item {\textbf{Autonomia do Workflow (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
     \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
     \begin{itemize}
         \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
@@ -78,9 +78,9 @@ Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Softwa
     \end{itemize}
 \end{itemize}
 
-\section{Arquitetura do Pipeline e Framework}
+\section{Arquitetura do Workflow e Framework}
 
-O Pipeline usa uma arquitetura chamada de Pipe-and-Filter, onde Pipes, que transportam os dados, são ligados por Filters, que realizam as manipulações desses dados. Pipes e Filters se encadeiam para formar uma sequência de operações, caracterizando todo o Pipeline. Para auxiliar no desenvolvimento, um pequeno framework foi criado, para facilitar as operações necessárias entre Pipes e Filters. 
+O Workflow usa uma arquitetura chamada de Pipe-and-Filter, onde Pipes, que transportam os dados, são ligados por Filters, que realizam as manipulações desses dados. Pipes e Filters se encadeiam para formar uma sequência de operações, caracterizando todo o Pipeline. Para auxiliar no desenvolvimento, um pequeno framework foi criado, para facilitar as operações necessárias entre Pipes e Filters. 
 
 \subsection{Estrutura}
 
@@ -175,9 +175,9 @@ Pra juntar os dados de dois pipes em um só, basta realizar o comando \textbf{+}
     pipe1 + pipe2
 \end{lstlisting}
 
-\section{Incrementos no Pipeline}
+\section{Incrementos no Workflow}
 
-Aqui estão dois exemplos de como é possível realizar a manuntenção do Pipeline
+Aqui estão dois exemplos de como é possível realizar a manuntenção do Workflow
 
 \subsection{Adicionando um novo Conjunto de Dados}
 
@@ -200,12 +200,10 @@ Aqui estão dois exemplos de como é possível realizar a manuntenção do Pipel
 \item Adicionar uma nova condição com a opção adicionada
 \end{enumerate}
 
-\subsubsection{Pipeline}
+\subsubsection{Workflow}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Pipeline se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Pipes que armazenam os conjuntos de dados se encontram na pasta \textbf{processors/preprocessors/data}.
-
-\item No arquivo \textbf{dataset.py}, criar uma classe que herda a classe \textbf{Dataset}, preenchendo os atributos \textbf{dataset\_path} com o caminho do arquivo.
+\item Neste sistema, a parte do Workflow se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Pipes que armazenam os conjuntos de dados se encontram na pasta \textbf{processors/preprocessors/data}. Dentro dela, no arquivo \textbf{dataset.py}, criar uma classe que herda a classe \textbf{Dataset}, preenchendo os atributos \textbf{dataset\_path} com o caminho do arquivo.
 
 \begin{lstlisting}[language=Python, label=cod:FairnessPipe]
 class LendingclubDataset(Dataset):
@@ -256,7 +254,7 @@ class LendingclubIncomePreprocessor(FairnessPreprocessor):
         return df_x, df_y
 \end{lstlisting}
 
-\item No arquivo \textbf{enums.py}, colocar novas opções nas classes \textbf{Datasets} e \textbf{Preprocessors}.
+\item Na pasta \textbf{src/pipeline/processors} e dentro do arquivo \textbf{enums.py}, colocar novas opções nas classes \textbf{Datasets} e \textbf{Preprocessors}.
 
 \begin{lstlisting}[language=Python, label=cod:EnumOptions]
 class Datasets(ExtendedEnum):
@@ -272,7 +270,7 @@ class Preprocessors(ExtendedEnum):
     INCOME = 4
 \end{lstlisting}
 
-\item No arquivo \textbf{validation.py}, atualizar a variável \textbf{existant\_preprocessors} com as novas opções colocadas no item anterior.
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{validation.py}, atualizar a variável \textbf{existant\_preprocessors} com as novas opções colocadas no item anterior.
 
 \begin{lstlisting}[language=Python, label=cod:ValidationPreprocessors]
         existant_preprocessors = \
@@ -282,7 +280,7 @@ class Preprocessors(ExtendedEnum):
             (dataset == Datasets.LENDINGCLUB and preprocessor == Preprocessors.INCOME)
 \end{lstlisting}
 
-\item No arquivo \textbf{pipeline.py}, encontrar o método \textbf{select\_data\_preprocessor}, atualizar a variável \textbf{options} com as novas opções e classes implementadas nos itens anteriores.
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline.py}, encontrar o método \textbf{select\_data\_preprocessor}, atualizar a variável \textbf{options} com as novas opções e classes implementadas nos itens anteriores.
 
 \begin{lstlisting}[language=Python, label=cod:PipelinePreprocessors]
     def select_data_preprocessor(self, dataset, preprocessor):
@@ -303,7 +301,7 @@ class Preprocessors(ExtendedEnum):
         return preprocessed_data_pipe, fairness_pipe
 \end{lstlisting}
 
-\item No arquivo \textbf{pipeline\_start.py}, adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.add\_argument}.
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline\_start.py}, adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.add\_argument}.
 
 \begin{lstlisting}[language=Python, label=cod:ParserAddArgumentPipeline]
     parser.add_argument("--dataset", help="Conjunto de dados tratado com atributo protegido",
@@ -312,7 +310,18 @@ class Preprocessors(ExtendedEnum):
                                  'LENDINGCLUB_INCOME'])
 \end{lstlisting}
 
-\item Adicionar uma nova condição com a opção adicionada
+\item No mesmo arquivo, adicionar uma nova condição com a opção adicionada.
+
+\begin{lstlisting}[language=Python, label=cod:IfPipelineStart]
+    if args.dataset == 'ADULT_INCOME_SEX':
+        datasets.append((Datasets.ADULT_INCOME, Preprocessors.SEX))
+    elif args.dataset == 'ADULT_INCOME_FOREIGN':
+        datasets.append((Datasets.GERMAN_CREDIT, Preprocessors.FOREIGN))
+    elif args.dataset == 'GERMAN_CREDIT_AGE':
+        datasets.append((Datasets.GERMAN_CREDIT, Preprocessors.AGE))
+    elif args.dataset == 'LENDINGCLUB_INCOME':
+        datasets.append((Datasets.LENDINGCLUB, Preprocessors.INCOME))]
+\end{lstlisting}
 
 \end{enumerate}
 
@@ -332,7 +341,7 @@ class Preprocessors(ExtendedEnum):
         return next(filter(lambda a: a[0] == dataset, indexes.items()))[1]
 \end{lstlisting}
 
-\item No arquivo \textbf{repo/pipeline.py}, adicionar a opção no método \textbf{get\_preprocessor}.
+\item Na pasta \textbf{src/api} e dentro do arquivo \textbf{repo/pipeline.py}, adicionar a opção no método \textbf{get\_preprocessor}.
 
 \begin{lstlisting}[language=Python, label=cod:AddDataset]
     def get_preprocessor(self, preprocessor):
@@ -349,7 +358,7 @@ class Preprocessors(ExtendedEnum):
 \subsubsection{Interface (Frontend)}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Backend se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Auto-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de conjunto de dados.
+\item Neste sistema, a parte do Frontend se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Auto-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de conjunto de dados.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetAuto]
 <Select
@@ -365,7 +374,7 @@ class Preprocessors(ExtendedEnum):
 </Select>
 \end{lstlisting}
 
-\item No arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de conjunto de dados.
+\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de conjunto de dados.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
 <Select
@@ -381,7 +390,7 @@ class Preprocessors(ExtendedEnum):
 </Select>
 \end{lstlisting}
 
-\item No arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de pré-processadores.
+\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de pré-processadores.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
 <FormControl sx={{ m: 1, width: 300, marginLeft: '35px' }}>
@@ -421,7 +430,7 @@ class Preprocessors(ExtendedEnum):
 </FormControl>
 \end{lstlisting}
 
-\item No arquivo \textbf{Manual-Pipeline-Menu.js} adicionar a condição para a opção colocada na etapa de Pipeline no método \textbf{handleDatasetChange}.
+\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js} adicionar a condição para a opção colocada na etapa de Workflow no método \textbf{handleDatasetChange}.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
   const handleDatasetChange = (event) => {
@@ -440,10 +449,10 @@ class Preprocessors(ExtendedEnum):
 
 \subsection{Adicionando um novo Algoritmo}
 
-\subsubsection{Pipeline}
+\subsubsection{Workflow}
 
 \begin{enumerate}
-\item No arquivo \textbf{enums.py}, colocar novas opções na classe \textbf{Algorithms}.
+\item Neste sistema, a parte do Workflow se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Filters que executam os algoritmos ficam dentro da pasta \textbf{processors}. Dentro dela, no arquivo \textbf{enums.py}, colocar novas opções na classe \textbf{Algorithms}.
 
 \begin{lstlisting}[language=Python, label=cod:EnumAlgorithmOptions]
 class Algorithms:
@@ -456,7 +465,26 @@ class Algorithms:
     KERNEL_RIDGE = 903
 \end{lstlisting}
 
-\item No arquivo \textbf{pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{find\_algorithm}.
+A classe \textbf{Algorithms} serve para este exemplo em questão, mas para outros tipos de algoritmos as classes \textbf{UnbiasDataAlgorithms}, \textbf{UnbiasInProcAlgorithms} ou \textbf{UnbiasPostProcAlgorithms} podem ser mais adequadas.
+
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{validation.py}, adicionar uma nova condição para a variável \textbf{existant\_algorithms} no método \textbf{validate\_params}.
+
+\begin{lstlisting}[language=Python, label=cod:ValidationAddArgumentPipeline]
+            existant_algorithms = \
+            (algorithm == Algorithms.LOGISTIC_REGRESSION and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (...)
+            (algorithm == UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.EQUALIZED_ODDS) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.CALIBRATED_EQUALIZED_ODDS) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.NOTHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.REJECT_OPTION_CLASSIFICATION) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.REWEIGHING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.DISPARATE_IMPACT_REMOVER and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.OPTIMIZED_PREPROCESSING and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING) or \
+            (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING)
+\end{lstlisting}
+
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{find\_algorithm}.
 
 \begin{lstlisting}[language=Python, label=cod:FindAlgorithm]
     def find_algorithm(self, algorithm):
@@ -480,11 +508,18 @@ class Algorithms:
         return next(filter(lambda a: a[1] == algorithm, indexes.items()))[0]
 \end{lstlisting}
 
-\item Os Filters que armazenam os conjuntos de dados se encontram na pasta \textbf{processors/inprocessors}. Nesta pasta, criar um novo arquivo.
+\item Criar um novo arquivo na pasta categorizada pelo algoritmo a ser implementado. Para o exemplo exemplo ilustrado abaixo, como o Gradient Boosting é um algoritmo de treinamento e não foi projetado para redução de viés, os Filters que executam os algoritmos se encontram na pasta \textbf{processors/inprocessors/inproc\_algorithms}.
 
-\item Os Filters que executam os algoritmos se encontram na pasta \textbf{processors/inprocessors/inproc\_algorithms}. Nesta pasta, criar um novo arquivo.
+Seguem as pastas onde os respectivos Filters se encontram:
 
-\item Criar uma classe que herda a classe \textbf{BaseFilter}.
+\begin{itemize}
+\item \textbf{Algoritmo de treinamento sem redução de viés:} processors/inprocessors/inproc\_algorithms
+\item \textbf{Algoritmo com redução de viés no dado (Pré-processamento):} processors/preprocessors/unbias\_algorithms
+\item \textbf{Algoritmo com redução de viés no treinamento (Processamento):} processors/inprocessors/unbias\_algorithms
+\item \textbf{Algoritmo com redução de viés no resultado (Pós-processamento):} processors/postprocessors
+\end{itemize}
+
+\item No arquivo criado, criar uma classe que herda a classe \textbf{BaseFilter}.
 
 \begin{lstlisting}[language=Python, label=cod:BaseFilter]
 class GradientBoostFilter(BaseFilter):
@@ -506,7 +541,7 @@ class GradientBoostFilter(BaseFilter):
         }
 \end{lstlisting}
 
-\item Encontrar o método \textbf{process}, atualizar a variável \textbf{process\_options} com as novas opções e classes implementadas nos itens anteriores.
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline.py}, encontrar o método \textbf{process}, atualizar a variável \textbf{process\_options} com as novas opções e classes implementadas nos itens anteriores.
 
 \begin{lstlisting}[language=Python, label=cod:ProcessAlgorithm]
     def process(self, process_pipe, algorithm, unbias_data_algorithm):
@@ -534,7 +569,9 @@ class GradientBoostFilter(BaseFilter):
         return prediction_pipe
 \end{lstlisting}
 
-\item No arquivo \textbf{pipeline\_start.py}, adicionar as opções (adaptadas a opção corrente) na variável \textbf{process\_options}.
+O método \textbf{process} serve para este exemplo em questão, mas para outros tipos de algoritmos os métodos \textbf{unbias\_data\_preprocessor} ou \textbf{data\_postprocess} podem ser mais adequados.
+
+\item Na pasta \textbf{src/pipeline} dentro do arquivo \textbf{pipeline\_start.py}, adicionar as opções (adaptadas a opção corrente) na variável \textbf{process\_options}.
 
 \begin{lstlisting}[language=Python, label=cod:ParserAddArgumentPipeline]
     process_options = [
@@ -553,14 +590,40 @@ class GradientBoostFilter(BaseFilter):
     ]
 \end{lstlisting}
 
-\item Adicionar uma nova condição com a opção adicionada
+\end{enumerate}
 
+\subsubsection{MAPE-K}
+
+\begin{enumerate}
+\item Neste sistema, a parte do Backend se encontra na pasta \textbf{src/mapek}. Dentro dela, no arquivo \textbf{ml/planner.py}, colocar as novas opções colocadas no item anterior no método \textbf{find\_inproc\_algorithm}.
+
+\begin{lstlisting}[language=Python, label=cod:findInprocAlgorithm]
+    def find_inproc_algorithm(self, algorithm):
+        indexes = {
+            'Algorithms.LOGISTIC_REGRESSION': 1,
+            'Algorithms.RANDOM_FOREST': 2,
+            'Algorithms.GRADIENT_BOOST': 3,
+            'Algorithms.SUPPORT_VECTOR_MACHINES': 4,
+            'Algorithms.LINEAR_REGRESSION': 901,
+            'Algorithms.DECISION_TREE': 902,
+            'Algorithms.KERNEL_RIDGE': 903,
+            'UnbiasInProcAlgorithms.PREJUDICE_REMOVER': 101,
+            'UnbiasInProcAlgorithms.ADVERSARIAL_DEBIASING': 102,
+            'UnbiasInProcAlgorithms.EXPONENTIATED_GRADIENT_REDUCTION': 103,
+            'UnbiasInProcAlgorithms.RICH_SUBGROUP_FAIRNESS': 104,
+            'UnbiasInProcAlgorithms.GRID_SEARCH_REDUCTION': 105,
+            'UnbiasInProcAlgorithms.META_FAIR_CLASSIFIER': 106,
+            'UnbiasInProcAlgorithms.ART_CLASSIFIER': 107
+        }
+
+        return next(filter(lambda a: a[0] == algorithm, indexes.items()))[1]
+\end{lstlisting}
 \end{enumerate}
 
 \subsubsection{Interface (Backend)}
 
 \begin{enumerate}
-\item No arquivo \textbf{repo/pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{get\_inproc\_algorithm}.
+\item Neste sistema, a parte do Backend se encontra na pasta \textbf{src/api}. Dentro dela, no arquivo \textbf{repo/pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{get\_inproc\_algorithm}.
 
 \begin{lstlisting}[language=Python, label=cod:getInprocAlgorithm]
     def get_inproc_algorithm(self, algorithm):
@@ -588,7 +651,7 @@ class GradientBoostFilter(BaseFilter):
 \subsubsection{Interface (Frontend)}
 
 \begin{enumerate}
-\item No arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Pipeline no componente Select onde estão as outras opções de algoritmos.
+\item Neste sistema, a parte do Frontend se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de algoritmos.
 
 \begin{lstlisting}[language=Python, label=cod:AddAlgorithmManual]
 <Select
@@ -605,7 +668,7 @@ class GradientBoostFilter(BaseFilter):
 </Select>
 \end{lstlisting}
 
-\item No arquivo \textbf{Planning-Menu.js}, adicionar as opções (adaptadas a opção corrente) na variável \textbf{validAlgorithms}.
+\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Planning-Menu.js}, adicionar as opções (adaptadas a opção corrente) na variável \textbf{validAlgorithms}.
 \end{enumerate}
 
 \begin{lstlisting}[language=Python, label=cod:AddPlanningConfig]
@@ -650,15 +713,6 @@ class GradientBoostFilter(BaseFilter):
       selected: true
     }
 \end{lstlisting}
-
-% \begin{thebibliography}{00}
-% \bibitem{b1} Deriving the Normal Equation: \url{https://ayearofai.com/rohan-3-deriving-the-normal-equation-using-matrix-calculus-1a1b16f65dda}
-% \bibitem{b2} Diamonds dataset: \url{https://www.kaggle.com/shivam2503/diamonds}
-% \bibitem{b3} Scikit Learn: \url{http://scikit-learn.org}
-% \bibitem{Gartner_2022} Scikit Learn: \url{http://scikit-learn.org}
-% \bibitem{Hummer_2019} Scikit Learn: \url{http://scikit-learn.org}
-% \bibitem{Sculley_2015} Scikit Learn: \url{http://scikit-learn.org}
-% \end{thebibliography}
 
 \end{document}
 

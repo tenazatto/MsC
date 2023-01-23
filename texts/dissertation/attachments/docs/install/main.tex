@@ -69,8 +69,8 @@ Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Softwa
 
 \begin{itemize}
     \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
-    \item {\textbf{Pipeline de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
-    \item {\textbf{Autonomia do Pipeline (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Pipeline, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
+    \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
+    \item {\textbf{Autonomia do Workflow (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
     \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
     \begin{itemize}
         \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
@@ -81,9 +81,10 @@ Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Softwa
 \section{Programas necessários para instalação}
 
 \begin{itemize}
-    \item {\textbf{Python:}} É a linguagem de programação utilizada para montar e executar todas as etapas com a exceção do Frontend da interface. É disponível no site \url{https://www.python.org/} e é necessária a versão \textbf{3.8} ou superior.
+    \item {\textbf{Python:}} É a linguagem de programação utilizada para montar e executar todas as etapas com a exceção do Frontend da interface. É disponível no site \url{https://www.python.org/} e é necessária a versão \textbf{3.8}, \textbf{3.9} ou \textbf{3.10}. A versão \textbf{3.11} apresentou problemas de compatibilidade devido a mudanças em seu funcionamento.
     \item {\textbf{Node.js:}} É o programa necessário para montar o Frontend da interface. É disponível no site \url{https://nodejs.org/} e foi testado na versão \textbf{16.14.2}, embora outras versões podem ser executadas sem problemas de compatibilidade.
     \item {\textbf{Git:}} É o programa necessário para realizar o download do código-fonte e realizar atualizações no mesmo. É disponível no site \url{https://git-scm.com/} e foi testado na versão \textbf{2.35.1}, embora outras versões podem ser executadas sem problemas de compatibilidade.
+	\item {\textbf{CUDA Toolkit:}} É a biblioteca necessária para rodar alguns dos algoritmos presentes no Workflow. É disponível no site \url{https://developer.nvidia.com/cuda-toolkit-archives} e foi testado na versão \textbf{11}, mas não houve testes se versões posteriores são compatíveis. É compatível apenas para GPUs Nvidia, caso não tiver há uma versão apenas para CPUs disponível.
 \end{itemize}
 
 \section{Instalação do sistema}
@@ -101,7 +102,6 @@ O Git baixará todos os arquivos e após o download é possível ver a pasta e s
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.4]{images/git-clone.png}
-%\caption {Fases e etapas do Pipeline implementado}
 \label{fig:DocInstallGitClone}
 \end{figure}
 
@@ -113,36 +113,41 @@ Para evitar problemas de versão com bibliotecas de outros projetos instalados, 
 
 Para criar um novo ambiente virtual, é preciso digitar o comando
 
-\begin{quote}python3 -m venv ./(nome do ambiente)\end{quote}
+\begin{quote}\textbf{python3 -m venv ./(nome do ambiente)}\end{quote}
 
 Como exemplo, nesta documentação foi criado o documento \textbf{testenv}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{images/virtualenv-sh.png}
-%\caption {Fases e etapas do Pipeline implementado}
 \label{fig:DocInstallVirtualEnvShell}
 \end{figure}
 
 Após o término, aparecerá uma nova pasta de mesmo nome
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.25]{images/virtualenv.png}
-%\caption {Fases e etapas do Pipeline implementado}
 \label{fig:DocInstallVirtualEnvFolder}
 \end{figure}
 
 Após criar o ambiente virtual, é preciso ativá-lo para utilizar
 
-\begin{quote}\textbf{source ./(nome do ambiente)/Scripts/activate}\end{quote}
+\begin{quote}
+\textbf{.\textbackslash (nome do ambiente)\textbackslash Scripts\textbackslash activate.bat} (Windows - Prompt de Comando)
+\end{quote}
+\begin{quote}
+\textbf{source ./(nome do ambiente)/Scripts/activate} (Windows - Bash)
+\end{quote}
+\begin{quote}
+\textbf{source ./(nome do ambiente)/bin/activate} (Linux)
+\end{quote}
 
 Para verificar se o ambiente foi ativado, é possível verificar, ao digitar qualquer comando no bash, que o nome do ambiente virtual aparece logo abaixo.
 
 \begin{figure}[h!]
 \centering
 \includegraphics[scale=0.4]{images/virtualenv-check.png}
-%\caption {Fases e etapas do Pipeline implementado}
 \label{fig:DocInstallVirtualEnvCheck}
 \end{figure}
 
@@ -158,9 +163,12 @@ No caso do Node.js não é necessário realizar tais etapas, pois a instalação
 
 \subsubsection{Python}
 
-Com o ambiente virtual criado e ativado, é possível utilizar o arquivo \textbf{src/requirements.txt} para instalar todas as bibliotecas necessárias através do comando
+Com o ambiente virtual criado e ativado, é possível utilizar os arquivos \textbf{src/requirements.txt}, dependendo das configurações da sua máquina, para instalar todas as bibliotecas necessárias através do comando
 
-\begin{quote}\textbf{pip install -r ./src/requirements.txt}\end{quote}
+\begin{quote}\textbf{pip install -r ./src/requirements-nvidia.txt} (GPU Nvidia)\end{quote}
+\begin{quote}\textbf{pip install -r ./src/requirements-cpu.txt} (CPU)\end{quote}
+
+Estes arquivos foram preparados apenas para rodar de acordo com o hardware apresentado. A execução de ambos os comandos não é necessária e nem recomendável.
 
 \subsubsection{Node.js}
 
@@ -179,57 +187,55 @@ Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rod
 No momento, há 3 opções disponíveis:
 
 \begin{itemize}
-    \item {\textbf{GERMAN\_CREDIT:}} Manipula o German Credit Dataset, cujo arquivo está na localização \textbf{datasets/german.data}, para utilização no Pipeline.
-    \item {\textbf{LENDINGCLUB:}} Baixa e manipula o Lendingclub Dataset para utilização no Pipeline.
-    \item {\textbf{METRICS:}} Obtém o maior valor, menor valor e a média de cada métrica para cada Pipeline já executado.
+    \item {\textbf{GERMAN\_CREDIT:}} Manipula o German Credit Dataset, cujo arquivo está na localização \textbf{datasets/german.data}, para utilização no Workflow.
+    \item {\textbf{LENDINGCLUB:}} Baixa e manipula o Lendingclub Dataset para utilização no Workflow.
+    \item {\textbf{METRICS:}} Obtém o maior valor, menor valor e a média de cada métrica para cada Workflow já executado.
 \end{itemize}
 
-\subsection{Pipeline de IA}
+\subsection{Workflow de IA}
 
-Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rodar todos os Pipelines possíveis basta digitar o seguinte comando
+Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rodar todos os Workflows possíveis basta digitar o seguinte comando
 
 \begin{quote}\textbf{python -m src.pipeline.pipeline\_start -{}-dataset (Opção)}\end{quote}
 
 No momento, há 4 opções disponíveis:
 
 \begin{itemize}
-    \item {\textbf{ADULT\_INCOME\_SEX:}} Executa os Pipelines para o Adult Income Dataset, cujo arquivo está na localização \textbf{datasets/adult.csv}, utilizando Sexo (Masculino/Feminino) como atributo protegido.
-    \item {\textbf{GERMAN\_CREDIT\_FOREIGN:}} Executa os Pipelines para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Nacionalidade (Alemão/Estrangeiro) como atributo protegido.
-    \item {\textbf{GERMAN\_CREDIT\_AGE:}} Executa os Pipelines para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Idade (-25 anos/25 ou + anos) como atributo protegido.
-    \item {\textbf{LENDINGCLUB\_INCOME:}} Executa os Pipelines para o Lendingclub Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Renda (-1 salário mínimo/1 ou + salários mínimos) como atributo protegido.
+    \item {\textbf{ADULT\_INCOME\_SEX:}} Executa os Workflows para o Adult Income Dataset, cujo arquivo está na localização \textbf{datasets/adult.csv}, utilizando Sexo (Masculino/Feminino) como atributo protegido.
+    \item {\textbf{GERMAN\_CREDIT\_FOREIGN:}} Executa os Workflows para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Nacionalidade (Alemão/Estrangeiro) como atributo protegido.
+    \item {\textbf{GERMAN\_CREDIT\_AGE:}} Executa os Workflows para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Idade (-25 anos/25 ou + anos) como atributo protegido.
+    \item {\textbf{LENDINGCLUB\_INCOME:}} Executa os Workflows para o Lendingclub Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Renda (-1 salário mínimo/1 ou + salários mínimos) como atributo protegido.
 \end{itemize}
 
 Após a execução, é possível ver a geração das métricas dentro da pasta \textbf{output/metrics}, necessárias para a execução da próxima etapa.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.25]{images/metrics.png}
-%\caption {Fases e etapas do Pipeline implementado}
 \label{fig:DocInstallMetrics}
 \end{figure}
 
-\subsection{Autonomia do Pipeline}
+\subsection{Autonomia do Workflow}
 
-Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Pipeline executado, é possível verificar como a etapa de autonomia funciona com o seguinte comando
+Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Workflow executado, é possível verificar como a etapa de autonomia funciona com o seguinte comando
 
 \begin{quote}\textbf{python -m src.mapek.mapek\_start}\end{quote}
 
-Nesta etapa, ele escolhe o Pipeline que apresentou as melhores métricas, porém a filtragem por conjunto de dados está desenvolvida até o momento apenas na próxima etapa. Como ele roda ininterruptamente, é preciso interromper sua execução.
+Nesta etapa, ele escolhe o Workflow que apresentou as melhores métricas, porém a filtragem por conjunto de dados está desenvolvida até o momento apenas na próxima etapa. Como ele roda ininterruptamente, é preciso interromper sua execução.
 
 \subsection{Interface}
 
 \subsubsection{Backend}
 
-Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Pipeline executado, é possível rodar o Backend da interface com o seguinte comando
+Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Workflow executado, é possível rodar o Backend da interface com o seguinte comando
 
 \begin{quote}\textbf{python -m src.api.flask\_start}\end{quote}
 
 Ele vai iniciar um servidor na porta 8080, necessário para rodar as requisições que o Frontend vai solicitar
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{images/backend-start.png}
-%\caption {Fases e etapas do Pipeline implementado}
 \label{fig:DocInstallVirtualEnvBackendStart}
 \end{figure}
 
@@ -241,21 +247,11 @@ Dentro da pasta \textbf{MsC/ml-ui}, é possível rodar o Frontend da interface c
 
 Ele vai iniciar o navegador acessando um servidor na porta 3000, e deverá iniciar a tela no menu de Análise
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.2]{images/ml-ui.png}
-%\caption {Fases e etapas do Pipeline implementado}
 \label{fig:DocInstallMLUI}
 \end{figure}
-
-% \begin{thebibliography}{00}
-% \bibitem{b1} Deriving the Normal Equation: \url{https://ayearofai.com/rohan-3-deriving-the-normal-equation-using-matrix-calculus-1a1b16f65dda}
-% \bibitem{b2} Diamonds dataset: \url{https://www.kaggle.com/shivam2503/diamonds}
-% \bibitem{b3} Scikit Learn: \url{http://scikit-learn.org}
-% \bibitem{Gartner_2022} Scikit Learn: \url{http://scikit-learn.org}
-% \bibitem{Hummer_2019} Scikit Learn: \url{http://scikit-learn.org}
-% \bibitem{Sculley_2015} Scikit Learn: \url{http://scikit-learn.org}
-% \end{thebibliography}
 
 \end{document}
 
