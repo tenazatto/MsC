@@ -1,0 +1,107 @@
+%%
+%% The beginings of a poster style...
+%% Rob Clark (C) 1999-2003
+%% 
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{posterbox}
+          [2003/03/06 v1.2  Rob's poster boxes.]
+\typeout{`posterbox' Rob's poster boxes v1.2}
+
+
+\RequirePackage{calc}
+\RequirePackage{colordvi}
+\RequirePackage[usenames]{pstcol}
+\RequirePackage{graphics}
+\RequirePackage{palatino}
+
+\setlength{\oddsidemargin}{1 cm}
+\setlength{\textwidth}{77.56cm}
+\setlength{\textheight}{110.5cm}
+
+%\definecolor{coolcol}{rgb}{0.3,0.6,0.9}
+%\definecolor{titlecol}{rgb}{1,1,1}
+%\definecolor{textcol}{rgb}{0.3,0.6,0.9}
+\definecolor{coolcol}{rgb}{1,1,1}
+\definecolor{titlecol}{rgb}{0.30,0.60,0.90}
+\definecolor{textcol}{rgb}{1,1,1}
+
+
+\definecolor{bg1}{rgb}{0.80,1,1}
+\definecolor{bg2}{rgb}{0.3,0.6,0.9}
+
+\def\bigtitle#1{\textsf{\textbf{\Huge #1}}}
+
+\sffamily
+\def\baselinestretch{0.8}
+
+\newsavebox{\pb@coolbox}
+\newsavebox{\pb@titlebox}
+\newsavebox{\pb@captionbox}
+\newsavebox{\pb@capbox}
+\newlength{\pb@coolht}
+\newlength{\pb@coollen}
+\newlength{\pb@titlelen}
+\newlength{\pb@titleht}
+\newlength{\pb@titlehht}
+\newlength{\pb@titletht}
+\newlength{\pb@titletdp}
+\newlength{\pb@captionht}
+\newlength{\pb@cooloffset}
+\newlength{\pb@totht}
+\newlength{\pb@cboxtopsep}
+\newlength{\pb@cboxmargin}
+\def\captmp{}
+
+\definecolor{pbcoolcol}{rgb}{1,1,1}
+\definecolor{pbtitlecol}{rgb}{0.30,0.60,0.90}
+\definecolor{pbtextcol}{rgb}{1,1,1}
+
+\setlength{\pb@cboxtopsep}{15pt}
+\setlength{\pb@cboxmargin}{15pt}
+
+\newenvironment{cbox}[2][title]
+ {\def\pb@captmp{#2}
+  \sbox{\pb@titlebox}{%
+  \settoheight{\pb@titletht}{\textit{\textsf{\huge \textit{lg}}}}
+  \settodepth{\pb@titletdp}{\textit{\textsf{\huge \textit{lg}}}}
+  \psframebox[fillstyle=solid,
+              fillcolor=titlecol,%
+              linestyle=solid,%
+              linecolor=black,%
+              linewidth=2pt,%
+              framearc=1]{\rule[-\pb@titletdp-3pt]{0pt}{\pb@titletht+\pb@titletdp+8pt}
+                          \textit{\textsf{\huge \color{textcol} \ #1\ }}}}%
+  \begin{lrbox}{\pb@coolbox}}%
+ {\end{lrbox}%
+  \settowidth{\pb@titlelen}{\usebox{\pb@titlebox}}
+  \settoheight{\pb@titleht}{\usebox{\pb@titlebox}}
+  \setlength{\pb@titlehht}{\pb@titleht/2}
+  \settowidth{\pb@coollen}{\usebox{\pb@coolbox}}
+  \settoheight{\pb@coolht}{\usebox{\pb@coolbox}}
+  \setlength{\pb@cooloffset}{\pb@coollen-\pb@titlelen}
+  \sbox{\pb@capbox}{\parbox{\pb@coollen-8pt}{\pb@captmp}}
+  \settoheight{\pb@captionht}{\usebox{\pb@capbox}}
+  \settoheight{\pb@totht}{\parbox[b]{\pb@coollen+2\pb@cboxmargin}{
+                           \usebox{\pb@coolbox}
+                           \vskip\baselineskip
+                           \usebox{\pb@capbox}}}
+  \begin{minipage}{\pb@coollen}
+  \psframebox[fillstyle=solid,%
+              fillcolor=coolcol,%
+              linestyle=solid,%
+              linecolor=black,%
+              linewidth=4pt,%
+              framearc=0.1]
+              {\mbox{\rule[-\pb@titlehht]{0pt}{\pb@totht+\pb@cboxtopsep+\pb@titlehht}
+                     \parbox[b]{\pb@coollen+2\pb@cboxmargin}{
+                           \usebox{\pb@coolbox}
+                           \vskip\baselineskip
+                           \usebox{\pb@capbox}}}}
+
+   \par
+   \vskip-\pb@titlehht
+   \vskip-8pt
+   \hskip\pb@cooloffset
+   \usebox{\pb@titlebox}
+   \vskip8pt\vskip\pb@titleht
+   \end{minipage}}

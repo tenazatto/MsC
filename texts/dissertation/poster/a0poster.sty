@@ -1,0 +1,154 @@
+%\NeedsTeXFormat{LaTeX2e}
+
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage{graphicx}
+
+% For debugging, force all o/p to be on one page, even though it will overrun.
+% Remove this to print final copy
+% \textheight200in
+
+\parindent=0pt
+
+\renewcommand{\paragraph}[1]{\vspace{1cm}\par{\Large\bf #1}\par}
+
+\newlength{\threecolwidth}
+\setlength{\threecolwidth}{0.318\textwidth}
+
+
+%\newcommand{\col}[1]{
+%\mbox{
+%\begin{minipage}[t]{\colwidth}\large
+%#1
+%\end{minipage}
+%}
+%}
+
+\newcommand{\col}[2][\threecolwidth]{
+\mbox{
+\begin{minipage}[t]{#1}\large
+#2
+\end{minipage}
+}
+}
+
+\newcommand{\raggedcol}[2][\threecolwidth]{
+\mbox{
+\begin{minipage}[t]{#1}\large\raggedright
+#2
+\end{minipage}
+}
+}
+
+\newcounter{elist}
+\renewenvironment{itemize}{\begin{list}{$\bullet$\hfill}{
+ \usecounter{elist}
+ \setlength{\itemindent}{1.5ex}
+}}{\end{list}}
+
+
+\newcommand{\posterrule}{\rule{1.00\textwidth}{1mm}}
+
+\newcommand{\FMRIBtitle}{}
+\newcommand{\FMRIBtit}{}
+\newcommand{\FMRIBauthor}{}
+\newcommand{\FMRIBaut}{}
+\newcommand{\FMRIBfom}{}
+\newcommand{\FMRIBfem}{}
+\newcommand{\FMRIBaddress}{}
+\newcommand{\FMRIBemail}{}
+\providecommand{\title}[1]{#1}
+\providecommand{\tit}[1]{#1}
+\providecommand{\author}[1]{#1}
+\providecommand{\aut}[1]{#1}
+\providecommand{\fom}[1]{#1}
+\providecommand{\fem}[1]{#1}
+\providecommand{\address}[1]{#1}
+\providecommand{\email}[1]{#1}
+\renewcommand{\title}[1]{\renewcommand{\FMRIBtitle}{#1}}
+\renewcommand{\tit}[1]{\renewcommand{\FMRIBtit}{#1}}
+\renewcommand{\author}[1]{\renewcommand{\FMRIBauthor}{#1}}
+\renewcommand{\aut}[1]{\renewcommand{\FMRIBaut}{#1}}
+\renewcommand{\fom}[1]{\renewcommand{\FMRIBfom}{#1}}
+\renewcommand{\fem}[1]{\renewcommand{\FMRIBfem}{#1}}
+\renewcommand{\address}[1]{\renewcommand{\FMRIBaddress}{#1}}
+\renewcommand{\email}[1]{\renewcommand{\FMRIBemail}{#1}}
+
+
+
+
+\newcommand{\makeheader}{
+\newlength{\figsize}
+\newlength{\midsize}
+\newlength{\rulesep}
+\setlength{\figsize}{0.1\textwidth}
+\setlength{\midsize}{1.1\textwidth}
+\addtolength{\midsize}{-2\figsize}
+\setlength{\rulesep}{0.05\baselineskip}
+%\posterrule \\
+\colorbox[rgb]{0.9,0.9,0.9} { % ensure a white background box
+
+% aqui ele define a parte superior (titulo, autores, etc..) como tres colunas
+% eh aqui que vc deve mudar o logotipo etc
+
+\begin{tabular}{cc}
+\begin{minipage}{\figsize}
+%\includegraphics[width=2.1\figsize, height=.7\figsize]{AV01A.eps}
+
+%%%% logotipo do instituto
+\hspace{-1cm}\vspace{-4cm} \includegraphics[width=9cm, height=9cm]{ic-logo.eps}
+
+
+
+%\epsfig{file=logo.eps,width=\figsize, height=\figsize}
+\end{minipage} &
+\hspace{3cm}
+\begin{minipage}{\midsize}
+ %\raisebox{\rulesep}{}
+  \begin{center}
+  \ifthenelse{\equal{\FMRIBtitle}{}}{}{{\Huge \textbf{\FMRIBtitle} \\[0.15\baselineskip]}}
+  \ifthenelse{\equal{\FMRIBtit}{}}{}{{\Huge \textbf{\FMRIBtit} \\[0.15\baselineskip]}}
+  \ifthenelse{\equal{\FMRIBauthor}{}}{}{{\LARGE \FMRIBauthor \\[0.15\baselineskip]}}
+\ifthenelse{\equal{\FMRIBfom}{}}{}{{\normalsize \FMRIBfom \\[0.15\baselineskip]}}
+\ifthenelse{\equal{\FMRIBaut}{}}{}{{\LARGE \FMRIBaut \\[0.15\baselineskip]}}
+  \ifthenelse{\equal{\FMRIBfem}{}}{}{{\normalsize \FMRIBfem \\[0.15\baselineskip]}}
+  \ifthenelse{\equal{\FMRIBaddress}{}}{}{{\large \FMRIBaddress \\}}
+  \ifthenelse{\equal{\FMRIBemail}{}}{}{{\normalsize \FMRIBemail \\[0.15\baselineskip]}}
+  \end{center}
+ %\raisebox{\rulesep}{}
+  \end{minipage}
+   \\
+\end{tabular}
+} \\
+%\posterrule 
+\vspace*{-0.4\baselineskip} } \providecommand{\makefooter}[1][
+ ]
+ 
+%\includegraphics[width=1.2\figsize]{Fapesp.eps}
+%{ \vfill \posterrule
+%\begin{center}
+%  \small
+%        #1
+%\end{center}
+%}
+
+\newcounter{FMRIBfigcount}
+\renewcommand{\caption}[1]{\\ {\large  \bfseries{Figure \arabic{FMRIBfigcount}:} #1}}
+
+\renewenvironment{figure}{\refstepcounter{FMRIBfigcount}\begin{center}}{\end{center}}
+
+
+\providecommand{\references}{}
+\renewcommand{\references}{\small \bibliographystyle{plain}}
+
+
+
+
+\pagecolor[rgb]{0.9,0.9,0.9}
+\color{black}
+\setlength{\tabcolsep}{0pt}
+%\setlength{\fboxrule}{5mm}
+
+
+\Large
+\pagestyle{empty}
