@@ -25,6 +25,20 @@ _markdown_project
 /texts/dissertation/attachments/docs/maintenance/*.out
 /texts/dissertation/attachments/docs/maintenance/*.synctex.gz
 
+/texts/poster/*.aux
+/texts/poster/*.bbl
+/texts/poster/*.blg
+/texts/poster/*.log
+/texts/poster/*.out
+/texts/poster/*.synctex.gz
+
+/texts/article/*.aux
+/texts/article/*.bbl
+/texts/article/*.blg
+/texts/article/*.log
+/texts/article/*.out
+/texts/article/*.synctex.gz
+
 /texts/dissertation/final/*.aux
 /texts/dissertation/final/*.bbl
 /texts/dissertation/final/*.blg
