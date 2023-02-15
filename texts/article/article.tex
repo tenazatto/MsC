@@ -318,12 +318,12 @@ Foi desenvolvido um sistema, cujo desenvolvimento pode ser dividido em 4 etapas 
 
 \begin{itemize}
     \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
-    \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
-    \item {\textbf{Autonomia do Workflow (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
+    \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, com etapas de preparação dos dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento), salvando tais dados para geração de uma base de conhecimento.
+    \item {\textbf{Autonomia do Workflow:}} Etapa que executa um Elemento Autônomo que  controla o Workflow como elemento gerenciado para automatizar todas as suas etapas, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritmo e do conjunto de dados utilizado.
     \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva, onde sua integração com as outras etapas é mostrada na Figura \ref{fig:BackendFrontendML}. É dividida em duas partes:
     \begin{itemize}
         \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
-        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Componente MAPE-K.
+        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Elemento Autônomo.
     \end{itemize}
 \end{itemize}
 
@@ -369,11 +369,23 @@ Primeiro, normaliza-se as métricas $m_{F_i}$ para $m'_{F_i}$, referentes às m�
 
 Para este cálculo ser realizado, é necessário como pré-requisito execuções anteriores realizadas no workflow, para que o mesmo grave as métricas necessárias e determine quais as melhores combinações através da pontuação.
 
+\subsection{Determinação do Planejamento}
+
+Para determinação do que vai ser executado no Workflow, algumas estratégias foram implantadas:
+
+\begin{itemize}
+	\item \textbf{Filtragem de algoritmos}: Alguns algoritmos podem estar mal implementados ou seus modelos podem estar com métricas que necessitam uma melhor análise do Cientista de Dados para serem consideradas confiáveis. Para isso não acontecer, é possível realizar um filtro de acordo com as combinações de algoritmos consideradas confiáveis antes de selecionar os modelos ideais.
+	\item \textbf{Filtragem de resultados da análise}: Pelo mesmo motivo da estratégia anterior, métricas não confiáveis significam uma distorção na pontuação final. Para esse caso, foi criado um limiar de pontuação mínimo e máximo para determinar pontuações
+que podem ser consideradas confiáveis para avaliação.
+\end{itemize}
+
+Após a realização destas estratégias, é possível escolher as 5 melhores pontuações presentes na interface.
+
 \section{Avaliação da Solução}
 
-Foram realizados 3 Estudos de Caso para determinar a viabilidade de escolha das arquiteturas, manutenções futuras e funcionamento da autonomia na escolha de melhores \textit{Workflows} em diferentes contextos. Em todos eles, o objetivo foi a obtenção classificação de crédito (boa ou ruim), através de uma série de \textit{features}, mas utilizando diferentes conjuntos de dados. No caso de alterações no sistema, também foram contadas as linhas de código realizadas em cada alteração, para definir se tais alterações são simples de serem feitas.
+Foram realizados 3 Estudos de Caso para determinar a viabilidade de escolha das arquiteturas, manutenções futuras e funcionamento da autonomia na escolha de melhores opções em diferentes contextos. Em todos eles, o objetivo foi a obtenção de uma classificação de crédito (boa ou ruim), através de uma série de \textit{features} e utilizando diferentes conjuntos de dados. No caso de alterações no sistema, também foram contadas as linhas de código realizadas em cada alteração, para definir se tais alterações são simples de serem feitas.
 
-A execução para determinar o melhor \textit{Workflow} foi realizada com 3 pesagens diferentes na pontuação geral:
+A execução para determinar as melhores opções foi realizada com 3 pesagens diferentes na pontuação geral:
 
 \begin{itemize}
 \item 50\% para métricas de Performance e 50\% para métricas de Fairness, para uma configuração equilibrada.
@@ -381,11 +393,11 @@ A execução para determinar o melhor \textit{Workflow} foi realizada com 3 pesa
 \item 25\% para métricas de Performance e 75\% para métricas de Fairness, para uma configuração que prioriza a justiça em detrimento da performance.
 \end{itemize}
 
-Em todas as execuções são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento. Como não foram encontrados estudos onde são utilizados redução de viés em mais de uma parte do processo de Machine Learning (pré-processamento, processamento ou pós-processamento), é realizada a execução de apenas um algoritmo de redução de viés por \textit{workflow}.
+Todas as execuções foram realizadas utilizando uma base de conhecimento cerca de 600 execuções prévias com diversas opções de conjuntos de dados, atributos protegidos e algoritmos, e são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento. Como não foram encontrados estudos onde são utilizados redução de viés em mais de uma parte do processo de Machine Learning (pré-processamento, processamento ou pós-processamento), é realizada a execução de apenas um algoritmo de redução de viés por \textit{workflow}.
 
-\subsection{Viabilidade e utilidade do MAPE-K}
+\subsection{Estudo de Caso 1: Viabilidade e utilidade do MAPE-K}
 
- Neste Estudo de Caso, o maior foco foi colocado em testar e verificar como o MAPE-K se comporta em um cenário com diversas execuções prévias de Workflows. Como as execuções geraram uma base de conhecimento, o componente MAPE-K pode executar uma análise através destes dados e determinar um plano indicando a gama de algoritmos que utilizará para obter melhores resultados, utilizando o German Credit Dataset~\citep{ucigerman_2021} como conjunto de dados. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKGeral5050}, \ref{tbl:ScoreMAPEKGeral7525} e \ref{tbl:ScoreMAPEKGeral2575}:
+ Neste Estudo de Caso, o maior foco foi colocado em testar e verificar como o MAPE-K se comporta em um cenário com diversas execuções prévias do Workflow, utilizando o German Credit Dataset~\citep{ucigerman_2021} como conjunto de dados, Idade e Nacionalidade como opções de atributos protegidos e um intervalo de pontuação entre 500 e 950. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKGeral5050}, \ref{tbl:ScoreMAPEKGeral7525} e \ref{tbl:ScoreMAPEKGeral2575}:
 
 \begin{table}[H]
 \begin{center}
@@ -465,9 +477,9 @@ Nos \textit{workflows} sem algoritmos com redução de viés, é curioso notar q
 
 Em todas as execuções, foi possível perceber que a escolha do \textit{workflow} com o melhor equilíbrio entre estes dois grupos de métricas com contextos completamente diferentes ainda se torna difuso diante da grande quantidade de métricas e conjuntos de algoritmos utilizados. Além disso, a diferença entre as métricas é extremamente pequena e dificulta ainda mais a escolha. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais \textit{workflows} são mais equilibrados, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação. Deste modo, pode-se concluir também que, em um contexto de desenvolvimento, o processo simplifica a decisão do Cientista de Dados e reduz significantemente o tempo para obtenção e implantação de um modelo otimizado, pois não exigirá execuções em diversos algoritmos uma vez que já há uma base de conhecimento prévia. Além disso, poderá poupar processamento e custos para a resolução de diversos outros problemas, uma vez que as execuções economizadas pelas equipes que utilizariam esse processo abrem margem para que outras equipes utilizem esse processamento.
 
-\subsection{Evolução do \textit{Workflow} adicionando um novo conjunto de dados}
+\subsection{Estudo de Caso 2: Evolução do \textit{Workflow} adicionando um novo conjunto de dados}
 
-Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo conjunto de dados mais próximo de conjuntos de dados reais. Além de reforçar a versatilidade do MAPE-K em diferentes contextos, um maior foco foi colocado na manutenção do sistema, discutindo se as etapas e arquiteturas escolhidas são viáveis para evoluir e manter o \textit{Workflow} sem grandes deteriorações nas ideias originais de seu desenvolvimento, desta vez utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubGeral5050}, \ref{tbl:ScoreMAPEKLendingclubGeral7525} e \ref{tbl:ScoreMAPEKLendingclubGeral2575}:
+Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo conjunto de dados mais próximo de conjuntos de dados reais. Além de reforçar a versatilidade do MAPE-K em diferentes contextos, um maior foco foi colocado na manutenção do sistema, discutindo se as etapas e arquiteturas escolhidas são viáveis para evoluir e manter o \textit{Workflow} sem grandes deteriorações nas ideias originais de seu desenvolvimento, desta vez utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados, Renda como atributo protegido e um intervalo de pontuação entre 500 e 980. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubGeral5050}, \ref{tbl:ScoreMAPEKLendingclubGeral7525} e \ref{tbl:ScoreMAPEKLendingclubGeral2575}:
 
 \begin{table}[H]
 \begin{center}
@@ -550,15 +562,15 @@ Autonomia do \textit{Workflow} & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,
 \end{center}
 \end{table}
 
-A adição do conjunto de dados não exigiu modificações no Componente MAPE-K, mesmo os resultados sendo completamente diferentes do Estudo de Caso anterior. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Componente MAPE-K só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o \textit{Workflow}. 
+A adição do conjunto de dados não exigiu modificações no Elemento Autônomo, mesmo os resultados sendo completamente diferentes do Estudo de Caso anterior. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Elemento Autônomo só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o \textit{Workflow}. 
 
 Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no \textit{Workflow} de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o \textit{workflow} (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
 
 Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{workflow} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Dito isso, realizar a manutenção/evolução do sistema no \textit{Workflow} e na Interface Humano-Computador é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
 
-\subsection{Evolução do \textit{Workflow} com desenvolvedor sem conhecimento anterior adicionando um novo algoritmo de treinamento}
+\subsection{Estudo de Caso 3: Evolução do \textit{Workflow} com desenvolvedor sem conhecimento anterior adicionando um novo algoritmo de treinamento}
 
-Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo algoritmo de classificação. O foco ainda é na manutenção do sistema, mas desta vez foi colocado para outros desenvolvedores desenvolverem a solução. A discussão se focará mais se as arquiteturas escolhidas são versáteis e simples o suficiente para que pessoas entendam o contexto do sistema e façam novas evoluções, novamente utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados. 
+Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo algoritmo de classificação. O foco ainda é na manutenção do sistema, mas desta vez foi colocado para outros desenvolvedores desenvolverem a solução. A discussão se focará mais se as arquiteturas escolhidas são versáteis e simples o suficiente para que pessoas entendam o contexto do sistema e façam novas evoluções, novamente utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados, Renda como atributo protegido e um intervalo de pontuação entre 500 e 980. 
 
 Foi realizada uma sessão de desenvolvimento com um outro desenvolvedor, durando um tempo entre 1 e 2 horas, onde este adicionou um novo algoritmo de classificação dentro da estrutura do \textit{workflow} com a documentação montada durante o Estudo de caso anterior. Durante a sessão, alguns itens como erros na documentação e bugs foram notados e corrigidos, através de observação e \textit{feedbacks} do desenvolvedor. Por causa destes erros, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida. Dada a afirmação, é possível concluir que as decisões arquiteturais tomadas foram corretas e facilitaram o desenvolvimento de evoluções.
 
