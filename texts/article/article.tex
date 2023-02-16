@@ -314,6 +314,13 @@ Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ �
 
 \subsection{Arquitetura}
 
+\begin{figure*}[h]
+\centering
+\includegraphics[scale=0.3]{images/ml-fairness-pipeline.jpg}
+\caption {Diagrama de Atividades do \textit{Workflow} de IA}
+\label{fig:BackendFrontendML}
+\end{figure*}
+
 Foi desenvolvido um sistema, cujo desenvolvimento pode ser dividido em 4 etapas principais:
 
 \begin{itemize}
@@ -327,14 +334,14 @@ Foi desenvolvido um sistema, cujo desenvolvimento pode ser dividido em 4 etapas 
     \end{itemize}
 \end{itemize}
 
-Para o desenvolvimento do workflow, foi utilizada a arquitetura Pipe-and-Filter. Para a autonomia deste, foi criado um componente utilizando a arquitetura MAPE-K para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. 
-
-\begin{figure}[H]
+\begin{figure*}[h]
 \centering
 \includegraphics[scale=0.3]{images/backend-frontend-ml.jpg}
 \caption {Comunicação entre Interface, autonomia e \textit{Workflow} de IA}
 \label{fig:BackendFrontendML}
-\end{figure}
+\end{figure*}
+
+Para o desenvolvimento do workflow, foi utilizada a arquitetura Pipe-and-Filter. Para a autonomia deste, foi criado um componente utilizando a arquitetura MAPE-K para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. 
 
 \subsection{Autonomia}
 
