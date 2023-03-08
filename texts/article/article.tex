@@ -73,6 +73,7 @@
   \citeauthor{#1}~(\citeyear{#1})}
 \newcommand\citepar[1]{%
   (\citeauthor{#1}, \citeyear{#1})} 
+  
 
 
 %https://tex.stackexchange.com/q/151984/7561
@@ -176,6 +177,12 @@
 %  urlcolor={blue!80!black}
 }
 
+\usepackage{url}
+\usepackage{breakurl}
+% \usepackage[breaklinks]{hyperref}
+
+\def\UrlBreaks{\do\/\do-\do\_}
+
 \title{\textit{Workflow} autonômico para aplicações de \textit{Machine Learning} utilizando métricas de \textit{Fairness}}
 
 \author{Thales Eduardo Nazatto\textsuperscript{1}, Cecília Mary Fischer Rubira\textsuperscript{2}, Leonardo Montecchi\textsuperscript{3}}
@@ -193,14 +200,14 @@
 \maketitle
 
 \begin{abstract}
-O uso de Aprendizado de Máquina (ML) envolvendo grandes volumes de dados vem crescendo conforme nossa sociedade migra processos manuais de trabalho para soluções digitais e necessita de tomadas de decisão mais rápidas e assertivas, mas, devido a barreiras éticas e legais, métricas usadas inicialmente para definir a eficácia de um algoritmo se mostraram limitadas para medir vieses que refletem a sociedade de maneira que não era esperada pelos desenvolvedores da solução. Para resolver tal problema, novos algoritmos foram desenvolvidos e um novo conjunto de métricas, denominado como métricas de Fairness, é utilizado para determinar um equilíbrio aos grupos que sofrem discriminações. Entretanto, com estas novas descobertas, aumenta-se a complexidade da análise do Cientista de Dados para obter modelos com os melhores resultados. Este artigo foca no tema de Aprendizado de Máquina do ponto de vista da Engenharia de Software, apresentando uma solução para aplicações de \textit{Machine Learning} que pode ser executado de maneira semi-autônoma sem a necessidade de experimentar uma grande quantidade de técnicas e pode ser mais assertivo em encontrar opções mais otimizadas para diferentes contextos, utilizando um \textit{Workflow} que possui uma diversa gama de algoritmos já implementados e utiliza a arquitetura MAPE-K para determinar qual possui o melhor balanceamento. Foram realizados diversos estudos de caso para determinar se o MAPE-K pode ser viável na resolução destes problemas e se a solução implementada é extensível sem grandes esforços, possibilitando um maior uso de algoritmos. Diante deste contexto, foi notado que a solução pode facilitar caminhos realizados pelo Especialista de ML, possibilitando estudos de Engenharia de Software em aplicações com o uso responsável de dados.
+O uso de Aprendizado de Máquina (ML) envolvendo grandes volumes de dados vem crescendo conforme nossa sociedade migra processos manuais de trabalho para soluções digitais e necessita de tomadas de decisão mais rápidas e assertivas, mas, devido a barreiras éticas e legais, métricas usadas inicialmente para definir a eficácia de um algoritmo se mostraram limitadas para medir vieses que refletem a sociedade de maneira que não era esperada pelos desenvolvedores da solução. Para resolver tal problema, novos algoritmos foram desenvolvidos e um novo conjunto de métricas, denominado como métricas de Fairness, é utilizado para determinar um equilíbrio aos grupos que sofrem discriminações. Entretanto, com estas novas descobertas, aumenta-se a complexidade da análise do Cientista de Dados para obter modelos com os melhores resultados. Este artigo foca no tema de Aprendizado de Máquina do ponto de vista da Engenharia de Software, apresentando uma solução para aplicações de \textit{Machine Learning} que pode ser executado de maneira autônoma sem a necessidade de experimentar uma grande quantidade de técnicas e pode ser mais assertivo em encontrar opções mais otimizadas para diferentes contextos, utilizando um \textit{Workflow} que possui uma diversa gama de algoritmos já implementados e utiliza a arquitetura MAPE-K para determinar qual possui o melhor balanceamento. Foram realizados diversos estudos de caso para determinar se o MAPE-K pode ser viável na resolução destes problemas e se a solução implementada é extensível sem grandes esforços, possibilitando um maior uso de algoritmos. Diante deste contexto, foi notado que a solução pode facilitar caminhos realizados pelo Especialista de ML, possibilitando estudos de Engenharia de Software em aplicações com o uso responsável de dados.
 
 \keywords{\textit{Workflow}, \textit{Machine Learning}, Inteligência Artificial, Computação Autônoma, Métricas de \textit{Fairness}}
 \end{abstract}
 
 \section{Introdução}
 
-Técnicas de Inteligência Artificial e Aprendizado de Máquina já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, devido principalmente à grande quantidade de dados processada diariamente pelas empresas e pela quantidade de processamento disponível a custos baixos. Diferentes perfis podem traçados com esses dados e usar soluções de IA gera tomadas de decisão mais assertivas com o objetivo de melhorar a experiência de usuário e corrigir problemas. Porém, um efeito colateral comum nestas soluções é a exposição de vieses que, embora sejam vistos como não-intencionais pelos desenvolvedores por ter a possibilidade de ser um \textit{outlier} no modelo treinado, refletem preconceitos escancarados da sociedade atual. Uma entrada de dados enviesada resulta em um algoritmo que realiza discriminações em sua classificação~\citep{Buolamwini_2018}, e uma vez que as métricas utilizadas para medir a qualidade de um modelo \textit{black box} são geralmente baseadas em acurácia, precisão e recall, discriminações não são facilmente percebidas por tais métricas. Ao mesmo tempo, um modelo \textit{black box} pode ter uma alta dependência de poucos dados, determinando problemas de acoplamento. Para resolver este problema, é possível que a criação de um novo modelo seja uma melhor opção que realizar a correção em apenas parte dele.
+Técnicas de Inteligência Artificial e Aprendizado de Máquina já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, devido principalmente à grande quantidade de dados processada diariamente pelas empresas e pela quantidade de processamento disponível a custos baixos. Diferentes perfis podem traçados com esses dados e usar soluções de IA gera tomadas de decisão mais assertivas com o objetivo de melhorar a experiência de usuário e corrigir problemas. Porém, um efeito colateral comum nestas soluções é a exposição de vieses que, embora sejam vistos como não-intencionais pelos desenvolvedores por ter a possibilidade de ser um \textit{outlier} no modelo treinado, refletem preconceitos escancarados da sociedade atual. Uma entrada de dados enviesada resulta em um algoritmo que realiza discriminações em sua classificação~\citep{Buolamwini_2018}, e uma vez que as métricas utilizadas para medir a qualidade de um modelo final são geralmente baseadas em acurácia, precisão e recall, discriminações não são facilmente percebidas por tais métricas.
 
 Devido a esse problema, é possível estabelecer métricas para determinar o quão o modelo está preparado para dados sensíveis~\citep{Begley_2021}, termo que é conhecido como \textit{Fairness}. Com a evolução das pesquisas na comunidade acadêmica, foram descobertos algoritmos para redução dos vieses presentes nos conjuntos de dados, como \textit{Reweighing}~\citep{Kamiran_2011}, \textit{Adversarial Debiasing}~\citep{Zhang_2018} e \textit{Reject Option Classification}~\citep{Kamiran_2012}. Por consequência, ocorre melhora nas métricas em questão, mas pode desfavorecer métricas que já são amplamente utilizadas como garantia de um bom modelo desenvolvido com técnicas de Aprendizado de Máquina.
 
@@ -211,7 +218,7 @@ Para este determinado contexto, foi desenvolvida uma estrutura de \textit{Workfl
 \item Estabelecer um balanceamento entre métricas para avaliar bons modelos com métricas para avaliar modelos justos.
 \end{itemize}
 
-Esta estrutura é dividida em 4 módulos: Engenharia de Dados, \textit{Workflow} de ML, Gerente Autonômico e Interface Humano-Computador. Para o desenvolvimento do \textit{workflow}, foi utilizada a arquitetura \textit{Pipe-and-Filter}. Para a autonomia deste, foi utilizada a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor \textit{Workflow} seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
+Esta estrutura é dividida em 4 módulos: Engenharia de Dados, \textit{Workflow} de ML, Gerenciador Autonômico e Interface. Para a Engenharia de Dados, foram realizadas modificações nos conjuntos de dados German Credit Dataset~\citep{ucigerman_2021} e Lendingclub Dataset~\citep{lendingclub_2022} para serem adequados ao uso do \textit{workflow}. Para o desenvolvimento e estruturação do \textit{workflow}, foi utilizada a arquitetura \textit{Pipe-and-Filter}. Para o Gerenciador Autonômico, foi utilizada a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor \textit{Workflow} seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
 
 \section{Conceitos Principais}
 
@@ -259,6 +266,13 @@ FPR = \frac{FP}{FP + TN}
 \end{equation}
 
 Dada essas métricas iniciais, considerando $Y=1$ a classe positiva, $Z=0$ o grupo não-privilegiado e $Z=1$ o grupo privilegiado, algumas das definições de \textit{Fairness} mais usadas são as seguintes:
+
+\begin{figure*}[h]
+\centering
+\includegraphics[scale=0.3]{images/ml-fairness-pipeline.jpg}
+\caption {Diagrama de Atividades do \textit{Workflow} de ML}
+\label{fig:WorkflowML}
+\end{figure*}
 
 \begin{itemize}
 \item \textbf{Diferença de paridade estatística (\textit{Statistical parity difference}), ou discriminação~\citep{Zemel_2013}:} Esta métrica é baseada na seguinte fórmula:
@@ -309,34 +323,30 @@ Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ �
 
 \begin{figure*}[h]
 \centering
-\includegraphics[scale=0.3]{images/ml-fairness-pipeline.jpg}
-\caption {Diagrama de Atividades do \textit{Workflow} de IA}
+\includegraphics[scale=0.3]{images/backend-frontend-ml.jpg}
+\caption {Comunicação entre Interface, gerente autonômico, Engenharia de Dados e \textit{Workflow} de IA}
 \label{fig:BackendFrontendML}
 \end{figure*}
 
-O sistema implementado é dividido em 4 módulos:
+O sistema implementado é dividido em 5 módulos:
 
 \begin{itemize}
-    \item {\textbf{Engenharia de dados:}} Módulo com o objetivo de executar processos de transformação e limpeza de dados.
-    \item {\textbf{Workflow de IA:}} Módulo que executa um Pipeline de uma aplicação automatizada de IA, com etapas de preparação dos dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento) para a geração de um modelo final.
-    \item {\textbf{Gerente Autonômico:}} Módulo com o \textit{loop} MAPE-K que controla o Workflow como elemento gerenciado para automatizar todas as suas etapas, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritmo e do conjunto de dados utilizado.
+    \item {\textbf{Engenharia de Dados:}} Módulo com o objetivo de executar processos de transformação e limpeza de dados.
+    \item {\textbf{Workflow de ML:}} Módulo que executa um Pipeline de uma aplicação automatizada de ML, com etapas de preparação dos dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento) para a geração de um modelo final, cujas etapas estão ilustadas na figura \ref{fig:WorkflowML}.
+    \item {\textbf{Gerenciador Autonômico:}} Módulo contendo o \textit{loop} MAPE-K que controla o Workflow como elemento gerenciado para automatizar todas as suas etapas, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritmo e do conjunto de dados utilizado.
     \item {\textbf{Interface (Frontend):}} Módulo criado com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva para o Cientista de Dados.
+        \item {\textbf{Backend:}} Módulo criado com o objetivo de conectar o Frontend ao Gerenciador Autonômico.
 \end{itemize}
 
-\begin{figure*}[h]
-\centering
-\includegraphics[scale=0.3]{images/backend-frontend-ml.jpg}
-\caption {Comunicação entre Interface, gerente autonômico e \textit{Workflow} de IA}
-\label{fig:BackendFrontendML}
-\end{figure*}
-
-Estes módulos estão ilustrados pela figura \ref{fig:BackendFrontendML}. O módulo de Engenharia de Dados seria utilizado pelo Engenheiro de Dados, que devolveria um Conjunto de Dados com os tratamentos necessários para execução dentro do Workflow. A interface seria utilizada pelo Cientista de Dados, que determinaria as configurações necessárias para execução dos melhores Workflows dependendo do contexto do problema.
+A comunicação entre estes módulos está ilustrada na figura \ref{fig:BackendFrontendML}. O módulo de Engenharia de Dados seria utilizado pelo Engenheiro de Dados, que devolveria um Conjunto de Dados com os tratamentos necessários para execução dentro do \textit{Workflow}. A interface seria utilizada pelo Cientista de Dados, que determinaria as configurações necessárias para execução dos melhores \textit{Workflows} dependendo do contexto do problema.
 
 \subsection{Autonomia}
 
 Para determinar a autonomia deste workflow, o Monitor coleta os dados obtidos durante as execuções (métricas, parâmetros e etapas executadas) e os organiza para o Analisador realizar o processo de análise desses dados. Neste processo, é realizado um cálculo de pesos baseado em uma seleção livre das métricas. O motivo de existir esse cálculo é mensurar o contexto do problema de acordo com uma análise prévia do Cientista de Dados e do Especialista de Domínio, e consolidar todas as métricas para simplificar as estratégias de planejamento. As métricas são divididas em dois grupos (Métricas de Performance e Metricas de Fairness), e dentro desse grupo pode-se colocar quantas métricas forem necessárias, desde que seja respeitado o contexto de cada grupo. A cada grupo é atribuído pesos diferentes, e a cada métrica desse grupo também é atribuído pesos diferentes.
 
-Primeiro, normaliza-se as métricas $m_{F_i}$ para $m'_{F_i}$, referentes às métricas de Fairness, para todas ficarem em um intervalo de 0 a 1, conforme exibido na equação \ref{eqn:normalizationFairness}. Dessa forma, seus resultados ficam uniformes e é possível aplicar os pesos sem haver distorções no cálculo. No caso das métricas de Performance, todas possuem a mesma escala, por isso as métricas $m_{P_i}$ não são normalizadas. Depois, multiplica-se cada uma por seus pesos correspondentes $w_{P_i}$ e $w_{F_i}$, e realiza-se uma média ponderada dentro do grupo para atribuir uma pontuação $S_P$ para o grupo das Métricas de Performance e $S_F$ para o grupo das Metricas de Fairness, conforme exibido na equação \ref{eqn:groupScores}. Para facilitar a visualização das pontuações, multiplica-se as pontuações por um fator $X = 1000$ para o intervalo da pontuação ser de 0 a 1000 e arredonda-se o número. Após tais pontuações serem obtidas, a pontuação geral $S$ é calculada multiplicando-as por seus pesos correspondentes $w_P$ e $w_F$ e realizando a média ponderada, conforme exibido na equação \ref{eqn:totalScore}.
+Primeiramente, é necessário padronizar as métricas de Fairness $m_{F_i}$ para $m'_{F_i}$ em um intervalo de 0 a 1, conforme apresentado na Equação \ref{eqn:normalizationFairness}. Isso garante a uniformidade dos resultados e a aplicação correta dos pesos, evitando distorções no cálculo. Como as métricas de Fairness podem envolver tanto a razão entre dois valores diferentes, como no caso da \textit{Disparate Impact}, quanto a diferença entre dois valores diferentes, como no caso da \textit{Equal Opportunity Difference}, são necessários cálculos distintos para obter esse intervalo. Como as métricas de Performance avaliadas possuem o mesmo intervalo de 0 a 1, não há necessidade de tratamento adicional para as métricas $m_{P_i}$. 
+
+Depois, multiplica-se cada uma por seus pesos correspondentes $w_{P_i}$ e $w_{F_i}$, e realiza-se uma média ponderada dentro do grupo para atribuir uma pontuação $S_P$ para o grupo das Métricas de Performance e $S_F$ para o grupo das Metricas de Fairness, conforme exibido na equação \ref{eqn:groupScores}. Para facilitar a visualização das pontuações, multiplica-se as pontuações por um fator $X = 1000$ para o intervalo da pontuação ser de 0 a 1000 e arredonda-se o número. Após tais pontuações serem obtidas, a pontuação geral $S$ é calculada multiplicando-as por seus pesos correspondentes $w_P$ e $w_F$ e realizando a média ponderada, conforme exibido na equação \ref{eqn:totalScore}.
 
 \begin{gather}
 \label{eqn:normalizationFairness}
@@ -367,18 +377,18 @@ Para este cálculo ser realizado, é necessário como pré-requisito execuções
 
 \subsection{Determinação do Planejamento}
 
-Para determinação do que vai ser executado no Workflow, algumas estratégias foram implantadas no Planejador:
+Para determinação das melhores execuções possíveis pelo Workflow, algumas estratégias foram implantadas no Planejador:
 
 \begin{itemize}
 	\item \textbf{Filtragem de algoritmos}: Alguns algoritmos podem estar mal implementados ou seus modelos podem estar com métricas que necessitam uma melhor análise do Cientista de Dados para serem consideradas confiáveis. Para isso não acontecer, é possível realizar um filtro de acordo com as combinações de algoritmos consideradas confiáveis antes de selecionar os modelos ideais.
-	\item \textbf{Intervalo de resultados da análise}: Pelo mesmo motivo da estratégia anterior, métricas com resultados não confiáveis podem causar distorções a pontuação obtida no processo de análise. Para amenizar esas distorções, foi criado um intervalo de pontuação mínimo e máximo para determinar pontuações que podem ser consideradas confiáveis para avaliação.
+	\item \textbf{Intervalo de resultados}: Pelo mesmo motivo da estratégia anterior, métricas com resultados não confiáveis podem causar distorções a pontuação obtida pelo cálculo realizado no processo de análise. Para amenizar esas distorções, foi criado um intervalo de pontuação mínimo e máximo para determinar pontuações que podem ser consideradas confiáveis para avaliação.
 \end{itemize}
 
 Após a realização destas estratégias, o Planejador retornará as 5 melhores pontuações para o Cientista de Dados escolher, e solicitará ao Executor uma nova execução do Workflow após a escolha.
 
 \section{Avaliação da Solução}
 
-Foram realizados 3 Estudos de Caso para determinar a viabilidade da solução, manutenções futuras e funcionamento do \textit{loop} MAPE-K na escolha de melhores opções em diferentes contextos. Em todos eles, o objetivo foi a obtenção de uma classificação de crédito (boa ou ruim), através de uma série de \textit{features} e utilizando diferentes conjuntos de dados. No caso de alterações no sistema, também foram contadas as linhas de código realizadas em cada alteração, para definir se tais alterações são simples de serem feitas.
+Foram realizados 3 Estudos de Caso para determinar a viabilidade da solução, manutenções futuras e viabilidade do Gerenciador Autonômico na escolha de melhores opções em diferentes contextos. Em todos eles, o objetivo foi a obtenção de uma classificação de crédito (boa ou ruim), através de uma série de \textit{features} e utilizando diferentes conjuntos de dados. No caso de alterações no sistema, também foram contadas as linhas de código realizadas em cada alteração, para definir se tais alterações são simples de serem feitas.
 
 A execução para determinar as melhores opções foi realizada com 3 pesagens diferentes na pontuação geral:
 
@@ -388,15 +398,15 @@ A execução para determinar as melhores opções foi realizada com 3 pesagens d
 \item 25\% para métricas de Performance e 75\% para métricas de Fairness, para uma configuração que prioriza a justiça em detrimento da performance.
 \end{itemize}
 
-Todas as execuções foram realizadas utilizando uma base de conhecimento contendo cerca de 600 execuções prévias com diversas opções de conjuntos de dados, atributos protegidos e algoritmos, e são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento. Como não foram encontrados estudos onde são utilizados redução de viés em mais de uma parte do processo de Machine Learning (pré-processamento, processamento ou pós-processamento), é realizada a execução de apenas um algoritmo de redução de viés por \textit{workflow}.
+Todas as execuções foram realizadas utilizando uma base de conhecimento contendo cerca de 650 execuções prévias com diversas opções de conjuntos de dados, atributos protegidos e algoritmos, e são utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-Score} e AUC como métricas de Performance e as métricas \textit{Statistical Parity Difference}, \textit{Equal Opportunity Difference}, \textit{Average Odds Difference}, \textit{Disparate Impact} e \textit{Theil Index} como métricas de \textit{Fairness}, todas com pesagens iguais em seu respectivo agrupamento. Como não foram encontrados estudos onde são utilizados redução de viés em mais de uma parte do processo de Machine Learning (pré-processamento, processamento ou pós-processamento), é realizada a execução de apenas um algoritmo de redução de viés por \textit{workflow}. Por apresentarem dados considerados não confiáveis, foram filtrados as execuções com os algoritmos \textit{Optimized Preprocessing} e \textit{Optimized Preprocessing}, que correspondiam cerca de 5\% do total da base utilizada.
 
-\subsection{Estudo de Caso 1: Viabilidade e utilidade do MAPE-K}
+\subsection{Estudo de Caso 1: Viabilidade e utilidade do Gerenciador Autonômico}
 
- Neste Estudo de Caso, o maior foco foi colocado em testar e verificar como o MAPE-K se comporta em um cenário com diversas execuções prévias do Workflow, utilizando o German Credit Dataset~\citep{ucigerman_2021} como conjunto de dados, Idade e Nacionalidade como opções de atributos protegidos e um intervalo de pontuação entre 500 e 950. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKGeral5050}, \ref{tbl:ScoreMAPEKGeral7525} e \ref{tbl:ScoreMAPEKGeral2575}:
+ Neste Estudo de Caso, o foco foi colocado em testar e verificar como o Gerenciador Autonômico se comporta em um cenário com diversas execuções prévias do Workflow, utilizando o German Credit Dataset~\citep{ucigerman_2021} como conjunto de dados, Idade e Nacionalidade como opções de atributos protegidos e um intervalo de pontuação entre 500 e 950. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKGeral5050}, \ref{tbl:ScoreMAPEKGeral7525} e \ref{tbl:ScoreMAPEKGeral2575}:
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 50\% Performance/50\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 50\% Performance/50\% Fairness}
 \label{tbl:ScoreMAPEKGeral5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -415,7 +425,7 @@ Idade & Reweighing & Gradient Boosting & Nenhum & 804 & 931 & \textbf{868} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 75\% Performance/25\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 75\% Performance/25\% Fairness}
 \label{tbl:ScoreMAPEKGeral7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -434,7 +444,7 @@ Idade & Nenhum & Random Forest & Equalized Odds & 898 & 799 & \textbf{874} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 25\% Performance/75\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 25\% Performance/75\% Fairness}
 \label{tbl:ScoreMAPEKGeral2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -453,32 +463,15 @@ Nacionalidade & Learning Fair Representations & Support Vector Machines & Nenhum
 
 Nessas execuções, surpreende 2 observações. A primeira é o fato da predominância de algoritmos com redução de viés no pós-processamento/resultado especialmente em configurações que priorizavam performance, contrariando o esperado de que os algoritmos com redução de viés aumentavam justiça em detrimento da performance. A segunda é a predominância de algoritmos com redução de viés no pré-processamento/dado em configurações que priorizavam justiça, principalmente pois todas as execuções usavam \textit{Support Vector Machines} como algoritmo de treinamento.
 
-Diante destas 2 predominâncias envolvendo todos os \textit{workflows} executados, novos experimentos com restrições adicionais foram realizados para obter observações mais detalhadas a respeito dos resultados:
-
-\begin{itemize}
-\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no pré - processamento/dado.
-\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no processamento/treinamento.
-\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no pós - processamento/resultado.
-\item Uso apenas de \textit{workflows} sem o uso de algoritmos com redução de viés.
-\end{itemize}
-
-Nos \textit{workflows} utilizando apenas algoritmos com redução de viés no dado, percebe-se a predominância dos algoritmos de treinamento \textit{Gradient Boosting} e \textit{Support Vector Machines}, sendo o \textit{Gradient Boosting} predominante em configurações priorizando performance e o \textit{Support Vector Machines} predominante em configurações priorizando justiça, o que começa a explicar a sua predominância também presente no resultado geral. Também é possível perceber mais 2 observações: A primeira observação é que a análise de apenas uma categoria de algoritmos dá mais clareza em ver como o cálculo utilizado nas 3 configurações faz com que o equilíbrio de ambas as métricas se torna mais importante do que a prioridade apenas em performance ou apenas em justiça, uma vez que há exemplos de conjuntos de algoritmos com pontuações ligeiramente maiores em performance que acabaram sendo pior avaliados pois a pontuação em \textit{Fairness} está bem menor, e vice-versa. A segunda observação é que o uso de um atributo protegido diferente (e, por consequência, com tratamento de dados diferente) e de um algoritmo de treinamento parecem impactar tanto quanto ou até mais que o próprio algoritmo com redução de viés no dado.
-
-Nos \textit{workflows} utilizando apenas algoritmos com redução de viés no treinamento, percebe-se uma variedade maior nos algoritmos, até porque não há usos de redução de viés em um pré ou um pós-processamento, com destaque para o \textit{Adversarial Debiasing} que foi bem avaliado pela pontuação alta em \textit{Fairness}. Nestes \textit{workflows}, as 2 observações percebidas nos \textit{workflows} utilizando apenas algoritmos com redução de viés no dado são reforçadas por uma maior variedade de pontuações e pelo algoritmo \textit{Exponentiated Gradient Reduction} com 2 exemplos diferentes na Tabela \ref{tbl:ScoreMAPEKInproc7525}, onde o uso da Nacionalidade como atributo protegido possui pontuações de performance e \textit{Fairness} piores que a Idade e conclundo que o processamento utilizado no atributo protegido pode afetar todas as métricas.
-
-Nos \textit{workflows} utilizando apenas algoritmos com redução de viés no resultado, surpreende o fato de que os \textit{workflows} obtiveram as melhores pontuações em Performance e as piores pontuações em \textit{Fairness}, podendo indicar uma característica dos algoritmos \textit{Equalized Odds} e \textit{Calibrated Equalized Odds}. Entretanto, por conta da grande melhora por parte das métricas de performance, estes \textit{workflows} possuem um maior equilíbrio entre Performance e \textit{Fairness} e acabam garantindo maiores pontuações na média, justificando as melhores pontuações nas primeiras execuções onde foram considerados todos os métodos. Fora isto, as demais observações anteriores também se aplicam nestas execuções.
-
-Nos \textit{workflows} sem algoritmos com redução de viés, é curioso notar que, ao comparar com \textit{workflows} equivalentes mas com algoritmos usando redução de viés no dado, é possível notar que a hipótese principal se confirma em sua grande maioria: As pontuações em Performance são ligeiramente maiores e as pontuações em \textit{Fairness} são ligeiramente menores. É possível notar uma exceção no \textit{workflow} envolvendo o algoritmo \textit{Random Forest}, mas nos outros casos a hipótese é verificada com sucesso. Ao comparar com \textit{workflows} usando algoritmos com redução de viés no treinamento tal hipótese também se confirma, entretanto o uso de \textit{Support Vector Machines} parece ser uma exceção a regra, implicando que o uso do algoritmo possibilita modelos mais justos para o conjunto de dados utilizado. Ao comparar com \textit{workflows} usando algoritmos com redução de viés no resultado, a hipótese não se confirma devido a observação da grande melhora por parte das métricas de performance nos \textit{workflows} usando algoritmos com redução de viés no resultado, mas ao verificar a pontuação em \textit{Fairness} é possível notar uma ligeira melhora. Há a exceção de \textit{workflows} envolvendo \textit{Support Vector Machines} que são melhores nos \textit{workflows} sem algoritmos com redução de viés, mas no uso de outros algoritmos ocorre melhora na pontuação em \textit{Fairness}.
-
 Em todas as execuções, foi possível perceber que a escolha do \textit{workflow} com o melhor equilíbrio entre estes dois grupos de métricas com contextos completamente diferentes ainda se torna difuso diante da grande quantidade de métricas e conjuntos de algoritmos utilizados. Além disso, a diferença entre as métricas é extremamente pequena e dificulta ainda mais a escolha. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais \textit{workflows} são mais equilibrados, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação. Deste modo, pode-se concluir também que, em um contexto de desenvolvimento, o processo simplifica a decisão do Cientista de Dados e reduz significantemente o tempo para obtenção e implantação de um modelo otimizado, pois não exigirá execuções em diversos algoritmos uma vez que já há uma base de conhecimento prévia. Além disso, poderá poupar processamento e custos para a resolução de diversos outros problemas, uma vez que as execuções economizadas pelas equipes que utilizariam esse processo abrem margem para que outras equipes utilizem esse processamento.
 
 \subsection{Estudo de Caso 2: Evolução do \textit{Workflow} adicionando um novo conjunto de dados}
 
-Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo conjunto de dados mais próximo de conjuntos de dados reais. Além de reforçar a versatilidade do MAPE-K em diferentes contextos, um maior foco foi colocado na manutenção do sistema, discutindo se as etapas e arquiteturas escolhidas são viáveis para evoluir e manter o \textit{Workflow} sem grandes deteriorações nas ideias originais de seu desenvolvimento, desta vez utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados, Renda como atributo protegido e um intervalo de pontuação entre 500 e 980. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubGeral5050}, \ref{tbl:ScoreMAPEKLendingclubGeral7525} e \ref{tbl:ScoreMAPEKLendingclubGeral2575}:
+Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo conjunto de dados mais próximo de conjuntos de dados reais. Além de reforçar a versatilidade do Gerenciador Autonômico em diferentes contextos, um maior foco foi colocado na manutenção do sistema, discutindo se as etapas e arquiteturas escolhidas são viáveis para evoluir e manter o \textit{Workflow} sem grandes deteriorações nas ideias originais de seu desenvolvimento, desta vez utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados, Renda como atributo protegido e um intervalo de pontuação entre 500 e 980. Os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubGeral5050}, \ref{tbl:ScoreMAPEKLendingclubGeral7525} e \ref{tbl:ScoreMAPEKLendingclubGeral2575}:
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 50\% Performance/50\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 50\% Performance/50\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubGeral5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -497,7 +490,7 @@ Renda & Reweighing & Gradient Boosting & Nenhum & 987 & 964 & \textbf{976} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 75\% Performance/25\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 75\% Performance/25\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubGeral7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -516,7 +509,7 @@ Renda & Reweighing & Regressão Logística & Nenhum & 981 & 965 & \textbf{977} \
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 25\% Performance/75\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 25\% Performance/75\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubGeral2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -533,7 +526,7 @@ Renda & Reweighing & Gradient Boosting & Nenhum & 987 & 964 & \textbf{970} \\
 \end{center}
 \end{table}
 
-Nessas execuções, a principal observação notada é que a relação de algoritmos com melhores desempenhos mudou completamente, com predominância do algoritmo \textit{Learning Fair Representations} para redução de viés e Regressão Logística para algoritmo de treinamento. Também se nota que algoritmos com redução de viés no pós-processamento e algoritmos de treinamento como \textit{Support Vector Machines} não foram tão eficientes. Com isso, pode-se concluir que, ao mudar o contexto do problema e os dados envolvidos, o MAPE-K pode ajudar a enxergar tais sutilezas e ajudar em uma decisão de forma mais eficiente e ágil. Entretanto, os dados e metadados obtidos não ajudaram a entender o porquê de tais sutilezas acontecerem.
+Nessas execuções, a principal observação notada é que a relação de algoritmos com melhores desempenhos mudou completamente, com predominância do algoritmo \textit{Learning Fair Representations} para redução de viés e Regressão Logística para algoritmo de treinamento. Também se nota que algoritmos com redução de viés no pós-processamento e algoritmos de treinamento como \textit{Support Vector Machines} não foram tão eficientes. Com isso, pode-se concluir que, ao mudar o contexto do problema e os dados envolvidos, o Gerenciador Autonômico pode ajudar a enxergar tais sutilezas e ajudar em uma decisão de forma mais eficiente e ágil. Entretanto, os dados e metadados obtidos não ajudaram a entender o porquê de tais sutilezas acontecerem.
 
 Para processar o Lendingclub Dataset, foram necessárias modificações para realizar a evolução do sistema e adicionar este conjunto de dados como opção no \textit{Workflow}. Estas foram contadas de acordo com seus \textit{commits} realizados no repositório e exibidos  na Tabela \ref{tbl:ManutencaoPipelineDataset}:
 
@@ -547,33 +540,33 @@ Para processar o Lendingclub Dataset, foram necessárias modificações para rea
 Parte do Sistema & \makecell{Linhas alteradas} & Total de linhas & \makecell{Arquivos alterados} & Total de arquivos & \makecell{\% linhas alteradas} & \makecell{\% arquivos alterados} \\
 \hline
 \makecell{Engenharia de Dados} & 122 & 277 & 2 & 3 & \textbf{44,04\%} & \textbf{66,67\%} \\
-\textit{Workflow} de IA & 76 & 1982 & 5 & 38 & \textbf{3,84\%} & \textbf{13,16\%} \\
-Autonomia do \textit{Workflow} & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
-\makecell{Interface Humano-Computador (\textit{Frontend})} & 13 & 2905 & 2 & 14 & \textbf{0,45\%} & \textbf{14,29\%} \\
-\makecell{Interface Humano-Computador (\textit{Backend})} & 4 & 432 & 1 & 7 & \textbf{0,93\%} & \textbf{14,29\%} \\
+\textit{Workflow} de ML & 76 & 1982 & 5 & 38 & \textbf{3,84\%} & \textbf{13,16\%} \\
+Gerenciador Autonômico & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
+\makecell{Interface} & 13 & 2905 & 2 & 14 & \textbf{0,45\%} & \textbf{14,29\%} \\
+\makecell{\textit{Backend}} & 4 & 432 & 1 & 7 & \textbf{0,93\%} & \textbf{14,29\%} \\
 \hline
 \textbf{TOTAL} & \textbf{215} & \textbf{6053} & \textbf{10} & \textbf{72} & \textbf{3,55\%} & \textbf{13,89\%} \\
 \end{tabular}}}
 \end{center}
 \end{table}
 
-A adição do conjunto de dados não exigiu modificações no Elemento Autônomo, mesmo os resultados sendo completamente diferentes do Estudo de Caso anterior. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Elemento Autônomo só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o \textit{Workflow}. 
+A adição do conjunto de dados não exigiu modificações no Gerenciador Autonômico, mesmo os resultados sendo completamente diferentes do Estudo de Caso anterior. Isto reforça a autonomia proposta no \textit{loop} MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Gerenciador Autonômico só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio Gerenciador, que é desacoplado do \textit{Workflow}. 
 
-Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no \textit{Workflow} de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o \textit{workflow} (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
+Os elementos na Interface exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para disponibilizar a opção do novo conjunto de dados ao Cientista de Dados. As maiores modificações foram realizadas no \textit{Workflow} de ML e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de ML, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} exija a criação de classes adicionais para o \textit{workflow} (2 para pipes e 1 para filtro), é nas etapas de processamento e transformação dos dados que os Engenheiros e Cientistas de Dados vão gastar a maior parte do tempo e fazer mais modificações.
 
-Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{workflow} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Dito isso, realizar a manutenção/evolução do sistema no \textit{Workflow} e na Interface Humano-Computador é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
+Embora o uso da arquitetura \textit{Pipe-and-Filter} exija a escrita de algumas linhas a mais, ela permite encapsular os algoritmos e separar os interesses de forma simples, tornando possível ter um bom \textit{Design} do código. Isso torna a manutenção/evolução do sistema no \textit{Workflow} e na Interface relativamente simples, desde que o desenvolvedor saiba em quais arquivos as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o sistema como um todo e não adicione linhas de forma desnecessária.
 
 \subsection{Estudo de Caso 3: Evolução do \textit{Workflow} com desenvolvedor sem conhecimento anterior adicionando um novo algoritmo de treinamento}
 
-Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo algoritmo de classificação. O foco ainda é na manutenção do sistema, mas desta vez foi colocado para outros desenvolvedores desenvolverem a solução. A discussão se focará mais se as arquiteturas escolhidas são versáteis e simples o suficiente para que pessoas entendam o contexto do sistema e façam novas evoluções, novamente utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados, Renda como atributo protegido e um intervalo de pontuação entre 500 e 980. 
+Neste Estudo de Caso, realizou-se uma evolução do sistema adicionando um novo algoritmo de classificação. Novamente é discutida a manutenção do sistema, desta vez com foco nas decisões de outros desenvolvedores. Para isso, foi verificado se as arquiteturas escolhidas são versáteis e simples o suficiente para que novos desenvolvedores possam entender o contexto do sistema e realizar novas evoluções com facilidade, novamente utilizando o Lendingclub Dataset~\citep{lendingclub_2022} como conjunto de dados, Renda como atributo protegido e um intervalo de pontuação entre 500 e 980. 
 
-Foi realizada uma sessão de desenvolvimento com um outro desenvolvedor, durando um tempo entre 1 e 2 horas, onde este adicionou um novo algoritmo de classificação dentro da estrutura do \textit{workflow} com a documentação montada durante o Estudo de caso anterior. Durante a sessão, alguns itens como erros na documentação e bugs foram notados e corrigidos, através de observação e \textit{feedbacks} do desenvolvedor. Por causa destes erros, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida. Dada a afirmação, é possível concluir que as decisões arquiteturais tomadas foram corretas e facilitaram o desenvolvimento de evoluções.
+Durante uma sessão de desenvolvimento com um outro desenvolvedor, com duração de cerca de 1 e 2 horas, um novo algoritmo de classificação foi adicionado à estrutura do \textit{workflow} por ele utilizando a documentação elaborada durante o Estudo de Caso anterior. Durante a sessão, alguns itens como erros na documentação e bugs foram notados e corrigidos, através de observação e \textit{feedbacks} do desenvolvedor. Devido a esses problemas, uma pequena parte da sessão foi dedicada em auxílios e dúvidas para que o desenvolvedor evitasse perder tempo com eles e se concentrasse no desenvolvimento do \textit{workflow}. Depois da sessão, o desenvolvedor preencheu um questionário indicando um perfil com certa experiência na área de dados e desenvolvimento, com impressões positivas da sessão e uma implementação sem dificuldades. Embora a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação, ele próprio considerou a adaptação a tal experimento rápida, independente do auxílio fornecido. Isso sugere que as decisões iniciais tomadas na implementação foram corretas e facilitaram o desenvolvimento de evoluções.
 
-O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes~\citep{Naive_Bayes_2004}, que também é bastante difundido como classificador. Após o desenvolvimento, os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
+O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes~\citep{Naive_Bayes_2004}, que também é bastante difundido como classificador. Após o desenvolvimento, os resultados estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 50\% Performance/50\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 50\% Performance/50\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubCaso35050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -592,7 +585,7 @@ Renda & Reweighing & Gradient Boosting & Nenhum & 987 & 964 & \textbf{976} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 75\% Performance/25\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 75\% Performance/25\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubCaso37525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -611,7 +604,7 @@ Renda & Reweighing & Regressão Logística & Nenhum & 981 & 965 & \textbf{977} \
 
 \begin{table}[H]
 \begin{center}
-  \caption{Melhores opções escolhidas pelo modelo MAPE-K \\ Todos os métodos - 25\% Performance/75\% Fairness}
+  \caption{Melhores opções escolhidas pelo Gerenciador Autonômico \\ Todos os métodos - 25\% Performance/75\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubCaso32575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -642,29 +635,27 @@ As evoluções realizadas no \textit{Workflow} para adicionar o Naive Bayes fora
 Parte do Sistema & \makecell{Linhas alteradas} & Total de linhas & \makecell{Arquivos alterados} & Total de arquivos & \makecell{\% linhas alteradas} & \makecell{\% arquivos alterados} \\
 \hline
 \makecell{Engenharia de Dados} & 0 & 277 & 0 & 3 & \textbf{0,00\%} & \textbf{0,00\%} \\
-\textit{Workflow} de IA & 60 & 2042 & 5 & 39 & \textbf{2,94\%} & \textbf{12,82\%} \\
-Autonomia do \textit{Workflow} & 1 & 458 & 1 & 10 & \textbf{0,22\%} & \textbf{10,00\%} \\
-\makecell{Interface Humano-Computador (\textit{Frontend})} & 71 & 2948 & 3 & 14 & \textbf{2,41\%} & \textbf{21,43\%} \\
-\makecell{Interface Humano-Computador (\textit{Backend})} & 1 & 433 & 1 & 7 & \textbf{0,23\%} & \textbf{14,29\%} \\
+\textit{Workflow} de ML & 60 & 2042 & 5 & 39 & \textbf{2,94\%} & \textbf{12,82\%} \\
+Gerenciador Autonômico & 1 & 458 & 1 & 10 & \textbf{0,22\%} & \textbf{10,00\%} \\
+\makecell{Interface} & 71 & 2948 & 3 & 14 & \textbf{2,41\%} & \textbf{21,43\%} \\
+\makecell{\textit{Backend}} & 1 & 433 & 1 & 7 & \textbf{0,23\%} & \textbf{14,29\%} \\
 \hline
 \textbf{TOTAL} & \textbf{132} & \textbf{6157} & \textbf{9} & \textbf{72} & \textbf{2,14\%} & \textbf{12,50\%} \\
 \end{tabular}}}
 \end{center}
 \end{table}
 
-Desta vez, a única parte do sistema sem necessidade de modificações foi a parte de Transformação do conjunto de dados. Entretanto, a única modificação necessária no componente MAPE-K e no \textit{Backend} da Interface Humano-Computador foi a adição do Naive Bayes como parte de uma parametrização, que poderia ser transferida para um arquivo externo de configuração e não exigir modificações futuramente.
+Desta vez, o único módulo sem necessidade de modificações foi Engenharia de Dados, por já terem sido implementadas anteriormente. Também, a única modificação necessária no Gerenciador Autonômico e no \textit{Backend} foi a adição do Naive Bayes como parte de uma parametrização, que poderia ser transferida para um arquivo externo de configuração e não exigir modificações futuramente via código.
 
-No geral, foram exigidas menos modificações que a evolução proposta no Estudo de Caso anterior. A única parte que exigiu mais modificações foi no \textit{Frontend} da Interface Humano-Computador, em grande parte por causa de um único componente presente na tela de Configurações para Planejamento do MAPE-K. Fora esta exceção, adicionar um algoritmo é uma evolução mais simples de ser feita, e junto com a documentação criada um desenvolvedor com relativa experiência consegue executar essa tarefa sem grandes dificuldades.
+No geral, foram exigidas menos modificações que a evolução proposta no Estudo de Caso anterior. A única parte que exigiu mais modificações foi na Interface, em grande parte por causa de um único componente presente na tela de Configurações para Planejamento do Gerenciador Autonômico. Fora esta exceção, adicionar um algoritmo é uma evolução mais simples de ser feita, e junto com a documentação criada um desenvolvedor com relativa experiência consegue executar essa tarefa sem grandes dificuldades.
 
 \section{Conclusões e Trabalhos Futuros}
 
-Pode-se dizer que o conjunto da arquitetura de \textit{Pipe-And-Filter} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a proveniência dos dados, presente durante a avaliação dos modelos no \textit{workflow}, foi possível coletar os dados e métricas para a elaboração de uma Base de Conhecimento. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes três conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
+A literatura revisada sobre \textit{Fairness} verifica apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de \textit{Machine Learning} em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados, e facilitar o entendimento de outros desenvolvedores. 
 
-Embora o \textit{Pipe-And-Filter} seja um modelo que facilite o encapsulamento e a segmentação dos procedimentos do \textit{workflow}, ele ainda é preso a limitações de fatores externos ao código, como o Hardware de onde será rodado e os dados a serem trabalhados. Desse modo, ao realizar a implementação, quem desenvolve terá de escolher um equilíbrio entre memória, armazenamento e performance. Por exemplo, como neste projeto os conjuntos de dados avaliados eram pequenos, eles puderam ser armazenados em memória e garantir performance máxima, mas conforme o número de dados avaliados for crescendo é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com o mesmo custo, não necessitando da contratação de mais desenvolvedores e evitando gastos com infra-estrutura.
+Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no \textit{workflow} fossem analisados para facilitar uma tomada de decisão. Embora a autonomia seja viável, a supervisão humana é necessária devido a problemas ainda enfrentados pelo tema \textit{Fairness}, onde o contexto social do problema é de extrema importância ao avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do Gerenciador Autonômico garantem o balanceamento performance/\textit{Fairness} e ajudam a definir o contexto para uma avaliação, mas ainda depende de um Cientista de Dados e/ou de um especialista de Domínio entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado e justo.
 
-Embora olhar para a proveniência dos dados permita o armazenamento de dados importantes para estabelecer um elo entre o \textit{workflow} e o componente MAPE-K, não foi possível garantir que ela substitua Explainable AI pois não foram encontradas evidências do porquê de determinados algoritmos funcionarem em determinados conjuntos de dados e não em outros com os metadados cadastrados na base de conhecimento. A qualidade dos dados também é um ponto que deverá ser observado conforme o número de dados for crescente: É possível ter resultados fora do comum (\textit{outliers}), alguns atributos podem não permitir uma avaliação acurada, ou a quantidade de atributos pode não ser suficiente para avaliar. Antes da proveniência ser implementada, os próprios dados precisam ser modelados conforme o problema exige. Após a implementação, é preciso realizar processos de limpeza dos dados conforme execuções no \textit{workflow} vão sendo realizadas.
-
-Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
+Dadas estas observações, pode-se dizer este conjunto se adaptou muito bem na implementação dos objetivos principais. Como trabalhos futuros, é possível trabalhar com algumas possibilidades. No Gerenciador Autonômico, o Analisador pode realizar uma análise mais profunda aumentando o número de indicadores e considerando grupos além de métricas de \textit{Fairness} e métricas de Performance. No \textit{workflow}, introduzir técnicas para melhora dos resultados como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}. Também é possível mudar o foco para solucionar problemas de MLOps, utilizando o sistema para determinar um melhor deploy em caso de piora nas métricas de um modelo já utilizado por clientes.
 
 % As referências:
 \bibliographystyle{plainnat}
