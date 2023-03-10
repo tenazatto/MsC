@@ -371,17 +371,16 @@ Além destes problemas, ao observar outras soluções baseadas em IA presentes n
 
 \section{Objetivo}
 
-O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \textit{Workflow} para aplicações de \textit{Machine Learning} de forma semi-autônoma, que permita que o Cientista de Dados configure a melhor forma de escolher os melhores algoritmos e resolva três problemas principais:
+O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \textit{Workflow} para aplicações de \textit{Machine Learning} de forma semi-autônoma, que permita que o Cientista de Dados configure a melhor forma de escolher os melhores algoritmos e resolva dois problemas principais:
 
 \begin{itemize}
 \item Facilitar a criação de modelos justos e confiáveis com a automatização da escolha dos algoritmos em todas as partes do processo: escolha dos dados a serem treinados, treinamento e avaliação.
 \item Estabelecer um balanceamento entre métricas para avaliar bons modelos com métricas para avaliar modelos justos.
-\item Considerar proveniência de dados como requisito no design de uma solução de IA, e como uma alternativa a XAI através da utilização de metadados.
 \end{itemize}
 
 \section{Solução Proposta}
 
-Foi desenvolvido um sistema, que pode ser dividido em 4 etapas principais: Engenharia de dados, \textit{Workflow} de IA, Autonomia do \textit{Workflow} e Interface Humano-Computador, que serão detalhados no Capítulo onde se discute sobre a metodologia adotada.
+Foi desenvolvido um sistema, que pode ser dividido em 4 etapas principais: Engenharia de dados, \textit{Workflow} de ML, Gerenciador Autonômico e Interface Humano-Computador, que serão detalhados no Capítulo onde se discute sobre a metodologia adotada.
 
 Para o desenvolvimento do \textit{workflow}, será utilizada a arquitetura \textit{Pipe-and-Filter}. Para a autonomia deste, será criado um componente utilizando a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
 
@@ -856,52 +855,55 @@ Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de
 \item \textbf{Infusão:} Relaciona os processos de disponibilização desses dados e conhecimento obtidos na fase de análise para aplicações externas.
 \end{itemize}
 
-\section{Proveniência de Dados}
+\section{\textit{ModelOps}}
+\label{app:ModelOps}
 
-O termo proveniência é comumente usado no contexto da arte para denotar a história documentada ou a cadeia de propriedade de um objeto de arte~\citep{Moreau_2007}~\citep{Moreau_2008}~\citep{Moreau_2009}~\citep{Tan_2007}. A proveniência ajuda a determinar a autenticidade e, portanto, o valor dos objetos de arte. Passando para o contexto da computação e do processamento de dados, a proveniência dos dados, às vezes chamada de linhagem ou \textit{pedigree}, é a descrição das origens de um dado e o processo pelo qual ele chegou a um banco de dados~\citep{Buneman_2001}, contendo metadados informando "como", "quando", "onde", "por que" ele foi obtido e "quem" o obteve. Em outras palavras, o conceito, não somente inclui a origem do dado (identificação,responsável pelo dado, data de criação), mas também os processos aplicados a ele (algoritmos e os parâmetros utilizados para executá-lo)~\citep{Woodruff_1997}. Os principais benefícios da proveniência para a qualidade de dados são~\citep{Bose_2005}:
+O ModelOps (ou operacionalização de modelos de IA) está focado principalmente na governança e gerenciamento do ciclo de vida de uma ampla gama de modelos de inteligência artificial (IA) e de decisão operacionalizados, incluindo aprendizado de máquina, grafos de conhecimento, regras, otimização, modelos linguísticos e modelos baseados em agentes~\cite{Gartner_2022}. Os principais recursos incluem integração contínua/entrega contínua (CI/CD), ambientes de desenvolvimento, sistema de controle de versão, armazenamento e reversão de modelos. O termo ModelOps é uma junção de modelos de IA e DevOps, sendo uma nova estrutura e plataforma para gerenciamento completo do ciclo de vida de artefatos de aplicativos de Inteligência Artificial~\cite{Hummer_2019} e cobrindo todos os termos relacionados a implantação de modelos baseados em IA, como MLOps e AIOps. Apesar do termo ModelOps ser criado como a generalização destes termos, a ideia de todos eles é utilizar os princípios de Integração Contínua (CI) e Entrega Contínua (Continuous Delivery, ou CD) presentes no DevOps para garantir que o modelo de IA seja sempre o melhor e mais próximo do cenário que aborda.
 
-\begin{itemize}
-\item \textbf{Comunica a qualidade de dados:} confiabilidade, adequação, acurácia, atualidade, redundância;
-\item Melhora a interpretação do dado: em relação a função do reconhecimento da fonte e na utilização do dado para um aspecto de tomada de decisão.
-\item \textbf{Justificativa do uso de um determinado dado:} em relação as limitações e intenções originais do uso de um determinado dado de conjuntos de dados ambientais.
-\item \textbf{Redução de erros:} no quesito do juízo da precisão do dado, no acompanhamento preciso da linhagem de conjuntos de dados científicos.
-\item \textbf{Passos do processamento:} permite que usuários não especialistas em dados entendam a capacidade de recuperar e entender os relacionamentos entre produtos de dados, scripts ou dados gerados por programas.
-\item \textbf{Criação de dados científicos:} permite identificar o processo utilizado para ajudar a identificar e avaliar os componentes básicos dos sistemas que fornecem a recuperação de linhagem para produtos de dados científicos.
-\item \textbf{Atualização de dados:} permite a partir do desenvolvimento de estudos formais para executar rastreamento de linhagem de dados em visões relacionais.
-\item \textbf{Modificação de \textit{schemas} de visões relacionais:} modelos gráficos e estudos experimentais.
-\item \textbf{Fontes de dados históricas:} permite identificar a origem e o subsequente histórico de processamento.
-\end{itemize}
-
-Tanto a comunidade científica quanto a empresarial adotaram o estilo de arquitetura orientada a serviços (SOA), que permite que os serviços sejam descobertos e compostos dinamicamente~\citep{Moreau_2008}. Os aplicativos baseados em SOA tornam-se mais dinâmicos e abertos, mas também precisam atender a novos requisitos. É preciso verificar se o processo que os trouxe resultados está em conformidade com regulamentações ou metodologias específicas, provar que os resultados são derivados independentemente de serviços ou bancos de dados com determinadas restrições de licença, e estabelecer que os dados foram capturados na fonte por instrumentos que ofereçam confiabilidade.
-
-Como tais verificações não são automatizadas, há sempre a possibilidade de erro humano: uma etapa pode não ser feita ou feita parcialmente, por uma falha em alguma verificação, ou mesmo por falta de suporte. Os dados podem não conter as informações históricas necessárias para fezerem as verificações. Portanto, há a necessidade de capturar informações extras (documentação do processo) que descrevam o que realmente ocorreu durante a execução. A documentação do processo é para os dados o que um registro de propriedade é para uma obra de arte. Os aplicativos capazes de realizar proveniência criam a documentação do processo e a armazenam em uma base de proveniência, cujo papel é oferecer um armazenamento seguro e persistente de longo prazo da documentação do processo, conforme ilustrado na Figura \ref{fig:dataProvenanceSOA}. Esse papel acomoda várias implantações: por exemplo, uma base de proveniência pode ser um serviço único e autônomo ou, para ser mais escalável, pode ser uma coleção de bases distribuídas~\citep{Moreau_2008}.
-
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
-\includegraphics[scale=0.75]{images/provenance_lifecycle.png}
-\caption {Ciclo de vida da proveniência.~\citep{Moreau_2008}}
-\label{fig:dataProvenanceSOA}
+\includegraphics[scale=0.7]{images/code-validate-deploy-loop.png}
+\caption {Ciclo resumido do processo presente em MLOps}
+\label{fig:MLOpsLoop}
 \end{figure}
 
-Uma vez registrada a documentação do processo, o resultado da proveniência dos dados pode ser recuperada consultando a base de proveniência e analisada para atender as necessidades do usuário da aplicação. Com o tempo, é preciso gerenciar e manter a base de proveniência e o conteúdo já obtido. Dado esse ponto, é possível dividir o ciclo de vida da proveniência de dados em quatro fases diferentes, sendo válido para todos os sistemas capazes de realizá-la~\citep{Moreau_2008}:
+A operacionalização dos procedimentos em Software já é uma prática comum de ser adotada, mas em aplicações de IA sua adoção é mais recente, e possuem desafios diferentes de uma aplicação tradicional de Software~\cite{Sculley_2015}:
 
 \begin{itemize}
-\item Criação
-\item Registro
-\item Consulta
-\item Gerenciamento
+    \item \textbf{Complexidade dos modelos implantados:} A prática tradicional de Engenharia de Software mostrou que o uso de encapsulamento e design modular ajudam a criar código sustentável no qual é fácil de fazer isoladamente mudanças e melhorias. Tais práticas ajudam a expressar a consistência das entradas e saídas de informações de um determinado componente. Infelizmente, é difícil traduzir estas abstrações para sistemas de IA prescrevendo um comportamento pretendido específico. De fato, IA é necessária exatamente nos casos em que o comportamento desejado não pode ser efetivamente expresso na lógica do Software sem dependência de dados externos. O mundo real não se encaixa totalmente de forma encapsulada.
+    \item \textbf{Dependência dos dados:} Débito de dependência é apontado como um dos principais contribuintes para a complexidade do código e débito técnico em configurações clássicas de Engenharia de Software. As dependências de dados em sistemas de IA possuem uma capacidade semelhante para aumentar o débito, mas podem ser mais difíceis de detectar. As dependências de código podem ser identificadas por meio de análise estática por compiladores e vinculadores. Sem ferramentas semelhantes para dependências de dados, não é difícil construir grandes cadeias de dependências de dados que podem ser difíceis de arrumar.
+    \item \textbf{Ciclos de \textit{Feedback}:} Uma das principais características dos sistemas de IA é que eles geralmente acabam influenciando seu próprio comportamento se forem atualizados ao longo do tempo. Isso leva a uma forma de análise do débito, na qual é difícil prever o comportamento de um determinado modelo antes de ele ser lançado. Esses ciclos de feedback podem assumir diferentes formas, mas são mais difíceis de detectar e resolver se ocorrerem gradualmente ao longo do tempo, como pode ser o caso quando os modelos são atualizados com pouca frequência.
+    \item \textbf{\textit{Anti-Patterns} nas aplicações:} É comum que sistemas de IA acabem com grandes débitos em padrões de design. Débitos como \textit{glue code} (integração de sistemas teoricamente incompatíveis), \textit{pipeline jungles} (\textit{pipelines} de grande complexidade e com difícil rastreamento de problemas, geralmente com etapas fortemente acopladas), código não utilizado, débitos de abstração, \textit{code smells} (códigos que podem indicar problemas subjacentes em um componente ou sistema) devem ser evitados ou refatorados sempre que possível.
+    \item \textbf{Débitos de configuração:} Qualquer sistema grande tem uma ampla gama de opções configuráveis, incluindo quais \textit{features} são usadas, como os dados são selecionados, uma ampla variedade de configurações de aprendizado específicas de algoritmos, potencial pré ou pós-processamento, métodos de verificação, entre outras. A grande quantidade de opções e a relação que essas tem umas com as outras no sistema torna a configuração difícil de modificar corretamente e difícil de raciocinar. No entanto, erros na configuração podem custar caro, levando a sérias perdas de tempo, desperdício de recursos de computação ou problemas de produção.
+    \item \textbf{Mudanças do mundo externo:} Sistemas de IA geralmente interagem diretamente com o mundo externo, e este raramente é estável, criando um custo de manutenção contínuo. Para isso, é importante prever os vieses e determinar limiares para as previsões que estes sistemas irão realizar.
+    \item \textbf{Testagem e fidelidade dos dados:} Embora estejam relacionados a itens já mencionados (dependência dos dados e mudanças do mundo externo), a garantia de que estes desafios estejam bem controlados começa durante o desenvolvimento dos modelos. Dados de entrada testados e fidedignos às situações presentes do mundo garantem este controle, e procedimentos para realizar esta tarefa constituem em outro desafio para garantia da qualidade da aplicação.
+    \item \textbf{Processos e cultura do time:} É importante criar equipes que se importem na melhora do modelo e do seu próprio processo de implantação. Sistemas maduros podem ter dezenas ou centenas de modelos rodando simultaneamente, tornando-se complexos ao longo do tempo e necessitando de melhoria contínua dos processos para manter a qualidade.
 \end{itemize}
 
-É possível utilizar \textit{workflows} para gerenciar a proveniência~\citep{Davidson_2008}. No domínio científico, um \textit{workflow} é normalmente usado para executar tarefas complexas de processamento de dados. Um \textit{workflow} pode ser pensado como um programa que é uma série de etapas de computação e etapas definidas por processos executados manualmente por uma ou mais pessoas. A proveniência do \textit{workflow} refere-se ao registro de todo o histórico da saída final do \textit{workflow}~\citep{Tan_2007}. Nesse contexto, há duas formas distintas de proveniência~\citep{Davidson_2008}:
+No caso de MLOps, ele pode ser visto como o processo de implantar os melhores modelos latentes de Machine Learning para o ambiente de produção, unindo os campos de Machine Learning, DevOps e Engenharia de Dados. Um projeto de MLOps, como exemplo mostrado na Figura \ref{fig:MLOpsPipeline}, deve dar suporte à automação, integração e monitoramento em todas as etapas da construção de um sistema de ML, incluindo treinamento, integração, teste, lançamento, implantação e gerenciamento de infraestrutura~\citep{Testi_2022}. A ideia é projetar um pipeline automatizado usando o CI/CD, sendo a tarefa de CI de testar e validar dados, esquemas de dados e modelos, e a tarefa de CD um pipeline de ML que deve implantar automaticamente outro modelo de ML.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.33]{images/mlops-pipeline-example.png}
+\caption {Exemplo de Pipeline de MLOps com ambientes de Desenvolvimento e Produção}
+\label{fig:MLOpsPipeline}
+\end{figure}
+
+O ciclo de vida de Machine Learning tem metodologias diferentes para se adequar a diferentes cenários e tipos de dados. A abordagem mais utilizada por especialistas em mineração de dados é o Cross-Industry Standard Process for Data Mining (CRISP-DM)~\citep{Shearer_2000}, introduzido em 1996 pela Daimler Chrysler. Especialistas podem emprestar as metodologias CRISP-DM padrão e tentar aplicá-las ao pipeline de MLOps, envolvendo dois papeis: Os Cientistas de Dados, responsáveis pelo treinamento e teste do modelo, e os Engenheiros de Machine Learning, responsáveis pela produção e implantação. Tais papeis trabalhariam em conjunto em tarefas envolvendo as seguintes etapas:
 
 \begin{itemize}
-\item \textbf{Prospectiva:} Trata-se da sequência de processos utilizados para a geração do dado, ou seja, a captura dos passos que devem ser seguidos para a geração de um dado produto.
-\item \textbf{Retrospectiva:} Trata-se das informações obtidas durante a execução dos processos de geração do dado. Compreende desde o tempo de duração de cada atividade executada até a origem dos dados de entrada. Além disso, não depende do tratamento da proveniência prospectiva para ser utilizado. Em outras palavras, é como se fosse um \textit{log} detalhado da execução de uma tarefa.
+    \item Análise do problema do Negócio
+    \item Atributos e armazenamento do conjunto de dados
+    \item Metodologia analítica de ML
+    \item Componentes de um Pipeline de CI
+    \item Componentes de um Pipeline de CD
+    \item Acionamento automatizado do Pipeline
+    \item Armazenamento de registro de modelo
+    \item Monitoramento e desempenho
+    \item Serviço para implantação de modelos ML em Produção
 \end{itemize}
 
-Um importante componente da proveniência é a obtenção de informações sobre causalidade. Nesse componente é guardada a descrição do processo, ou a sequência das etapas, que, junto comdados de entrada e seus respectivos parâmetros, levam à criação de uma base de dados. Assim as dependências dos processos são usadas para documentar sua criação, bem como auxiliar na reprodução e validação desse processo. A causalidade pode ser inferida tanto para a forma prospectiva como para a forma retrospectiva de proveniência~\citep{Davidson_2008}.
-
-Outro componente-chave para a proveniência são as informações definidas pelo usuário, a documentação. Por serem dados, em geral, advindos dos processos de anotação, não são capturado automaticamente. Com isso, possuem diferentes níveis de granulosidade e podem estar associados tanto para a forma prospectiva como para a forma retrospectiva de proveniência. Esse tipo de registro se torna muito importante, pois contém informações csobre decisões tomadas e observações feitas pelo usuário~\citep{Davidson_2008}.
+Isso pode ser feito por uma aplicação própria para realizar este gerenciamento, por funcionalidades implementadas na própria aplicação de IA ou através de frameworks de automação como o Amazon SageMaker, que podem poupar tempo para desenvolvimento de uma nova aplicação a troco de um pagamento de acordo com a demanda utilizada. Estes frameworks podem cuidar de toda a parte de gerenciamento dos dados, modelagem/treinamento ou operação/implantação, e como são modulares e cuidam apenas de uma destas três categorias do processo, podem ser escolhidas ou não de acordo com a necessidade do projeto e conhecimento da equipe.
 
 \section{Trabalhos Relacionados}
 
@@ -912,9 +914,6 @@ Quanto ao desenvolvimento do \textit{Workflow} e arquiteturas, é possível menc
 Quanto ao desenvolvimento da parte que utiliza o MAPE-K para garantir a autonomia, já há diversos artigos detalhando como o MAPE-K é importante para organizar o processo de decisão, como o \textit{"An architectural blueprint for autonomic computing"}~\citep{IBM_2005}, que detalha todas as suas bases. Para o desenvolvimento da parte de análise, um trabalho que pode ser mencionado é o artigo \textit{"The VADA Architecture for Cost-Effective Data Wrangling"}~\citep{Konstantinou_2017}, que utiliza pesos para dar contexto aos dados medidos. Embora não seja o principal tema do artigo, indicar a importância dos dados analisados garantiu a autonomia necessária sem exigir manutenção na parte de análise.
 
 Outro trabalho a ser mencionado é o artigo \textit{"The ML test score: A rubric for ML production readiness and technical debt reduction"}~\citep{Breck_2017}, que usa uma pontuação aplicando questionários usando diversos fatores para determinar a saúde de um projeto de IA. Embora o questionario seja manual e o foco esteja na saúde do projeto ao invés da determinação dos algoritmos para a construção de melhores modelos, o cerne do que foi utilizado como solução é o mesmo: O uso de uma pontuação como garantia de melhora contínua.
-
-Quanto a Proveniência de Dados, é possível citar o artigo \textit{"Provenance and Scientific Workflows:
-Challenges and Opportunities"}~\citep{Davidson_2008}, onde é discutido como há oportunidades de prover dados em \textit{workflows}, como captura de etapas e informações de execução e geração do dado. No contexto deste trabalho, a proveniência é utilizada para alimentar a tomada de decisão realizada pela implementação da arquitetura MAPE-K e são utilizados metadados da próptia execução do \textit{workflow}, como algoritmos utilizados em cada etapa e conjunto de dados utilizado.
 
 \begin{table}[h]
 \begin{center}
@@ -939,8 +938,6 @@ Challenges and Opportunities"}~\citep{Davidson_2008}, onde é discutido como há
     \multicolumn{2}{c}{\makecell{Konstantinou et al.,2017}} & \multicolumn{2}{c}{\makecell{Arquitetura para entrelaçamento de dados \\ Utilização de pesos para determinar contexto aos dados}} & \cmark &  &  &  & \cmark & \cmark\\[3ex]
 %	\hline    
     \multicolumn{2}{c}{\makecell{Breck et al.,2017}} & \multicolumn{2}{c}{\makecell{Questionários para determinar pontuações em projetos de ML \\ Saúde e qualidade do projeto como fatores medidos}} & \cmark & \cmark &  & \cmark &  & \\[3ex]    
-%    \hline
-    \multicolumn{2}{c}{\makecell{Davidson et al.,2008}} & \multicolumn{2}{c}{\makecell{Oportunidades de proveniência de dados em \textit{workflows} \\ Captura de passos e dados de execução}} &  &  &  &  & \cmark & \\[3ex]
     \bottomrule
   \end{tabular}}
 \end{center}
@@ -1064,7 +1061,7 @@ Para facilitar o desenvolvimento do \textit{Workflow} e deixar seu código mais 
 
 Conforme ilustrado na Figura \ref{fig:PipeAndFilterFramework}, o \textit{Framework} possui 3 classes: \textbf{PipeFilter}, \textbf{BasePipe} e \textbf{BaseFilter}. A classe \textbf{PipeFilter} foi criada para ser herdada pelas classes \textbf{BasePipe} e \textbf{BaseFilter} por duas limitações: Inexistência de interfaces no \textit{Python} e evitar erro de recursão de heranças acusado no momento da compilação. A classe \textbf{BasePipe} possui apenas um atributo \textbf{value} que é um dicionário que simboliza os dados que trafegam por esse Pipe. Como é um dicionário, ele é totalmente livre de quantos atributos o Pipe trafega, sendo assim a sua validação é responsabilidade da aplicação. A classe \textbf{BaseFilter} possui dois atributos \textbf{input} e \textbf{output} que simbolizam os Pipes de entrada e de saída do Filtro, e o uso desses dois Pipes mais a execução do Filtro vai estruturar o \textit{Workflow} como um todo.
 
-O \textit{Workflow} é realizado através de encadeamentos do método \textbf{to\_filter} com o método \textbf{to\_pipe}. O método \textbf{to\_filter} prepara um Filtro para utilizar o Pipe, setando o atributo \textbf{input} presente na classe de Filtro passada como parâmetro, e o método \textbf{to\_pipe} obtém o Pipe resultante do Filtro, chamando o método \textbf{execute} e obtendo o atributo \textbf{output} presente no Filtro para setar no atributo \textbf{value} presente na classe de Pipe passada como parâmetro. Isso forma encadeamentos de métodos que se assemelham muito com os de uma \textit{Fluent API}~\citep{Fowler_2005}, presente no Apêndice \ref{app:FluentAPI}, criando uma DSL (\textit{Domain-Specific Language}) cujo domínio é a estruturação de um \textit{Workflow}. O Trecho \ref{cod:PipeAndFilterMethods} mostra um breve exemplo de como é possível encadeá-los, onde \textbf{Pipe1}, \textbf{Pipe2} e \textbf{Pipe3} são classes que herdam \textbf{BasePipe} e \textbf{Filter1} e \textbf{Filter2} são classes que herdam \textbf{BaseFilter}.
+O \textit{Workflow} é realizado através de encadeamentos do método \textbf{to\_filter} com o método \textbf{to\_pipe}. O método \textbf{to\_filter} prepara um Filtro para utilizar o Pipe, setando o atributo \textbf{input} presente na classe de Filtro passada como parâmetro, e o método \textbf{to\_pipe} obtém o Pipe resultante do Filtro, chamando o método \textbf{execute} e obtendo o atributo \textbf{output} presente no Filtro para setar no atributo \textbf{value} presente na classe de Pipe passada como parâmetro. Isso forma encadeamentos de métodos que se assemelham muito com os de uma \textit{Fluent API}~\citep{Fowler_2005}, criando uma DSL (\textit{Domain-Specific Language}) cujo domínio é a estruturação de um \textit{Workflow}. O Trecho \ref{cod:PipeAndFilterMethods} mostra um breve exemplo de como é possível encadeá-los, onde \textbf{Pipe1}, \textbf{Pipe2} e \textbf{Pipe3} são classes que herdam \textbf{BasePipe} e \textbf{Filter1} e \textbf{Filter2} são classes que herdam \textbf{BaseFilter}.
 
 \begin{lstlisting}[language=Python, caption=Exemplo de uso do \textit{Framework} para encadeamento dos Workflows,label=cod:PipeAndFilterMethods]
 root_pipe = Pipe1()
@@ -1123,7 +1120,7 @@ Após o desenvolvimento deste \textit{Framework}, foi realizada uma refatoraçã
 
 O \textit{Workflow} segue uma estrutura das fases de Pré-processamento, processamento e pós-processamento presentes em um processo para desenvolvimento de um modelo de Machine Learning, ilustrados na Figura \ref{fig:FairnessPipeline}. Os pontos de decisão entre redução de viés ou não presentes na figura são transparentes no código devido a implementação do \textit{Framework} já explicado na seção anterior e foram colocados para ilustrar melhor onde atuam os algoritmos de redução dos vieses.
 
-Além de tratar os dados, treinar o modelo e realizar testes sobre o mesmo, o \textit{Workflow} possui etapas para obter os metadados durante o processo e salvá-los junto com as métricas para obter a proveniência dos dados necessária para integrá-lo a um elemento autônomo. Para a execução dos algoritmos com redução de viés, é utilizada a biblioteca Ai Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}.
+Além de tratar os dados, treinar o modelo e realizar testes sobre o mesmo, o \textit{Workflow} possui etapas para obter os metadados durante o processo e salvá-los junto com as métricas para obter os metadados necessários para integrá-lo a um elemento autônomo. Para a execução dos algoritmos com redução de viés, é utilizada a biblioteca Ai Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}.
 
 Devido a natureza deste trabalho de Mestrado ser voltada à Engenharia de Software e a métricas de Fairness, detalhes do processo que também poderiam ser utilizados como estratégias mais sofisticadas para validação dos modelos, como \textit{k-fold Cross Validation}, e estratégias para regularização foram desconsiderados para evitar complexidade.
 
@@ -1175,7 +1172,7 @@ Os arquivos JSON gravados na última etapa a cada execução de \textit{Workflow
 \label{fig:MLMAPEK}
 \end{figure}
 
-Após a obtenção de tal Base de Conhecimento, e possível verificar como as etapas de cada parte do MAPE-K serão desenvolvidas. Conforme ilustrado na Figura \ref{fig:MLMAPEK}, as etapas de Análise e Planejamento foram subdivididas em diferentes estratégias para o MAPE-K ser configurável durante o processo de escolha, enquanto as etapas de monitoria e execução foram configuradas com uma única estratégia. As estratégias das etapas de Análise e Planejamento podem ser ativadas ou desativadas conforme o que é definido como \textit{Feature Toggles}~\citep{Rahman_2016}, presente no Apêndice \ref{app:FeatureToggles}, por meio de arquivos JSON presentes no projeto conforme ilustrado no Trecho \ref{cod:FeatureToggle}.
+Após a obtenção de tal Base de Conhecimento, e possível verificar como as etapas de cada parte do MAPE-K serão desenvolvidas. Conforme ilustrado na Figura \ref{fig:MLMAPEK}, as etapas de Análise e Planejamento foram subdivididas em diferentes estratégias para o MAPE-K ser configurável durante o processo de escolha, enquanto as etapas de monitoria e execução foram configuradas com uma única estratégia. As estratégias das etapas de Análise e Planejamento podem ser ativadas ou desativadas conforme o que é definido como \textit{Feature Toggles}~\citep{Rahman_2016}~\citep{Mahdavi-hezaveh_2021}, por meio de arquivos JSON presentes no projeto conforme ilustrado no Trecho \ref{cod:FeatureToggle}.
 
 \begin{lstlisting}[language=Python, caption=Exemplo de arquivo utilizando \textbf{(ver termo acima)},label=cod:FeatureToggle]
 {
@@ -2071,7 +2068,7 @@ Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso nã
 
 Ao usar uma interface humano-computador para intermediar as interações entre o componente MAPE-K e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{workflow} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através de um componente orquestrador das etapas do MAPE-K. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários.
 
-O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps (ver Apêndice \ref{app:ModelOps}), uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. Isso necessitaria de algumas adaptações, como um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{workflow} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}.
+O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps, uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. Isso necessitaria de algumas adaptações, como um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{workflow} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}.
 
 \chapter{Estudo de Caso 2: Classificação de Crédito (Lendingclub Dataset) e evolução do sistema}
 
@@ -2218,7 +2215,7 @@ Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquite
         return prediction_pipe
 \end{lstlisting}
 
-Dito isso, realizar a manutenção/evolução do sistema no \textit{Workflow} e na Interface Humano-Computador é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação, presente nos Anexos \ref{ann:DocInstall} e \ref{ann:DocMain}, é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
+Dito isso, realizar a manutenção/evolução do sistema no \textit{Workflow} e na Interface Humano-Computador é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação, presente nos Apêndices \ref{ann:DocInstall} e \ref{ann:DocMain}, é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
 
 \chapter{Estudo de Caso 3: Evolução do sistema com outros desenvolvedores}
 
@@ -2269,7 +2266,7 @@ Foi realizada uma sessão de desenvolvimento com um outro desenvolvedor, durando
 \item \textbf{Correções na documentação} - Foram colocados modificações em métodos que faltaram constar na documentação para obter certas parametrizações do \textbf{Workflow}, além de deixar mais explícito onde cada arquivo se encontra.
 \end{itemize}
 
-Por causa de alguns itens presentes acima, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário presente no Anexo \ref{ann:Questionary}, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora  e a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida. Dada a afirmação, é possível concluir que as decisões arquiteturais tomadas foram corretas e facilitaram o desenvolvimento de evoluções.
+Por causa de alguns itens presentes acima, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário presente no Apêndice \ref{ann:Questionary}, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora  e a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida. Dada a afirmação, é possível concluir que as decisões arquiteturais tomadas foram corretas e facilitaram o desenvolvimento de evoluções.
 
 Outro item notado não apenas após o desenvolvimento, mas durante todo o desenvolvimento do \textit{workflow}, foram notados alertas de vulnerabilidades das bibliotecas utilizadas no projeto e disponibilizados no GitHub. Isso reforça o fato de que o processo de Engenharia de Software para aprimorar tal \textit{workflow} é contínuo, mas que existem certas situações que estão fora do seu escopo. A própria AIF360 é uma biblioteca que implementa vários algoritmos com redução de viés baseadas em artigos disponibilizados na comunidade acadêmica mas ainda peca pela não atualização dos mesmos, fazendo com que muitos algoritmos utilizados necessitem de bibliotecas desatualizadas para funcionar.
 
@@ -2363,17 +2360,17 @@ No geral, foram exigidas menos modificações que a evolução proposta no Estud
 
 \chapter{Conclusões}
 
-Neste projeto, pode-se dizer que o conjunto da arquitetura de \textit{Pipe-And-Filter} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a proveniência dos dados, presente durante a avaliação dos modelos no \textit{workflow}, foi possível coletar os dados e métricas para a elaboração de uma Base de Conhecimento. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes três conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
+Neste projeto, pode-se dizer que o conjunto da arquitetura de \textit{Pipe-And-Filter} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes dois conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
 
-Embora o \textit{Pipe-And-Filter} seja um modelo que facilite o encapsulamento e a segmentação dos procedimentos do \textit{workflow}, ele ainda é preso a limitações de fatores externos ao código, como o Hardware de onde será rodado e os dados a serem trabalhados. Desse modo, ao realizar a implementação, quem desenvolve terá de escolher um equilíbrio entre memória, armazenamento e performance. Por exemplo, como neste projeto os conjuntos de dados avaliados eram pequenos, eles puderam ser armazenados em memória e garantir performance máxima, mas conforme o número de dados avaliados for crescendo é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com o mesmo custo, não necessitando da contratação de mais desenvolvedores e evitando gastos com infra-estrutura.
+Embora o \textit{Pipe-And-Filter} seja um modelo que facilite o encapsulamento e a Durante o processo de desenvolvimento do \textit{workflow}, quem desenvolve terá de equilibrar memória, armazenamento e performance. Os conjuntos de dados avaliados nos Estudos de Caso puderam ser armazenados em memória e garantir performance máxima, mas em um contexto onde \textit{gigabytes}/\textit{terabytes} de dados são consumidos diariamente é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com baixo custo, evitando gastos com infra-estrutura.
 
-Embora olhar para a proveniência dos dados permita o armazenamento de dados importantes para estabelecer um elo entre o \textit{workflow} e o componente MAPE-K, não foi possível garantir que ela substitua Explainable AI pois não foram encontradas evidências do porquê de determinados algoritmos funcionarem em determinados conjuntos de dados e não em outros com os metadados cadastrados na base de conhecimento. A qualidade dos dados também é um ponto que deverá ser observado conforme o número de dados for crescente: É possível ter resultados fora do comum (\textit{outliers}), alguns atributos podem não permitir uma avaliação acurada, ou a quantidade de atributos pode não ser suficiente para avaliar. Antes da proveniência ser implementada, os próprios dados precisam ser modelados conforme o problema exige. Após a implementação, é preciso realizar processos de limpeza dos dados conforme execuções no \textit{workflow} vão sendo realizadas.
+A qualidade dos dados coletados pelo Gerenciador Autonômico também é um ponto que deverá ser observado conforme o uso do sistema for crescente: É possível ter resultados fora do comum (\textit{outliers}), alguns atributos podem não permitir uma avaliação acurada, ou a quantidade de atributos pode não ser suficiente para avaliar após evoluções no processo de análise. É preciso realizar processos de limpeza dos dados conforme novas execuções no \textit{workflow} e atualizações no Gerenciador Autonômico forem realizadas.
 
-Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
+Embora MAPE-K permita o desenvolvimento de uma aplicação autônoma, não é recomendável uma autonomia completa devido aos problemas ainda enfrentados pelo tema \textit{Fairness}. A literatura revisada sobre \textit{Fairness} verifica apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do Gerenciador Autonômico ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado e justo.
 
-Apesar da autonomia tornar o processo de decisão por uma gama de algoritmos mais simples e rápido para o Cientista de Dados, o número de configurações necessárias para dar autonomia ao \textit{workflow} pode ser um entrave para que este opte por este tipo de abordagem e fique com a abordagem mais tradicional. Este fato, além de mostrar a importância de uma boa documentação para facilitar o entendimento da pessoa que irá usar a solução, mostra como a interface humano-computador simplifica o entendimento do processo utilizado para a obtenção do \textit{workflow} e pode ser um caminho mais interessante para uma maior adoção do que a implementação de configurações no próprio projeto, que são mais simples de serem implementadas mas podem ser consideradas frustrantes para uma pessoa fora deste processo de desenvolvimento.
+Apesar da autonomia tornar o processo de decisão por uma gama de algoritmos mais simples e rápido para o Cientista de Dados, o número de configurações necessárias para dar autonomia ao \textit{workflow} pode ser um entrave para que este opte por este tipo de abordagem e fique com a abordagem mais tradicional. Este fato, além de mostrar a importância de uma boa documentação para facilitar o entendimento da pessoa que irá usar a solução, mostra como a interface humano-computador simplifica o entendimento do processo utilizado para a obtenção do \textit{workflow} e pode ser um caminho mais interessante para uma maior adoção do que a implementação de configurações no próprio projeto, que são mais simples de serem implementadas mas podem ser consideradas frustrantes para uma pessoa fora deste processo de desenvolvimento. Por fim, a AI Reference Architecture e os \textit{Assurance Cases} são bons guias para evoluir a ideia de uma aplicação de IA de um contexto generalizado para um foco maior nos pequenos detalhes a serem realizados dentro da fase de desenvolvimento, e a evolução deste método para um foco mais profundo nos problemas de MLOps é um caminho interessante a ser seguido. 
 
-Por fim, a AI Reference Architecture e os \textit{Assurance Cases} são bons guias para evoluir a ideia de uma aplicação de IA de um contexto generalizado para um foco maior nos pequenos detalhes a serem realizados dentro da fase de desenvolvimento, e a evolução deste método para um foco mais profundo nos problemas de MLOps é um caminho interessante a ser seguido. Como trabalhos futuros, é possível focar em adaptações no sistema para tais problemas, como mecanismos para deploy dos modelos obtidos, um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{workflow} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}. Também é possível explorar mais experimentos de como a mudança nas configurações presentes no componente MAPE-K afeta a escolha dos melhores \textit{Workflows} e propor novas modificações após a realização dos mesmos.
+Como trabalhos futuros, é possível trabalhar com algumas possibilidades. No Gerenciador Autonômico, o Analisador pode realizar uma análise mais profunda aumentando o número de indicadores e considerando grupos além de métricas de \textit{Fairness} e métricas de Performance. No \textit{workflow}, introduzir técnicas para melhora dos resultados como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation} e introduzir soluções para \textit{AI Explainability} como forma de garantir mais transparência. Também é possível mudar o foco para solucionar problemas de MLOps, utilizando o Gerenciador Autonômico para determinar um melhor deploy em caso de piora nas métricas de um modelo já utilizado por clientes, além de funcionalidades como notificação para tais casos de diminuição de métricas, mecanismos para deploy dos modelos obtidos, opções de visualização dos dados, um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço.
 
 % As referências:
 \bibliographystyle{plainnat}
@@ -2382,168 +2379,17 @@ Por fim, a AI Reference Architecture e os \textit{Assurance Cases} são bons gui
 % Os anexos, se houver, vêm depois das referências:
 %\backmatter
 \appendix
-\chapter{Conceitos complementares}
-
-\section{AI Explainability}
-\label{app:AIExplainability}
-
-\textit{AI Explainability} é um conceito em IA que propõe a criação de um conjunto de técnicas de Aprendizado de Máquina (ou Machine Learning/ML) que produz modelos mais explicáveis, mantendo qualidade em suas métricas, e permite que os humanos entendam, confiem e gerenciem aplicações baseadas em IA. XAI também absorve conceitos das Ciências Sociais e considera a psicologia da explicação~\citep{Arrieta_2020}. Um algoritmo de ML explicável precisa não apenas mostrar tomadas de decisão, mas também mostrar o processo que o levou ao tomar tal decisão, de modo que seja compreensível e transparente para humanos.
-
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.2]{images/phases.jpeg}
-\caption {Fases de um processo baseado em IA explicável.}
-\label{fig:StagesExplainableAI}
-\end{figure}
-
-Conforme ilustrado na Figura \ref{fig:StagesExplainableAI}, o um processo baseado em IA explicável pode ser classificado em 3 fases:
-
-\begin{itemize}
-\item \textbf{\textit{Pre-Modelling Explainability}:} Esta fase se caracteriza por obter explicações no conjunto de dados usado para treino e validação, tendo como principal motivação o fato do comportamento de um modelo depender muito dos dados que o alimentam. Análises e visualizações dos dados, ou mesmo através de documentações do conjunto de dados se enquadram neste estágio.~\citep{Khalegi_2019_Pre} 
-\item \textbf{\textit{Explainable Modelling}:} Esta fase se caracteriza por obter explicações por modelos considerados transparentes (ver adiante). Ao adotar modelos deste tipo, ele já pode ser considerado como explicável por um humano. Também é possível obter a explicação através de regularizadores, ou adotar abordagens onde explicação e resultado sejam obtidos simultaneamente, sejam via junção de dados ou sendo intrínseco a arquitetura do modelo.~\citep{Khalegi_2019}
-\item \textbf{\textit{Post-Modelling Explainability}:} Também chamada de \textit{Post-hoc Explainability} e onde a maioria dos trabalhos disponíveis baseados em XAI tenta focar, esta fase se dedica a explicar modelos desenvolvidos anteriormente, ou modelos que não são considerados como transparentes. Pode-se explicar um modelo por métodos como árvores de decisão e estimativas como valores de Shapley e propagação inversa.~\citep{Khalegi_2019_Post}
-\end{itemize}
-
-Entretanto, estas 3 fases não necessariamente são executadas de maneira sequencial: Por ser realizada no conjunto de dados e não no modelo, a fase de \textit{Pre-modelling Explainability} pode ser opcional, e a aplicação das fases de \textit{Explainable Modelling} e \textit{Post-Modelling Explainability} e seus métodos dependem exclusivamente se o modelo é classificado como transparente ou não, e tal critério é determinado pela adoção de uma (ou mais) das seguintes características~\citep{Arrieta_2020}:
-
-\begin{itemize}
-\item \textbf{Simulabilidade:} Denota a capacidade de um modelo de ser simulado ou pensado estritamente por um humano. A complexidade assume um lugar dominante nesta classe: Sistemas com uma grande quantidade de regras, por mais simples que essas sejam, já não podem ser classificados como tal. O modelo que se adequa a essa característica precisa ser autocontido o suficiente para que um ser humano pense e raciocine sobre ele como um todo.
-\item \textbf{Decomponibilidade:} Também considerado como inteligibilidade, significa a capacidade de explicar cada uma das partes de um modelo. Se o modelo não for simples o suficiente, ele precisa ser divisível em várias pequenas partes e cada parte do modelo deve ser compreensível por um ser humano, sem a necessidade de ferramentas adicionais.
-\item \textbf{Transparência do algoritmo:} Trata-se da habilidade do usuário de entender o processo seguido pelo modelo para produzir qualquer saída dada a partir de seus dados de entrada. Colocando de outra forma, um modelo linear é considerado transparente porque sua superfície de erro pode ser entendida e fundamentada, permitindo ao usuário entender como o modelo irá agir em cada situação que pode enfrentar.
-\end{itemize}
-
-\section{\textit{Fluent API}}
-\label{app:FluentAPI}
-
-O conceito de \textit{Fluent Interface}~\citep{Fowler_2005} (também conhecido como \textit{Fluent API}~\citep{Nakamaru_2020}) é uma abstração de código que o organiza de modo a criar uma \textit{Domain Specific Language} (DSL) interna, tendo como prioridade em seu \textit{design} a legibilidade e a fluidez. Embora a construção de uma \textit{Fluent API} consuma tempo, esse tempo pode ser recuperado com o tempo devido a maior facilidade no desenvolvimento e na manutenção dos componentes presentes no sistema.
-
-Seu desenvolvimento lembra o \textit{Design Pattern} \textit{Builder}, onde seus métodos realizam acões específicas e retornam a referência do Objeto. Sua diferença está no objetivo em que foi desenvolvido: Enquanto no \textit{Builder} o objetivo está na construcão da instância de um Objeto, na \textit{Fluent API} o objetivo está em desenvolver uma série de ferramentas e ações de modo a resolver um problema específico.
-
-A melhor forma de descrever e entender as diferenças e objetivos da Fluent API é através de um exemplo: O Código \ref{code:makeNormal} representa uma implementação padrão de um sistema, com instanciações de novos Objetos e métodos determinando atribuições e adição do elemento em uma lista.
-
-\begin{lstlisting}[language=Java, label={code:makeNormal}, caption=Implementação padrão presente em um sistema~\citep{Fowler_2005}]
-    private void makeNormal(Customer customer) {
-        Order o1 = new Order();
-        customer.addOrder(o1);
-        OrderLine line1 = new OrderLine(6, Product.find("TAL"));
-        o1.addLine(line1);
-        OrderLine line2 = new OrderLine(5, Product.find("HPK"));
-        o1.addLine(line2);
-        OrderLine line3 = new OrderLine(3, Product.find("LGV"));
-        o1.addLine(line3);
-        line2.setSkippable(true);
-        o1.setRush(true);
-    }
-\end{lstlisting}
-
-O Código \ref{code:makeFluent} representa o mesmo sistema usando uma implementação com \textit{Fluent API}. Além na diminuição no número de linhas, a implementação é mais legível devido ao menor número de elementos presentes no código: Todas as chamadas e instanciações do Código \ref{code:makeNormal} estão ímplicitas, e o encadeamento das funções possui uma progressão lógica, mais sucinta e de simples entendimento.
-
-\begin{lstlisting}[language=Java, label={code:makeFluent}, caption=Implementação com o uso de \textit{Fluent API}~\citep{Fowler_2005}]
-   private void makeFluent(Customer customer) {
-        customer.newOrder()
-                .with(6, "TAL")
-                .with(5, "HPK").skippable()
-                .with(3, "LGV")
-                .priorityRush();
-    }
-\end{lstlisting}
-
-\section{\textit{Feature Toggles}}
-\label{app:FeatureToggles}
-
-\textit{Feature toggles} é um conceito antigo e conceitualmente simples: Basicamente, é uma variável usada em uma instrução condicional para proteger blocos de código, com o objetivo de habilitar ou desabilitar o código de uma feature nesses blocos para teste ou liberação~\citep{Rahman_2016}. Inicialmente elas foram pensadas para serem colocadas em tempo de compilação, excluindo a execução das features no binário de um aplicativo. Atualmente, é possível implementar \textit{feature toggles} que permitem que as \textit{features} sejam ativadas ou desativadas em tempo de execução, geralmente através de um arquivo ou através de uma variável introduzida no Sistema Operacional do \textit{software} executado. O Código \ref{code:makeFeatureToggle} mostra um exemplo de \textit{feature toggle}, onde a escolha dinâmica de um algoritmo de pesquisa depende do valor da \textit{toggle} useNewAlgorithm. Se o valor dessa \textit{toggle} for true, o novo algoritmo de pesquisa será usado, caso contrário, o método Search chamará o algoritmo de pesquisa antigo.
-
-\begin{lstlisting}[language=JavaScript, label={code:makeFeatureToggle}, caption=Implementação de uma \textit{Feature Toggle}~\citep{Mahdavi-hezaveh_2021}]
-function Search() {
-    var useNewAlgorithm = false;
-    if(useNewAlgorithm){
-        return newSearchAlgorithm();
-    }else{
-        return oldSearchAlgorithm();
-    }
-}
-\end{lstlisting}
-
-O uso de \textit{feature toggles} é uma técnica frequentemente usada em contextos de integração contínua (CI) e entrega contínua (CD) que permite às equipes integrar e testar uma nova \textit{feature} de forma incremental, mesmo quando ela não está pronta para ser lançada~\citep{Mahdavi-hezaveh_2021}. Os desenvolvedores também usam \textit{feature toggles} para outros fins, como implantação gradual e experimentos. No entanto, a \textit{feature toggle} pode se transformar em débito técnico. O uso de \textit{feature toggles} adiciona mais pontos de decisão ao código, o que adiciona mais complexidade. Essa maior complexidade leva à necessidade de remover \textit{toggles} quando a \textit{feature} estiver concluída, ou olhar com mais atenção para os testes do sistema a ser implementado com a técnica.
-
-Embora agilize testes ou coleta de dados importantes para as empresas, o uso de \textit{feature toggles} sem seguir boas práticas pode ser prejudicial, levando a grandes prejuízos: Em 2012, os desenvolvedores do Knight Capital Group, uma empresa americana de serviços financeiros globais, atualizaram seu roteador algorítmico automatizado de alta velocidade que, inadvertidamente, reaproveitou um feature toggle, ativando a funcionalidade que não era utilizada há 8 anos. Em 2 minutos, os desenvolvedores perceberam que o código implantado se comportou incorretamente, mas levaram 45 minutos para interromper o sistema. Durante esse período, a Knight Capital perdeu quase 400 milhões de dólares, o que fez com que o grupo falisse~\citep{Mahdavi-hezaveh_2021}. 
-
-Por ser uma técnica simples de ser implementada, as linguagens de programação fornecem o necessário para implementar \textit{feature toggles} há muito tempo. No entanto, o primeiro uso desta técnica para suportar CI/CD foi no Flickr em 2009~\citep{Mahdavi-hezaveh_2021}. Atualmente, empresas como Google, Facebook e Netflix utilizam esta técnica, podendo auxiliar na redução do tempo de atualização de seus aplicativos para poucas semanas ou até diariamente~\citep{Rahman_2016}. Nos \textit{softwares}, as \textit{feature toggles} podem ser categorizadas em cinco tipos~\citep{Mahdavi-hezaveh_2021}:
-
-\begin{itemize}
-\item \textbf{\textit{Toggles} de lançamento:} \textit{Toggles} usadas para adicionar novas features em um contexto de \textit{trunk-based development}. No \textit{trunk-based development}, todos os desenvolvedores fazem o \textit{commit} das alterações para uma \textit{branch} compartilhada. Usando \textit{toggles} de lançamento no desenvolvimento baseado em tronco suporta CI/CD para features parcialmente concluídas.
-\item \textbf{\textit{Toggles} de experimento:} \textit{Toggles} usadas para realizar experimentação no \textit{software}, para avaliar novas alterações de recursos e observar sua influência no comportamento do usuário.
-\item \textbf{\textit{Toggles} de operação:} \textit{Toggles} usadas para controlar o aspecto operacional do comportamento do sistema. Quando uma nova feature é implantada, os operadores do sistema podem desabilitar o recurso rapidamente se ela apresentar alguma inconformidade.
-\item \textbf{\textit{Toggles} de permissão:} \textit{Toggles} usadas para fornecer a funcionalidade apropriada para um usuário, por exemplo \textit{features} especiais para usuários \textit{premium} ou pagos. \textit{Toggles} de permissão também são chamados de \textit{toggles} de negócios de longo prazo.
-\item \textbf{\textit{Toggles} de desenvolvimento:} \textit{Toggles} usados para habilitar ou desabilitar certos recursos para testar e depurar código.
-\end{itemize}
-
-\textit{Toggles} de permissão, \textit{toggles} de operação e \textit{toggles} de desenvolvimento são \textit{toggles} de longa duração com base em sua finalidade de uso no código. As \textit{toggles} de lançamento e \textit{toggles} de experimento são \textit{toggles} de curta duração~\citep{Mahdavi-hezaveh_2021}.
-
-\section{\textit{ModelOps}}
-\label{app:ModelOps}
-
-O ModelOps (ou operacionalização de modelos de IA) está focado principalmente na governança e gerenciamento do ciclo de vida de uma ampla gama de modelos de inteligência artificial (IA) e de decisão operacionalizados, incluindo aprendizado de máquina, grafos de conhecimento, regras, otimização, modelos linguísticos e modelos baseados em agentes~\cite{Gartner_2022}. Os principais recursos incluem integração contínua/entrega contínua (CI/CD), ambientes de desenvolvimento, sistema de controle de versão, armazenamento e reversão de modelos. O termo ModelOps é uma junção de modelos de IA e DevOps, sendo uma nova estrutura e plataforma para gerenciamento completo do ciclo de vida de artefatos de aplicativos de Inteligência Artificial~\cite{Hummer_2019} e cobrindo todos os termos relacionados a implantação de modelos baseados em IA, como MLOps e AIOps. Apesar do termo ModelOps ser criado como a generalização destes termos, a ideia de todos eles é utilizar os princípios de Integração Contínua (CI) e Entrega Contínua (Continuous Delivery, ou CD) presentes no DevOps para garantir que o modelo de IA seja sempre o melhor e mais próximo do cenário que aborda.
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.7]{images/code-validate-deploy-loop.png}
-\caption {Ciclo resumido do processo presente em MLOps}
-\label{fig:MLOpsLoop}
-\end{figure}
-
-A operacionalização dos procedimentos em Software já é uma prática comum de ser adotada, mas em aplicações de IA sua adoção é mais recente, e possuem desafios diferentes de uma aplicação tradicional de Software~\cite{Sculley_2015}:
-
-\begin{itemize}
-    \item \textbf{Complexidade dos modelos implantados:} A prática tradicional de Engenharia de Software mostrou que o uso de encapsulamento e design modular ajudam a criar código sustentável no qual é fácil de fazer isoladamente mudanças e melhorias. Tais práticas ajudam a expressar a consistência das entradas e saídas de informações de um determinado componente. Infelizmente, é difícil traduzir estas abstrações para sistemas de IA prescrevendo um comportamento pretendido específico. De fato, IA é necessária exatamente nos casos em que o comportamento desejado não pode ser efetivamente expresso na lógica do Software sem dependência de dados externos. O mundo real não se encaixa totalmente de forma encapsulada.
-    \item \textbf{Dependência dos dados:} Débito de dependência é apontado como um dos principais contribuintes para a complexidade do código e débito técnico em configurações clássicas de Engenharia de Software. As dependências de dados em sistemas de IA possuem uma capacidade semelhante para aumentar o débito, mas podem ser mais difíceis de detectar. As dependências de código podem ser identificadas por meio de análise estática por compiladores e vinculadores. Sem ferramentas semelhantes para dependências de dados, não é difícil construir grandes cadeias de dependências de dados que podem ser difíceis de arrumar.
-    \item \textbf{Ciclos de \textit{Feedback}:} Uma das principais características dos sistemas de IA é que eles geralmente acabam influenciando seu próprio comportamento se forem atualizados ao longo do tempo. Isso leva a uma forma de análise do débito, na qual é difícil prever o comportamento de um determinado modelo antes de ele ser lançado. Esses ciclos de feedback podem assumir diferentes formas, mas são mais difíceis de detectar e resolver se ocorrerem gradualmente ao longo do tempo, como pode ser o caso quando os modelos são atualizados com pouca frequência.
-    \item \textbf{\textit{Anti-Patterns} nas aplicações:} É comum que sistemas de IA acabem com grandes débitos em padrões de design. Débitos como \textit{glue code} (integração de sistemas teoricamente incompatíveis), \textit{pipeline jungles} (\textit{pipelines} de grande complexidade e com difícil rastreamento de problemas, geralmente com etapas fortemente acopladas), código não utilizado, débitos de abstração, \textit{code smells} (códigos que podem indicar problemas subjacentes em um componente ou sistema) devem ser evitados ou refatorados sempre que possível.
-    \item \textbf{Débitos de configuração:} Qualquer sistema grande tem uma ampla gama de opções configuráveis, incluindo quais \textit{features} são usadas, como os dados são selecionados, uma ampla variedade de configurações de aprendizado específicas de algoritmos, potencial pré ou pós-processamento, métodos de verificação, entre outras. A grande quantidade de opções e a relação que essas tem umas com as outras no sistema torna a configuração difícil de modificar corretamente e difícil de raciocinar. No entanto, erros na configuração podem custar caro, levando a sérias perdas de tempo, desperdício de recursos de computação ou problemas de produção.
-    \item \textbf{Mudanças do mundo externo:} Sistemas de IA geralmente interagem diretamente com o mundo externo, e este raramente é estável, criando um custo de manutenção contínuo. Para isso, é importante prever os vieses e determinar limiares para as previsões que estes sistemas irão realizar.
-    \item \textbf{Testagem e fidelidade dos dados:} Embora estejam relacionados a itens já mencionados (dependência dos dados e mudanças do mundo externo), a garantia de que estes desafios estejam bem controlados começa durante o desenvolvimento dos modelos. Dados de entrada testados e fidedignos às situações presentes do mundo garantem este controle, e procedimentos para realizar esta tarefa constituem em outro desafio para garantia da qualidade da aplicação.
-    \item \textbf{Processos e cultura do time:} É importante criar equipes que se importem na melhora do modelo e do seu próprio processo de implantação. Sistemas maduros podem ter dezenas ou centenas de modelos rodando simultaneamente, tornando-se complexos ao longo do tempo e necessitando de melhoria contínua dos processos para manter a qualidade.
-\end{itemize}
-
-No caso de MLOps, ele pode ser visto como o processo de implantar os melhores modelos latentes de Machine Learning para o ambiente de produção, unindo os campos de Machine Learning, DevOps e Engenharia de Dados. Um projeto de MLOps, como exemplo mostrado na Figura \ref{fig:MLOpsPipeline}, deve dar suporte à automação, integração e monitoramento em todas as etapas da construção de um sistema de ML, incluindo treinamento, integração, teste, lançamento, implantação e gerenciamento de infraestrutura~\citep{Testi_2022}. A ideia é projetar um pipeline automatizado usando o CI/CD, sendo a tarefa de CI de testar e validar dados, esquemas de dados e modelos, e a tarefa de CD um pipeline de ML que deve implantar automaticamente outro modelo de ML.
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.33]{images/mlops-pipeline-example.png}
-\caption {Exemplo de Pipeline de MLOps com ambientes de Desenvolvimento e Produção}
-\label{fig:MLOpsPipeline}
-\end{figure}
-
-O ciclo de vida de Machine Learning tem metodologias diferentes para se adequar a diferentes cenários e tipos de dados. A abordagem mais utilizada por especialistas em mineração de dados é o Cross-Industry Standard Process for Data Mining (CRISP-DM)~\citep{Shearer_2000}, introduzido em 1996 pela Daimler Chrysler. Especialistas podem emprestar as metodologias CRISP-DM padrão e tentar aplicá-las ao pipeline de MLOps, envolvendo dois papeis: Os Cientistas de Dados, responsáveis pelo treinamento e teste do modelo, e os Engenheiros de Machine Learning, responsáveis pela produção e implantação. Tais papeis trabalhariam em conjunto em tarefas envolvendo as seguintes etapas:
-
-\begin{itemize}
-    \item Análise do problema do Negócio
-    \item Atributos e armazenamento do conjunto de dados
-    \item Metodologia analítica de ML
-    \item Componentes de um Pipeline de CI
-    \item Componentes de um Pipeline de CD
-    \item Acionamento automatizado do Pipeline
-    \item Armazenamento de registro de modelo
-    \item Monitoramento e desempenho
-    \item Serviço para implantação de modelos ML em Produção
-\end{itemize}
-
-Isso pode ser feito por uma aplicação própria para realizar este gerenciamento, por funcionalidades implementadas na própria aplicação de IA ou através de frameworks de automação como o Amazon SageMaker, que podem poupar tempo para desenvolvimento de uma nova aplicação a troco de um pagamento de acordo com a demanda utilizada. Estes frameworks podem cuidar de toda a parte de gerenciamento dos dados, modelagem/treinamento ou operação/implantação, e como são modulares e cuidam apenas de uma destas três categorias do processo, podem ser escolhidas ou não de acordo com a necessidade do projeto e conhecimento da equipe.
-
-%\chapter{Apêndice}
-
-\annex
 \chapter{Documentação de Instalação}
 \label{ann:DocInstall}
 
 \section{Introdução}
 
-Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 etapas principais:
+Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 5 módulos principais:
 
 \begin{itemize}
     \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
     \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
-    \item {\textbf{Autonomia do Workflow (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
+    \item {\textbf{Gerenciador Autonômico:}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
     \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
     \begin{itemize}
         \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
