@@ -295,7 +295,7 @@ E finalmente, a todas as pessoas que pude conhecer na Unicamp, pela troca de exp
 
 % Sempre deve haver um resumo em português:
 \begin{resumo}
-O uso de Aprendizado de Máquina (ML) envolvendo grandes volumes de dados vem crescendo conforme nossa sociedade migra processos manuais de trabalho para soluções digitais e necessita de tomadas de decisão mais rápidas e assertivas, mas, devido a barreiras éticas e legais, métricas usadas inicialmente para definir a eficácia de um algoritmo se mostraram limitadas para medir vieses que refletem a sociedade de maneira que não era esperada pelos desenvolvedores da solução. Para resolver tal problema, novos algoritmos foram desenvolvidos e um novo conjunto de métricas, denominado como métricas de Fairness, é utilizado para determinar um equilíbrio aos grupos que sofrem discriminações. Entretanto, com estas novas descobertas, aumenta-se a complexidade da análise do Cientista de Dados para obter modelos com os melhores resultados. Esta dissertação de Mestrado possui o objetivo de contribuir com o tema de Aprendizado de Máquina do ponto de vista da Engenharia de Software, apresentando uma solução para aplicações de \textit{Machine Learning} que pode ser executado de maneira semi-autônoma sem a necessidade de experimentar uma grande quantidade de técnicas e pode ser mais assertivo em encontrar opções mais otimizadas para diferentes contextos, utilizando um \textit{Workflow} que possui uma diversa gama de algoritmos já implementados e utiliza a arquitetura MAPE-K para determinar qual possui o melhor balanceamento. Foram realizados diversos estudos de caso para determinar se o MAPE-K pode ser viável na resolução destes problemas e se a solução implementada é extensível sem grandes esforços, possibilitando um maior uso de algoritmos. Diante deste contexto, foi notado que a solução pode facilitar caminhos realizados pelo Especialista de ML, possibilitando estudos de Engenharia de Software em aplicações com o uso responsável de dados.
+O uso de Aprendizado de Máquina (ML) envolvendo grandes volumes de dados vem crescendo conforme nossa sociedade migra processos manuais de trabalho para soluções digitais e necessita de tomadas de decisão mais rápidas e assertivas, mas, devido a barreiras éticas e legais, métricas usadas inicialmente para definir a eficácia de um algoritmo se mostraram limitadas para medir vieses que refletem a sociedade de maneira que não era esperada pelos desenvolvedores da solução. Para resolver tal problema, novos algoritmos foram desenvolvidos e um novo conjunto de métricas, denominado como métricas de Fairness, é utilizado para avaliar um equilíbrio aos grupos que sofrem discriminações. Entretanto, com estas novas descobertas, aumenta-se a complexidade da análise do Cientista de Dados para obter modelos com os melhores resultados. Esta dissertação de Mestrado possui o objetivo de contribuir com o tema de Aprendizado de Máquina do ponto de vista da Engenharia de Software, apresentando uma solução para aplicações de \textit{Machine Learning} que pode ser executado de maneira semi-autônoma sem a necessidade de experimentar uma grande quantidade de técnicas e pode ser mais assertivo em encontrar opções mais otimizadas para diferentes contextos, utilizando um \textit{Workflow} que possui uma diversa gama de algoritmos já implementados e utiliza a arquitetura MAPE-K para determinar qual possui o melhor balanceamento. Foram realizados diversos estudos de caso para determinar se o MAPE-K pode ser viável na resolução destes problemas e se a solução implementada é extensível sem grandes esforços, possibilitando um maior uso de algoritmos. Diante deste contexto, foi notado que a solução pode facilitar caminhos realizados pelo Especialista de ML, possibilitando estudos de Engenharia de Software em aplicações com o uso responsável de dados.
 
 \palavraschave{\textit{Workflow}, \textit{Machine Learning}, Inteligência Artificial, Computação Autônoma, Métricas de \textit{Fairness}}
 \end{resumo}
@@ -345,7 +345,7 @@ The use of Machine Learning (ML) involving big data volumes has been growing as 
 
 % O corpo da dissertação ou tese começa aqui:
 
-Técnicas de Inteligência Artificial e Aprendizado de Máquina já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, com previsão de US\$ 57 bilhões em investimentos em 2021, 480\% maior em relação a 2017~\citep{Deloitte_2018}. No Brasil, o número de empresas de IA aumentou de 120 em 2018 para 206 em 2020~\citep{CIO_2021}.
+Técnicas de Inteligência Artificial e Aprendizado de Máquina já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano mas que são difíceis de serem traduzidos em código. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, com estimativa de US\$ 57 bilhões em investimentos em 2021, 480\% maior em relação a 2017~\citep{Deloitte_2018}. No Brasil, o número de empresas de IA aumentou de 120 em 2018 para 206 em 2020~\citep{CIO_2021}.
 
 Isso se mostra possível devido a grande quantidade de dados processada diariamente pelas empresas, que coletam estatísticas toda vez que um usuário acessa suas aplicações. Com esses dados, podem traçar diferentes perfis e usar soluções de IA para ter tomadas de decisão mais assertivas com o objetivo de melhorar a experiência de usuário e corrigir problemas. Porém, muitas dessas soluções foram projetadas sem pensar em governança de dados como requisito de projeto, e se mostram ineficientes quando ela é tratada em consideração.
 
@@ -364,7 +364,6 @@ Embora suas premissas tenham bastante utilidade no cenário do mundo de hoje, um
 \begin{itemize}
 \item \textbf{Maior complexidade na medição e na escolha dos algoritmos a se utilizar:} Em uma solução voltada a aplicações de IA tradicionais, os algoritmos utilizados são executados, em geral, durante a fase de treinamento. Embora hajam técnicas e algoritmos que podem ser aplicados antes deste processo para melhorar a modelagem do problema, ao adicionar justiça e explicabilidade como requisitos desta aplicação aumentamos a gama de algoritmos a se testar para obter melhores resultados, que podem ser executados antes, durante e após a fase de treinamento. Além disso, para medir justiça são necessárias novas métricas especificamente para esse fim, que aumentam o tempo para análise e validação se o modelo final é bom o suficiente ou não.
 \item \textbf{Maior complexidade ao balancear performance e justiça:} Além do maior número de métricas a se avaliar, é provável que, quando uma aplicação de IA mais justa é considerada como requisito, um modelo treinado com algoritmos voltados para reduzir vieses e com um determinado conjunto de dados seja avaliado com uma performance pior do que um modelo treinado com algoritmos mais comuns, uma vez que o algoritmo voltado para reduzir vieses precisa fazer concessões para que grupos considerados com privilégios e grupos considerados sem privilégios tenham os resultados mais semelhantes possíveis. Este \textit{trade-off} precisa ser considerado nos resultados finais para que o ganho em justiça seja superior a uma hipotética perda de performance.
-\item \textbf{Maior custo computacional ao implementar XAI:} Ao considerar explicabilidade como requisito de uma aplicação de IA, é preciso entender que novos algoritmos precisam ser aplicados em paralelo para gerar explicações durante o processo. Isto pode encarecer ainda mais um já oneroso processo de limpeza de dados, treinamento e avaliação de modelo gerado
 \end{itemize}
 
 Além destes problemas, ao observar outras soluções baseadas em IA presentes na comunidade acadêmica, há um problema de separação de interesses, onde grande parte do processo é concentrado em uma parte do código e não há a divisão em componentes reusáveis, em que podem ser utilizados em diferentes contextos sem que precisem ser alterados.
@@ -380,15 +379,15 @@ O objetivo desta dissertação de mestrado é desenvolver uma estrutura de \text
 
 \section{Solução Proposta}
 
-Foi desenvolvido um sistema, que pode ser dividido em 4 etapas principais: Engenharia de dados, \textit{Workflow} de ML, Gerenciador Autonômico e Interface Humano-Computador, que serão detalhados no Capítulo onde se discute sobre a metodologia adotada.
+Foi desenvolvido um sistema, que pode ser dividido em 4 etapas principais: Engenharia de dados, \textit{Workflow} de ML, Gerenciador Autonômico e Interface Humano-Computador, que serão detalhados no Capítulo 3.
 
-Para o desenvolvimento do \textit{workflow}, será utilizada a arquitetura \textit{Pipe-and-Filter}. Para a autonomia deste, será criado um componente utilizando a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
+Para o desenvolvimento do \textit{workflow}, será utilizada a arquitetura \textit{Pipes-and-Filters}. Para a autonomia deste, será criado um componente utilizando a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. Para a interface, ela foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
 
 \section{Resultados Obtidos}
 
-Esta pesquisa mostra que o estudo de algoritmos dedicados a reduzir vieses inconscientes sutilmente introduzidos nos dados é constante e a Engenharia de Software deve acompanhar estas tendências. Foram pesquisados 13 algoritmos diferentes e atuantes em até o fim da pesquisa e conforme atualizações da bibliotece utilizada \url{https://github.com/Trusted-AI/AIF360} mais 2 foram descobertos e não foram explorados.
+Esta pesquisa mostra que o estudo de algoritmos dedicados a reduzir vieses inconscientes sutilmente introduzidos nos dados é constante e a Engenharia de Software deve acompanhar estas tendências. Foram pesquisados 13 algoritmos diferentes e atuantes em até o fim da pesquisa e conforme atualizações da biblioteca utilizada \url{https://github.com/Trusted-AI/AIF360} mais 2 foram descobertos e não foram explorados.
 
-A escolha da arquitetura \textit{Pipe-and-Filter} se mostrou favorável para o desenvolvimento de um \textit{workflow} para aplicações envolvendo IA, permitindo que ele seja modular e que sejam feitas evoluções sem exigir grandes esforços. O uso da arquitetura MAPE-K também se mostrou favorável, permitindo diversos resultados para diferentes contextos de problema e uma simplificação da análise realizada pelo Cientista de Dados, podendo resultar em economia de tempo. Ela também possibilitou um balanço entre performance e justiça através da adição de pesos para cada métrica na parte de análise. Embora os pesos não sejam parte da arquitetura, a divisão presente na arquitetura permite que o desenvolvimento seja pensado de maneira mais clara.
+A escolha da arquitetura \textit{Pipes-and-Filters} se mostrou favorável para o desenvolvimento de um \textit{workflow} para aplicações envolvendo IA, permitindo que ele seja modular e que sejam feitas evoluções sem exigir grandes esforços. O uso da arquitetura MAPE-K também se mostrou favorável, permitindo diversos resultados para diferentes contextos de problema e uma simplificação da análise realizada pelo Cientista de Dados, podendo resultar em economia de tempo. Ela também possibilitou um balanço entre performance e justiça através da adição de pesos para cada métrica na parte de análise. Embora os pesos não sejam parte da arquitetura, a divisão presente na arquitetura permite que o desenvolvimento seja pensado de maneira mais clara.
 
 Embora a proveniência de dados não teve o mesmo efeito da aplicação de um método feito para XAI, a obtenção de metadados do \textit{workflow} se mostrou essencial para alimentar o componente baseado na arquitetura MAPE-K e possibilitou a análise e tomadas de decisão baseadas em dados. É possível realizar análises mais detalhadas conforme novas execuções forem realizadas, consequentemente podendo resultar em melhores escolhas de algoritmos para contextos distintos, e até considerar novas aplicações de IA caso o volume de dados seja consideravelmente grande. Posteriormente, é possível também rever quais dados podem ser adicionados para que o objetivo de XAI possa ser alcançado de maneira satisfatória.
 
@@ -400,7 +399,7 @@ O restante da dissertação se organizará da seguinte forma: o Capítulo 2 desc
 
 \section{Arquitetura de Software}
 
-O consenso sobre a definição de arquitetura de software foi adotado com a adoção do padrão IEEE 1471, que define arquitetura de software como \textit{"a organização fundamental de um sistema incorporado em seus componentes, seus relacionamentos entre si e com o meio ambiente e os princípios que orientam seu projeto e evolução"}. Com esta definição, o componente e o conector são reforçados como conceitos centrais da arquitetura de software~\citep{Bosch_2004}.
+O consenso sobre a definição do termo arquitetura de software foi atingido com a adoção do padrão IEEE 1471, que define arquitetura de software como \textit{"a organização fundamental de um sistema incorporado em seus componentes, seus relacionamentos entre si e com o meio ambiente e os princípios que orientam seu projeto e evolução"}. Com esta definição, o componente e o conector são reforçados como conceitos centrais da arquitetura de software~\citep{Bosch_2004}.
 
 O nível de design da arquitetura de software em um projeto vai além dos algoritmos e estruturas de dados da computação. Incluem fatores como organização, protocolos de comunicação, acesso a dados, atribuição de funcionalidades, escalabilidade, performance, composição e seleção do \textit{design} ideal~\citep{Garlan_1993}. É possível tratar uma arquitetura de um sistema específico como uma coleção de componentes juntamente com uma descrição dos conectores, que define as interações entre os componentes.
 
@@ -408,7 +407,7 @@ Um estilo de arquitetura define uma família de tais sistemas em termos de um pa
 
 \subsection{Arquitetura MAPE-K}
 
-Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como alternativa a solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}. 
+Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como possível solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}. 
 
 Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incorporar como funcionalidade um \textit{loop} de controle. Embora estes \textit{loops} sejam divididos nos mesmos procedimentos, é possível categorizá-los em 4 categorias principais. Essas categorias são consideradas atributos dos componentes do sistema e são definidas como~\citep{IBM_2005}:
 
@@ -419,7 +418,7 @@ Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incor
 \item \textbf{Auto-proteção:} Pode antecipar, detectar, identificar e proteger contra ameaças de qualquer lugar. Um componente de autoproteção pode detectar comportamentos hostis à medida que ocorrem e tomar ações corretivas para se tornarem menos vulneráveis. Os comportamentos hostis podem incluir acesso e uso não autorizados, infecção e proliferação de vírus e ataques de negação de serviço. Os recursos de autoproteção permitem que as empresas apliquem consistentemente políticas de segurança e privacidade.
 \end{itemize}
 
-Para a Computação Autônoma acontecer, é implementado um Elemento Autônomo~\citep{Abbas_2010}, um componente de software que gerencia partes do sistema baseando-se em um \textit{loop} MAPE-K (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}), ilustrado na Figura \ref{fig:MAPEK}. O MAPE-K é um conceito que constitui um \textit{loop} de controle, usado para monitorar e controlar um ou mais elementos gerenciados. Um elemento gerenciado (\textit{Managed Element}) pode ser um hardware, como uma impressora, um software, como um banco de dados, outro Elemento Autônomo ou funcões específicas, como balanceamento de carga. Um \textit{loop} de controle MAPE-K é dividido da seguinte forma:
+Para a Computação Autônoma acontecer, é implementado um Elemento Autônomo~\citep{Abbas_2010}, um componente de software que gerencia partes do sistema baseando-se em um \textit{loop} MAPE-K (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}), ilustrado na Figura \ref{fig:MAPEK}. O MAPE-K é um conceito que constitui um \textit{loop} de controle, usado para monitorar e controlar um ou mais elementos gerenciados. Um elemento gerenciado (\textit{Managed Element}) pode ser um hardware, como uma controlador de uma linha de produção, um software, como um gerenciador de banco de dados, outro Elemento Autônomo ou funcões específicas, como balanceamento de carga. Um \textit{loop} de controle MAPE-K é dividido da seguinte forma:
 
 \begin{itemize}
 \item \textbf{Monitoramento (\textit{Monitor}):} Esta parte é responsável por monitorar os recursos gerenciados e coletar, agregar e filtrar dados. O monitoramento é feito por meio de um sensor (\textit{Sensor}) ou mais sensores.
@@ -438,24 +437,24 @@ Um efetor (\textit{Effector}) ou mais executam as ações planejadas no recurso.
 \label{fig:MAPEK}
 \end{figure}
 
-\subsection{Arquitetura \textit{Pipe-and-Filter}}
+\subsection{Arquitetura \textit{Pipes-and-Filters}}
 
-Em uma arquitetura \textit{Pipe-and-Filter}, ilustrado na Figura \ref{fig:PipeandFilter}, cada componente tem um conjunto de entradas e um conjunto de saídas. Um componente lê \textit{streams} (ou fluxos) de dados em suas entradas e produz \textit{streams} de dados em suas saídas, abstraindo a entrega de um resultado como um todo. O \textit{stream} de entrada é transformado de modo que a saída comece a ser produzida antes da entrada ser completamente consumida. Por isso, os componentes são chamados de filtros (\textit{filters}). Os conectores deste estilo servem como condutores para os \textit{streams}, transmitindo as saídas de um filtro para as entradas de outro. Por isso, os conectores são chamados de tubos (\textit{pipes})~\citep{Garlan_1993}.
+Em uma arquitetura \textit{Pipes-and-Filters}, ilustrada na Figura \ref{fig:PipeandFilter}, cada componente tem um conjunto de entradas e um conjunto de saídas. Um componente lê \textit{streams} (ou fluxos) de dados em suas entradas e produz \textit{streams} de dados em suas saídas, abstraindo a entrega de um resultado como um todo. O \textit{stream} de entrada é transformado de modo que a saída comece a ser produzida antes da entrada ser completamente consumida. Por isso, os componentes são chamados de filtros (\textit{filters}). Os conectores deste estilo servem como condutores para os \textit{streams}, transmitindo as saídas de um filtro para as entradas de outro. Por isso, os conectores são chamados de tubos (\textit{pipes})~\citep{Garlan_1993}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.25]{images/PipeandFilter.png}
-\caption {Diagrama de uma arquitetura \textit{Pipe-and-Filter}.}
+\caption {Diagrama de uma arquitetura \textit{Pipes-and-Filters}.}
 \label{fig:PipeandFilter}
 \end{figure}
 
 Os filtros devem ser independentes, isto é, não devem compartilhar estado com outros filtros e, durante a programação, o ideal é que os filtros independam da ordem de processamento. Suas especificações podem restringir os dados transportados nos \textit{pipes} de entrada e nos \textit{pipes} de saída, mas não conhecem quaisquer outros filtros, ou componentes, conectados por seus \textit{pipes}. Especializações comuns desse estilo incluem \textit{pipelines}, que restringem as topologias a sequências lineares de filtros; \textit{Pipes} limitados, que restringem a quantidade de dados que podem ser passados em um \textit{pipe}, e \textit{pipes} tipados, que exigem que os dados passados entre dois filtros tenham um tipo bem definido.
 
-O uso da arquitetura \textit{Pipe-and-Filter} possuí como vantagens:
+O uso da arquitetura \textit{Pipes-and-Filters} possui como vantagens:
 
 \begin{itemize}
-\item Permitem que o Arquiteto de Software/Desenvolvedor entendam o comportamento geral de entrada/saída de um sistema como uma composição simples dos comportamentos dos filtros individuais.
-\item Suportam a reutilização: quaisquer dois filtros podem ser conectados, desde que concordem com os dados que estão sendo transmitidos entre eles. 
+\item Permite que o Arquiteto de Software/Desenvolvedor entendam o comportamento geral de entrada/saída de um sistema como uma composição simples dos comportamentos dos filtros individuais.
+\item Suporta a reutilização: quaisquer dois filtros podem ser conectados, desde que concordem com os dados que estão sendo transmitidos entre eles. 
 \item Os sistemas podem ser facilmente mantidos e aprimorados: novos filtros podem ser adicionados a sistemas existentes e filtros antigos podem ser substituídos por outros melhorados.
 \item Permitem certos tipos de análise especializada, como análise de rendimento e de impasse.
 \item Naturalmente suportam a execução simultânea: Cada filtro pode ser implementado como uma tarefa separada e potencialmente executado em paralelo com outros filtros.
@@ -465,7 +464,7 @@ Como desvantagens, é possível citar:
 
 \begin{itemize}
 \item Geralmente levam a uma organização de processamento em lote. Embora os filtros possam processar dados de forma incremental, uma vez que os filtros são inerentemente independentes, o Arquiteto de Software é forçado a pensar em cada filtro como fornecendo uma transformação completa dos dados de entrada em dados de saída. 
-\item Por sua natureza de transformação de dados, os sistemas que usam a arquitetura \textit{Pipe-and-Filter} normalmente não são bons para lidar com aplicativos interativos. Esse problema é mais grave quando são necessárias atualizações de exibição incrementais, porque o padrão de saída para atualizações incrementais é radicalmente diferente do padrão para saída de filtro.
+\item Por sua natureza de transformação de dados, os sistemas que usam a arquitetura \textit{Pipes-and-Filters} normalmente não são bons para lidar com aplicativos interativos. Esse problema é mais grave quando são necessárias atualizações de exibição incrementais, porque o padrão de saída para atualizações incrementais é radicalmente diferente do padrão para saída de filtro.
 \item Podem ser prejudicados por terem que manter correspondências entre dois \textit{streams} separados, mas relacionados. 
 \item Podem forçar um resultado médio na transmissão de dados em situações onde muitos filtros sejam encadeados com um único filtro, resultando em trabalho adicional para cada filtro separar seus dados e analisar o que for necessário. Isso, por sua vez, pode levar tanto à perda de desempenho quanto ao aumento da complexidade na escrita dos próprios filtros.
 \end{itemize}
@@ -481,12 +480,12 @@ O termo \textit{Big Data} apareceu uma vez como conceito em 1974 e novamente em 
 Nos anos 70/80, os problemas em engenharia de dados eram classificados de acordo com 3 atributos~\citep{IEEE_1989}:
 
 \begin{itemize}
-\item \textbf{Completude do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como completos ou incompletos. Se estiverem completos, não seria necessário congecimento adicional para a resolução do problema. Se estiverem incompletos, como grandes volumes de dados, seria necessário determinar heurísticas para encontrar um conjunto de dados mais específico para a resolução do problema.
+\item \textbf{Completude do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como \textit{completos} ou \textit{incompletos}. Se estiverem \textit{completos}, não seria necessário congecimento adicional para a resolução do problema. Se estiverem \textit{incompletos}, como no caso de grandes volumes de dados onde é exigida uma sumarização mais detalhada, seria necessário determinar heurísticas para encontrar um conjunto de dados mais específico para a resolução do problema.
 \item \textbf{Exatidão do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como exatos ou inexatos. Se estiverem exatos, poderiam ser representados em uma forma numérica ou lógica, como datas e coordenadas. Se estiverem inexatos, o número de casos possíveis seria infinito e seria impossível enumerar ou representar todos eles, sendo necessário determinar heurísticas para definir um número finito de possibilidades ou redefinir o significado de exatidão para que o que está disponível possa ser tratado como exato, como o reconhecimento de um objeto em uma imagem ou a definição do menor custo em uma determinada rota.
 \item \textbf{Conhecimento sobre o objetivo e especificações do problema:} Um objetivo de um problema pode ser bem ou mal definido. Um objetivo bem definido podia ser medido e representado em termos de parâmetros para que seja possível comparar a qualidade de uma solução com outra, enquanto um objetivo mal definido envolvia parâmetros que não podem ser mensurados ou não poder ser medido, sendo impossível comparar a qualidade de soluções alternativas e necessitando de tratamentos adicionais para que o objetivo deixe de ser mal definido e passe a ser bem definido. 
 \end{itemize}
 
-Dado estas categorias, é possível pensar em soluções que conversam com os objetivos da Engenharia de Software: Abordar diversos tipos de conceitos; como teoria, projeto, desenvolvimento, avaliação e manutenção de novos dados e técnicas, metodologias e sistemas de gerenciamento de conhecimento; em prol do desenvolvimento e manutenção de sistemas e soluções com qualidade e com o custo mais viável possível. Estes sistemas podem ter questões relacionadas ao cumprimento desses objetivos incluem estudos sobre os aspectos teóricos, ferramentas e metodologias de projeto, tradeoffs de projeto, representação e programabilidade, algoritmos e controle, confiabilidade e tolerância a falhas e projetos usando tecnologias existentes e emergentes. É tarefa do engenheiro de dados elaborar processos que reflitam tais questões em um sistema com objetivos definidos.
+Dado estas categorias, é possível pensar em soluções que conversam com os objetivos da Engenharia de Software: Abordar diversos tipos de conceitos; como teoria, projeto, desenvolvimento, avaliação e manutenção de novos dados e técnicas, metodologias e sistemas de gerenciamento de conhecimento; em prol do desenvolvimento e manutenção de sistemas e soluções com qualidade e com o custo mais viável possível. Estes sistemas podem ter questões relacionadas ao cumprimento desses objetivos incluindo estudos sobre os aspectos teóricos, ferramentas e metodologias de projeto, tradeoffs de projeto, representação e programabilidade, algoritmos e controle, confiabilidade e tolerância a falhas e projetos usando tecnologias existentes e emergentes. É tarefa do engenheiro de dados elaborar processos que reflitam tais questões em um sistema com objetivos definidos.
 
 \subsection{Ciência de Dados}
 
@@ -498,7 +497,7 @@ Um cientista de dados funcional, ao contrário de um estatístico geral, tem com
 
 \subsection{O ciclo do dado: Semelhanças e diferenças entre Engenharia de Dados}
 
-Nos tempos atuais, empresas e instituições acadêmicas utilizam Engenharia de Dados e Ciência de Dados para otimizar as suas aplicações de IA. Embora tais termos sejam distintos e seus profissionais performam tarefas distintas, na prática é frequente a função de engenharia de dados ser feita por cientistas de dados e vice-versa pois ambas se complementam muito na criação de aplicações de IA. Um bom exemplo de como estas áreas se conversam está no \textit{paper} \textit{Concise Survey of Computer Methods}, de 1974~\citep{Panoply_2017}. Nele, Peter Naur detalha diversos métodos de processamento de dados e aplicações, o que poderia definir como um, mas a citação mais importante de seu \textit{paper} está justamente no termo ciência de dados. Também define que a utilidade de um dado e de seus processos deriva de sua aplicação no desenvolvimento e manutenção de modelos da realidade~\citep{Foote_2021}. Em outras palavras, a existência de um processo que trate os dados é tão importante quanto a construção de um modelo através de seus dados. Ao entender como os dados devem ser usados, é possível criar processos que auxiliem a otimizar os resultados obtidos e criar modelos cada vez mais próximos da realidade.
+Nos tempos atuais, empresas e instituições acadêmicas utilizam Engenharia de Dados e Ciência de Dados para otimizar as suas aplicações de IA. Embora tais termos sejam distintos e seus profissionais performem tarefas distintas, na prática é frequente a função de engenharia de dados ser feita por cientistas de dados e vice-versa pois ambas se complementam muito na criação de aplicações de IA. Um bom exemplo de como estas áreas se conversam está no \textit{paper} \textit{Concise Survey of Computer Methods}, de 1974~\citep{Panoply_2017}. Nele, Peter Naur detalha diversos métodos de processamento de dados e aplicações, o que poderia definir como um, mas a citação mais importante de seu \textit{paper} está justamente no termo ciência de dados. Também define que a utilidade de um dado e de seus processos deriva de sua aplicação no desenvolvimento e manutenção de modelos da realidade~\citep{Foote_2021}. Em outras palavras, a existência de um processo que trate os dados é tão importante quanto a construção de um modelo através de seus dados. Ao entender como os dados devem ser usados, é possível criar processos que auxiliem a otimizar os resultados obtidos e criar modelos cada vez mais próximos da realidade.
 
 A principal razão para ambas as áreas se conversarem esta no ciclo de vida do dado, fundamental para entender as oportunidades e os desafios de aproveitar ao máximo os dados digitais. Como um ser vivo, os dados têm um ciclo de vida, desde o nascimento, passando por uma vida ativa até alguma forma de expiração, podendo ser "imortalizado" dependendo de sua importância. Também como um organismo vivo e inteligente, sobrevive em um ambiente que fornece suporte físico, contexto social e significado existencial~\citep{Berman_2018}.
 
@@ -519,7 +518,7 @@ Este ciclo, ilustrado na Figura \ref{fig:cicloDado}, é dividido em 5 etapas:
 \item \textbf{Preservação/Destruição:} Refere-se a processos de armazenamento, curadoria e validação do dado após seu uso e publicação. No contexto de validação, se o mesmo ainda continua útil para o contexto em que foi coletado, podendo ser atualizado ou destruído em caso negativo. Também pode ser comprimido ou indexado caso espaço ou desempenho sejam considerados gargalos para os usuários que forem usar os dados publicados.
 \end{itemize}
 
-Como exemplo, é possível citar os dados para experimentos do Grande Colisor de Hádrons (LHC), representando colisões de partículas dentro de um túnel de 17 milhas para testar as previsões de várias teorias da física de partículas e da física de alta energia~\citep{Berman_2018}. A maioria dos dados gerados é tecnicamente irrelevante e são descartados, mas isso não impede que uma enorme quantidade de dados seja influente e continua a ser analisada e preservada. Em 2012, dados sobre experimentos do LHC forneceram fortes evidências para o bóson de Higgs, apoiando a veracidade do Modelo Padrão da Física. Esta descoberta científica foi a "Descoberta do Ano" de 2012 da revista Science e o Prêmio Nobel de Física em 2013.
+Como exemplo, é possível citar os dados para experimentos do Grande Colisor de Hádrons (LHC), representando colisões de partículas dentro de um túnel de 17 milhas para testar as previsões de várias teorias da física de partículas e da física de alta energia~\citep{Berman_2018}. A maioria dos dados gerados é tecnicamente irrelevante e são descartados, mas isso não impede que uma enorme quantidade de dados seja influente e continue a ser analisada e preservada. Em 2012, dados sobre experimentos do LHC forneceram fortes evidências para o bóson de Higgs, apoiando a veracidade do Modelo Padrão da Física. Esta descoberta científica foi a "Descoberta do Ano" de 2012 da revista Science e o Prêmio Nobel de Física em 2013.
 
 As estimativas são de que, em 2040, haverá de 10 exabytes a 100 exabytes de dados influentes produzidos pelo LHC. Os dados retidos do LHC são anotados, preparados para preservação e arquivados em mais de uma dúzia de locais físicos. O resultado desse processo é divulgado à comunidade para análise e uso em mais de 100 outros locais de pesquisa. Além do desenvolvimento de protocolos de administração, disseminação e uso de dados, o ecossistema de dados do LHC também fornece um modelo econômico que suporta de forma sustentável os dados e sua infraestrutura. Essa combinação entre administração dos dados e administração econômica permitem que os dados sejam mantidos.
 
@@ -547,7 +546,7 @@ O termo \textit{Machine Learning} se tornou muito mais evidente com a possibilid
 \label{fig:NeuralNetwork}
 \end{figure}
 
-Com a evolução da computação, o treino de uma tarefa passou a ser cada vez mais viável, uma vez que a execução de algoritmos de \textit{Machine Learning} é computacionalmente muito custosa, especialmente quando redes neurais são utilizadas. E sua viabilidade é acompanhada de efetividade: Como exemplo, reconhecimento de imagens por máquinas treinadas através de deep learning em alguns cenários possuem uma taxa de acerto maior que a de humanos~\citep{Copeland_2016}.
+Com a evolução da computação, o treino de uma tarefa passou a ser cada vez mais viável, uma vez que a execução de algoritmos de \textit{Machine Learning} é computacionalmente muito custosa, especialmente quando redes neurais são utilizadas. Sua viabilidade também se prova quando tais tarefas se tornam efetivas no mundo real: Como exemplo, reconhecimento de imagens por máquinas treinadas através de deep learning em alguns cenários possuem uma taxa de acerto maior que a de humanos~\citep{Copeland_2016}.
 
 \subsection{Métricas de Avaliação}
 
@@ -579,27 +578,27 @@ A taxa de sucesso, também conhecida como \textbf{acurácia}, é o número de pr
 Acc = \frac{TP + TN}{TP + TN + FP + FN}
 \end{equation}
 
-Ela é considerada um indicador da realização de um bom treinamento e de um bom funcionamento do modelo obtido. Entretanto, não é a melhor métrica para interpretar situações quanto a aplicação do modelo ao problema, como classes desequilibradas.
+Ela é considerada um indicador da realização de um bom treinamento e de um bom funcionamento do modelo obtido. Entretanto, não é a melhor métrica para interpretar situações onde a qualidade dos dados utilizados interfere no resultado final, como classes desequilibradas.
 
-A \textbf{precisão} ajuda quando os custos de falsos positivos são altos e mostra a precisão das previsões positivas. É a fração de casos positivos previstos corretamente para estar na classe positiva de todos os casos positivos previstos no modelo:
+A \textbf{precisão} enfatiza situações quando o número de falsos positivos é alto e mostra a precisão das previsões positivas. É a fração de casos positivos previstos corretamente para estar na classe positiva de todos os casos positivos previstos no modelo:
 
 \begin{equation}
 P = \frac{TP}{TP + FP}
 \end{equation}
 
-O \textbf{recall}, ou sensibilidade, ajuda quando o custo de falsos negativos é alto.  É a fração de casos positivos previstos corretamente para estar na classe positiva de todos os casos positivos reais:
+O \textbf{recall}, ou sensibilidade, enfatiza situações quando o número de falsos negativos é alto.  É a fração de casos positivos previstos corretamente para estar na classe positiva de todos os casos positivos reais:
 
 \begin{equation}
 R = \frac{TP}{TP + FN}
 \end{equation}
 
-O \textbf{F1-score} é uma medida geral da acurácia de um modelo que combina precisão e recall. Pode ser interpretado como uma ponderação entre ambos e usa a média harmônica para realizar a medição:
+O \textbf{F1-score} é um caso especial de F-score, uma medida geral da acurácia de um modelo que combina precisão e recall. Pode ser interpretado como uma ponderação entre ambos e usa a média harmônica para realizar a medição:
 
 \begin{equation}
 F1 = 2 \times\frac{P \times R}{P + R}
 \end{equation}
 
-O \textbf{AUC} (\textit{Area under the ROC Curve}), também chamada de precisão balanceada, pode imterpretar a capacidade do classificador de evitar uma classificação falsa. Se sai melhor que a acurácia em situações que ela não é apropriada, como o desequilíbrio entre classes já citado anteriormente:
+O \textbf{AUC} (\textit{Area under the ROC Curve}), também chamada de precisão balanceada, pode interpretar a capacidade do classificador de evitar falsos positivos e falsos negativos. Se sai melhor que a acurácia em situações que ela não é apropriada, como o desequilíbrio entre classes já citado anteriormente:
 
 \begin{equation}
 AUC = \frac{1}{2} \left( \frac{TP}{TP + FN} + \frac{TN}{TN + FP} \right)
@@ -611,7 +610,7 @@ Existem diversos algoritmos de \textit{Machine Learning} utilizados para resolve
 
 \subsubsection{Regressão Logística}
 
-A Regressão Logística é um método de classificação baseado na aplicação da técnica de Regressão Linear. Como na Regressão Linear, ele assume uma relação linear entre os recursos e calcula a soma ponderada dos recursos mais um termo de viés. Neste método, o resultado não é utilizado diretamente, mas calcula a logística do resultado. Quando $w$ no peso das \textit{features} e o termo de viés é $b$, a probabilidade estimada do modelo de regressão logística é a seguinte:
+A Regressão Logística é um método de classificação baseado na aplicação da técnica de Regressão Linear. Como na Regressão Linear, ele assume uma relação linear entre os recursos e calcula a soma ponderada dos recursos mais um termo de viés. Neste método, o resultado não é utilizado diretamente, mas calcula a logística do resultado. Quando peso das \textit{features} é $w$ e o termo de viés é $b$, a probabilidade estimada do modelo de regressão logística é a seguinte:
 
 \begin{equation}
 \hat{p} = \sigma (w^{T}x + b)
@@ -623,7 +622,7 @@ Logo após, a função logística $\sigma$ é calculada:
 \sigma (z) = \frac{1}{1 + exp(-z)}
 \end{equation}
 
-Uma vez que o modelo de Regressão Logística estimou a probabilidade $\hat{p}$, a previsão de classificação é feita facilmente considerando a seguinte regra:
+Uma vez que o modelo de Regressão Logística estimou a probabilidade $\hat{p}$, a previsão de classificação é feita considerando a seguinte regra:
 
 \begin{equation}
 	\begin{aligned}
@@ -643,7 +642,7 @@ J(w,b) = \frac{1}{m} \sum^{m}_{i=1} L(\hat{y}^{(i)}, y^{(i)})
 
 Durante o treinamento do modelo de Regressão Logística, é preciso encontrar os parâmetros $w$ e $b$ que minimizem a função de custos globais. Como a função de custo é convexa, diferentes métodos de otimização, como o gradiente descendente, garantem encontrar o mínimo global.
 
-Para lidar com problemas com múltiplas classes para classificação, é possível calcular uma função de custo separada para cada rótulo de classe por observação e somar os resultados, técnica conhecida como \textit{One-Vs-All}. Outra técnica que pode generalizar o método de regressão logística para suportar várias classes diretamente é chamada de Regressão Softmax, ou Regressão Logística Multinomial, utilizando a função Softmax para substituir a função de probabilidade da Regressão Logística convencional:
+Para lidar com problemas com múltiplas classes para classificação, é possível calcular uma função de custo separada para cada rótulo de classe por observação e somar os resultados, técnica conhecida como \textit{One-Vs-All}~\citep{Rifkin_2004}. Outra técnica que pode generalizar o método de regressão logística para suportar várias classes diretamente é chamada de Regressão Softmax, ou Regressão Logística Multinomial, utilizando a função Softmax para substituir a função de probabilidade da Regressão Logística convencional:
 
 \begin{equation}
 \hat{p}(Y_i = n) = \frac{e^{\beta_{n} \cdot \textbf{X}_{i}}}{1 + \sum^{K-1}_{k=1} e^{\beta_{k} \cdot \textbf{X}_{i}}}
@@ -651,7 +650,7 @@ Para lidar com problemas com múltiplas classes para classificação, é possív
 
 \subsubsection{\textit{Support Vector Machines} (SVM)}
 
-\textit{Support Vector Machines} (SVM) é um algoritmo de aprendizado de máquina que pode ser usado para detecção linear, não linear, de classificação, regressão e até mesmo detecção de anomalias(\textit{Outliers}). A ideia fundamental por trás dessa técnica é que as classes de saída são separadas com um hiperplano maximizando a margem (distância máxima entre os pontos de dados de ambas as classes)~\citep{Steinwart_2008}. As \textit{Support Vector Machines} criam um ou vários hiperplanos em um espaço de $n$ dimensões. A dimensão dos hiperplanos depende do número de \textit{features}. Quando há duas \textit{features}, é apenas uma linha, ou quando há três \textit{features}, é um plano bidimensional.
+\textit{Support Vector Machines} (SVM) é um algoritmo de aprendizado de máquina que pode ser usado para detecção linear, não linear, de classificação, regressão e até mesmo detecção de anomalias (\textit{Outliers}). A ideia fundamental por trás dessa técnica é que as classes de saída são separadas com um hiperplano maximizando a margem (distância máxima entre os pontos de dados de ambas as classes)~\citep{Steinwart_2008}. As \textit{Support Vector Machines} criam um ou vários hiperplanos em um espaço de $n$ dimensões. A dimensão dos hiperplanos depende do número de \textit{features}. Quando há duas \textit{features}, é apenas uma linha, ou quando há três \textit{features}, é um plano bidimensional.
 
 Para lidar com conjuntos de dados não lineares, uma abordagem é adicionar mais \textit{features}, como um recurso polinomial, ou a outra abordagem é usar \textit{kernels}, mapeando os dados de entrada de $n$ dimensões para um espaço de dimensão superior, onde os dados podem ser separados linearmente.
 
@@ -664,53 +663,51 @@ A Regressão Kernel Ridge (\textit{Kernel Ridge Regression}/KRR) é um algoritmo
 \sum_{i} (y_{i} - w^{T}x_i)^{2} - \lambda \norm{w}^{2}
 \end{equation}
 
-Por causa de tais operações, A Regressão Kernel Ridge exige mais processamento do que uma regressão tradicional. No entanto, é vantajoso usá-la em casos que um ajuste não-linear é desejado ou onde há mais atributos do que elementos no conjunto de treinamento. Em casos onde há mais elementos no conjunto de treinamento do que atributos, a Regressão Kernel Ridge peca por não abranger o conceito "vetores de suporte" utilizado nas \textit{Support Vector Machines}, onde é necessário somar apenas o conjunto de vetores de suporte ao invés de todo o conjunto de treinamento. No entanto, as \textit{Support Vector Machines} exigem mais processamento.
+Por causa de tais operações, A Regressão Kernel Ridge exige mais processamento do que uma regressão tradicional. No entanto, é vantajoso usá-la em casos que um ajuste não-linear é desejado ou onde há mais atributos do que elementos no conjunto de treinamento. Em casos onde há mais elementos no conjunto de treinamento do que atributos, a Regressão Kernel Ridge peca por não abranger o conceito utilizado nas \textit{Support Vector Machines}, onde é necessário somar apenas o conjunto de vetores de suporte ao invés de todo o conjunto de treinamento. No entanto, por causa deste mesmo conceito as \textit{Support Vector Machines} exigem mais processamento.
 
 \subsubsection{Árvores de Decisão (\textit{Decision Trees})}
 
 Árvores de decisão (\textit{Decision Trees}) são um grupo de algoritmos de aprendizado de máquina que podem ser usados para classificação e regressão. Eles são os métodos de aprendizado mais comuns que são muito poderosos e capazes de ajustar conjuntos de dados complexos. Os algoritmos de Árvore de Decisão são baseados em uma abordagem de dividir e conquistar para os problemas de classificação~\citep{Witten_2016}. Uma Árvore de Decisão é feita pelo processo contínuo de dividir o conjunto de dados nos atributos da melhor maneira possível em diferentes classes até que um critério de parada específico seja alcançado. Nas Árvores de Decisão, as observações sobre os itens são mostradas em ramificações e as conclusões das observações são mostradas nos nós. Existem três tipos diferentes de nós: os nós raiz que indicam o início do processo de decisão e não têm arestas de entrada, os nós internos que têm exatamente uma entrada e pelo menos duas arestas de saída e os nós finais (ou as folhas).
 
-Sempre que o rótulo de classificação de destino assume valores discretos, a Árvore de Decisão é chamada de árvore de classificação e, sempre que recebe valores contínuos, é chamada de árvore de regressão. Um dos méritos do uso de Árvores de Decisão é que elas exigem pouco pré-processamento de dados e não há necessidade de dimensionamento ou centralização de dados. Treinando uma Árvore de Decisão, geralmente, é realizada com uma árvore menos complicada e mais abrangente. A complexidade de uma Árvore de Decisão pode ser controlada usando critérios de parada e métodos de poda~\citep{Rokach_2005}, existindo quatro métricas diferentes para poder medí-la: o número total de nós, o número total de folhas, a profundidade da árvore e o número de atributos usados.
+Sempre que o rótulo de classificação de destino assume valores discretos, a Árvore de Decisão é chamada de árvore de classificação e, sempre que recebe valores contínuos, é chamada de árvore de regressão. Um dos méritos do uso de Árvores de Decisão é que elas exigem pouco pré-processamento de dados e não há necessidade de escala. Seu treinamento geralmente é realizado com uma árvore menos complicada e mais abrangente. A complexidade de uma Árvore de Decisão pode ser controlada usando critérios de parada e métodos de poda~\citep{Rokach_2005}, existindo quatro métricas diferentes para poder medí-la: o número total de nós, o número total de folhas, a profundidade da árvore e o número de atributos usados.
 
 Os algoritmos usados para construir uma Árvore de Decisão a partir de um conjunto de dados são chamados de indutores. Normalmente, o objetivo desses algoritmos é encontrar a Árvore de Decisão ótima minimizando o erro de generalização, considerando o número mínimo de nós e a profundidade mínima da árvore. Os algoritmos da Árvore de Decisão funcionam de forma \textit{top-down}, pois escolhem a melhor variável em cada estágio que pode dividir o conjunto de dados em um atributo específico. Diferentes indutores usam critérios diferentes para encontrar a melhor variável.
 
 \subsubsection{\textit{Random Forest}}
 
-\textit{Random Forest} é um algoritmo de aprendizado de máquina que combina a simplicidade das Árvores de Decisão com a flexibilidade, resultando em melhorias na acurácia~\citep{Breiman_2001}. A principal ideia que o diferencia de uma Árvore de Decisão é o melhorar a redução de variância do \textit{Bagging} por diminuição de correlação entre as árvores sem aumentar muito a variância, pois se considera apenas um subconjunto aleatório de variáveis a cada passo~\citep{Breiman_2001}.
+\textit{Random Forest} é um algoritmo de aprendizado de máquina que combina a simplicidade das Árvores de Decisão com a flexibilidade, resultando em melhorias na acurácia~\citep{Breiman_2001}. Neste algoritmo, o \textit{Bagging}, uma técnica que gera uma coleção de classificadores introduzindo subconjuntos randômicos na entrada do algoritmo~\citep{Witten_2016}, é utilizado para gerar uma coleção de Árvores de Decisão simplificadas com a finalidade de generalizar o resultado no conjunto da obra.
 
-\textit{Bagging} é uma técnica que gera uma coleção de classificadores introduzindo randomização na entrada do algoritmo, geralmente com excelentes resultados~\citep{Witten_2016}. No \textit{Random Forest}, ela é utilizada para gerar uma coleção de Árvores de Decisão simplificadas com a finalidade de generalizar o resultado no conjunto da obra.
+No final, a classe selecionada é a que for mais citada dentre essa coleção. Esta simplificação, em geral, otimiza o treinamento em relação a uma Árvore de Decisão tradicional.
 
 \subsubsection{\textit{Gradient Boosting}}
 
 \textit{Gradient Boosting}, também conhecido como \textit{Gradient Boosting Machine} (GBM) ou \textit{Gradient Boosted Regression Tree} (GBRT)~\citep{Chen_2016}, é um algoritmo de aprendizado de máquina que faz a classificação através da composição de pequenos modelos pela utilização do \textit{Boosting}~\citep{Friedman_2000}~\citep{Hastie_2009}. \textit{Gradient Boosting} faz uso de \textit{Boosting} para gradualmente aproximar um melhor modelo, de modo a somar submodelos ao modelo composto. Árvores de Decisão tendem a gerar \textit{overfitting}, e o \textit{Gradient Boosting} é uma possibilidade para solucionar este problema.
 
-\textit{Boosting} é uma combinação de modelos simples, chamados de modelos fracos, onde tipicamente estes modelos são Árvores de Decisão. O algoritmo combina classificadores fracos com intuito de produzir um classificador forte. Diferente do \textit{Bagging}, a criação de subconjuntos não é feita de maneira aleatória, e sim feita priorizando subconjuntos mal classificados~\citep{Hastie_2009}.
+\textit{Boosting} é uma combinação de modelos simples, chamados de modelos fracos, onde tipicamente estes modelos são Árvores de Decisão. O algoritmo combina classificadores fracos com intuito de produzir um classificador forte. Diferente do \textit{Bagging}, a obtenção de subconjuntos vindos do conjunto de dados não é feita de maneira aleatória, e sim feita priorizando a substituição de dados mal classificados, que ganham um peso maior para serem substituídos nas iterações seguintes~\citep{Hastie_2009}.
 
 \subsubsection{Redes Neurais Artificiais}
 
-As Redes Neurais Artificiais, muitas vezes chamadas apenas de Redes Neurais, são um grupo de métodos de modelagem de dados estatísticos não lineares, que a princípio foram inspirados nos cérebros e nas estruturas dos neurônios biológicos. Elas são a base do aprendizado profundo. Eles são poderosos, escaláveis e capazes de trabalhar com grandes tarefas complexas de aprendizado de máquina, como serviços de reconhecimento de imagem e reconhecimento de fala.
+As Redes Neurais Artificiais, muitas vezes chamadas apenas de Redes Neurais, são um grupo de métodos de modelagem de dados estatísticos não lineares, que a princípio foram inspirados nos cérebros e nas estruturas dos neurônios biológicos. Elas são a base do aprendizado profundo, sendo escaláveis e capazes de trabalhar com grandes tarefas complexas de aprendizado de máquina, como serviços de reconhecimento de imagem e reconhecimento de fala. O processo simplificado para treinamento de uma Rede Neural é o seguinte:
 
-As Redes Neurais Artificiais não são novas para os sistemas de computação, pois foram introduzidas pela primeira vez por Warren McCulloch e Walter Pitts em 1943~\citep{McCulloch_1943}. Desde então, o desenvolvimento dessas técnicas passou por altos e baixos, até ter uma adoção considerável graças aos avanços significativos no poder computacional tanto em hardware quanto em software, é possível treinar Redes Neurais complexas, e há uma enorme quantidade de dados disponíveis para uso em bancos de dados. As Redes Neurais podem ser divididas em dois grupos principais~\citep{Singh_2009}:
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item Os dados de entrada são fornecidos à rede, eles se propagam pelas camadas e o processo de encaminhamento produz a previsão.
+\item Calcula-se o erro entre o produto previsto e o produto real (função de custo).
+\item A Rede Neural usa um algoritmo de otimização para ajustar os pesos de forma a reduzir a função custo.
+\item O processo de encaminhamento inicia novamente e continua até que a taxa de erro seja minimizada a um determinado valor, ou até um certo número de iterações.
+\end{enumerate}
+
+As Redes Neurais Artificiais não são novas para os sistemas de computação, pois foram introduzidas pela primeira vez por Warren McCulloch e Walter Pitts em 1943~\citep{McCulloch_1943}. Desde então, o desenvolvimento dessas técnicas passou por altos e baixos até ter uma adoção considerável graças aos avanços significativos tanto no poder computacional dos hardwares quanto nas otimizações de algoritmos implementadas nos softwares. Atualmente, é possível treinar Redes Neurais de grande complexidade, e há uma enorme quantidade de dados disponíveis para uso em bancos de dados. Elas podem ser divididas em dois grupos principais~\citep{Singh_2009}:
 
 \begin{itemize}
 \item \textbf{Redes retroalimentadas (\textit{Feedforward})}: Nessas redes, o fluxo de dados se move apenas na direção direta da camada de entrada para os nós de saída. Não há alimentação ou loop no sistema.
 \item \textbf{Redes recorrentes}: Este tipo de rede pode ter a opção de feedback e reutiliza os dados dos estágios posteriores para os estágios anteriores.
 \end{itemize}
 
-O processo simplificado de uma Rede Neural é o seguinte:
-
-\begin{enumerate}[label=\textbf{\arabic*.}]
-\item Os dados de entrada são fornecidos à rede, eles se propagam pelas camadas e o processo de encaminhamento produz a previsão.
-\item Calcula-se o erro entre o produto previsto e o produto real (função de custo).
-\item A Rede Neural usa um algoritmo de otimização para ajustar os pesos de forma a reduzir a função custo.
-\item O processo de encaminhamento inicia novamente e continua até que a taxa de erro seja minimizada.
-\end{enumerate}
-
 Algoritmos de otimização são métodos usados para minimizar o valor da função de custo ajustando os parâmetros internos do modelo. Algumas das técnicas de otimização mais comuns nas estruturas de aprendizado profundo são as seguintes: \textit{Stochastic Gradient Descent} (SGD)~\citep{Schmidt_2013}, \textit{Momentum}~\citep{Polyak_1964}, \textit{Nesterov Accelerated Gradient} (NAG)~\citep{Sutskever_2013}, \textit{Adaptive Gradient} (AdaGrad)~\citep{Duchi_2011}, \textit{Root mean square prop} (RMSprop)~\citep{Graves_2013}, \textit{Adaptive moment estimation}, (Adam)~\citep{Kingma_2014}, \textit{Nesterov and Adam optimizer} (Nadam)~\citep{Dozat_2016}.
 
-Toda Rede Neural consiste em alguns nós (neurônios), conexões ponderadas entre os nós e uma abordagem computacional chamada função de ativação usada para definir a saída de cada neurônio. Diferentes tipos de funções de ativação podem ser usados com esta técnica, como Sigmóide, tanh (tangente hiperbólica) ou ReLU (sigla de \textit{Rectified Linear Unit}).
+Toda Rede Neural consiste em alguns nós (neurônios), conexões ponderadas entre os nós e uma abordagem computacional chamada função de ativação usada para definir a saída de cada neurônio. Diferentes tipos de funções de ativação podem ser usados com esta técnica, como sigmóide, tanh (tangente hiperbólica) ou ReLU (sigla de \textit{Rectified Linear Unit}).
 
-Redes Neurais consistem em diferentes camadas. O tipo mais simples de Rede Neural inclui uma camada de entrada que recebe informações de fontes externas, como valores de atributos do conjunto de dados de entrada. A camada de saída gera a saída da rede e as camadas ocultas que conectam a camada de entrada e a camada de saída entre si. O valor de entrada de cada nó em cada camada é calculado pela soma de todos os nós de entrada multiplicada pelo respectivo peso da interconexão entre os nós~\citep{Erb_1993}.
+Redes Neurais consistem em diferentes camadas. O tipo mais simples de Rede Neural inclui uma camada de entrada que recebe informações de fontes externas, como valores de atributos do conjunto de dados de entrada. A camada de saída gera a saída da rede e as camadas ocultas conectam a camada de entrada e a camada de saída entre si. O valor de entrada de cada nó em cada camada é calculado pela soma de todos os nós de entrada multiplicada pelo respectivo peso da interconexão entre os nós~\citep{Erb_1993}.
 
 \section{Fairness em Machine Learning}
 
@@ -728,7 +725,7 @@ Para avaliar a justiça de um modelo, as métricas utilizadas diferem das métri
 
 Assim como algumas métricas utilizadas para avaliação, muitas métricas utilizam Verdadeiros Positivos, Verdadeiros Negativos, Falsos positivos e Falsos Negativos para analisar o quão justo o modelo é. Entretanto, diferente da acurácia, precisão e recall utilizados anteriormente, a medição das discriminações utiliza outras métricas, utilizadas ou não para avaliar a performance, para estabelecer novas métricas mais adequadas para a sua finalidade.
 
-Exemplos de métricas utilizadas para isso são a Taxa de Verdadeiros Positivos e a Taxa de Falsos Positivos. Enquanto a \textbf{Taxa de Verdadeiros Positivos} (TVP, ou TPR pelo termo em inglês \textbf{True Positive Rate}) é outro termo para denominar o recall, a \textbf{Taxa de Falsos Positivos} (TFP, ou FPR pelo termo em inglês \textbf{False Positive Rate}) é a fração de casos negativos previstos incorretamente como estando na classe positiva de todos os casos positivos reais:
+Exemplos de métricas utilizadas para isso são a Taxa de Verdadeiros Positivos e a Taxa de Falsos Positivos. Enquanto a \textbf{Taxa de Verdadeiros Positivos} (ou TPR, pelo termo em inglês \textbf{True Positive Rate}) é outro termo para denominar o recall, a \textbf{Taxa de Falsos Positivos} (ou FPR, pelo termo em inglês \textbf{False Positive Rate}) é a fração de casos negativos previstos incorretamente como estando na classe positiva de todos os casos positivos reais:
 
 \begin{equation}
 FPR = \frac{FP}{FP + TN}
@@ -767,22 +764,22 @@ Precisa ser próximo a 0 para ser considerado justo.
 \frac{Pr(Y=1|Z=0)}{Pr(Y=1|Z=1)}
 \end{align*}
 
-Usa as mesmas probabilidades da diferença de paridade estatística, mas aqui são calculadas como proporção. Desta forma, um valor próximo de 1 é considerado justo.
+Usa as mesmas probabilidades da diferença de paridade estatística, mas como é calculada como uma proporção o valor esta métrica possui um comportamento não-linear. Desta forma, um valor próximo de 1 é considerado justo.
 
-\item \textbf{Índice de Theil (\textit{Theil index})~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com $\alpha$ igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
+\item \textbf{Índice de Theil (\textit{Theil index})~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com o valor de $\alpha$ usado neste índice igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
 
 \begin{align*}
 \frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
 \end{align*}
 
-Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ é o conjunto de previsões dadas pelo modelo. Também precisa ser próximo a 0 para ser considerado justo.
+Onde n é a quantidade de elementos e $b_i$ é obtido com a fórmula $b_i = \hat{y}_i - y_i + 1$. Nesta fórmula, $y_i$ é o conjunto de saídas, $\hat{y}_i$ é o conjunto de previsões dadas pelo modelo. Também precisa ser próximo a 0 para ser considerado justo.
 
 \end{itemize}
 
 \subsection{Algoritmos para redução de vieses}
 \label{sec:unbiasedAlgorithms}
 
-Há diversos tipos de algoritmos diferentes na inteligência artificial para redução de vieses, a fim de garantir \textit{Fairness} nos projetos de Aprendizado de Máquina. É possível classificá-los em três categorias diferentes: Algoritmos de pré-processamento, processamento e de pós-processamento.
+Há diversos tipos de algoritmos diferentes na inteligência artificial para redução de vieses, a fim de garantir \textit{Fairness} nos projetos de Aprendizado de Máquina. É possível classificá-los em três categorias diferentes: Algoritmos de pré-processamento, de processamento e de pós-processamento.
 
 Os algoritmos de \textbf{pré-processamento} tentam eliminar a discriminação transformando os dados, antes de executar o algoritmo de treinamento. Tais algoritmos podem ser usados caso seja permitida a modificação dos dados de treinamento~\citep{dAlessandro_2017}, e a ideia por trás de tais algoritmos é que suas previsões serão mais balanceadas se o classificador for treinado com os dados já balanceados~\citep{Kamiran_2009}. Nesta categoria se enquadram os seguintes algoritmos:
 
@@ -796,12 +793,12 @@ Os algoritmos de \textbf{pré-processamento} tentam eliminar a discriminação t
 \item \textbf{Pré-processamento otimizado (\textit{Optimized pre-processing})~\citep{Calmon_2017}:} Aprende uma transformação probabilística que edita \textit{features} e rótulos nos dados efetuando justiça em cada grupo, distorção individual, garantindo a fidelidade de dados através de restrições.
 \end{itemize}
 
-Os algoritmos de \textbf{processamento} tentam realizar modificações nos algoritmos de treinamento para mitigar a discriminação durante o processo de treinamento do modelo. Se for permitido fazer mudanças no processo de treinamento, então os algoritmos podem ser usados incorporando mudanças na função de custo ou impondo restrições~\citep{Mehrabi_2019}. Nesta categoria se enquadram os seguintes algoritmos:
+Os algoritmos de \textbf{processamento} tentam realizar modificações nos algoritmos de treinamento para mitigar a discriminação durante o processo de treinamento do modelo. Se for permitido fazer mudanças no processo de treinamento, então os algoritmos podem ser usados incorporando mudanças na função de custo ou impondo restrições~\citep{Mehrabi_2021}. Nesta categoria se enquadram os seguintes algoritmos:
 
 \begin{itemize}
 \item \textbf{Remoção de viés adversário (Adversarial debiasing)~\citep{Zhang_2018}:} Aprende um classificador que maximiza a precisão e reduz a capacidade de um adversário de depender do atributo protegido nas previsões. Essa abordagem leva a um classificador justo, pois as previsões realizadas pelo classificador não possuem nenhuma informação de discriminação nos grupos.
 
-\item \textbf{Removedor de preconceito (Prejudice remover)~\citep{Feldman_2015}:} Técnica que adiciona no algoritmo escolhido um termo de regularização baseado na discriminação (No caso da biblioteca AI Fairness 360 é usado o programa da publicação, que usa a regressão logística como algoritmo base).
+\item \textbf{Removedor de preconceito (Prejudice remover)~\citep{Feldman_2015}:} Técnica que adiciona no algoritmo escolhido um termo de regularização baseado na discriminação.
 
 \item \textbf{Meta-Algoritmo para classificações justas (Meta-Algorithm for Fair Classification)~\citep{Celis_2019}:} Aprende um classificador compatível com uma gama grande de métricas de Fairness, sendo prático o suficiente para abrangê-las sem grande perda de performance.
 
@@ -839,7 +836,7 @@ No processo, ilustrado na Figura \ref{fig:MLProcess}, o conjunto de dados passa 
 \label{fig:MLProcess}
 \end{figure}
 
-Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de negócio até o deploy do modelo de IA, é a IBM Analytics and AI Reference Architecture \citep{IBM_2021}, ilustrada na Figura \ref{fig:AIReferenceArchitecture}. Nela, são definidos os seguintes requisitos não-funcionais: Performance, estabilidade, segurança, escalabilidade, manutenibilidade e regulamentações de privacidade/\textit{compliance}, e pode ser classificada em 4 grupos principais envolvendo diversos tipos de processos e componentes:
+Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de negócio até o deploy do modelo de IA, é a IBM Analytics and AI Reference Architecture \citep{IBM_2021}, ilustrada na Figura \ref{fig:AIReferenceArchitecture}. Nela, são definidos os seguintes requisitos não-funcionais: performance, estabilidade, segurança, escalabilidade, manutenibilidade e regulamentações de privacidade/\textit{compliance}, e pode ser classificada em 4 grupos principais envolvendo diversos tipos de processos e componentes:
 
 \begin{figure}[h]
 \centering
@@ -907,9 +904,9 @@ Isso pode ser feito por uma aplicação própria para realizar este gerenciament
 
 \section{Trabalhos Relacionados}
 
-Os principais trabalhos encontrados envolvendo métricas de \textit{Fairness} e sua arquitetura vêm do time de engenharia do LinkedIn.~\citet{Geyik_2019} falam sobre as métricas utilizadas e os algoritmos implementados sobre ranqueamento dos dados.~\citet{Kenthapadi_2019} fala sobre como o conceito de \textit{Fairness} pode ser implementado em uma aplicação de IA, e mostra a arquitetura sobre ela.
+Os principais trabalhos encontrados envolvendo métricas de \textit{Fairness} e arquitetura de sistemas pensando em \textit{Fairness} como requisito vêm do time de engenharia do LinkedIn.~\citet{Geyik_2019} fala sobre quais métricas foram utilizadas e quais algoritmos foram implementados para ranqueamento dos dados.~\citet{Kenthapadi_2019} fala sobre como o conceito de \textit{Fairness} pode ser implementado em uma aplicação de IA, e mostra a arquitetura sobre ela.
 
-Quanto ao desenvolvimento do \textit{Workflow} e arquiteturas, é possível mencionar a própria IBM AI Reference Architecture~\citep{IBM_2021} como modelo para desenvolvimento de aplicações. Uma outra arquitetura que é comparável a arquitetura \textit{Pipe-and-Filter} é a FBFlow do Facebook~\citep{Dunn_2016}. O uso de DAGs (\textit{Direct Acyclic Graphs}) para a execução de um determinado processo ou \textit{workflow} é uma alternativa simples de ser implementada e interpretada pelos desenvolvedores, onde é possível conectar o método de ML juntamente com o cálculo de métricas para serem automatizados e organizados de forma simultânea. Há diferenças entre DAGs e \textit{pipes} e filtros, mas o objetivo de ambos acaba sendo o mesmo: Conectar diversos processos menores para formar um sistema coeso. Também por este trabalho de mestrado se tratar de um \textit{Workflow} focando em diversos algoritmos envolvendo redução de vieses, estes mesmos algoritmos, apresentados no capítulo \ref{sec:unbiasedAlgorithms}, também podem ser considerados como parte de trabalhos relacionados.
+Quanto ao desenvolvimento do \textit{Workflow} e arquiteturas, é possível mencionar a própria IBM AI Reference Architecture~\citep{IBM_2021} como modelo para desenvolvimento de aplicações. Uma outra arquitetura que é comparável a arquitetura \textit{Pipes-and-Filters} é a FBFlow do Facebook~\citep{Dunn_2016}. O uso de DAGs (\textit{Direct Acyclic Graphs}) para a execução de um determinado processo ou \textit{workflow} é uma alternativa simples de ser implementada e interpretada pelos desenvolvedores, onde é possível conectar o método de ML juntamente com o cálculo de métricas para serem automatizados e organizados de forma simultânea. Há diferenças entre DAGs e \textit{pipes} e filtros, mas o objetivo de ambos acaba sendo o mesmo: Conectar diversos processos menores para formar um sistema coeso. Também por este trabalho de mestrado se tratar de um \textit{Workflow} focando em diversos algoritmos envolvendo redução de vieses, estes mesmos algoritmos, apresentados no capítulo \ref{sec:unbiasedAlgorithms}, também podem ser considerados como parte de trabalhos relacionados.
 
 Quanto ao desenvolvimento da parte que utiliza o MAPE-K para garantir a autonomia, já há diversos artigos detalhando como o MAPE-K é importante para organizar o processo de decisão, como o \textit{"An architectural blueprint for autonomic computing"}~\citep{IBM_2005}, que detalha todas as suas bases. Para o desenvolvimento da parte de análise, um trabalho que pode ser mencionado é o artigo \textit{"The VADA Architecture for Cost-Effective Data Wrangling"}~\citep{Konstantinou_2017}, que utiliza pesos para dar contexto aos dados medidos. Embora não seja o principal tema do artigo, indicar a importância dos dados analisados garantiu a autonomia necessária sem exigir manutenção na parte de análise.
 
@@ -948,10 +945,10 @@ Outro trabalho a ser mencionado é o artigo \textit{"The ML test score: A rubric
 
 \section{Detalhamento do processo}
 
-Dado as etapas da AI Reference Architecture, foram definidos os seguintes papeis onde um projeto de Machine Learning pode ter atuação e onde se encaixariam:
+Dado as etapas da AI Reference Architecture, foram definidos para este trabalho os seguintes papeis onde um projeto de Machine Learning pode ter atuação e onde se encaixariam:
 
 \begin{itemize}
-\item \textbf{Especialista de domínio:} É a pessoa que detém de todo o conjunto de regras do qual a aplicação deve respeitar. Pode não ter conhecimento técnico, embora esse conhecimento possa ajudar na comunicação das regras com os demais papeis. Está presente nas fases de Coleta, Organização e Infusão do ciclo.
+\item \textbf{Especialista de Domínio:} É a pessoa que detém de todo o conjunto de regras do qual a aplicação deve respeitar. Pode não ter conhecimento técnico, embora esse conhecimento possa ajudar na comunicação das regras com os demais papeis. Está presente nas fases de Coleta, Organização e Infusão do ciclo.
 
 \item \textbf{Engenheiro de Dados:} É a pessoa responsável pelos processos de coleta e transformação dos dados para o uso em outros processos, sejam eles de Softwares tradicionais ou aplicações de Machine Learning. Pode aplicar processos de governança antes de definir que o dado esteja pronto para ser usado por outras pessoas. Está presente nas fases de Coleta e Organização do ciclo.
 
@@ -961,7 +958,20 @@ Dado as etapas da AI Reference Architecture, foram definidos os seguintes papeis
 
 \end{itemize}
 
-Dado esses papeis e suas respectivas funções, foi desenhado um diagrama de atividades, presente na Figura \ref{fig:AIRoles}, determinando como eles se encaixariam no processo. Como o foco está na parte de Machine Learning, o detalhamento maior ficará na parte responsável pelo Cientista de Dados.
+Dado esses papeis e suas respectivas funções, foi desenhado um diagrama de atividades, presente na Figura \ref{fig:AIRoles}, determinando como eles se encaixariam no processo. O desenvolvimento realizado neste trabalho pode ser dividido em 5 etapas maiores, que podem ser detalhadas e sub-divididas:
+
+\begin{itemize}
+\item \textbf{Obtenção dos conjuntos de dados:} Foi realizada uma pesquisa para verificar quais os conjuntos de dados utilizados em experimentos de artigos acadëmicos envolvendo algoritmos de redução de vieses. Após a pesquisa, alguns foram selecionados e obtidos para os experimentos deste trabalho.
+
+\item \textbf{Transformação dos conjuntos de dados:} Como alguns dos conjuntos de dados obtidos diferentes valores qualitativos e codificados de acordo com o atributo, primeiro foi realizado uma transformação dos dados para garantir uma melhor legibilidade, o que já equivaleria minimamente ao trabalho do Engenheiro de Dados presente neste trabalho de Mestrado. Posteriormente, novas transformações foram realizadas devido a necessidade de separar grupo privilegiado ao grupo não-privilegiado, mas neste trabalho já equivaleria a parte do Cientista de Dados.
+
+\item \textbf{Desenvolvimento do Workflow:} Como Machine Learning possui um processo muito bem definido, é possível subdividir este processo em etapas e subdividir cada uma dessas etapas em componentes isolados. O objetivo do desenvolvimento de um \textit{Workflow} é sistematizar todo esse processo de modo que supostas atualizações sejam incrementais e que seja possível realizar uma execução de forma autônoma a partir da próxima etapa. Para simplificar o processo, foi utilizada a arquitetura \textit{Pipes-and-Filters}, que é simples de ser entendida e pode ser encontrada em diferentes publicações.
+
+\item \textbf{Desenvolvimento dos processos de autonomia do Workflow:} Após o desenvolvimento do \textit{Workflow}, foi desenvolvido um elemento autônomo para trabalhar em conjunto com o \textit{Workflow} como elemento gerenciado. Através das métricas obtidas em execuções anteriores, é possível inferir sugestões de melhores combinações para execução e garantia de um melhor resultado de forma mais eficiente. Para garantir uma maior flexibilidade nos resultados, foram implementadas diversas estratégias para garantir que essa sugestão seja customizada pelo Cientista de Dados e/ou pelo Especialista de Domínio se isso for necessário para as necessidades do problema.
+
+\item \textbf{Interface Humano-Computador:} Para facilitar o entendimento dos arquivos utilizados para configuração e utilização das estratégias da arquitetura MAPE-K, foi criada uma interface onde é possível realizar a configuração pela mesma, podendo também realizar uma execução do \textit{Workflow} isolada e uma execução com sugestões, acompanhando a análise realizada no gerenciador MAPE-K.
+
+\end{itemize}
 
 \begin{figure}[H]
 \centering
@@ -969,21 +979,6 @@ Dado esses papeis e suas respectivas funções, foi desenhado um diagrama de ati
 \caption {Diagrama de atividades com subdivisão de cada papel em uma aplicação de IA utilizando métricas de Fairness, com base na IBM AI Reference Architecture~\citep{IBM_2021}}
 \label{fig:AIRoles}
 \end{figure}
-
-O desenvolvimento realizado neste trabalho pode ser dividido em 5 etapas maiores, que podem ser detalhadas e sub-divididas:
-
-\begin{itemize}
-\item \textbf{Obtenção dos conjuntos de dados:} Foi realizada uma pesquisa dos conjuntos de dados utilizados como experimento envolvendo algoritmos de redução de vieses e, após uma quantidade de conjuntos de dados, os mesmos foram encontrados e obtidos para serem analisados.
-
-\item \textbf{Transformação dos conjuntos de dados:} Como alguns dos conjuntos de dados obtidos diferentes valores qualitativos e codificados de acordo com o atributo, primeiro foi realizado uma transformação dos dados para garantir uma melhor legibilidade, o que já equivaleria minimamente ao trabalho do Engenheiro de Dados presente neste trabalho de Mestrado. Posteriormente, novas transformações foram realizadas devido a necessidade de separar grupo privilegiado ao grupo não-privilegiado, mas neste trabalho já equivaleria a parte do Cientista de Dados.
-
-\item \textbf{Desenvolvimento do Workflow:} Como Machine Learning possui um processo muito bem definido, é possível subdividir este processo em etapas e subdividir cada uma dessas etapas em componentes isolados. O objetivo do desenvolvimento de um \textit{Workflow} é sistematizar todo esse processo de modo que supostas atualizações sejam incrementais e que seja possível realizar uma execução de forma autônoma a partir da próxima etapa. Para simplificar o processo, foi utilizada a arquitetura \textit{Pipe-and-Filter}, que é simples de ser entendida e pode ser encontrada em diferentes publicações.
-
-\item \textbf{Desenvolvimento dos processos de autonomia do Workflow:} Após o desenvolvimento do \textit{Workflow}, foi desenvolvido um elemento autônomo para trabalhar em conjunto com o \textit{Workflow} como elemento gerenciado. Através das métricas obtidas em execuções anteriores, é possível inferir sugestões de melhores combinações para execução e garantia de um melhor resultado de forma mais eficiente. Para garantir uma maior flexibilidade nos resultados, foram implementadas diversas estratégias para garantir que essa sugestão seja customizada pelo Cientista de Dados e/ou pelo Especialista de Domínio se isso for necessário para as necessidades do problema.
-
-\item \textbf{Interface Humano-Computador:} Para facilitar o entendimento dos arquivos utilizados para configuração e utilização das estratégias da arquitetura MAPE-K, foi criada uma interface onde é possível realizar a configuração pela mesma, podendo também realizar uma execução do \textit{Workflow} isolada e uma execução com sugestões, acompanhando a análise realizada no gerenciador MAPE-K.
-
-\end{itemize}
 
 Para definição dos objetivos do \textit{Workflow} e da sua autonomia, foi realizado um detalhamento na forma de \textit{Assurance Cases}, onde o objetivo principal, que é a obtenção do modelo mais equilibrado entre métricas de avaliação, onde para melhor diferenciação de seu objetivo serão denominadas como métricas de Performance, e métricas de Fairness, é subdividido em diferentes estratégias, novamente subdividido em novos objetivos, e através de evidências é possível verificar o progresso do objetivo principal.
 
@@ -1050,12 +1045,12 @@ Nele, cada uma das colunas presentes no conjunto de dados que atribuem uma quali
 
 \subsubsection{Desenvolvimento de \textit{Framework}}
 
-Para facilitar o desenvolvimento do \textit{Workflow} e deixar seu código mais legível, foi vista durante seu desenvolvimento a necessidade de desenvolver um pequeno \textit{Framework} baseado na arquitetura \textit{Pipe-and-Filter} onde foram feitas adaptações devido a características e a limitações da linguagem \textit{Python}.
+Para facilitar o desenvolvimento do \textit{Workflow} e deixar seu código mais legível, foi vista durante seu desenvolvimento a necessidade de desenvolver um pequeno \textit{Framework} baseado na arquitetura \textit{Pipes-and-Filters} onde foram feitas adaptações devido a características e a limitações da linguagem \textit{Python}.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{images/classdiagram_Pipe-and-Filter_framework.jpg}
-\caption {Diagrama de classes do \textit{Framework} baseado na arquitetura \textit{Pipe-and-Filter}}
+\caption {Diagrama de classes do \textit{Framework} baseado na arquitetura \textit{Pipes-and-Filters}}
 \label{fig:PipeAndFilterFramework}
 \end{figure}
 
@@ -2194,9 +2189,9 @@ Componente MAPE-K & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
 
 A primeira conclusão que é possível discutir é que a adição do conjunto de dados não exigiu modificações no Componente MAPE-K, mesmo os resultados sendo completamente diferentes do Estudo de Caso 1. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Componente MAPE-K só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o \textit{Workflow}. 
 
-Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no \textit{Workflow} de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o \textit{workflow} (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
+Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no \textit{Workflow} de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipes-and-Filters} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o \textit{workflow} (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
 
-Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipe-and-Filter} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{workflow} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço.
+Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipes-and-Filters} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o \textit{workflow} possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço.
 
 \begin{lstlisting}[language=Python, caption=Método para escolha do algoritmo com redução de viés no pós-processamento,label=cod:DataPostprocessExample]
     def data_postprocess(self, test_pipe, prediction_pipe, fairness_pipe, unbias_postproc_algorithm):
@@ -2360,9 +2355,9 @@ No geral, foram exigidas menos modificações que a evolução proposta no Estud
 
 \chapter{Conclusões}
 
-Neste projeto, pode-se dizer que o conjunto da arquitetura de \textit{Pipe-And-Filter} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes dois conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
+Neste projeto, pode-se dizer que o conjunto da arquitetura de \textit{Pipes-and-Filters} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipes-and-Filters}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes dois conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
 
-Embora o \textit{Pipe-And-Filter} seja um modelo que facilite o encapsulamento e a Durante o processo de desenvolvimento do \textit{workflow}, quem desenvolve terá de equilibrar memória, armazenamento e performance. Os conjuntos de dados avaliados nos Estudos de Caso puderam ser armazenados em memória e garantir performance máxima, mas em um contexto onde \textit{gigabytes}/\textit{terabytes} de dados são consumidos diariamente é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com baixo custo, evitando gastos com infra-estrutura.
+Embora o \textit{Pipes-and-Filters} seja um modelo que facilite o encapsulamento e a Durante o processo de desenvolvimento do \textit{workflow}, quem desenvolve terá de equilibrar memória, armazenamento e performance. Os conjuntos de dados avaliados nos Estudos de Caso puderam ser armazenados em memória e garantir performance máxima, mas em um contexto onde \textit{gigabytes}/\textit{terabytes} de dados são consumidos diariamente é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com baixo custo, evitando gastos com infra-estrutura.
 
 A qualidade dos dados coletados pelo Gerenciador Autonômico também é um ponto que deverá ser observado conforme o uso do sistema for crescente: É possível ter resultados fora do comum (\textit{outliers}), alguns atributos podem não permitir uma avaliação acurada, ou a quantidade de atributos pode não ser suficiente para avaliar após evoluções no processo de análise. É preciso realizar processos de limpeza dos dados conforme novas execuções no \textit{workflow} e atualizações no Gerenciador Autonômico forem realizadas.
 
@@ -2592,7 +2587,7 @@ Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Softwa
 
 \section{Arquitetura do Workflow e Framework}
 
-O Workflow usa uma arquitetura chamada de Pipe-and-Filter, onde Pipes, que transportam os dados, são ligados por Filters, que realizam as manipulações desses dados. Pipes e Filters se encadeiam para formar uma sequência de operações, caracterizando todo o Pipeline. Para auxiliar no desenvolvimento, um pequeno framework foi criado, para facilitar as operações necessárias entre Pipes e Filters. 
+O Workflow usa uma arquitetura chamada de Pipes-and-Filters, onde Pipes, que transportam os dados, são ligados por Filters, que realizam as manipulações desses dados. Pipes e Filters se encadeiam para formar uma sequência de operações, caracterizando todo o Pipeline. Para auxiliar no desenvolvimento, um pequeno framework foi criado, para facilitar as operações necessárias entre Pipes e Filters. 
 
 \subsection{Estrutura}
 

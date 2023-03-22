@@ -183,7 +183,7 @@
 
 \def\UrlBreaks{\do\/\do-\do\_}
 
-\title{\textit{Workflow} autonômico para aplicações de \textit{Machine Learning} utilizando métricas de \textit{Fairness}}
+\title{\textit{Workflow} semi-autonômico para aplicações de \textit{Machine Learning} utilizando métricas de \textit{Fairness}}
 
 \author{Thales Eduardo Nazatto\textsuperscript{1}, Cecília Mary Fischer Rubira\textsuperscript{2}, Leonardo Montecchi\textsuperscript{3}}
 \date{
@@ -218,13 +218,13 @@ Para este determinado contexto, foi desenvolvida uma estrutura de \textit{Workfl
 \item Estabelecer um balanceamento entre métricas para avaliar bons modelos com métricas para avaliar modelos justos.
 \end{itemize}
 
-Esta estrutura é dividida em 5 módulos: Engenharia de Dados, \textit{Workflow} de ML, Gerenciador Autonômico, Backend e Interface. Para a Engenharia de Dados, foram realizadas modificações nos conjuntos de dados German Credit Dataset~\citep{ucigerman_2021} e Lendingclub Dataset~\citep{lendingclub_2022} para serem adequados ao uso do \textit{workflow}. Para o desenvolvimento e estruturação do \textit{workflow}, foi utilizada a arquitetura \textit{Pipe-and-Filter}. Para o Gerenciador Autonômico, foi utilizada a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor \textit{Workflow} seguindo regras pré-determinadas. Para a interface e para o backend, sua criação foi pensada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
+Esta estrutura é dividida em 5 módulos: Engenharia de Dados, \textit{Workflow} de ML, Gerenciador Autonômico, Backend e Interface. Para a Engenharia de Dados, foram realizadas modificações nos conjuntos de dados German Credit Dataset~\citep{ucigerman_2021} e Lendingclub Dataset~\citep{lendingclub_2022} para serem adequados ao uso do \textit{workflow}. Para o desenvolvimento e estruturação do \textit{workflow}, foi utilizada a arquitetura \textit{Pipes-and-Filters}. Para o Gerenciador Autonômico, foi utilizada a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor \textit{Workflow} seguindo regras pré-determinadas. Para a interface e para o backend, sua criação foi pensada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
 
 \section{Conceitos Principais}
 
 \subsection{Computação Autônoma}
 
-Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como alternativa a solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}.
+Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como possível solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}.
 
 Para a Computação Autônoma acontecer, é implementado um Elemento Autônomo~\citep{Abbas_2010}, um componente de software que gerencia partes do sistema baseando-se em um \textit{loop} MAPE-K (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}), ilustrado na Figura \ref{fig:MAPEK}. O MAPE-K é um conceito que constitui um \textit{loop} de controle, usado para monitorar e controlar um ou mais elementos gerenciados. Um elemento gerenciado (\textit{Managed Element}) pode ser um hardware, como uma impressora, um software, como um banco de dados, outro Elemento Autônomo ou funcões específicas, como balanceamento de carga. Um \textit{loop} de controle MAPE-K é dividido da seguinte forma:
 
@@ -267,13 +267,6 @@ FPR = \frac{FP}{FP + TN}
 
 Dada essas métricas iniciais, considerando $Y=1$ a classe positiva, $Z=0$ o grupo não-privilegiado e $Z=1$ o grupo privilegiado, algumas das definições de \textit{Fairness} mais usadas são as seguintes:
 
-\begin{figure*}[h]
-\centering
-\includegraphics[scale=0.3]{images/ml-fairness-pipeline.jpg}
-\caption {Diagrama de Atividades do \textit{Workflow} de ML}
-\label{fig:WorkflowML}
-\end{figure*}
-
 \begin{itemize}
 \item \textbf{Diferença de paridade estatística (\textit{Statistical parity difference}), ou discriminação~\citep{Zemel_2013}:} Esta métrica é baseada na seguinte fórmula:
 
@@ -305,15 +298,15 @@ Precisa ser próximo a 0 para ser considerado justo.
 \frac{Pr(Y=1|Z=0)}{Pr(Y=1|Z=1)}
 \end{align*}
 
-Usa as mesmas probabilidades da diferença de paridade estatística, mas aqui são calculadas como proporção. Desta forma, um valor próximo de 1 é considerado justo.
+Usa as mesmas probabilidades da diferença de paridade estatística, mas como é calculada como uma proporção o valor esta métrica possui um comportamento não-linear. Desta forma, um valor próximo de 1 é considerado justo.
 
-\item \textbf{Índice de Theil (\textit{Theil index})~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com $\alpha$ igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
+\item \textbf{Índice de Theil (\textit{Theil index})~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com o valor de $\alpha$ usado neste índice igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
 
 \begin{align*}
 \frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
 \end{align*}
 
-Onde $b_i = \hat{y}_i - y_i + 1$, $y_i$ é o conjunto de saídas e $\hat{y}_i$ é o conjunto de previsões dadas pelo modelo. Também precisa ser próximo a 0 para ser considerado justo.
+Onde n é a quantidade de elementos e $b_i$ é obtido com a fórmula $b_i = \hat{y}_i - y_i + 1$. Nesta fórmula, $y_i$ é o conjunto de saídas, $\hat{y}_i$ é o conjunto de previsões dadas pelo modelo. Também precisa ser próximo a 0 para ser considerado justo.
 
 \end{itemize}
 
@@ -332,13 +325,20 @@ O sistema implementado é dividido em 5 módulos:
 
 \begin{itemize}
     \item {\textbf{Engenharia de Dados:}} Módulo com o objetivo de executar processos de transformação e limpeza de dados.
-    \item {\textbf{Workflow de ML:}} Módulo que executa um Pipeline de uma aplicação automatizada de ML, com etapas de preparação dos dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento) para a geração de um modelo final, cujas etapas estão ilustadas na figura \ref{fig:WorkflowML}.
+    \item {\textbf{Workflow de ML:}} Módulo que executa um Pipeline de uma aplicação automatizada de ML, com etapas de preparação dos dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento) para a geração de um modelo final.
     \item {\textbf{Gerenciador Autonômico:}} Módulo contendo o \textit{loop} MAPE-K que controla o Workflow como elemento gerenciado para automatizar todas as suas etapas, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritmo e do conjunto de dados utilizado.
     \item {\textbf{Interface (Frontend):}} Módulo criado com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva para o Cientista de Dados.
         \item {\textbf{Backend:}} Módulo criado com o objetivo de conectar o Frontend ao Gerenciador Autonômico.
 \end{itemize}
 
-A comunicação entre estes módulos está ilustrada na figura \ref{fig:BackendFrontendML}. O módulo de Engenharia de Dados seria utilizado pelo Engenheiro de Dados, que devolveria um Conjunto de Dados com os tratamentos necessários para execução dentro do \textit{Workflow}. A interface seria utilizada pelo Cientista de Dados, que determinaria as configurações necessárias para execução dos melhores \textit{Workflows} dependendo do contexto do problema.
+A comunicação entre estes módulos está ilustrada na figura \ref{fig:BackendFrontendML}. O módulo de Engenharia de Dados seria utilizado pelo Engenheiro de Dados, que devolveria um Conjunto de Dados com os tratamentos necessários para execução dentro do \textit{Workflow}. A interface seria utilizada pelo Cientista de Dados, que determinaria as configurações necessárias para execução dos melhores \textit{Workflows} dependendo do contexto do problema. O processo que ocorre, desde a interação da interface, passando pela execução do \textit{Workflow} e chegando na obtenção dos resultados, pode ser visualizado no Diagrama de Sequência presente na figura  \ref{fig:DiagramaSequencia}.
+
+\begin{figure*}[h]
+\centering
+\includegraphics[scale=0.3]{images/Diagrama_Sequencia.jpg}
+\caption {Diagrama de Sequência do sistema}
+\label{fig:DiagramaSequencia}
+\end{figure*}
 
 \subsection{Autonomia}
 
@@ -554,9 +554,9 @@ Gerenciador Autonômico & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \
 
 A adição do conjunto de dados não exigiu modificações no Gerenciador Autonômico, mesmo os resultados sendo completamente diferentes do Estudo de Caso anterior. Isto reforça a autonomia proposta no \textit{loop} MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Gerenciador Autonômico só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio Gerenciador, que é desacoplado do \textit{Workflow}. 
 
-Os elementos na Interface exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para disponibilizar a opção do novo conjunto de dados ao Cientista de Dados. As maiores modificações foram realizadas no \textit{Workflow} de ML e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de ML, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipe-and-Filter} exija a criação de classes adicionais para o \textit{workflow} (2 para pipes e 1 para filtro), é nas etapas de processamento e transformação dos dados que os Engenheiros e Cientistas de Dados vão gastar a maior parte do tempo e fazer mais modificações.
+Os elementos na Interface exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para disponibilizar a opção do novo conjunto de dados ao Cientista de Dados. As maiores modificações foram realizadas no \textit{Workflow} de ML e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de ML, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipes-and-Filters} exija a criação de classes adicionais para o \textit{workflow} (2 para pipes e 1 para filtro), é nas etapas de processamento e transformação dos dados que os Engenheiros e Cientistas de Dados vão gastar a maior parte do tempo e fazer mais modificações.
 
-Embora o uso da arquitetura \textit{Pipe-and-Filter} exija a escrita de algumas linhas a mais, ela permite encapsular os algoritmos e separar os interesses de forma simples, tornando possível ter um bom \textit{Design} do código. Isso torna a manutenção/evolução do sistema no \textit{Workflow} e na Interface relativamente simples, desde que o desenvolvedor saiba em quais arquivos as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o sistema como um todo e não adicione linhas de forma desnecessária.
+Embora o uso da arquitetura \textit{Pipes-and-Filters} exija a escrita de algumas linhas a mais, ela permite encapsular os algoritmos e separar os interesses de forma simples, tornando possível ter um bom \textit{Design} do código. Isso torna a manutenção/evolução do sistema no \textit{Workflow} e na Interface relativamente simples, desde que o desenvolvedor saiba em quais arquivos as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o sistema como um todo e não adicione linhas de forma desnecessária.
 
 \subsection{Estudo de Caso 3: Evolução do \textit{Workflow} com desenvolvedor sem conhecimento anterior adicionando um novo algoritmo de treinamento}
 
@@ -653,7 +653,7 @@ No geral, foram exigidas menos modificações que a evolução proposta no Estud
 
 \section{Conclusões e Trabalhos Futuros}
 
-A literatura revisada sobre \textit{Fairness} verifica apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Com a arquitetura \textit{Pipe-And-Filter}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de \textit{Machine Learning} em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados, e facilitar o entendimento de outros desenvolvedores. 
+A literatura revisada sobre \textit{Fairness} verifica apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Com a arquitetura \textit{Pipes-and-Filters}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de \textit{Machine Learning} em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados, e facilitar o entendimento de outros desenvolvedores. 
 
 Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no \textit{workflow} fossem analisados para facilitar uma tomada de decisão. Embora a autonomia seja viável, a supervisão humana é necessária devido a problemas ainda enfrentados pelo tema \textit{Fairness}, onde o contexto social do problema é de extrema importância ao avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do Gerenciador Autonômico garantem o balanceamento performance/\textit{Fairness} e ajudam a definir o contexto para uma avaliação, mas ainda depende de um Cientista de Dados e/ou de um especialista de Domínio entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado e justo.
 
