@@ -1,5 +1,6 @@
 % \documentclass[twocolumn]{article}
-\documentclass[runningheads]{llncs}
+\documentclass[10pt,conference]{IEEEtran}
+%\documentclass[runningheads]{llncs}
 
 \usepackage{babel}
 \usepackage{inputenc}
@@ -24,6 +25,7 @@
 
 \usepackage{wasysym}
 \usepackage{resizegather}
+\usepackage{rotating}
 
 %\usepackage{caption}
 %\captionsetup[table]{skip=5pt}
@@ -188,55 +190,72 @@
 
 \def\UrlBreaks{\do\/\do-\do\_}
 
-\title{Semi-autonomic \textit{Workflow} for \textit{Machine Learning} applications using \textit{Fairness} metrics}
-\titlerunning{Semi-autonomic \textit{Workflow} for ML applications using \textit{Fairness} metrics}
+\title{A semi-autonomic solution for developing Machine Learning-based applications using Fairness metrics}
+%\titlerunning{Semi-autonomic Workflow for ML applications using \textit{Fairness} metrics}
 
-\author{Thales Eduardo Nazatto\textsuperscript{1}, Cecília Mary Fischer Rubira\textsuperscript{2}, Leonardo Montecchi\textsuperscript{3}}
-\authorrunning{Thales Eduardo Nazatto, Cecília Mary Fischer Rubira, Leonardo Montecchi}
 
-\date{
-	\textsuperscript{1} UNICAMP, Campinas, Brazil, tenazatto@gmail.com
-	\\
-	\textsuperscript{2} UNICAMP, Campinas, Brazil, cmrubira@ic.unicamp.br
-	\\
-	\textsuperscript{3} NTNU, Trondheim, Norway, leonardo.montecchi@ntnu.no\\[2ex]
-	\today
-}
+%\author{Thales Eduardo Nazatto\textsuperscript{1}, Cecília Mary Fischer Rubira\textsuperscript{2}, Leonardo Montecchi\textsuperscript{3}}
+%\authorrunning{Thales Eduardo Nazatto, Cecília Mary Fischer Rubira, Leonardo Montecchi}
+%\author{
+%	\IEEEauthorblockN{Thales Eduardo Nazatto}
+%	\IEEEauthorblockA{
+%		UNICAMP, Campinas, Brazil \\
+%		tenazatto@gmail.com}
+%	\and
+%	\IEEEauthorblockN{Cecília Mary Fischer Rubira}
+%	\IEEEauthorblockA{
+%		UNICAMP, Campinas, Brazil \\
+%		cmrubira@ic.unicamp.br}
+%	\and
+%	\IEEEauthorblockN{Leonardo Montecchi}
+%	\IEEEauthorblockA{
+%		NTNU, Trondheim, Norway \\
+%		leonardo.montecchi@ntnu.no}
+%}
 
-\institute{
-	\textsuperscript{1} UNICAMP, Campinas, Brazil, tenazatto@gmail.com
-	\\
-	\textsuperscript{2} UNICAMP, Campinas, Brazil, cmrubira@ic.unicamp.br
-	\\
-	\textsuperscript{3} NTNU, Trondheim, Norway, leonardo.montecchi@ntnu.no\\[2ex]
-}
+%\date{
+%	\textsuperscript{1} UNICAMP, Campinas, Brazil, tenazatto@gmail.com
+%	\\
+%	\textsuperscript{2} UNICAMP, Campinas, Brazil, cmrubira@ic.unicamp.br
+%	\\
+%	\textsuperscript{3} NTNU, Trondheim, Norway, leonardo.montecchi@ntnu.no\\[2ex]
+%	\today
+%}
+
+%\institute{
+%	\textsuperscript{1} UNICAMP, Campinas, Brazil, tenazatto@gmail.com
+%	\\
+%	\textsuperscript{2} UNICAMP, Campinas, Brazil, cmrubira@ic.unicamp.br
+%	\\
+%	\textsuperscript{3} NTNU, Trondheim, Norway, leonardo.montecchi@ntnu.no\\[2ex]
+%}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-Machine Learning (ML) is increasingly used with large volumes of data to make faster and more assertive decisions, but initial metrics to evaluate algorithms have proven limited in measuring biases that reflect society in an unexpected way. To address this, new Fairness algorithms and metrics have been created to balance discriminated groups, but it increases the complexity for the Data Scientist to get the best models. This article focuses on Machine Learning solutions from a Software Engineering point of view, presenting a Workflow that uses the MAPE-K architecture to determine which algorithm has the best balance, without having to test many techniques. Several case studies were carried out to verify the feasibility of MAPE-K in solving problems, and if the solution can be easily extended to allow the use of more algorithms. This can help ML Specialists to do Software Engineering studies on applications with responsible use of data.
+Machine Learning (ML) is increasingly used with big data to make faster and more assertive decisions, but initial metrics to evaluate algorithms have proven limited in measuring biases that reflect society in an unexpected way. To address this, new Fairness algorithms and metrics have been created to balance discriminated groups, but it increases the complexity for Data Scientists to develop the best models. This article focuses on Machine Learning solutions from a Software Engineering point of view, presenting a Workflow that uses the MAPE-K architecture to determine which algorithm has the best balance, without having to test many techniques. Several case studies were carried out to verify the feasibility of MAPE-K in solving problems, and if the solution can be easily extended to allow the use of more algorithms. This can help ML Specialists to do Software Engineering studies on applications with responsible use of data.
 
-\keywords{\textit{Workflow}, \textit{Machine Learning}, Inteligência Artificial, Computação Autônoma, Métricas de \textit{Fairness}}
+\keywords{Automated Machine Learning, AI Ethics, Social Responsibility in AI, Autonomic Loop, Fairness metrics, MAPE-K}
 \end{abstract}
 
 \section{Introduction}
 
-Artificial Intelligence and Machine Learning techniques have been used for a long time in the field of Computer Science. Areas such as robotics and games are great examples, given their need to automate behaviors that would be considered trivial for a human being. However, in recent years there has been a growth in the use of these technologies in traditional applications, mainly due to the large amount of data processed daily by companies and the amount of processing available at low costs. Different profiles can be drawn with this data and using AI solutions generates more assertive decision-making in order to improve the user experience and correct problems. However, a common side effect in these solutions is the exposure of biases that, although seen as unintentional by the developers due to the possibility of being an \textit{outlier} in the trained model, reflect open prejudices of today's society. A biased data entry results in an algorithm that performs discriminations in its classification~\citep{Buolamwini_2018}, and since the metrics used to measure the quality of a final model are generally based on accuracy, precision and recall, discriminations are not easily perceived by such metrics.
+Artificial Intelligence (AI) and Machine Learning (ML) techniques have been used for a long time in the field of Computer Science. Areas such as robotics and games are great examples, given their need to automate behaviors that would be considered trivial for a human being. However, in recent years there has been a growth in the use of these technologies in traditional applications, mainly due to the large amount of data processed daily by companies and the amount of processing available at low costs. Different profiles can be drawn from these data and using AI solutions generate more assertive decision making in order to improve the user experience and correct problems. However, a common side effect in these solutions is the exposure of biases that, although seen as unintentional by developers due to the possibility of being an \textit{outlier} in the trained model, reflect open prejudices of today's society. Biased data entries result in an algorithm that performs discriminations in its classification~\citep{Buolamwini_2018}, and since the metrics used to measure the quality of final model are generally based on accuracy, precision and recall, social contexts and discrimination are not easily perceived by such metrics.
 
-Due to this problem, it is possible to establish metrics to determine how well the model is prepared for sensitive data~\citep{Begley_2021}, a term that is known as \textit{Fairness}. With the evolution of academic research beyond this concept, algorithms were discovered to reduce the biases present in datasets, such as \textit{Reweighing}~\citep{Kamiran_2011}, \textit{Adversarial Debiasing}~\citep{Zhang_2018} and \textit {Reject Option Classification}~\citep{Kamiran_2012}. Consequently, there is an improvement in these metrics, but it may disfavor metrics that are already widely used as a guarantee of a good model developed with Machine Learning techniques.
+Due to this problem, it is possible to establish different metrics to determine how well the model is prepared for sensitive data~\citep{Begley_2021}, a term that is known as \textit{Fairness}. With the evolution of academic research on this concept, new methods were defined to reduce the biases present in datasets, such as \textit{Reweighing}~\citep{Kamiran_2011}, \textit{Adversarial Debiasing}~\citep{Zhang_2018} and \textit {Reject Option Classification}~\citep{Kamiran_2012}. Consequently, there is an improvement in these metrics, but it may disfavor metrics that are already widely used as a guarantee of an effective model developed with Machine Learning techniques.
 
-For this particular context, a \textit{Workflow} structure for \textit{Machine Learning} applications was developed, which is handled by the Data Scientist in a semi-autonomous way, focused on two main objectives:
+For this particular context, a method for developing Machine Learning applications was developed, which is handled by Data Scientists in a semi-autonomous way, focused on two main objectives:
 
 \begin{itemize}
-\item Make the creation of fair and reliable models by automating the choice of algorithms easier, due to increased complexity in choosing the algorithms to be used and their execution in the correct stages of the process, where they were chosen to act.
+\item Make the creation of fair and reliable models by automating the choice of algorithms easier, due to increased complexity in choosing algorithms to be used and their execution in the correct steps of the process.
 \item Define a balance between metrics for evaluating good models with metrics for evaluating fair models.
 \end{itemize}
 
-This structure is divided into 5 modules: Data Engineering, ML \textit{Workflow}, Autonomic Manager, Backend and Frontend. For Data Engineering, modifications were made to the German Credit Dataset~\citep{ucigerman_2021} and Lendingclub Dataset~\citep{lendingclub_2022} datasets to be suitable for the \textit{workflow} implementation. For the \textit{workflow} development and structure, the \textit{Pipes-and-Filters} architecture was used. For the Autonomic Manager, the MAPE-K~\citep{IBM_2005} architecture was used to analyze a knowledge base and provide the best \textit{Workflow} following predetermined rules. For the Frontend and the Backend, its creation was thought of a web application template. The code for this development was made available on GitHub\footnote{Git repository containing the codes for this project: \url{https://github.com/tenazatto/MsC}} for evaluation and testing in further studies.
+This structure is divided into 5 modules: Data Engineering, ML Workflow, Autonomic Manager, Backend and Frontend. For Data Engineering, modifications were made to the German Credit Dataset~\citep{ucigerman_2021} and Lendingclub Dataset~\citep{lendingclub_2022} datasets to be suitable for the \textit{workflow} implementation. For the workflow development, the \textit{Pipes-and-Filters} architecture was used. For the Autonomic Manager, the MAPE-K~\citep{IBM_2005} architecture was used to analyze a knowledge base and provide the best configuration background following predetermined rules. For the Frontend and the Backend, its creation was thought of a web application template\footnote{Repository containing the codes for this project: \url{https://anonymous.4open.science/r/FAIR-2EFD}} for evaluation and testing in further studies.
 
-\section{Main Concepts}
+\section{Background}
 
 \subsection{Autonomic Computing}
 
@@ -260,7 +279,19 @@ To Autonomic Computing works as intended, an Autonomic Element~\citep{Abbas_2010
 \end{figure}
 
 \subsection{Machine Learning}
-Machine Learning can be defined as “the practice of using algorithms to collect data, learn from it, and then make a determination or prediction about something in the world. Instead of manually implementing software routines with a specific set of instructions to complete a particular task, the machine is `trained` using large amounts of data and algorithms that give it the ability to learn how to perform the task. ~\citep{Copeland_2016}, which can be divided into data collection, cleaning and refinement, training and evaluation processes. Learning tasks can be classified into three basic categories~\citep{MLWikipedia_2021}~\citep{MLSAS_2021}:
+Machine Learning can be defined as “the practice of using algorithms to collect data, learn from it, and then make a determination or prediction about something in the world. Instead of manually implementing code to complete a particular task, the machine is `trained` using large amount of data and algorithms that give it the ability to learn how to perform tasks.
+
+The method for training a machine are composed by the following steps:
+
+\begin{itemize}
+\item Data collection
+\item Data cleaning and refinement
+\item Data preparation and split into training and test sets
+\item Algorithm training and learning using the training set
+\item Metric evaluation using the test set
+\end{itemize}
+
+A Machine Learning algorithm can be classified into three basic categories:
 
 \begin{itemize}
 \item \textbf{Supervised learning}: Training is performed using labeled examples, such as an input in which the desired output is known. Through methods such as classification, regression, and \textit{gradient boosting}, supervised learning uses patterns to predict the values of labels in additional unlabeled data. Supervised learning is commonly employed in applications where historical data predict likely future events.
@@ -270,107 +301,73 @@ Machine Learning can be defined as “the practice of using algorithms to collec
 
 \subsection{\textit{Fairness} in Machine Learning}
 
-It is possible to describe the concept of \textit{Fairness} in the context of supervised learning, where a model $f$ can predict a set of results $y$ from a set of \textit{features} $x$, avoiding unfair discrimination against a protected attribute $a$. It is allowed, but not required, for $a$ to be a component of $x$~\citep{Begley_2021}. In other words, a fair ML model is one where the correlation of its result is low in relation to input data considered sensitive to discrimination. Machine Learning algorithms are not able to differentiate social contexts, where a more efficient result according to the available data can amplify social inequalities and make decisions unfairly~\citep{Mehrabi_2021}. These sensitive data, such as race, sex, age and height, are considered protected attributes, which need to be classified and processed before the execution of a Machine Learning algorithm, which will determine how the algorithm will behave and, consequently, will affect your metrics~\citep{Mougan_2022}. The groups of data from these protected attributes are considered protected groups, which can be divided into two groups: the privileged group, which has advantages in the problem's context, and the non-privileged group, which has disadvantages in the problem's context and, therefore, subject to discrimination.
-
-The \textit{Fairness} metrics differ from the metrics used for model evaluation, which have the purpose of checking whether a model has reliable predictions or not. While the more traditional metrics evaluate the performance of the model and its data as a whole and its general results, the \textit{Fairness} metrics evaluate whether the general results are also reflected in specific groups, to verify that there is no disparity or discrimination in the proposed results. Examples of metrics used for this are the True Positive Rate and False Positive Rate. While the \textbf{True Positive Rate} (TVP) is the fraction of actual positive cases (TP) out of all negative cases incorrectly predicted to be in the positive class (FN), the \textbf{False Positive Rate} (FPR) is the fraction of negative cases incorrectly predicted to be in the positive class (FP) out of actual negative cases (TN):
-
-\begin{equation}
-TPR = \frac{TP}{TP + FN}
-FPR = \frac{FP}{FP + TN}
-\end{equation}
-
-Given these initial metrics and considering $Y=1$ the positive class, $Z=0$ the non-privileged group and $Z=1$ the privileged group, some of the most used \textit{Fairness} definitions are the following:
-
-\begin{itemize}
-\item \textbf{Statistical parity difference, or discrimination~\citep{Zemel_2013}:} This metric is based on the following formula:
-
-\begin{equation}
-Pr(Y=1|Z=0)-Pr(Y=1|Z=1)
-\end{equation}
- 
-Here, the bias or statistical parity is the difference between the probability that a random individual drawn from the underprivileged will be labeled 1 and the probability that a random individual from the privileged will be labeled 1. Therefore, a value close to 0 is considered fair.
-
-\item \textbf{Equal Opportunity Difference~\citep{Biswas_2020}:} It is the difference between the true positive rate of the unprivileged group and the true positive rate of the privileged group:
-
-\begin{equation}
-TPR_{Z=0} - TPR_{Z=1}
-\end{equation}
- 
-A value close to 0 is considered fair. A binary classifier satisfies equality of opportunity when the true positive rate of both groups are equal~\citep{Hardt_2016}
-
-\item \textbf{Mean Probability Difference~\citep{Biswas_2020}:} This metric uses the false positive rate and the true positive rate to calculate the trend, calculating equality of probabilities with the formula:
-
-\begin{equation}
-\frac{1}{2}(|FPR_{Z=0} - FPR_{Z=1}|+|TPR_{Z=0} - TPR_{Z=1}|)
-\end{equation}
- 
-It needs to be close to 0 to be considered fair.
-
-\item \textbf{Disparity impact~\citep{Biswas_2020}:} For this metric, the following formula is used:
-
-\begin{align*}
-\frac{Pr(Y=1|Z=0)}{Pr(Y=1|Z=1)}
-\end{align*}
-
-It uses the same probabilities as the statistical parity difference, but since it is calculated as a proportion the value of this metric has a non-linear behavior. Therefore, a value close to 1 is considered fair.
-
-\item \textbf{Theil Index~\citep{Speicher_2018}:} This measure is also known as the generalized entropy index, but with the value of $\alpha$ used in this index equal to 1~\citep{Speicher_2018}. It is calculated with the following formula:
-
-\begin{align*}
-\frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
-\end{align*}
-
-Where n is the number of elements and $b_i$ is obtained with the formula $b_i = \hat{y}_i - y_i + 1$. In this formula, $y_i$ is the set of outputs, $\hat{y}_i$ is the set of predictions given by the model. It also needs to be close to 0 to be considered fair.
-
-\end{itemize}
-
-\section{Proposed Solution}
-
-\subsection{Architecture}
-
 \begin{figure*}[h]
 \centering
-\includegraphics[scale=0.3]{images/backend-frontend-ml.jpg}
-\caption {Frontend, Autonomic Manager, Data Engineering and ML \textit{Workflow} integration}
+\includegraphics[scale=0.4]{images/backend-frontend-ml-eng.jpg}
+\caption {Architecture components of the proposed solution}
 \label{fig:BackendFrontendML}
 \end{figure*}
 
-The implemented system is divided into 5 modules:
+It is possible to describe the concept of \textit{Fairness} in the context of supervised learning, where a model $f$ can predict a set of results $y$ from a set of \textit{features} $x$, avoiding unfair discrimination against a protected attribute $a$. It is allowed, but not required, for $a$ to be a component of $x$~\citep{Begley_2021}. In other words, a fair ML model is one where the correlation of its result is low in relation to input data considered sensitive to discrimination. Machine Learning algorithms are not able to differentiate social contexts, where a more efficient result according to the available data can amplify social inequalities and make decisions unfairly~\citep{Mehrabi_2021}. These sensitive data, such as race, sex, age and height, are considered protected attributes, which need to be classified and processed before the execution of a Machine Learning algorithm, which will determine how the algorithm will behave and, consequently, will affect the metrics~\citep{Mougan_2022}. The groups of data from these protected attributes are considered protected groups, which can be divided into two groups: the privileged group, which has advantages in the problem's context, and the non-privileged group, which has disadvantages in the problem's context and, therefore, subject to discrimination.
+
+Fairness metrics differ from the metrics used for model evaluation, which have the purpose of checking whether a model has reliable predictions or not. While the more traditional metrics evaluate the performance of the model, data as a whole and general results, Fairness metrics evaluate whether the general results are also reflected in specific groups, to verify that there is no disparity or discrimination in the proposed results. Examples of metrics used for this are Statistical Parity Difference, or discrimination~\citep{Zemel_2013}, Equal Opportunity Difference~\citep{Biswas_2020}, Average Odds Difference~\citep{Biswas_2020}, Disparate Impact~\citep{Biswas_2020} and Theil Index~\citep{Speicher_2018}. Almost all of these metrics needs a value close to 0 to be considered fair. The only exception is Disparate Impact which needs a value close to 1 due to the fact this metric is the only one which is calculated as a ratio.
+
+To balance these metrics in a ML model, new algorithms were created to make the learning process more prepared to deal with biased data, which can be classified into three categories: 
+
+\begin{itemize}
+\item \textbf{Pre-processing:} These algorithms try to remove discrimination by transforming the data. Some examples are \textit{Disparate Impact Remover}~\citep{Feldman_2015}, \textit{Learning Fair Representations}~\citep{Zemel_2013}, \textit{Reweighing}~\citep{Kamiran_2011} and \textit{Optimized Preprocessing}~\citep{Calmon_2017}
+\item \textbf{Processing:} These algorithms try to mitigate discrimination during the training process. Some examples are \textit{Adversarial Debiasing}~\citep{Zhang_2018}, \textit{Exponentiated Gradient Reduction}~\citep{Agarwal_2018}, \textit{Grid Search Reduction}~\citep{Agarwal_2019}, \textit{Meta Fair Classifier}~\citep{Celis_2019}, \textit{Prejudice Remover}~\citep{Kamishima_2012} and \textit{Rich Subgroup Fairness}~\citep{Kearns_2018}
+\item \textbf{Post-processing:} These algorithms change the predictions made by an already trained model to make it fair. Some examples are \textit{Equalized Odds}~\citep{Hardt_2016}, \textit{Calibrated Equalized Odds}~\citep{Pleiss_2017} and \textit{Reject Option Classification}~\citep{Kamiran_2012}.
+\end{itemize}
+
+\section{The Proposed Solution}
+
+\subsection{Architecture and Implementation}
+
+%\begin{figure*}[h]
+%\centering
+%\includegraphics[scale=0.35]{images/Diagrama_Sequencia-eng.jpg}
+%\caption {System's sequence diagram}
+%\label{fig:DiagramaSequencia}
+%\end{figure*}
+\begin{sidewaysfigure*}
+\clearpage
+\includegraphics[scale=0.465]{images/Diagrama_Sequencia-eng.jpg}
+\caption {System's sequence diagram}
+\label{fig:DiagramaSequencia}
+\end{sidewaysfigure*}
+
+The solution architecture is divided into 5 modules:
 
 \begin{itemize}
     \item {\textbf{Data Engineering:}} Module with the objective of executing data transformation and cleaning processes.
-	\item {\textbf{ML Workflow:}} Module that executes a Pipeline of an automated ML application, with stages of data preparation (Pre-processing), training (Processing) and result evaluation (Post-processing) to the final model generation.
-     \item {\textbf{Autonomic Manager:}} Module containing a MAPE-K \textit{loop} that controls the Workflow as a Managed Element to automate all its steps, in order to avoid time-wasting in manual executions depending on the algorithm and/or dataset used on the stages.
-     \item {\textbf{Frontend:}} Module which goal is to provide a simpler and more intuitive user experience for the Data Scientist in order to configure and start the Autonomic Manager.
+	\item {\textbf{ML Workflow:}} Module that executes a Pipeline of an automated ML application, with stages of data preparation (Pre-processing), training (Processing) and result evaluation (Post-processing) of the final model generation.
+     \item {\textbf{Autonomic Manager:}} Module containing a MAPE-K \textit{loop} that controls the Workflow as a Managed Element to automate all its steps, in order to avoid manual executions depending on the algorithm and/or dataset used on the stages.
+     \item {\textbf{User Interface (Frontend):}} Module which goal is to provide a simpler and more intuitive user experience for the Data Scientist in order to configure and start the Autonomic Manager.
 	\item {\textbf{Backend:}} Module created with the objective of connecting the Frontend to the Autonomic Manager.
 \end{itemize}
 
-The integration between these modules is illustrated in figure \ref{fig:BackendFrontendML}. The Data Engineering module would be used by the Data Engineer, who would return a dataset with the necessary treatments for execution within the \textit{Workflow}. The Frontend module would be used by the Data Scientist, who would determine the settings needed to run the best Workflows depending on the problem's context. The process that takes place, from the Frontend interaction, passing through the execution of \textit{Workflow} and finishing at obtaining the results, can be visualized in the Sequence Diagram present in figure \ref{fig:DiagramaSequencia}.
+The integration between these modules is illustrated in Figure \ref{fig:BackendFrontendML}. The Data Engineering module is used by the Data Engineer, who would return a dataset with the necessary treatments for execution within the supervised learning workflow. The Frontend module would be used by the Data Scientist, who would determine the settings needed to choose the configuration background depending on the problem's context. 
 
-\begin{figure*}[h]
-\centering
-\includegraphics[scale=0.3]{images/Diagrama_Sequencia.jpg}
-\caption {System's sequence diagram}
-\label{fig:DiagramaSequencia}
-\end{figure*}
+The process that takes place, from the User Interface interaction, passing through the execution of workflow and finishing at obtaining the results, can be visualized in the Sequence Diagram present in Figure \ref{fig:DiagramaSequencia}. In this process, while the Data Engineer handles the dataset with transformation and cleaning processes presented in the Data Engineering module and send the modified datasets to integrate and use into ML Workflow, the Data Scientist, via the application's User Interface, choose the dataset and demand an Autonomic Manager execution. The Autonomic Manager queries all the executions made by the ML Workflow that used this dataset and are saved into the Knowledge Repository, do the analysis making some calculations that will be detailed in the next sections, and do a loop verifying the configuration of some implemented execution plans and executing them, returning some best execution options and wait the Data Scientist evaluation to choose one option to request a new ML Workflow execution. After the request, the ML Workflow starts the Monitor to collect data during its execution, get the chosen dataset and protected attribute, split into training and test sets, execute the chosen algorithms in the Pre-processing, Processing and Post-processing steps, and calculate the final model metrics. The Monitor save all collected data into the Knowledge Repository, and the Autonomic Manager queries this performed execution data to show to the Data Scientist.
 
-\subsection{Autonomy and Analysis}
+\subsection{Monitor and Analysis Component behavior}
 
-To guarantee the workflow autonomy, the Monitor collects the data obtained during the executions (metrics, parameters and executed steps) and organizes them for the Analyzer to carry out the data analysis process. In this process, a calculation of weights based on a free selection of metrics is performed. The reason for this calculation is to measure the context of the problem according to a prior analysis by the Data Scientist and Domain Specialist, and consolidate all metrics to simplify planning strategies. Metrics are divided into two groups (Performance Metrics and Fairness Metrics), and within this group you can place as many metrics as necessary, as long as the context of each group is respected. Each group is assigned different weights, and each metric in that group is also assigned different weights.
+To guarantee the workflow autonomy, the Monitor component collects the data obtained during a execution (metrics, parameters and executed steps) and organizes them for the Analyzer to make the data analysis process. In this process, a calculation of weights based on specific metrics is performed to consolidate all metrics and simplify planning strategies. Metrics are divided into two groups (Performance metrics and Fairness metrics), and within this group you can place as many metrics as necessary, as long as the context of each group is respected. Each group is assigned different weights, and each metric in that group is also assigned different weights. The reason these weights exist in the calculation is to give a measure of the problem's context, according to a prior analysis by the Data Scientist and Domain Specialist.
 
 First, it is necessary to standardize the Fairness metrics $m_{F_i}$ to $m'_{F_i}$ in an interval from 0 to 1, as presented in Equation \ref{eqn:normalizationFairness}. This guarantees the result consistency and the correct application of weights, avoiding distortions in the calculation. As Fairness metrics can involve both the ratio between two different values, like \textit{Disparate Impact}, and the difference between two different values, like \textit{Equal Opportunity Difference}, different calculations are required to get that range. As the evaluated Performance metrics have the same range from 0 to 1, there is no need for additional treatment for the metrics $m_{P_i}$.
 
-Then, each standardized metric is multiplied by its corresponding weights $w_{P_i}$ and $w_{F_i}$, and a weighted average is taken within the group to assign a score $S_P$ to the Performance Metrics group and $S_F$ for the Fairness Metrics group, as shown in the \ref{eqn:groupScores} equation. To make the score evaluation easier, the scores are multiplied by a factor $X = 1000$ to make the score range is 0 to 1000 and the value is rounded. After such scores are obtained, the overall score $S$ is calculated by multiplying them by their corresponding weights $w_P$ and $w_F$ and arranging the weighted average as shown in the \ref{eqn:totalScore} equation.
+Then, each standardized metric is multiplied by its corresponding weights $w_{P_i}$ and $w_{F_i}$, and a weighted average is taken within the group to assign a score $S_P$ to the Performance metrics group and $S_F$ for the Fairness metrics group, as shown in equation \ref{eqn:groupScores}. To make the score evaluation easier, the scores are multiplied by a factor $X = 1000$ to make the score range is 0 to 1000 and the value is rounded. After such scores are obtained, the overall score $S$ is calculated by multiplying them by their corresponding weights $w_P$ and $w_F$ and arranging the weighted average as shown in equation \ref{eqn:totalScore}.
 
 \begin{gather}
 \label{eqn:normalizationFairness}
 	m'_{F_i} = 
 	\begin{cases}
-	1-\lvert m_{F_i} \rvert & \text{caso $m_{F_i}$ envolva diferen\c{c}a e $-1 < m_{F_i} < 1$}\\
-	0 & \text{caso $m_{F_i}$ envolva diferen\c{c}a, e $m_{F_i} >= 1$ ou $m_{F_i} <= -1$}\\
-	1-\lvert \frac{1}{m_{F_i}}-1 \lvert & \text{caso $m_{F_i}$ envolva razão e $m_{F_i} > 1$}\\
-	1-\lvert m_{F_i}-1 \lvert & \text{caso $m_{F_i}$ envolva razão e $m_{F_i} <= 1$}\\
-	m_{F_i} & \text{caso contrário}
+	1-\lvert m_{F_i} \rvert & \text{if $m_{F_i}$ is subtraction-calculated and $-1 < m_{F_i} < 1$}\\
+	0 & \text{if $m_{F_i}$ is subtraction-calculated, and $m_{F_i} >= 1$ or $m_{F_i} <= -1$}\\
+	1-\lvert \frac{1}{m_{F_i}}-1 \lvert & \text{if $m_{F_i}$ is division-calculated and $m_{F_i} > 1$}\\
+	1-\lvert m_{F_i}-1 \lvert & \text{if $m_{F_i}$ is division-calculated e $m_{F_i} <= 1$}\\
+	m_{F_i} & \text{in other cases}
 	\end{cases}
 \end{gather}
 
@@ -389,20 +386,20 @@ Then, each standardized metric is multiplied by its corresponding weights $w_{P_
 
 To do these calculations, previous executions in the workflow are needed as a prerequisite, so the necessary metrics could be recorded and then the best combinations are determined through the score.
 
-\subsection{Execution Plan}
+\subsection{Planner Component}
 
-To determine the Workflow best executions, some strategies were implemented in the Planner:
+To determine the configuration background, some strategies were implemented in the Planner component:
 
 \begin{itemize}
 \item \textbf{Algorithm filtering}: Some algorithms may be poorly implemented on Workflow or their models may have metrics that need a better analysis by the Data Scientist to be considered reliable. To prevent this from happening, this strategy filters reliable algorithm combinations before selecting the ideal models.
 \item \textbf{Result range}: Executions with unreliable metric results can distort the score obtained in the Analyzer. To ease these distortions, a minimum and maximum score range were created to determine scores that can be considered reliable for evaluation.
 \end{itemize}
 
-After evaluating these strategies, the Planner will return the top 5 scores for the Data Scientist to choose, and will ask the Executor to run the Workflow again after choosing.
+After evaluating these strategies, the Planner component will return the top 5 scores for the Data Scientist to choose, and will ask the Executor to run the Workflow again after choosing.
 
 \section{Solution Evaluation}
 
-Three Case Studies were done to check the solution feasibility, future maintenance and the Autonomic Manager feasibility in choosing the best options in different contexts. In all of them, the objective was to obtain a credit rating (good or bad), through a series of \textit{features} and using different datasets. In the case of system changes, the lines of code performed in each change were also counted, to define whether such changes are simple to make.
+Three Case Studies were executed to check our solution feasibility, future maintenance and the Autonomic Manager feasibility in choosing the best options in different contexts. In all of them, the objective was to obtain a credit rating (good or bad), through a series of \textit{features} and using different datasets. In the case of system changes, the lines of code performed in each change were also counted, to define whether such changes are simple to make.
 
 The execution to choose the best options was performed with 3 different weightings in the overall score:
 
@@ -414,7 +411,7 @@ The execution to choose the best options was performed with 3 different weightin
 
 All executions were performed using a knowledge base containing about 650 previous executions with several options of datasets, protected attributes and algorithms, containing in your results the metrics Accuracy, Precision, Recall, F1-Score and AUC as Performance metrics and the metrics Statistical Parity Difference, Equal Opportunity Difference, Average Odds Difference, Disparate Impact and Theil Index as Fairness metrics. All metrics have the same weight in their respective grouping.
 
-In the workflow, the algorithms \textit{Disparate Impact Remover}~\citep{Feldman_2015}, \textit{Learning Fair Representations}~\citep{Zemel_2013}, \textit{Reweighing}~\citep{Kamiran_2011} and \textit{Optimized Preprocessing}~\citep{Calmon_2017} were implemented in the Pre-Processing step, the algorithms Logistic Regression, Gradient Boosting, Random Forest, Support Vector Machines, \textit{Adversarial Debiasing}~\citep{Zhang_2018}, \textit{Exponentiated Gradient Reduction}~\citep{Agarwal_2018}, \textit{Grid Search Reduction}~\citep{Agarwal_2019}, \textit{Meta Fair Classifier}~\citep{Celis_2019}, \textit{Prejudice Remover}~\citep{Kamishima_2012} and \textit{Rich Subgroup Fairness}~\citep{Kearns_2018} were implemented in the Processing step, and the algorithms \textit{Equalized Odds}~\citep{Hardt_2016}, \textit{Calibrated Equalized Odds}~\citep{Pleiss_2017} and \textit{Reject Option Classification}~\citep{Kamiran_2012} were implemented in the Post-Processing step. Excluding Logistic Regression, Gradient Boosting, Random Forest and Support Vector Machines all algorithms have some bias reduction treatment applied to improve Fairness, and as no studies were found where bias reduction is used in more than one step of the Machine Learning process only one bias reduction algorithm per workflow is performed in a execution. Due to unreliable data, executions with the algorithms \textit{Optimized Preprocessing} and \textit{Reject Option Classification} were filtered, corresponding to approximately 5\% of total base size.
+In the workflow, the algorithms \textit{Disparate Impact Remover}, \textit{Learning Fair Representations}, \textit{Reweighing} and \textit{Optimized Preprocessing} were implemented in the Pre-Processing step, the algorithms Logistic Regression, Gradient Boosting, Random Forest, Support Vector Machines, \textit{Adversarial Debiasing}, \textit{Exponentiated Gradient Reduction}, \textit{Grid Search Reduction}, \textit{Meta Fair Classifier}, \textit{Prejudice Remover} and \textit{Rich Subgroup Fairness} were implemented in the Processing step, and the algorithms \textit{Equalized Odds}, \textit{Calibrated Equalized Odds} and \textit{Reject Option Classification} were implemented in the Post-Processing step. As no studies were found where bias reduction is used in more than one step of the Machine Learning process only one bias reduction algorithm per workflow is performed in a execution. Due to unreliable data, executions with the algorithms \textit{Optimized Preprocessing} and \textit{Reject Option Classification} were filtered, corresponding to approximately 5\% of total base size.
 
 \subsection{Case Study 1: Autonomic Manager feasibility and usefulness}
 
@@ -425,7 +422,7 @@ In all executions, it was possible to perceive that the most balanced choice bet
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 50\% Performance/50\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 50\% Performance/50\% Fairness}
 \label{tbl:ScoreMAPEKOverall5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -433,7 +430,7 @@ In all executions, it was possible to perceive that the most balanced choice bet
 \hline
 Protected attribute & Pre-processing & Processing & Post-processing & Performance & Fairness & \textbf{Overall} \\
 \hline
-Age & Nothing & Regressão Logística & Equalized Odds & 968 & 860 & \textbf{914} \\
+Age & Nothing & Logistic Regression & Equalized Odds & 968 & 860 & \textbf{914} \\
 Nationality & Nothing & Random Forest & Calibrated Equalized Odds & 902 & 922 & \textbf{912} \\
 Nationality & Nothing & Gradient Boosting & Calibrated Equalized Odds & 870 & 925 & \textbf{898} \\
 Age & Nothing & Gradient Boosting & Equalized Odds & 927 & 862 & \textbf{894} \\
@@ -444,7 +441,7 @@ Age & Reweighing & Gradient Boosting & Nothing & 804 & 931 & \textbf{868} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 75\% Performance/25\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 75\% Performance/25\% Fairness}
 \label{tbl:ScoreMAPEKOverall7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -452,7 +449,7 @@ Age & Reweighing & Gradient Boosting & Nothing & 804 & 931 & \textbf{868} \\
 \hline
 Protected attribute & Pre-processing & Processing & Post-processing & Performance & Fairness & \textbf{Overall} \\
 \hline
-Age & Nothing & Regressão Logística & Equalized Odds & 968 & 860 & \textbf{941} \\
+Age & Nothing & Logistic Regression & Equalized Odds & 968 & 860 & \textbf{941} \\
 Age & Nothing & Gradient Boosting & Equalized Odds & 927 & 862 & \textbf{910} \\
 Nationality & Nothing & Random Forest & Calibrated Equalized Odds & 902 & 922 & \textbf{907} \\
 Nationality & Nothing & Gradient Boosting & Calibrated Equalized Odds & 870 & 925 & \textbf{883} \\
@@ -463,7 +460,7 @@ Age & Nothing & Random Forest & Equalized Odds & 898 & 799 & \textbf{874} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 25\% Performance/75\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 25\% Performance/75\% Fairness}
 \label{tbl:ScoreMAPEKOverall2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -486,7 +483,7 @@ In this Case Study, a system evolution was performed by adding a new dataset who
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 50\% Performance/50\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 50\% Performance/50\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubOverall5050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -497,7 +494,7 @@ Protected attribute & Pre-processing & Processing & Post-processing & Performanc
 Income & Learning Fair Representations & Random Forest & Nothing & 991 & 968 & \textbf{979} \\
 Income & Nothing & Gradient Boosting & Equalized Odds & 988 & 969 & \textbf{978} \\
 Income & Reweighing & Random Forest & Nothing & 991 & 963 & \textbf{977} \\
-Income & Learning Fair Representations & Regressão Logística & Nothing & 981 & 973 & \textbf{977} \\
+Income & Learning Fair Representations & Logistic Regression & Nothing & 981 & 973 & \textbf{977} \\
 Income & Reweighing & Gradient Boosting & Nothing & 987 & 964 & \textbf{976} \\
 \end{tabular}}
 \end{center}
@@ -505,7 +502,7 @@ Income & Reweighing & Gradient Boosting & Nothing & 987 & 964 & \textbf{976} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 75\% Performance/25\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 75\% Performance/25\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubOverall7525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -513,18 +510,18 @@ Income & Reweighing & Gradient Boosting & Nothing & 987 & 964 & \textbf{976} \\
 \hline
 Protected attribute & Pre-processing & Processing & Post-processing & Performance & Fairness & \textbf{Overall} \\
 \hline
-Income & Nothing & Regressão Logística & Equalized Odds & 985 & 965 & \textbf{980} \\
+Income & Nothing & Logistic Regression & Equalized Odds & 985 & 965 & \textbf{980} \\
 Income & Learning Fair Representations & Gradient Boosting & Nothing & 987 & 960 & \textbf{980} \\
-Income & Learning Fair Representations & Regressão Logística & Nothing & 981 & 973 & \textbf{979} \\
+Income & Learning Fair Representations & Logistic Regression & Nothing & 981 & 973 & \textbf{979} \\
 Income & Nothing & Grid Search Reduction & Nothing & 989 & 950 & \textbf{979} \\
-Income & Reweighing & Regressão Logística & Nothing & 981 & 965 & \textbf{977} \\
+Income & Reweighing & Logistic Regression & Nothing & 981 & 965 & \textbf{977} \\
 \end{tabular}}
 \end{center}
 \end{table}
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 25\% Performance/75\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 25\% Performance/75\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubOverall2575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -532,7 +529,7 @@ Income & Reweighing & Regressão Logística & Nothing & 981 & 965 & \textbf{977}
 \hline
 Protected attribute & Pre-processing & Processing & Post-processing & Performance & Fairness & \textbf{Overall} \\
 \hline
-Income & Learning Fair Representations & Regressão Logística & Nothing & 981 & 973 & \textbf{975} \\
+Income & Learning Fair Representations & Logistic Regression & Nothing & 981 & 973 & \textbf{975} \\
 Income & Nothing & Gradient Boosting & Equalized Odds & 988 & 969 & \textbf{974} \\
 Income & Learning Fair Representations & Random Forest & Nothing & 991 & 968 & \textbf{973} \\
 Income & Nothing & Exponentiated Gradient Reduction & Nothing & 986 & 966 & \textbf{971} \\
@@ -577,11 +574,11 @@ In this Case Study, another system evolution was performed by adding a new class
 
 During a development session with another developer, lasting between 1 and 2 hours, a new classification algorithm was added to the workflow structure by him using the documentation elaborated during the previous Case Study. During the session, some items such as documentation errors and bugs were noticed and corrected, through developer's observation and feedback. Due to these problems, some troubleshooting was done in a small part of the session to avoid time wasting and allow the developer to focus on developing the workflow. After the session, the developer filled out a questionnaire indicating positive impressions from the session, a implementation without big challenges, and a profile with some experience in data and software engineering careers. Although the beginning objective was that the developer would only be guided by the documentation, he himself considered the adaptation to such an experiment quick, regardless of the help provided. This suggests that the initial decisions taken in the implementation were correct and facilitated the evolutions development.
 
-The classification algorithm chosen for development was Naive Bayes~\citep{Naive_Bayes_2004}, which is also widely used as a classifier. After development, the results are present below in Tables \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} and \ref{tbl:ScoreMAPEKLendingclubCaso32575}.
+The classification algorithm chosen for development was Naive Bayes, which is also widely used as a classifier. After development, the results are present below in Tables \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} and \ref{tbl:ScoreMAPEKLendingclubCaso32575}.
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 50\% Performance/50\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 50\% Performance/50\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubCaso35050}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -592,7 +589,7 @@ Protected attribute & Pre-processing & Processing & Post-processing & Performanc
 Income & Learning Fair Representations & Random Forest & Nothing & 991 & 968 & \textbf{979} \\
 Income & Nothing & Gradient Boosting & Equalized Odds & 988 & 969 & \textbf{978} \\
 Income & Reweighing & Random Forest & Nothing & 991 & 963 & \textbf{977} \\
-Income & Learning Fair Representations & Regressão Logística & Nothing & 981 & 973 & \textbf{977} \\
+Income & Learning Fair Representations & Logistic Regression & Nothing & 981 & 973 & \textbf{977} \\
 Income & Reweighing & Gradient Boosting & Nothing & 987 & 964 & \textbf{976} \\
 \end{tabular}}
 \end{center}
@@ -600,7 +597,7 @@ Income & Reweighing & Gradient Boosting & Nothing & 987 & 964 & \textbf{976} \\
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 75\% Performance/25\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 75\% Performance/25\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubCaso37525}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -608,18 +605,18 @@ Income & Reweighing & Gradient Boosting & Nothing & 987 & 964 & \textbf{976} \\
 \hline
 Protected attribute & Pre-processing & Processing & Post-processing & Performance & Fairness & \textbf{Overall} \\
 \hline
-Income & Nothing & Regressão Logística & Equalized Odds & 985 & 965 & \textbf{980} \\
+Income & Nothing & Logistic Regression & Equalized Odds & 985 & 965 & \textbf{980} \\
 Income & Learning Fair Representations & Gradient Boosting & Nothing & 987 & 960 & \textbf{980} \\
-Income & Learning Fair Representations & Regressão Logística & Nothing & 981 & 973 & \textbf{979} \\
+Income & Learning Fair Representations & Logistic Regression & Nothing & 981 & 973 & \textbf{979} \\
 Income & Nothing & Grid Search Reduction & Nothing & 989 & 950 & \textbf{979} \\
-Income & Reweighing & Regressão Logística & Nothing & 981 & 965 & \textbf{977} \\
+Income & Reweighing & Logistic Regression & Nothing & 981 & 965 & \textbf{977} \\
 \end{tabular}}
 \end{center}
 \end{table}
 
 \begin{table}[H]
 \begin{center}
-  \caption{Top options chosen by Autonomic Manager - 25\% Performance/75\% Fairness}
+  \caption{Top options chosen by Autonomic Manager \\ 25\% Performance/75\% Fairness}
 \label{tbl:ScoreMAPEKLendingclubCaso32575}
   \resizebox{\linewidth}{!}{%
 \begin{tabular}{c|c|c|c|c|c|c}
@@ -628,7 +625,7 @@ Income & Reweighing & Regressão Logística & Nothing & 981 & 965 & \textbf{977}
 Protected attribute & Pre-processing & Processing & Post-processing & Performance & Fairness & \textbf{Overall} \\
 \hline
 Income & Nothing & Naive Bayes & Calibrated Equalized Odds & 991 & 976 & \textbf{980} \\
-Income & Learning Fair Representations & Regressão Logística & Nothing & 981 & 973 & \textbf{975} \\
+Income & Learning Fair Representations & Logistic Regression & Nothing & 981 & 973 & \textbf{975} \\
 Income & Nothing & Gradient Boosting & Equalized Odds & 988 & 969 & \textbf{974} \\
 Income & Learning Fair Representations & Random Forest & Nothing & 991 & 968 & \textbf{973} \\
 Income & Nothing & Exponentiated Gradient Reduction & Nothing & 986 & 966 & \textbf{971} \\
@@ -666,9 +663,9 @@ Overall, fewer changes were required than the evolution proposed in the previous
 
 \section{Conclusions and Future Work}
 
-The reviewed literature on Fairness checks only for binary classification problems, and for evolutions and new methods it is likely that workflow refactorings will occur. With the \textit{Pipes-and-Filters} architecture, it was possible to encapsulate all the procedures present in a workflow of a Machine Learning application in cohesive steps and change them in case there is a need to test with another algorithm, protected attribute or set of data, and make it easier for other developers to understand.
+The reviewed literature on \textit{Fairness} checks only for binary classification problems, and for evolutions and new methods it is likely that workflow refactorings will occur. With the \textit{Pipes-and-Filters} architecture, it was possible to encapsulate all the procedures present in a workflow of a Machine Learning application in cohesive steps and change them in case there is a need to test with another algorithm, protected attribute or set of data, and make it easier for other developers to understand.
 
-With the MAPE-K architecture, it was possible to create a flow so that the data obtained in the workflow could be analyzed to facilitate decision making. Although autonomy is viable, human supervision is necessary due to problems still faced by the Fairness theme, where the problem's social context is extremely important when evaluating whether the model is considered good or not. The use of weights for the metrics and different strategies in the analysis and planning phases of the Autonomic Manager guarantee the performance/fairness balance and help define the context for an evaluation, but it still depends on a Data Scientist and/or a Domain specialist. Domain understand what are the analyzed problem needs and if the results are acceptable to publish an optimized and fair model.
+With the MAPE-K architecture, it was possible to create a flow so that the data obtained in the workflow could be analyzed to facilitate decision making. Although autonomy is viable, human supervision is necessary due to problems still faced by the \textit{Fairness} theme, where the problem's social context is extremely important when evaluating whether the model is considered good or not. The use of weights for the metrics and different strategies in the analysis and planning phases of the Autonomic Manager guarantee the performance/fairness balance and help define the context for an evaluation, but it still depends on a Data Scientist and/or a Domain specialist. Domain understand what are the analyzed problem needs and if the results are acceptable to publish an optimized and fair model.
 
 Given these observations, it can be said that these architectures have adapted very well in the main objectives implementation. As future works, it is possible to work with some possibilities. In the Autonomic Manager, the Analyzer can perform a deeper analysis by increasing the number of indicators and considering groups in addition to Fairness metrics and Performance metrics. In the workflow, introduce techniques to improve results such as \textit{Data Augmentation} and \textit{K-Fold Cross-Validation}. It is also possible to change the focus to solving MLOps problems, using the system to determine a better deployment in case of worsening in the metrics of a model already used by customers.
 

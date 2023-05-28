@@ -34,6 +34,7 @@
 \usepackage{enumitem}
 
 \usepackage{wasysym}
+\usepackage{rotating}
 
 %\usepackage{fancyhdr}
 %\usepackage{cite}
@@ -945,7 +946,7 @@ Outro trabalho a ser mencionado é o artigo \textit{"The ML test score: A rubric
 
 \section{Detalhamento do processo}
 
-Dado as etapas da AI Reference Architecture, foram definidos para este trabalho os seguintes papeis onde um projeto de Machine Learning pode ter atuação e onde se encaixariam:
+Com base nas etapas da AI Reference Architecture, foram definidos para este trabalho os seguintes papeis onde um projeto de Machine Learning pode ter atuação e onde se encaixariam:
 
 \begin{itemize}
 \item \textbf{Especialista de Domínio:} É a pessoa que detém de todo o conjunto de regras do qual a aplicação deve respeitar. Pode não ter conhecimento técnico, embora esse conhecimento possa ajudar na comunicação das regras com os demais papeis. Está presente nas fases de Coleta, Organização e Infusão do ciclo.
@@ -958,20 +959,22 @@ Dado as etapas da AI Reference Architecture, foram definidos para este trabalho 
 
 \end{itemize}
 
-Dado esses papeis e suas respectivas funções, foi desenhado um diagrama de atividades, presente na Figura \ref{fig:AIRoles}, determinando como eles se encaixariam no processo. O desenvolvimento realizado neste trabalho pode ser dividido em 5 etapas maiores, que podem ser detalhadas e sub-divididas:
+O desenvolvimento realizado neste trabalho pode ser dividido em 5 etapas maiores, que podem ser detalhadas e sub-divididas:
 
 \begin{itemize}
 \item \textbf{Obtenção dos conjuntos de dados:} Foi realizada uma pesquisa para verificar quais os conjuntos de dados utilizados em experimentos de artigos acadëmicos envolvendo algoritmos de redução de vieses. Após a pesquisa, alguns foram selecionados e obtidos para os experimentos deste trabalho.
 
-\item \textbf{Transformação dos conjuntos de dados:} Como alguns dos conjuntos de dados obtidos diferentes valores qualitativos e codificados de acordo com o atributo, primeiro foi realizado uma transformação dos dados para garantir uma melhor legibilidade, o que já equivaleria minimamente ao trabalho do Engenheiro de Dados presente neste trabalho de Mestrado. Posteriormente, novas transformações foram realizadas devido a necessidade de separar grupo privilegiado ao grupo não-privilegiado, mas neste trabalho já equivaleria a parte do Cientista de Dados.
+\item \textbf{Transformação dos conjuntos de dados (Engenharia de Dados):} Como alguns dos conjuntos de dados obtidos diferentes valores qualitativos e codificados de acordo com o atributo, primeiro foi realizado uma transformação dos dados para garantir uma melhor legibilidade, o que já equivaleria minimamente ao trabalho do Engenheiro de Dados presente neste trabalho de Mestrado. Posteriormente, novas transformações foram realizadas devido a necessidade de separar grupo privilegiado ao grupo não-privilegiado, mas neste trabalho já equivaleria a parte do Cientista de Dados.
 
 \item \textbf{Desenvolvimento do Workflow:} Como Machine Learning possui um processo muito bem definido, é possível subdividir este processo em etapas e subdividir cada uma dessas etapas em componentes isolados. O objetivo do desenvolvimento de um \textit{Workflow} é sistematizar todo esse processo de modo que supostas atualizações sejam incrementais e que seja possível realizar uma execução de forma autônoma a partir da próxima etapa. Para simplificar o processo, foi utilizada a arquitetura \textit{Pipes-and-Filters}, que é simples de ser entendida e pode ser encontrada em diferentes publicações.
 
-\item \textbf{Desenvolvimento dos processos de autonomia do Workflow:} Após o desenvolvimento do \textit{Workflow}, foi desenvolvido um elemento autônomo para trabalhar em conjunto com o \textit{Workflow} como elemento gerenciado. Através das métricas obtidas em execuções anteriores, é possível inferir sugestões de melhores combinações para execução e garantia de um melhor resultado de forma mais eficiente. Para garantir uma maior flexibilidade nos resultados, foram implementadas diversas estratégias para garantir que essa sugestão seja customizada pelo Cientista de Dados e/ou pelo Especialista de Domínio se isso for necessário para as necessidades do problema.
+\item \textbf{Desenvolvimento do Gerenciador Autonômico:} Após o desenvolvimento do \textit{Workflow}, foi desenvolvido um elemento autônomo para trabalhar em conjunto com o \textit{Workflow} como elemento gerenciado. Através das métricas obtidas em execuções anteriores, é possível inferir sugestões de melhores combinações para execução e garantia de um melhor resultado de forma mais eficiente. Para garantir uma maior flexibilidade nos resultados, foram implementadas diversas estratégias para garantir que essa sugestão seja customizada pelo Cientista de Dados e/ou pelo Especialista de Domínio se isso for necessário para as necessidades do problema.
 
 \item \textbf{Interface Humano-Computador:} Para facilitar o entendimento dos arquivos utilizados para configuração e utilização das estratégias da arquitetura MAPE-K, foi criada uma interface onde é possível realizar a configuração pela mesma, podendo também realizar uma execução do \textit{Workflow} isolada e uma execução com sugestões, acompanhando a análise realizada no gerenciador MAPE-K.
 
 \end{itemize}
+
+Dado esses papeis e etapas, foi desenhado um diagrama de atividades, presente na Figura \ref{fig:AIRoles}, determinando como eles se encaixariam no processo. Detalhes de implementação serão explicados na seção \ref{sec:Desenvolvimento}.
 
 \begin{figure}[H]
 \centering
@@ -980,18 +983,40 @@ Dado esses papeis e suas respectivas funções, foi desenhado um diagrama de ati
 \label{fig:AIRoles}
 \end{figure}
 
-Para definição dos objetivos do \textit{Workflow} e da sua autonomia, foi realizado um detalhamento na forma de \textit{Assurance Cases}, onde o objetivo principal, que é a obtenção do modelo mais equilibrado entre métricas de avaliação, onde para melhor diferenciação de seu objetivo serão denominadas como métricas de Performance, e métricas de Fairness, é subdividido em diferentes estratégias, novamente subdividido em novos objetivos, e através de evidências é possível verificar o progresso do objetivo principal.
+\section{Arquitetura do sistema}
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
-\includegraphics[scale=0.1]{images/assurancecase.jpg}
-\caption {\textit{Assurance Cases} feitos para detalhar os objetivos necessários para executar o Workflow mais adequado}
-\label{fig:AssuranceCase}
+\includegraphics[scale=0.35]{images/backend-frontend-ml.jpg}
+\caption {Componentes arquiteturais da solução}
+\label{fig:BackendFrontendML}
 \end{figure}
 
-\section{Arquitetura do código}
+\begin{sidewaysfigure}
+\clearpage
+\includegraphics[scale=0.465]{images/Diagrama_Sequencia.jpg}
+\caption {Diagrama de sequência do sistema}
+\label{fig:DiagramaSequencia}
+\end{sidewaysfigure}
 
-\subsection{Transformação dos conjuntos de dados}
+Dado as etapas acima, o sistema foi dividido em 5 módulos:
+
+\begin{itemize}
+    \item {\textbf{Engenharia de Dados:}} Módulo com o objetivo de executar processos de limpeza e transformação de dados.
+	\item {\textbf{\textit{Workflow} de ML:}} Módulo que executa um \textit{Pipeline} capaz de automatizar uma aplicação de ML, com estágios de preparação de dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento) para a geração de um modelo final.
+     \item {\textbf{Gerenciador autonômico:}} Módulo contendo um \textit{loop} MAPE-K que controla o \textit{Workflow} como um Elemento Gerenciado para automatizar tais etapas, com o objetivo de evitar execuções manuais dependendo do algoritmo e/ou do conjunto de dados usado nas etapas.
+     \item {\textbf{Interface (Frontend):}} Módulo cujo objetivo é prover uma experiência de usuário mais simples e intuitiva para o Cientista de Dados para configurar e iniciar o Gerenciador Autonômico.
+	\item {\textbf{Backend:}} Módulo criado com o objetivo de conectar a Interface com o Gerenciador Autonômico.
+\end{itemize}
+
+A integração entre esses módulos é ilustrada na Figura \ref{fig:BackendFrontendML}. O módulo de Engenharia de Dados é usado pelo Engenheiro de Dados, que retorna um conjunto de dados com os tratamentos necessários para execução do \textit{workflow}. A Interface será utilizada pelo Cientista de Dados, que determinaria as configurações necessárias dependendo do contexto do problema. 
+
+O processo que ocorre, desde a interação da interface, passando pela execução do \textit{Workflow} e chegando na obtenção dos resultados, pode ser visualizado no Diagrama de Sequência presente na Figura \ref{fig:DiagramaSequencia}. Neste processo, enquanto o Engenheiro de dados manipula o conjunto de dados com os processos de limpeza e transformação de dados presentes no módulo de Engenharia de Dados e envia estes conjuntos modificados para integração e uso no \textit{Workflow} de ML, o Cientista de Dados, pelo módulo de Interface presente na aplicação, escolhe o Conjunto de Dados e solicita uma execução do Gerenciador Autonômico. O Gerenciador Autonômico busca todas as execuções já realizadas no \textit{Workflow} de ML que já utilizaram o conjunto de dados modificado e estão salvas na Base de Conhecimento, fará a análise realizando cálculos que serão detalhados posteriormente, e fará um \textit{loop} verificando a configuração de planos de execução já implementados e executando em seguida, retornando as melhores opções de execução para que o Cientista de Dados escolha a opção mais adequada e requisitar uma nova execução para o \textit{Workflow} de ML. Durante a requisição, o \textit{Workflow} de ML inicia o Monitor do Gerenciador Autonômico para coletar dados durante a execução, seleciona o conjunto de dados e seu atributo protegido, realiza a divisão entre conjuntos de treino e teste, executa os algoritmos nas etapas de Pré-processamento, Processamento and Pós-processamento, e calcula as métricas do modelo final. O Monitor salva todos os dados coletados na Base de Conhecimento, e o Gerenciador Autonômico busca os dados desta execução para exibição na Interface ao Cientista de Dados.
+
+\section{Desenvolvimento}
+\label{sec:Desenvolvimento}
+
+\subsection{Engenharia de Dados}
 
 Nesta etapa, os conjuntos de dados obtidos com atributos qualitativos codificados com uma documentação própria, como o \textit{German Credit Dataset}~\citep{ucigerman_2021}, são transformados com nomenclaturas mais legíveis e colocados em arquivos CSV. O Trecho \ref{cod:DataEngTransform}, colocado abaixo, ilustra um exemplo dessas operações.
 
@@ -1054,9 +1079,9 @@ Para facilitar o desenvolvimento do \textit{Workflow} e deixar seu código mais 
 \label{fig:PipeAndFilterFramework}
 \end{figure}
 
-Conforme ilustrado na Figura \ref{fig:PipeAndFilterFramework}, o \textit{Framework} possui 3 classes: \textbf{PipeFilter}, \textbf{BasePipe} e \textbf{BaseFilter}. A classe \textbf{PipeFilter} foi criada para ser herdada pelas classes \textbf{BasePipe} e \textbf{BaseFilter} por duas limitações: Inexistência de interfaces no \textit{Python} e evitar erro de recursão de heranças acusado no momento da compilação. A classe \textbf{BasePipe} possui apenas um atributo \textbf{value} que é um dicionário que simboliza os dados que trafegam por esse Pipe. Como é um dicionário, ele é totalmente livre de quantos atributos o Pipe trafega, sendo assim a sua validação é responsabilidade da aplicação. A classe \textbf{BaseFilter} possui dois atributos \textbf{input} e \textbf{output} que simbolizam os Pipes de entrada e de saída do Filtro, e o uso desses dois Pipes mais a execução do Filtro vai estruturar o \textit{Workflow} como um todo.
+Conforme ilustrado na Figura \ref{fig:PipeAndFilterFramework}, o \textit{Framework} possui 3 classes: \textbf{PipeFilter}, \textbf{BasePipe} e \textbf{BaseFilter}. A classe \textbf{PipeFilter} foi criada para ser herdada pelas classes \textbf{BasePipe} e \textbf{BaseFilter} por duas limitações: Inexistência de interfaces no \textit{Python} e acusação de heranças cíclicas. A classe \textbf{BasePipe} possui apenas um atributo \textbf{value} que é um dicionário que simboliza os dados que trafegam por esse Pipe. Como é um dicionário, ele é totalmente livre de quantos atributos o Pipe trafega, sendo assim a sua validação é responsabilidade da aplicação. A classe \textbf{BaseFilter} possui dois atributos \textbf{input} e \textbf{output} que simbolizam os Pipes de entrada e de saída do Filtro, e o uso desses dois Pipes mais a execução do Filtro vai estruturar o \textit{Workflow} como um todo.
 
-O \textit{Workflow} é realizado através de encadeamentos do método \textbf{to\_filter} com o método \textbf{to\_pipe}. O método \textbf{to\_filter} prepara um Filtro para utilizar o Pipe, setando o atributo \textbf{input} presente na classe de Filtro passada como parâmetro, e o método \textbf{to\_pipe} obtém o Pipe resultante do Filtro, chamando o método \textbf{execute} e obtendo o atributo \textbf{output} presente no Filtro para setar no atributo \textbf{value} presente na classe de Pipe passada como parâmetro. Isso forma encadeamentos de métodos que se assemelham muito com os de uma \textit{Fluent API}~\citep{Fowler_2005}, criando uma DSL (\textit{Domain-Specific Language}) cujo domínio é a estruturação de um \textit{Workflow}. O Trecho \ref{cod:PipeAndFilterMethods} mostra um breve exemplo de como é possível encadeá-los, onde \textbf{Pipe1}, \textbf{Pipe2} e \textbf{Pipe3} são classes que herdam \textbf{BasePipe} e \textbf{Filter1} e \textbf{Filter2} são classes que herdam \textbf{BaseFilter}.
+O \textit{Workflow} é realizado através de encadeamentos do método \textbf{to\_filter} com o método \textbf{to\_pipe}. O método \textbf{to\_filter} prepara um Filtro para utilizar o Pipe, setando o atributo \textbf{input} presente na classe de Filtro passada como parâmetro, e o método \textbf{to\_pipe} obtém o Pipe resultante do Filtro, chamando o método \textbf{execute} e obtendo o atributo \textbf{output} presente no Filtro para setar no atributo \textbf{value} presente na classe de Pipe passada como parâmetro. Isso forma encadeamentos de métodos que se assemelham muito com os de uma \textit{Fluent API}~\citep{Fowler_2005}, criando uma DSL (\textit{Domain-Specific Language}) cujo domínio é a estruturação de um \textit{Workflow}. Como os métodos \textbf{to\_filter} e \textbf{to\_pipe} recebem um parâmetro do tipo \textbf{PipeFilter} devido ao problema de herança cíclica, uma validação de tipo é realizada via código para prosseguir com o tipo correto. O Trecho \ref{cod:PipeAndFilterMethods} mostra um breve exemplo de como é possível encadeá-los, onde \textbf{Pipe1}, \textbf{Pipe2} e \textbf{Pipe3} são classes que herdam \textbf{BasePipe} e \textbf{Filter1} e \textbf{Filter2} são classes que herdam \textbf{BaseFilter}.
 
 \begin{lstlisting}[language=Python, caption=Exemplo de uso do \textit{Framework} para encadeamento dos Workflows,label=cod:PipeAndFilterMethods]
 root_pipe = Pipe1()
@@ -1079,7 +1104,7 @@ pipe_with_filter_transformations = root_pipe >= Filter1() == Pipe2() >= Filter2(
 
 Também foram implementados métodos para manipular os dicionários presentes nos Pipes conforme necessário. O método \textbf{merge(pipe)} junta os atributos presentes nos dicionários dos Pipes em um único Pipe, enquanto o método \textbf{partial\_pipe(attributes)} pega apenas os atributos presentes nos dicionários dos Pipes que forem especificados em uma lista de atributos definida no parâmetro \textbf{attributes}, conforme ilustrado no Trecho \ref{cod:PipeAndFilterManipulation}.
 
-Como métodos especiais, para o método \textbf{merge} foi escolhido o \textit{token} \textbf{+}, pela semelhança com uma operação de adição, e para este \textit{token} o método \textbf{\_\_add\_\_} é implementado como um \textit{proxy}. E para o método \textbf{partial\_pipe} foi escolhido os \textit{tokens} \textbf{[]}, colocados após o dicionário, pela semelhança com a operação de procurar com um item no dicionário (neste caso, é possível procurar um ou mais itens), e para este \textit{token} o método \textbf{\_\_getitem\_\_} é implementado como um \textit{proxy}. O Trecho \ref{cod:PipeAndFilterManipulationSpecial} mostra exemplos da modificação.
+Para o método \textbf{merge} foi escolhido o \textit{token} \textbf{+}, pela semelhança com uma operação de adição, e para este \textit{token} o método \textbf{\_\_add\_\_} é implementado como um \textit{proxy}. E para o método \textbf{partial\_pipe} foi escolhido os \textit{tokens} \textbf{[]}, colocados após o dicionário, pela semelhança com a operação de procurar com um item no dicionário (neste caso, é possível procurar um ou mais itens), e para este \textit{token} o método \textbf{\_\_getitem\_\_} é implementado como um \textit{proxy}. O Trecho \ref{cod:PipeAndFilterManipulationSpecial} mostra exemplos da modificação.
 
 \begin{lstlisting}[language=Python, caption=Manipulações para Pipes presentes no \textit{Framework},label=cod:PipeAndFilterManipulation]
 pipe1 = Pipe1()
@@ -1109,13 +1134,11 @@ pipe4 = pipe3['attribute1', 'attribute3']
 print(pipe4) # Output - {'attribute1': 1, 'attribute3': 3}
 \end{lstlisting}
 
-Após o desenvolvimento deste \textit{Framework}, foi realizada uma refatoração com a sua utilização e o desenvolvimento do \textit{Workflow} foi continuado.
-
 \subsubsection{Arquitetura e desenvolvimento do Workflow}
 
-O \textit{Workflow} segue uma estrutura das fases de Pré-processamento, processamento e pós-processamento presentes em um processo para desenvolvimento de um modelo de Machine Learning, ilustrados na Figura \ref{fig:FairnessPipeline}. Os pontos de decisão entre redução de viés ou não presentes na figura são transparentes no código devido a implementação do \textit{Framework} já explicado na seção anterior e foram colocados para ilustrar melhor onde atuam os algoritmos de redução dos vieses.
+O \textit{Workflow} segue uma estrutura das fases de Pré-processamento, processamento e pós-processamento presentes em um processo para desenvolvimento de um modelo de Machine Learning, ilustrados na Figura \ref{fig:FairnessPipeline}. Os pontos de decisão entre redução de viés ou não presentes na figura foram colocados para ilustrar melhor onde atuam os algoritmos de redução dos vieses, mas em sua implementação cada algoritmo foi pensado como um componente isolado, podendo ser alterado em sua respectiva fase (Pré-Processamento, Processamento e Pós-Processamento) com uma simples mudança de parâmetro.
 
-Além de tratar os dados, treinar o modelo e realizar testes sobre o mesmo, o \textit{Workflow} possui etapas para obter os metadados durante o processo e salvá-los junto com as métricas para obter os metadados necessários para integrá-lo a um elemento autônomo. Para a execução dos algoritmos com redução de viés, é utilizada a biblioteca Ai Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}.
+Além de tratar os dados, treinar o modelo e realizar testes sobre o mesmo, o \textit{Workflow} possui etapas para obter os metadados durante o processo e salvá-los junto com as métricas para obter os metadados necessários para integrá-lo a um elemento autônomo. Para a execução dos algoritmos com redução de viés, é utilizada a biblioteca AI Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}.
 
 Devido a natureza deste trabalho de Mestrado ser voltada à Engenharia de Software e a métricas de Fairness, detalhes do processo que também poderiam ser utilizados como estratégias mais sofisticadas para validação dos modelos, como \textit{k-fold Cross Validation}, e estratégias para regularização foram desconsiderados para evitar complexidade.
 
@@ -1150,9 +1173,9 @@ Cada etapa ilustrada na figura se comporta da seguinte maneira:
 	\end{itemize}
 \end{itemize}
 
-\subsection{Componente MAPE-K}
+\subsection{Gerenciador Autonômico}
 
-Os arquivos JSON gravados na última etapa a cada execução de \textit{Workflow} vão ser utilizados como insumos para análises elemento autônomo, seguindo o modelo de arquitetura MAPE-K. Em um \textit{Workflow} de Machine Learning, é possível guardar alguns metadados que podem servir de Base de Conhecimento inicial para a etapa de análise do componente a ser desenvolvido e que ajudariam na escolha do melhor modelo possível para execução:
+Os arquivos JSON gravados na última etapa a cada execução de \textit{Workflow} vão ser utilizados como insumos para análises elemento autônomo, seguindo o modelo de arquitetura MAPE-K. Em um \textit{Workflow} de Machine Learning, é possível guardar alguns metadados que podem servir de Base de Conhecimento inicial para a etapa de análise do componente a ser desenvolvido e que ajudariam na escolha do melhor modelo possível para execução. Os metadados que podem ser guardados são os seguintes:
 
 \begin{itemize}
 \item \textbf{Fase de Pré-Processamento:} Parâmetros utilizados para execução do \textit{Workflow} (Conjuntos de dados, Atributos protegidos e Algoritmos utilizados) e "assinatura"/checksum do conjunto de dados utilizado.
@@ -1169,7 +1192,7 @@ Os arquivos JSON gravados na última etapa a cada execução de \textit{Workflow
 
 Após a obtenção de tal Base de Conhecimento, e possível verificar como as etapas de cada parte do MAPE-K serão desenvolvidas. Conforme ilustrado na Figura \ref{fig:MLMAPEK}, as etapas de Análise e Planejamento foram subdivididas em diferentes estratégias para o MAPE-K ser configurável durante o processo de escolha, enquanto as etapas de monitoria e execução foram configuradas com uma única estratégia. As estratégias das etapas de Análise e Planejamento podem ser ativadas ou desativadas conforme o que é definido como \textit{Feature Toggles}~\citep{Rahman_2016}~\citep{Mahdavi-hezaveh_2021}, por meio de arquivos JSON presentes no projeto conforme ilustrado no Trecho \ref{cod:FeatureToggle}.
 
-\begin{lstlisting}[language=Python, caption=Exemplo de arquivo utilizando \textbf{(ver termo acima)},label=cod:FeatureToggle]
+\begin{lstlisting}[language=Python, caption=Exemplo de arquivo utilizando \textit{Feature Toggles},label=cod:FeatureToggle]
 {
 	"ml_algorithm_validation": true,
 	"ml_data_checksum": false,
@@ -1280,18 +1303,11 @@ Para a etapa de execução, os parâmetros selecionados na fase de planejamento 
 
 \subsection{Interface Humano-Computador}
 
-Durante o desenvolvimento do \textit{Workflow} e de seu componente autônomo, foi notado que o número de configurações e a complexidade das mesmas era muito grande, ocasionando problemas na hora de documentar e detalhar todo o processo executado. Para facilitar tais configurações, foi criada uma Interface Humano-Computador onde é condensada toda a organização das configurações e dos arquivos utilizados para a execução simples e autônoma do \textit{Workflow}, alem da própria realização destas execuções. A interface foi dividida em uma parte Frontend e outra parte Backend para ter mais flexibilidade, poder ter uma escolha de ferramentas mais adequada a cada parte e próxima ao padrão de aplicações atuais, conforme ilustrado na Figura 4.
+Durante o desenvolvimento do \textit{Workflow} e de seu componente autônomo, foi notado que o número de configurações e a complexidade das mesmas era muito grande, ocasionando problemas na hora de documentar e detalhar todo o processo executado. Para facilitar tais configurações, foi criada uma Interface Humano-Computador onde é condensada toda a organização das configurações e dos arquivos utilizados para a execução simples e autônoma do \textit{Workflow}, alem da própria realização destas execuções. Também foi criado um Backend para fazer a intermediação entre o Gerenciador Autonômico e a interface.
 
 O Backend foi desenvolvido em Python para reusar códigos já desenvolvido em etapas anteriores, usando o framework Flask para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do \textit{Workflow}.
 
-O Frontend foi desenvolvido em JavaScript devido a facilidade e a robustez para construir interfaces com a linguagem e ao acervo grande de ferramentas para facilitar o desenvolvimento, usando as bibliotecas React e Redux e a biblioteca de componentes Material UI para economizar tempo com componentes já prontos, uma vez que o foco deste trabalho não exige componentes específicos para a interface. O uso da Material UI permite um \textit{look-and-feel} similar a aplicativos desenvolvidos para o Sistema Operacional para dispositivos móveis Android, uma vez que é baseado nas \textit{guidelines} do Material Design elaborados pelo Google.
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{images/backend-frontend-ml.jpg}
-\caption {Aplicação inteira modificada e dividida em Backend e Frontend}
-\label{fig:BackendFrontendML}
-\end{figure}
+A interface foi desenvolvida em JavaScript devido a facilidade e a robustez para construir interfaces com a linguagem e ao acervo grande de ferramentas para facilitar o desenvolvimento, usando as bibliotecas React e Redux e a biblioteca de componentes Material UI para economizar tempo com componentes já prontos, uma vez que o foco deste trabalho não exige componentes específicos para a interface. O uso da Material UI permite um \textit{look-and-feel} similar a aplicativos desenvolvidos para o Sistema Operacional para dispositivos móveis Android, uma vez que é baseado nas \textit{guidelines} do Material Design elaborados pelo Google.
 
 A interface foi nomeada de FairPEK, junção dos termos Fairness e MAPE-K, e possui os seguintes detalhes:
 
@@ -1307,11 +1323,11 @@ Conforme ilustrado na Figura \ref{fig:opcoesMenu}, o menu pode ser expandido e r
     \label{fig:opcoesMenu}
 \end{figure}
 
-No menu, as opções são divididas em Configuração e Execução. Em Configuração, há as opções Análise, Métricas e Planejamento relativas às configurações presentes no Componente MAPE-K. Em Execução, há as opções Pipeline Manual e Pipeline Autônomo relativas às maneiras de como realizar uma execução do \textit{Workflow}.
+No menu, as opções são divididas em Configuração e Execução. Em Configuração, há as opções Análise, Métricas e Planejamento relativas às configurações presentes no Gerenciador Autonômico. Em Execução, há as opções Pipeline Manual e Pipeline Autônomo relativas às maneiras de como realizar uma execução do \textit{Workflow}.
 
 \subsubsection{Configurações para Análise}
 
-Ao clicar a opção do menu "Análise", é exibida a tela ilustrada na Figura \ref{fig:configAnalise}. Ela possui apenas duas opções, relativas às estratégias desenvolvidas na parte de análise do componente MAPE-K. Ao clicar no botão "Salvar" localizado no canto superior direito, é chamada uma requisição que salva o arquivo com as opções selecionadas e é exibida uma indicação de sucesso no canto inferior esquerdo.
+Ao clicar a opção do menu "Análise", é exibida a tela ilustrada na Figura \ref{fig:configAnalise}. Ela possui apenas duas opções, relativas às estratégias desenvolvidas na parte de análise do Gerenciador Autonômico. Ao clicar no botão "Salvar" localizado no canto superior direito, é chamada uma requisição que salva o arquivo com as opções selecionadas e é exibida uma indicação de sucesso no canto inferior esquerdo.
 
 \begin{figure}[H]
     \centering
@@ -1321,11 +1337,11 @@ Ao clicar a opção do menu "Análise", é exibida a tela ilustrada na Figura \r
     \label{fig:configAnalise}
 \end{figure}
 
-Uma das duas estratégias está desabilitada pois foi desenvolvida como a estratégia padrão usada pelo componente MAPE-K. Se a estratégia de utilizar metadados não for habilitada, certas opções marcadas na etapa de planejamento podem não funcionar.
+Uma das duas estratégias está desabilitada pois foi desenvolvida como a estratégia padrão usada pelo Gerenciador Autonômico. Se a estratégia de utilizar metadados não for habilitada, certas opções marcadas na etapa de planejamento podem não funcionar.
 
 \subsubsection{Configurações das Métricas}
 
-Ao clicar a opção do menu "Métricas", é exibida a tela ilustrada na Figura \ref{fig:configMetricas}. Ela é dividida em duas abas: Métricas de Avaliação e Métricas de Fairness, relativas aos grupos de métricas divididos no componente MAPE-K. Em ambas as abas, há os campos de peso para avaliação, que simboliza o peso no cálculo da pontuação final, e o campo de métricas para uso, que determina quais métricas serão utilizadas para o calculo da pontuação de cada grupo. Uma vez que há apenas duas abas, a alteração do campo de peso para avaliação de uma aba automaticamente alterará o campo de peso para avaliação da outra aba para complementar a soma de 100\% sem precisar de validações.
+Ao clicar a opção do menu "Métricas", é exibida a tela ilustrada na Figura \ref{fig:configMetricas}. Ela é dividida em duas abas: Métricas de Avaliação e Métricas de Fairness, relativas aos grupos de métricas divididos no Gerenciador Autonômico. Em ambas as abas, há os campos de peso para avaliação, que simboliza o peso no cálculo da pontuação final, e o campo de métricas para uso, que determina quais métricas serão utilizadas para o calculo da pontuação de cada grupo. Uma vez que há apenas duas abas, a alteração do campo de peso para avaliação de uma aba automaticamente alterará o campo de peso para avaliação da outra aba para complementar a soma de 100\% sem precisar de validações.
 
 \begin{figure}[H]
     \centering
@@ -1347,7 +1363,7 @@ A alteração do campo de métricas para uso implicará na presença de mais ou 
 
 \subsubsection{Configurações para Planejamento}
 
-Ao clicar a opção do menu "Planejamento", é exibida a tela ilustrada na Figura \ref{fig:configPlanejamento}. Ela possui quatro opções, relativas às estratégias desenvolvidas na parte de análise do componente MAPE-K. Ao clicar no botão "Salvar" localizado no canto superior direito, são chamadas requisições que salvam os arquivos necessários e é exibida uma indicação de sucesso no canto inferior esquerdo.
+Ao clicar a opção do menu "Planejamento", é exibida a tela ilustrada na Figura \ref{fig:configPlanejamento}. Ela possui quatro opções, relativas às estratégias desenvolvidas na parte de análise do Gerenciador Autonômico. Ao clicar no botão "Salvar" localizado no canto superior direito, são chamadas requisições que salvam os arquivos necessários e é exibida uma indicação de sucesso no canto inferior esquerdo.
 
 \begin{figure}[H]
     \centering
@@ -1357,7 +1373,7 @@ Ao clicar a opção do menu "Planejamento", é exibida a tela ilustrada na Figur
     \label{fig:configPlanejamento}
 \end{figure}
 
-Uma das quatro estratégias está desabilitada pois foi desenvolvida como a estratégia padrão usada pelo componente MAPE-K. Se a estratégia de restrição de algoritmos for selecionada, é exibido um submenu contendo as combinações de algoritmos que podem ser selecionadas que são salvas em um arquivo separado para serem filtrados na etapa de planejamento. Se a estratégia de restrição por um limiar de pontuação for selecionada, é exibido um slider com uma pontuação mínima e uma pontuação máxima, e ambas as pontuações são salvas em um arquivo separado para serem filtrados na etapa de planejamento.
+Se a estratégia de restrição de algoritmos for selecionada, é exibido um submenu contendo as combinações de algoritmos que podem ser selecionadas que são salvas em um arquivo separado para serem filtrados na etapa de planejamento. Se a estratégia de restrição por um limiar de pontuação for selecionada, é exibido um slider com uma pontuação mínima e uma pontuação máxima, e ambas as pontuações são salvas em um arquivo separado para serem filtrados na etapa de planejamento.
 
 \subsubsection{Execução simples do Workflow}
 
@@ -1397,12 +1413,12 @@ Ao clicar a opção do menu "Pipeline Autônomo", é exibida a tela ilustrada na
 \begin{figure}[H]
     \centering
     \subfigure[fig:pipelineAutonomo1][Opções para configurar o workflow de forma autônoma.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Parametros.png}}
-    \subfigure[fig:pipelineAutonomo2][Análise do componente MAPE-K em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Analise.png}}
+    \subfigure[fig:pipelineAutonomo2][Análise do Gerenciador Autonômico em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Analise.png}}
     \caption{Execução autônoma do Workflow.}
     \label{fig:pipelineAutonomo}
 \end{figure}
 
-Após a etapa de análise ser concluída, a indicação de etapa é atualizada para a etapa de opções, conforme ilustração na Figura \ref{fig:pipelineAutonomoSelecao}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes nas Figuras \ref{fig:pipelineManualInfo} e \ref{fig:pipelineManualMetricas} e podem ser consultados para selecionar a melhor escolha possível das 5 melhores sugestões de acordo com a pontuação calculada, podendo contestar ou não a melhor escolha sugerida pelo componente MAPE-K.
+Após a etapa de análise ser concluída, a indicação de etapa é atualizada para a etapa de opções, conforme ilustração na Figura \ref{fig:pipelineAutonomoSelecao}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes nas Figuras \ref{fig:pipelineManualInfo} e \ref{fig:pipelineManualMetricas} e podem ser consultados para selecionar a melhor escolha possível das 5 melhores sugestões de acordo com a pontuação calculada, podendo contestar ou não a melhor escolha sugerida pelo Gerenciador Autonômico.
 
 \begin{figure}[H]
     \centering
@@ -1425,20 +1441,20 @@ Ao clicar novamente no botão "Executar" localizado no canto superior direito, �
 
 \chapter{Estudo de Caso 1: Classificação de Crédito (German Credit Dataset)}
 
-Neste Estudo de Caso, o maior foco foi colocado em testar e verificar como o MAPE-K se comporta em um cenário com diversas execuções prévias de \textit{Workflows}. Como as execuções geraram uma base de conhecimento, o componente MAPE-K pode executar uma análise através destes dados e determinar um plano indicando a gama de algoritmos que utilizará para obter melhores resultados. Foram notados resultados em outras escolhas realizadas para a construção desta aplicação, mas que serão melhor discutidos nos estudos seguintes.
+Neste Estudo de Caso, o maior foco foi colocado em testar e verificar como o \mbox{MAPE-K} se comporta em um cenário com diversas execuções prévias de \textit{Workflows}. Como as execuções geraram uma base de conhecimento, o Gerenciador Autonômico pode executar uma análise através destes dados e determinar um plano indicando a gama de algoritmos que utilizará para obter melhores resultados. Foram notados resultados em outras escolhas realizadas para a construção desta aplicação, mas que serão melhor discutidos nos estudos seguintes.
 
 \section{Contexto e limitações}
 
-Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objetivo:
+O experimento foi realizado com o seguinte conjunto de dados e dado o seguinte contexto:
 
 \begin{itemize}
-\item \textbf{Objetivo:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}
+\item \textbf{Contexto:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}
 
 \item \textbf{Conjunto de dados:} German Credit Dataset, presente em \citep{ucigerman_2021}.
 
 \item \textbf{Transformações realizadas no conjunto de dados:} Mudanças nos valores dos atributos para valores de interpretação mais simples, para que o Cientista de Dados possa categorizar o dado posteriormente e de forma mais fácil no \textit{Workflow}.
 
-\item \textbf{Atributos protegidos:} Idade, ou Nacionalidade
+\item \textbf{Atributos protegidos:} Idade ou Nacionalidade
 
 \item \textbf{Grupo privilegiado:} Idade maior ou igual a 25 anos; Nacionalidade Alemã
 
@@ -1453,7 +1469,7 @@ Para realizar este experimento, foi considerado o seguinte objetivo e considerad
 
 \item \textbf{Medição:} Serão medidas as pontuações de cada agrupamento de métricas (Performance e Fairness), e tais métricas também serão comparadas com o valor de cada uma para verificar seu impacto na pontuação.
 
-\item \textbf{Obtenção dos dados:} A execução do \textit{Pipeline} utilizando o componente MAPE-K foi realizada com 3 pesagens diferentes na pontuação geral:
+\item \textbf{Obtenção dos dados:} A execução do \textit{Pipeline} utilizando o Gerenciador Autonômico foi realizada com 3 pesagens diferentes na pontuação geral:
 
 \begin{itemize}
 \item 50\% para métricas de Performance e 50\% para métricas de Fairness, para uma configuração equilibrada.
@@ -1465,11 +1481,11 @@ Em todas as execuções são utilizadas as métricas Acurácia, Precisão, \text
 
 \item \textbf{Pré-condição 1:} Houveram \textit{workflows} que já foram pré-executados e já formaram uma base de conhecimento. Para o experimento, foi considerado ao menos 1 execução para cada combinação de conjunto de dados, atributo protegido e algoritmos utilizados.
 
-\item \textbf{Pré-condição 2:} A base de conhecimento será capaz de explicar a imparcialidade/justiça de um modelo, mas não será capaz de explicar a influência de cada \textit{feature} aplicada no modelo.
+\item \textbf{Pré-condição 2:} A base de conhecimento gerada para uso do MAPE-K terá atributos para verificar performance a imparcialidade/justiça de um modelo, mas não terá atributos para verificar a influência de cada \textit{feature} aplicada no modelo.
 
 \item \textbf{Pré-condição 3:} Podem existir ruídos nos resultados finais devido ao German Credit Dataset ser uma base de dados com poucas amostras (apenas 1000), mas eles serão desconsiderados uma vez que o conjunto de dados ainda é considerado como \textit{benchmark} em alguns trabalhos acadêmicos \citep{Kamiran_2011}~\citep{Feldman_2015}~\citep{Celis_2019} e seus dados exemplificam muito bem uma situação real onde dados sensíveis podem ser utilizados e são possíveis de afetar a decisão de um modelo e, consequentemente, a situação de vida de uma pessoa.
 
-\item \textbf{Restrição 1:} O algoritmo de retirada de viés é feito em apenas uma parte das etapas (Pré-processamento/Processamento/Pós-processamento). Isto foi decidido pois não foram verificadas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta no desempenho.
+\item \textbf{Restrição 1:} O algoritmo de retirada de viés é feito em apenas uma parte das etapas (Pré-processamento/Processamento/Pós-processamento). Isto foi decidido pois não foram verificadas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta em melhora nas métricas de \textit{Fairness}.
 
 \item \textbf{Restrição 2:} Por não conseguirem rodar com sucesso, foram retirados os \textit{Workflows} que rodaram os seguintes algoritmos: Pré-processamento Otimizado.
 
@@ -1539,14 +1555,14 @@ Nacionalidade & Learning Fair Representations & Support Vector Machines & Nenhum
 \end{center}
 \end{table}
 
-Nessas execuções, surpreende 2 observações. A primeira é o fato da predominância de algoritmos com redução de viés no pós-processamento/resultado especialmente em configurações que priorizavam performance, contrariando o esperado de que os algoritmos com redução de viés aumentavam justiça em detrimento da performance. A segunda é a predominância de algoritmos com redução de viés no pré-processamento/dado em configurações que priorizavam justiça, principalmente pois todos as execuções usavam \textit{Support Vector Machines} como algoritmo de treinamento.
+Nessas execuções, surpreende 2 observações. A primeira é o fato da predominância de algoritmos com redução de viés na etapa de pós-processamento especialmente em configurações que priorizavam performance, contrariando o esperado de que os algoritmos com redução de viés aumentavam justiça em detrimento da performance. A segunda é a predominância de algoritmos com redução de viés na etapa de pré-processamento em configurações que priorizavam justiça, principalmente pois todos as execuções usavam \textit{Support Vector Machines} como algoritmo de treinamento.
 
 Diante destas 2 predominâncias envolvendo todos os \textit{workflows} executados, novos experimentos com restrições adicionais foram realizados para obter observações mais detalhadas a respeito dos resultados:
 
 \begin{itemize}
-\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no pré - processamento/dado.
-\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no processamento/treinamento.
-\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no pós - processamento/resultado.
+\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés na etapa de \mbox{pré-processamento} (manipulação de dados).
+\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no \mbox{processamento} (treinamento).
+\item Uso apenas de \textit{workflows} com o uso de algoritmos com redução de viés no \mbox{pós-processamento} (manipulação do resultado final).
 \item Uso apenas de \textit{workflows} sem o uso de algoritmos com redução de viés.
 \end{itemize}
 
@@ -2047,23 +2063,11 @@ Após a verificação das pontuações, foram catalogadas todas as métricas de 
         \end{center}
     \end{table}
 
-Com estes dados, é possível reforçar com clareza observações notadas anteriormente: Boas métricas de Performance nos casos onde algoritmos com redução de viés no resultado foram utilizados, boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, mudanças nas métricas de \textit{Fairness} dependendo do algoritmo de treinamento ou do atributo protegido utilizado independente de utilizar redução de viés no \textit{workflow} ou não. Este reforço comprova que o cálculo utilizado para a etapa de Análise no componente MAPE-K foi eficaz em consolidar as métricas existentes sem afetar a análise dos resultados.
+Com estes dados, é possível reforçar com clareza observações notadas anteriormente: Boas métricas de Performance nos casos onde algoritmos com redução de viés no resultado foram utilizados, boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, mudanças nas métricas de \textit{Fairness} dependendo do algoritmo de treinamento ou do atributo protegido utilizado independente de utilizar redução de viés no \textit{workflow} ou não. Este reforço comprova que o cálculo utilizado para a etapa de Análise no Gerenciador Autonômico foi eficaz em consolidar as métricas existentes sem afetar a análise dos resultados.
 
 Entretanto, perceber qual \textit{workflow} possui o melhor equilíbrio entre estes dois grupos de métricas com contextos completamente diferentes ainda se torna difuso diante da grande quantidade de métricas e conjuntos de algoritmos utilizados. Além disso, a diferença entre as métricas é extremamente pequena e dificulta ainda mais a escolha. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais \textit{workflows} são mais equilibrados, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação.
 
 Deste modo, pode-se concluir também que, em um contexto de desenvolvimento, o processo simplifica a decisão do Cientista de Dados e reduz significantemente o tempo para obtenção e implantação de um modelo otimizado, pois não exigirá execuções em diversos algoritmos uma vez que já há uma base de conhecimento prévia. Além disso, poderá poupar processamento e custos para a resolução de diversos outros problemas, uma vez que as execuções economizadas pelas equipes que utilizariam esse processo abrem margem para que outras equipes utilizem esse processamento.
-
-O uso da AI Reference Architecture para definição dos papeis permite visualizar com clareza quais pessoas, quais etapas e projetos para desenvolvimento de funcionalidades e aplicações são necessários para ir da obtenção dos dados, passando pela implantação do modelo até chegar ao consumo pelo cliente final. Deste modo, é possível traçar melhores planejamentos para desenvolvimento de uma aplicação baseada em Inteligência Artificial.
-
-O uso de \textit{Assurance Cases} permitiu uma melhor visualização em no contexto da aplicação a ser implementada, com suas funcionalidades, objetivos e algoritmos a serem implementados e cumpridos. Desta forma, também é possível dividir melhor as tarefas para uma equipe implementá-la e permitir que todos os membros tenham uma visão de todos os detalhes a serem implementados e testados.
-
-Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o \textit{workflow} para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um \textit{workflow} muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
-
-Embora o MAPE-K permita o desenvolvimento de uma aplicação autônoma, isso não significa que ela seja seja completamente automatizada para qualquer problema relacionado a \textit{Machine Learning}, necessitando de ação humana para funcionar. A principal limitação por parte do desenvolvimento é que a biblioteca AIF360 suporta apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do MAPE-K ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado.
-
-Ao usar uma interface humano-computador para intermediar as interações entre o componente MAPE-K e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{workflow} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através de um componente orquestrador das etapas do MAPE-K. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários.
-
-O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps, uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. Isso necessitaria de algumas adaptações, como um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço, funcionalidades como opções para notificação em casos como piora das métricas e opções de visualização dos dados, e modificações no \textit{workflow} para deixá-lo mais flexível, robusto e com suporte a técnicas bastante utilizadas em \textit{Machine Learning} como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation}.
 
 \chapter{Estudo de Caso 2: Classificação de Crédito (Lendingclub Dataset) e evolução do sistema}
 
@@ -2071,10 +2075,10 @@ Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um nov
 
 \section{Contexto e limitações}
 
-Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objetivo:
+O experimento foi realizado com o seguinte conjunto de dados e dado o seguinte contexto:
 
 \begin{itemize}
-\item \textbf{Objetivo:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}.
+\item \textbf{Contexto:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}.
 
 \item \textbf{Conjunto de dados:} Lendingclub Dataset, presente em \citep{lendingclub_2022}.
 
@@ -2095,11 +2099,11 @@ Para realizar este Estudo de Caso, foi considerado o seguinte objetivo e conside
 
 \item \textbf{Medição:} Além das medições do Estudo de Caso 1, serão medidas a quantidade de linhas modificadas e sua relação com a quantidade de linhas escritas.
 
-\item \textbf{Obtenção dos dados:} A execução do Workflow utilizando o componente MAPE-K foi realizada nas mesmas condições do Estudo de Caso 1. A contagem de linhas e arquivos foi realizada executando o comando \textbf{find ./src -name '*.py' | xargs wc -l} para os arquivos Python e o comando \textbf{find ./ml-ui/src -name '*.js' | xargs wc -l} para os arquivos Javascript presentes no projeto, excluindo-se os arquivos \textbf{\_\_init\_\_.py} que não possuem linhas de código e são criados apenas para o Python utilizar códigos de arquivos que estão dentro de outras pastas.
+\item \textbf{Obtenção dos dados:} A execução do Workflow utilizando o Gerenciador Autonômico foi realizada nas mesmas condições do Estudo de Caso 1. A contagem de linhas e arquivos foi realizada executando o comando \textbf{find ./src -name '*.py' | xargs wc -l} para os arquivos Python e o comando \textbf{find ./ml-ui/src -name '*.js' | xargs wc -l} para os arquivos Javascript presentes no projeto, excluindo-se os arquivos \textbf{\_\_init\_\_.py} que não possuem linhas de código e são criados apenas para o Python utilizar códigos de arquivos que estão dentro de outras pastas.
 
 \item \textbf{Pré-condições:} Por se tratar de um outro conjunto de dados, as pré-condições 1 e 2 do Estudo de Caso 1 foram mantidas, e a pré-condição 3 foi desconsiderada.
 
-\item \textbf{Restrições:} As 4 restrições determinadas no Estudo de Caso 1 foram mantidas, com uma diferença: Na Restrição 4, como o \textit{Lendingclub Dataset} possui resultados mais eficientes do que o \textit{German Credit Dataset}, o intervalo de pontuação para análise foi ampliado de 500 a 980, mas as motivações para esse valor permanecem as mesmas.
+\item \textbf{Restrições:} As 4 restrições determinadas no Estudo de Caso 1 foram mantidas, com uma diferença: Na Restrição 4, como o \textit{Lendingclub Dataset} possui métricas com valores melhores do que as apresentadas no \textit{German Credit Dataset}, o intervalo de pontuação para análise foi ampliado de 500 a 980, mas as motivações para esse valor permanecem as mesmas.
 \end{itemize}
 
 \section{Resultados e Discussões}
@@ -2178,7 +2182,7 @@ Parte do Sistema & \makecell{Quantidade de\\linhas alteradas} & Total de linhas 
 \hline
 \makecell{Transformação do\\Conjunto de Dados} & 122 & 277 & 2 & 3 & \textbf{44,04\%} & \textbf{66,67\%} \\
 \textit{Workflow} de IA & 76 & 1982 & 5 & 38 & \textbf{3,84\%} & \textbf{13,16\%} \\
-Componente MAPE-K & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
+Gerenciador Autonômico & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
 \makecell{Interface Humano-Computador\\(\textit{Frontend})} & 13 & 2905 & 2 & 14 & \textbf{0,45\%} & \textbf{14,29\%} \\
 \makecell{Interface Humano-Computador\\(\textit{Backend})} & 4 & 432 & 1 & 7 & \textbf{0,93\%} & \textbf{14,29\%} \\
 \hline
@@ -2187,7 +2191,7 @@ Componente MAPE-K & 0 & 457 & 0 & 10 & \textbf{0,00\%} & \textbf{0,00\%} \\
 \end{center}
 \end{table}
 
-A primeira conclusão que é possível discutir é que a adição do conjunto de dados não exigiu modificações no Componente MAPE-K, mesmo os resultados sendo completamente diferentes do Estudo de Caso 1. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Componente MAPE-K só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o \textit{Workflow}. 
+A primeira conclusão que é possível discutir é que a adição do conjunto de dados não exigiu modificações no Gerenciador Autonômico, mesmo os resultados sendo completamente diferentes do Estudo de Caso 1. Isto reforça a autonomia proposta no MAPE-K, possibilitando escolhas diferentes baseadas nos metadados presentes no \textit{Workflow} sem realizar modificações. O Gerenciador Autonômico só exigirá modificações se os metadados salvos do \textit{Workflow} forem modificados, ou se modificar alguma configuração intrínseca ao próprio MAPE-K, que não possui nenhuma relação com o \textit{Workflow}. 
 
 Os elementos na Interface Humano-Computador exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no \textit{Workflow} de IA e nas Transformações do Conjunto de Dados, principalmente deste último. Das modificações no \textit{Workflow} de IA, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipes-and-Filters} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o \textit{workflow} (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
 
@@ -2218,10 +2222,10 @@ Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um nov
 
 \section{Contexto e limitações}
 
-Foram realizados testes com o seguinte conjunto de dados e dado o seguinte objetivo:
+O experimento foi realizado com o seguinte conjunto de dados e dado o seguinte contexto:
 
 \begin{itemize}
-\item \textbf{Objetivo:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}.
+\item \textbf{Contexto:} Obter classificação de crédito (boa ou ruim), através de uma série de \textit{features}.
 
 \item \textbf{Conjunto de dados:} Lendingclub Dataset, presente em \citep{lendingclub_2022}.
 
@@ -2261,12 +2265,11 @@ Foi realizada uma sessão de desenvolvimento com um outro desenvolvedor, durando
 \item \textbf{Correções na documentação} - Foram colocados modificações em métodos que faltaram constar na documentação para obter certas parametrizações do \textbf{Workflow}, além de deixar mais explícito onde cada arquivo se encontra.
 \end{itemize}
 
-Por causa de alguns itens presentes acima, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário presente no Apêndice \ref{ann:Questionary}, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora  e a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida. Dada a afirmação, é possível concluir que as decisões arquiteturais tomadas foram corretas e facilitaram o desenvolvimento de evoluções.
+Por causa de alguns itens presentes acima, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário presente no Apêndice \ref{ann:Questionary}, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida
 
 Outro item notado não apenas após o desenvolvimento, mas durante todo o desenvolvimento do \textit{workflow}, foram notados alertas de vulnerabilidades das bibliotecas utilizadas no projeto e disponibilizados no GitHub. Isso reforça o fato de que o processo de Engenharia de Software para aprimorar tal \textit{workflow} é contínuo, mas que existem certas situações que estão fora do seu escopo. A própria AIF360 é uma biblioteca que implementa vários algoritmos com redução de viés baseadas em artigos disponibilizados na comunidade acadêmica mas ainda peca pela não atualização dos mesmos, fazendo com que muitos algoritmos utilizados necessitem de bibliotecas desatualizadas para funcionar.
 
-O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes\ref{Naive_Bayes_2004}, que também é bastante difundido como classificador
-. Após o desenvolvimento, os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
+O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes\citep{Naive_Bayes_2004}, que também é bastante difundido como classificador. Após o desenvolvimento, os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
 
 \begin{table}[H]
 \begin{center}
@@ -2340,7 +2343,7 @@ Parte do Sistema & \makecell{Quantidade de\\linhas alteradas} & Total de linhas 
 \hline
 \makecell{Transformação do\\Conjunto de Dados} & 0 & 277 & 0 & 3 & \textbf{0,00\%} & \textbf{0,00\%} \\
 \textit{Workflow} de IA & 60 & 2042 & 5 & 39 & \textbf{2,94\%} & \textbf{12,82\%} \\
-Componente MAPE-K & 1 & 458 & 1 & 10 & \textbf{0,22\%} & \textbf{10,00\%} \\
+Gerenciador Autonômico & 1 & 458 & 1 & 10 & \textbf{0,22\%} & \textbf{10,00\%} \\
 \makecell{Interface Humano-Computador\\(\textit{Frontend})} & 71 & 2948 & 3 & 14 & \textbf{2,41\%} & \textbf{21,43\%} \\
 \makecell{Interface Humano-Computador\\(\textit{Backend})} & 1 & 433 & 1 & 7 & \textbf{0,23\%} & \textbf{14,29\%} \\
 \hline
@@ -2349,21 +2352,27 @@ Componente MAPE-K & 1 & 458 & 1 & 10 & \textbf{0,22\%} & \textbf{10,00\%} \\
 \end{center}
 \end{table}
 
-Desta vez, a única parte do sistema sem necessidade de modificações foi a parte de Transformação do conjunto de dados. Entretanto, a única modificação necessária no componente MAPE-K e no \textit{Backend} da Interface Humano-Computador foi a adição do Naive Bayes como parte de uma parametrização, que poderia ser transferida para um arquivo externo de configuração e não exigir modificações futuramente.
+Desta vez, a única parte do sistema sem necessidade de modificações foi a parte de Transformação do conjunto de dados. Entretanto, a única modificação necessária no Gerenciador Autonômico e no \textit{Backend} da Interface Humano-Computador foi a adição do Naive Bayes como parte de uma parametrização, que poderia ser transferida para um arquivo externo de configuração e não exigir modificações futuramente.
 
 No geral, foram exigidas menos modificações que a evolução proposta no Estudo de Caso anterior. A única parte que exigiu mais modificações foi no \textit{Frontend} da Interface Humano-Computador, em grande parte por causa de um único componente presente na tela de Configurações para Planejamento do MAPE-K. Fora esta exceção, adicionar um algoritmo é uma evolução mais simples de ser feita, e junto com a documentação criada um desenvolvedor com relativa experiência consegue executar essa tarefa sem grandes dificuldades.
 
 \chapter{Conclusões}
 
-Neste projeto, pode-se dizer que o conjunto da arquitetura de \textit{Pipes-and-Filters} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipes-and-Filters}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes dois conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada. Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura.
+Neste projeto, a AI Reference Architecture permitiu visualizar com clareza quais pessoas, quais etapas e projetos para desenvolvimento de funcionalidades e aplicações são necessários para ir da obtenção dos dados, passando pela implantação do modelo até chegar ao consumo pelo cliente final. Deste modo, é possível traçar melhores planejamentos para desenvolvimento de uma aplicação baseada em Inteligência Artificial. 
 
-Embora o \textit{Pipes-and-Filters} seja um modelo que facilite o encapsulamento e a Durante o processo de desenvolvimento do \textit{workflow}, quem desenvolve terá de equilibrar memória, armazenamento e performance. Os conjuntos de dados avaliados nos Estudos de Caso puderam ser armazenados em memória e garantir performance máxima, mas em um contexto onde \textit{gigabytes}/\textit{terabytes} de dados são consumidos diariamente é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com baixo custo, evitando gastos com infra-estrutura.
+Pode-se dizer também que o conjunto da arquitetura de \textit{Pipes-and-Filters} com a arquitetura MAPE-K se adaptou muito bem na implementação dos objetivos principais. Com a arquitetura \textit{Pipes-and-Filters}, foi possível encapsular todos os procedimentos presentes em um \textit{workflow} de uma aplicação de IA em etapas coesas e trocá-las caso haja a necessidade de teste com outro algoritmo, atributo protegido ou conjunto de dados. Com a arquitetura MAPE-K, foi possível realizar um fluxo para que os dados obtidos no processo fossem filtrados, analisados para que haja uma tomada de decisão automática. Com a junção destes conceitos, foi possível estabelecer um \textit{workflow} automatizado, dependendo apenas dos próprios dados obtidos em execuções anteriores para a automação ser executada.
+
+Entretanto, pode-se notar alguns pontos na implementação que não irão ser resolvidos apenas pela escolha da arquitetura. Embora o \textit{Pipes-and-Filters} seja um modelo que facilite o encapsulamento e a Durante o processo de desenvolvimento do \textit{workflow}, quem desenvolve terá de equilibrar memória, armazenamento e performance. Os conjuntos de dados avaliados nos Estudos de Caso puderam ser armazenados em memória e garantir performance máxima, mas em um contexto onde \textit{gigabytes}/\textit{terabytes} de dados são consumidos diariamente é necessário sacrificar performance e realizar as operações em dispositivos de armazenamento para manter a aplicação estável e com baixo custo, evitando gastos com infra-estrutura.
+
+Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o \textit{workflow} para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um \textit{workflow} muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
+
+Entretanto, não é recomendável uma autonomia completa devido aos problemas ainda enfrentados pelo tema \textit{Fairness}. A literatura revisada sobre \textit{Fairness} verifica apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do Gerenciador Autonômico ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado e justo.
 
 A qualidade dos dados coletados pelo Gerenciador Autonômico também é um ponto que deverá ser observado conforme o uso do sistema for crescente: É possível ter resultados fora do comum (\textit{outliers}), alguns atributos podem não permitir uma avaliação acurada, ou a quantidade de atributos pode não ser suficiente para avaliar após evoluções no processo de análise. É preciso realizar processos de limpeza dos dados conforme novas execuções no \textit{workflow} e atualizações no Gerenciador Autonômico forem realizadas.
 
-Embora MAPE-K permita o desenvolvimento de uma aplicação autônoma, não é recomendável uma autonomia completa devido aos problemas ainda enfrentados pelo tema \textit{Fairness}. A literatura revisada sobre \textit{Fairness} verifica apenas problemas de classificação binária, e para evoluções e novos métodos é provável que ocorram refatorações no \textit{workflow}. Também há de se considerar que, mesmo que o \textit{workflow} evolua para abrigar outros tipos de problemas, o contexto do problema é importante ao se avaliar se o modelo é considerado bom ou não. O uso de pesos para as métricas e diferentes estratégias nas fases de análise e planejamento do Gerenciador Autonômico ajudam a definir o contexto para uma avaliação, mas ainda vai depender de um Cientista de Dados e/ou de um especialista de Domínio para entender quais as necessidades do problema analisado e se os resultados são aceitáveis para a publicação de um modelo otimizado e justo.
+Apesar da autonomia tornar o processo de decisão por uma gama de algoritmos mais simples e rápido para o Cientista de Dados, o número de configurações necessárias para dar autonomia ao \textit{workflow} pode ser um entrave para que este opte por este tipo de abordagem e fique com a abordagem mais tradicional. Este fato, além de mostrar a importância de uma boa documentação para facilitar o entendimento da pessoa que irá usar a solução, mostra como a interface humano-computador simplifica o entendimento do processo utilizado para a obtenção do \textit{workflow} e pode ser um caminho mais interessante para uma maior adoção do que a implementação de configurações no próprio projeto, que são mais simples de serem implementadas mas podem ser consideradas frustrantes para uma pessoa fora deste processo de desenvolvimento. 
 
-Apesar da autonomia tornar o processo de decisão por uma gama de algoritmos mais simples e rápido para o Cientista de Dados, o número de configurações necessárias para dar autonomia ao \textit{workflow} pode ser um entrave para que este opte por este tipo de abordagem e fique com a abordagem mais tradicional. Este fato, além de mostrar a importância de uma boa documentação para facilitar o entendimento da pessoa que irá usar a solução, mostra como a interface humano-computador simplifica o entendimento do processo utilizado para a obtenção do \textit{workflow} e pode ser um caminho mais interessante para uma maior adoção do que a implementação de configurações no próprio projeto, que são mais simples de serem implementadas mas podem ser consideradas frustrantes para uma pessoa fora deste processo de desenvolvimento. Por fim, a AI Reference Architecture e os \textit{Assurance Cases} são bons guias para evoluir a ideia de uma aplicação de IA de um contexto generalizado para um foco maior nos pequenos detalhes a serem realizados dentro da fase de desenvolvimento, e a evolução deste método para um foco mais profundo nos problemas de MLOps é um caminho interessante a ser seguido. 
+Ao usar uma interface humano-computador para intermediar as interações entre o Gerenciador Autonômico e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em uma espécie de \textit{workflow} completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através do Gerenciador Autonômico. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários. O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps, uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. 
 
 Como trabalhos futuros, é possível trabalhar com algumas possibilidades. No Gerenciador Autonômico, o Analisador pode realizar uma análise mais profunda aumentando o número de indicadores e considerando grupos além de métricas de \textit{Fairness} e métricas de Performance. No \textit{workflow}, introduzir técnicas para melhora dos resultados como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation} e introduzir soluções para \textit{AI Explainability} como forma de garantir mais transparência. Também é possível mudar o foco para solucionar problemas de MLOps, utilizando o Gerenciador Autonômico para determinar um melhor deploy em caso de piora nas métricas de um modelo já utilizado por clientes, além de funcionalidades como notificação para tais casos de diminuição de métricas, mecanismos para deploy dos modelos obtidos, opções de visualização dos dados, um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço.
 
@@ -2388,7 +2397,7 @@ Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Softwa
     \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
     \begin{itemize}
         \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
-        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Componente MAPE-K.
+        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Gerenciador Autonômico.
     \end{itemize}
 \end{itemize}
 
@@ -2572,16 +2581,16 @@ Ele vai iniciar o navegador acessando um servidor na porta 3000, e deverá inici
 
 \section{Introdução}
 
-Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 etapas principais:
+Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 módulos principais:
 
 \begin{itemize}
     \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
     \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
-    \item {\textbf{Autonomia do Workflow (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
+    \item {\textbf{Autonomia do Workflow (Gerenciador Autonômico):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
     \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
     \begin{itemize}
         \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
-        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Componente MAPE-K.
+        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Gerenciador Autonômico.
     \end{itemize}
 \end{itemize}
 
