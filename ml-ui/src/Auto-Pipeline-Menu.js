@@ -197,13 +197,13 @@ function AutoPipelineMenu(props) {
                                 <td>{pipelineResults.preprocessor}</td>
                               </tr>
                               <tr>
-                                <td>Algoritmo de redução de viés no dado</td>
+                                <td>Algoritmo de redução de viés no {/*dado*/}pré-processamento</td>
                                 <td>{pipelineResults.unbias_data_algorithm}</td>
                               </tr>
                               <tr>
-                                <td>Algoritmo de treinamento (redução de viés: {pipelineResults.unbias_data_algorithm === 'UnbiasDataAlgorithms.NOTHING' 
-                                                                                && pipelineResults.unbias_postproc_algorithm === 'UnbiasDataAlgorithms.NOTHING' ? 
-                                                                                'Sim' : 'Não'})</td>
+                                <td>Algoritmo de treinamento (redução de viés: {pipelineResults.inproc_algorithm.startsWith('UnbiasInProcAlgorithms') ? 
+                                                                                'Sim' : 
+                                                                                'Não'})</td>
                                 <td>{pipelineResults.inproc_algorithm}</td>
                               </tr>
                               <tr>
@@ -223,9 +223,9 @@ function AutoPipelineMenu(props) {
                         id={'panel2bh-header-'+index}
                       >
                         <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                          Métricas de Performance
+                          Métricas de {/*Performance*/}Avaliação
                         </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a performance do modelo de execução mais recente</Typography>
+                        <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a {/*performance*/}qualidade do modelo de execução mais recente</Typography>
                       </AccordionSummary>
                       <AccordionDetails>
                         <Typography>
@@ -324,7 +324,7 @@ function AutoPipelineMenu(props) {
                           <table>
                             <tbody>
                               <tr>
-                                <td>Pontuação das métricas de performance</td>
+                                <td>Pontuação das métricas de {/*performance*/}avaliação</td>
                                 <td>{pipelineResults.scores.performance_score}</td>
                               </tr>
                               <tr>
@@ -378,13 +378,13 @@ function AutoPipelineMenu(props) {
                             <td>{finalPipelineResults.preprocessor}</td>
                           </tr>
                           <tr>
-                            <td>Algoritmo de redução de viés no dado</td>
+                            <td>Algoritmo de redução de viés no {/*dado*/}pré-processamento</td>
                             <td>{finalPipelineResults.unbias_data_algorithm}</td>
                           </tr>
                           <tr>
-                            <td>Algoritmo de treinamento (redução de viés: {finalPipelineResults.unbias_data_algorithm === 'UnbiasDataAlgorithms.NOTHING' 
-                                                                            && finalPipelineResults.unbias_postproc_algorithm === 'UnbiasDataAlgorithms.NOTHING' ? 
-                                                                            'Não' : 'Sim'})</td>
+                            <td>Algoritmo de treinamento (redução de viés: {finalPipelineResults.inproc_algorithm.startsWith('UnbiasInProcAlgorithms') ? 
+                                                                                'Sim' : 
+                                                                                'Não'})</td>
                             <td>{finalPipelineResults.inproc_algorithm}</td>
                           </tr>
                           <tr>
@@ -416,9 +416,9 @@ function AutoPipelineMenu(props) {
                     id="panel2bh-header"
                   >
                     <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                      Métricas de Performance
+                      Métricas de {/*Performance*/}Avaliação
                     </Typography>
-                    <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a performance do modelo</Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a {/*performance*/}qualidade do modelo</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
@@ -517,7 +517,7 @@ function AutoPipelineMenu(props) {
                       <table>
                         <tbody>
                           <tr>
-                            <td>Pontuação das métricas de performance</td>
+                            <td>Pontuação das métricas de {/*performance*/}avaliação</td>
                             <td>{finalPipelineResults.scores.performance_score}</td>
                           </tr>
                           <tr>

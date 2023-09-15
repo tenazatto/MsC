@@ -404,14 +404,14 @@ function PlanningMenu(props) {
               control={
                 <Checkbox checked={planningState.ml_pipeline} onChange={handleChange} name="ml_pipeline" disabled />
               }
-              label="Escolher o modelo com a melhor pontuação"
+              label="Escolher modelos com melhores pontuações"
             />
-            <FormControlLabel
+            {/*<FormControlLabel
               control={
                 <Checkbox checked={planningState.ml_data_checksum} onChange={handleChange} name="ml_data_checksum" />
               }
               label="Escolher o modelo de acordo com os dados mais recentes encontrados em execuções prévias"
-            />
+            />*/}
             <FormControlLabel
               control={
                 <Checkbox checked={planningState.ml_algorithm_validation} onChange={handleChange} name="ml_algorithm_validation" />
@@ -454,7 +454,7 @@ function PlanningMenu(props) {
               <span style={{whiteSpace: 'nowrap'}}>{thresholdValue[0]} </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} getAriaLabel={() => 'Threshold'} value={thresholdValue} max={1000} onChange={handleThresholdChange} /><span> {thresholdValue[1]}</span>
             </Box> : ''}
           </FormGroup>
-          <FormHelperText>OBS: Selecionar ou não selecionar determinadas estratégias podem causar impactos caso certas etapas de análise não forem selecionadas</FormHelperText>
+          {/*<FormHelperText>OBS: Selecionar ou não selecionar determinadas estratégias podem causar impactos caso certas etapas de análise não forem selecionadas</FormHelperText>*/}
         </FormControl>
 
         <Snackbar open={validPlanningVisible} autoHideDuration={6000} onClose={handleCloseSuccessToast}>

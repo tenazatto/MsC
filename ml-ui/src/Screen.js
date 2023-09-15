@@ -144,7 +144,7 @@ export default function Screen() {
         </div>
         <Divider />
         <List>
-          {['Análise', 'Métricas', 'Planejamento'].map((text, index) => (
+          {['Análise',/* 'Métricas',*/ 'Planejamento'].map((text, index) => (
             <ListItemButton
               key={text}
               onClick={() => setChoice(text)}
@@ -162,7 +162,7 @@ export default function Screen() {
                 }}
               >
                 {index === 0 ? <InsightsIcon /> : 
-                 index === 1 ? <LeaderboardIcon /> : 
+                 /*index === 1 ? <LeaderboardIcon /> : */
                                <NextPlanIcon />}
               </ListItemIcon>
               <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />

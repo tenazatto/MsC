@@ -9,10 +9,10 @@ import AutoPipelineMenu from './Auto-Pipeline-Menu'
 function MenuChoice(props) {
   const chosenComponent = (choice) => {
     if (choice === 'Análise') {
-      return (
+    /*  return (
         <AnalysisMenu />
       );
-    } else if (choice === 'Métricas') {
+    } else if (choice === 'Métricas') {*/
       return (
         <MetricsMenu />
       );

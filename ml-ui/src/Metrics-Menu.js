@@ -312,7 +312,7 @@ function MetricsMenu(props) {
       if ((fairnessMetricSum < 100 && performanceMetricSum < 100) || (fairnessMetricSum > 100 && performanceMetricSum > 100)) {
         valid = {
           isValid: false, 
-          errorMessage: 'A soma dos pesos para as métricas de Fairness e de Performance estão '
+          errorMessage: 'A soma dos pesos para as métricas de Fairness e de Avaliação estão '
                         + ((fairnessMetricSum < 100 && performanceMetricSum < 100) ? 'menores' : 'maiores') + ' do que 100%'
         };
       } else if ((fairnessMetricSum < 100 && performanceMetricSum > 100) || (fairnessMetricSum > 100 && performanceMetricSum < 100)) {
@@ -321,7 +321,7 @@ function MetricsMenu(props) {
           errorMessage: ['A soma dos pesos para as métricas de Fairness está ' 
                         + ((fairnessMetricSum < 100) ? 'menor' : 'maior') + ' do que 100%',
                         <br/>,
-                        'A soma dos pesos para as métricas de Performance está '
+                        'A soma dos pesos para as métricas de Avaliação está '
                         + ((performanceMetricSum < 100) ? 'menor' : 'maior') + ' do que 100%']
 
         };
@@ -334,7 +334,7 @@ function MetricsMenu(props) {
       } else if (performanceMetricSum !== 100) {
         valid = {
           isValid: false,
-          errorMessage: 'A soma dos pesos para as métricas de Performance está '
+          errorMessage: 'A soma dos pesos para as métricas de Avaliação está '
                         + ((performanceMetricSum < 100) ? 'menor' : 'maior') + ' do que 100%'
         };
       } else {
@@ -550,7 +550,7 @@ function MetricsMenu(props) {
     <form onSubmit={saveMetricWeights}>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <span>
-          <h2 style={{display: 'inline-block'}}>Métricas</h2>
+          <h2 style={{display: 'inline-block'}}>{/*Métricas*/}Análise</h2>
           <Button variant="contained" type="submit" style={{float: 'right'}} endIcon={<SaveIcon />}>Salvar</Button>
         </span>
 
@@ -578,35 +578,35 @@ function MetricsMenu(props) {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                   {accPerformanceMetricVisible ? 
                   <Grid item xs={6}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[0].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[0].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={accPerformanceMetricValue} onChange={(event, value) => handleChangeSlider(performanceMetrics[0].key, value)} /><span> {accPerformanceMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {prcPerformanceMetricVisible ? 
                   <Grid item xs={6}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[1].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[1].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={prcPerformanceMetricValue} onChange={(event, value) => handleChangeSlider(performanceMetrics[1].key, value)} /><span> {prcPerformanceMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {rclPerformanceMetricVisible ? 
                   <Grid item xs={6}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[2].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[2].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={rclPerformanceMetricValue} onChange={(event, value) => handleChangeSlider(performanceMetrics[2].key, value)} /><span> {rclPerformanceMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {fscPerformanceMetricVisible ? 
                   <Grid item xs={6}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[3].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[3].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={fscPerformanceMetricValue} onChange={(event, value) => handleChangeSlider(performanceMetrics[3].key, value)} /><span> {fscPerformanceMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {aucPerformanceMetricVisible ? 
                   <Grid item xs={6} visibility={tiFairnessMetricVisible}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[4].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{performanceMetrics[4].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={aucPerformanceMetricValue} onChange={(event, value) => handleChangeSlider(performanceMetrics[4].key, value)} /><span> {aucPerformanceMetricValue + '%'}</span>
                     </Box>
@@ -632,35 +632,35 @@ function MetricsMenu(props) {
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                   {spdFairnessMetricVisible ? 
                   <Grid item xs={6}>
-                    <span><h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[0].value}</h4><InfoOutlinedIcon /></span>
+                    <span><h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[0].value}</h4>{/*<InfoOutlinedIcon />*/}</span>
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={spdFairnessMetricValue} onChange={(event, value) => handleChangeSlider(fairnessMetrics[0].key, value)} /><span> {spdFairnessMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {eodFairnessMetricVisible ? 
                   <Grid item xs={6}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[1].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[1].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={eodFairnessMetricValue} onChange={(event, value) => handleChangeSlider(fairnessMetrics[1].key, value)} /><span> {eodFairnessMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {aodFairnessMetricVisible ? 
                   <Grid item xs={6}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[2].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[2].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={aodFairnessMetricValue} onChange={(event, value) => handleChangeSlider(fairnessMetrics[2].key, value)} /><span> {aodFairnessMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {diFairnessMetricVisible ? 
                   <Grid item xs={6}>
-                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[3].value}</h4><InfoOutlinedIcon />
+                    <h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[3].value}</h4>{/*<InfoOutlinedIcon />*/}
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={diFairnessMetricValue} onChange={(event, value) => handleChangeSlider(fairnessMetrics[3].key, value)} /><span> {diFairnessMetricValue + '%'}</span>
                     </Box>
                   </Grid> : ''}
                   {tiFairnessMetricVisible ? 
                   <Grid item xs={6} visibility={tiFairnessMetricVisible}>
-                    <span><h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[4].value}</h4><InfoOutlinedIcon /></span>
+                    <span><h4 style={{display: 'inline-block', marginRight: '5px'}}>{fairnessMetrics[4].value}</h4>{/*<InfoOutlinedIcon />*/}</span>
                     <Box sx={{ display: 'flex', width: 400 }}>
                       <span style={{whiteSpace: 'nowrap'}}>Peso p/ Avaliação: </span><Slider sx={{ marginRight: '20px', marginLeft: '20px'}} aria-label="Performance" value={tiFairnessMetricValue} onChange={(event, value) => handleChangeSlider(fairnessMetrics[4].key, value)} /><span> {tiFairnessMetricValue + '%'}</span>
                     </Box>

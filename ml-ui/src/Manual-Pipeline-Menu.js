@@ -353,13 +353,13 @@ function ManualPipelineMenu(props) {
                             <td>{pipelineResults.preprocessor}</td>
                           </tr>
                           <tr>
-                            <td>Algoritmo de redução de viés no dado</td>
+                            <td>Algoritmo de redução de viés no {/*dado*/}pré-processamento</td>
                             <td>{pipelineResults.unbias_data_algorithm}</td>
                           </tr>
                           <tr>
-                            <td>Algoritmo de treinamento (redução de viés: {pipelineResults.unbias_data_algorithm === 'UnbiasDataAlgorithms.NOTHING' 
-                                                                            && pipelineResults.unbias_postproc_algorithm === 'UnbiasDataAlgorithms.NOTHING' ? 
-                                                                            'Não' : 'Sim'})</td>
+                            <td>Algoritmo de treinamento (redução de viés: {pipelineResults.inproc_algorithm.startsWith('UnbiasInProcAlgorithms') ? 
+                                                                                'Sim' : 
+                                                                                'Não'})</td>
                             <td>{pipelineResults.inproc_algorithm}</td>
                           </tr>
                           <tr>
@@ -391,9 +391,9 @@ function ManualPipelineMenu(props) {
                     id="panel2bh-header"
                   >
                     <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                      Métricas de Performance
+                      Métricas de {/*Performance*/}Avaliação
                     </Typography>
-                    <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a performance do modelo</Typography>
+                    <Typography sx={{ color: 'text.secondary' }}>Métricas relacionadas a {/*performance*/}qualidade do modelo</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
@@ -492,7 +492,7 @@ function ManualPipelineMenu(props) {
                       <table>
                         <tbody>
                           <tr>
-                            <td>Pontuação das métricas de performance</td>
+                            <td>Pontuação das métricas de {/*performance*/}avaliação</td>
                             <td>{pipelineResults.scores.performance_score}</td>
                           </tr>
                           <tr>
