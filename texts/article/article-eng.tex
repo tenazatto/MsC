@@ -1,30 +1,34 @@
 % \documentclass[twocolumn]{article}
-\documentclass[10pt,conference]{IEEEtran}
+%\documentclass[10pt,conference]{IEEEtran}
+\RequirePackage{rotating}
+\documentclass[sigconf]{acmart}
 %\documentclass[runningheads]{llncs}
 
 \usepackage{babel}
 \usepackage{inputenc}
 \usepackage{pifont}
+\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
 
 %% Math
 \usepackage{mathtools}
-\usepackage{amsmath}
-\usepackage{commath}
+%%\usepackage{amsmath}
+%\usepackage{commath}
 
 \usepackage{amsfonts}% revise se precisa ou não
-\usepackage{nccmath}% revise se precisa ou não
+%\usepackage{nccmath}% revise se precisa ou não
 
-\usepackage[numbers]{natbib}
+%\usepackage[numbers]{natbib}
 \usepackage{multirow}
 \usepackage{makecell}
-\usepackage{graphicx}
+%%\usepackage{graphicx}
 
 \usepackage{listings}
 \usepackage{float}
 \usepackage{enumitem}
 
-\usepackage{wasysym}
-\usepackage{resizegather}
+%\usepackage{wasysym}
+%\usepackage{resizegather}
 \usepackage{rotating}
 
 %\usepackage{caption}
@@ -157,15 +161,15 @@
 %\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
 \DeclarePairedDelimiter\product{\langle}{\rangle}%
 
-\usepackage{cellspace}
-\setlength\cellspacetoplimit{6pt}
-\setlength\cellspacebottomlimit{4pt}
+%\usepackage{cellspace}
+%\setlength\cellspacetoplimit{6pt}
+%\setlength\cellspacebottomlimit{4pt}
 
 %% Units
 \usepackage{siunitx}
 
 %% Tables
-\usepackage{booktabs}
+%%\usepackage{booktabs}
 
 
 % Para acrescentar comentários ao PDF descomente:
@@ -213,6 +217,37 @@
 %		leonardo.montecchi@ntnu.no}
 %}
 
+\author{Thales Eduardo Nazatto}
+\email{tenazatto@gmail.com}
+\affiliation{%
+  \institution{University of Campinas}
+  \streetaddress{P.O. Box 1212}
+  \city{Campinas}
+  \state{São Paulo}
+  \country{Brazil}
+  \postcode{43017-6221}
+}
+
+\author{Cecília Mary Fischer Rubira}
+\email{cmrubira@ic.unicamp.br}
+\affiliation{%
+  \institution{University of Campinas}
+  \streetaddress{P.O. Box 1212}
+  \city{Campinas}
+  \state{São Paulo}
+  \country{Brazil}
+  \postcode{43017-6221}
+}
+
+\author{Leonardo Montecchi}
+\email{leonardo.montecchi@ntnu.no}
+\affiliation{%
+  \institution{Norwegian University of Science and Technology}
+  \city{Trondheim}
+  \state{Trøndelag}
+  \country{Norway}
+}
+
 %\date{
 %	\textsuperscript{1} UNICAMP, Campinas, Brazil, tenazatto@gmail.com
 %	\\
@@ -230,15 +265,72 @@
 %	\textsuperscript{3} NTNU, Trondheim, Norway, leonardo.montecchi@ntnu.no\\[2ex]
 %}
 
+%\settopmatter{printacmref=false}
+%\setcopyright{none}
+%\renewcommand\footnotetextcopyrightpermission[1]{}
+\setcopyright{acmcopyright} % if you give the rights to ACM
+\acmDOI{11.1111/1111111.1111111} % DOI - Insert your DOI below...
+\acmISBN{111-1-1111-1111-1} % ISBN - Insert your conference/workshop's ISBN below...
+\acmYear{2023} % Insert Publication year
+\copyrightyear{2023} % Insert Copyright year (typically the same as above)
+\acmPrice{0.00}
+\acmConference[LADC 2023]{12th Latin-American Symposium on Dependable and Secure Computing}{October 16-20 2023}{La Paz, Bolívia}
+
+
 \begin{document}
 
-\maketitle
+%IEEETran \maketitle
 
 \begin{abstract}
 Machine Learning (ML) is increasingly used with big data to make faster and more assertive decisions, but initial metrics to evaluate algorithms have proven limited in measuring biases that reflect society in an unexpected way. To address this, new Fairness algorithms and metrics have been created to balance discriminated groups, but it increases the complexity for Data Scientists to develop the best models. This article focuses on Machine Learning solutions from a Software Engineering point of view, presenting a Workflow that uses the MAPE-K architecture to determine which algorithm has the best balance, without having to test many techniques. Several case studies were carried out to verify the feasibility of MAPE-K in solving problems, and if the solution can be easily extended to allow the use of more algorithms. This can help ML Specialists to do Software Engineering studies on applications with responsible use of data.
+\end{abstract}
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10010147.10010257</concept_id>
+<concept_desc>Computing methodologies~Machine learning</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010520.10010521.10010542.10010548</concept_id>
+<concept_desc>Computer systems organization~Self-organizing autonomic computing</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10010520.10010521.10010522.10010526</concept_id>
+<concept_desc>Computer systems organization~Pipeline computing</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+<concept>
+<concept_id>10010520.10010575.10010579</concept_id>
+<concept_desc>Computer systems organization~Maintainability and maintenance</concept_desc>
+<concept_significance>100</concept_significance>
+</concept>
+<concept>
+<concept_id>10011007.10011074.10011092.10011096.10011097</concept_id>
+<concept_desc>Software and its engineering~Software product lines</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+<concept>
+<concept_id>10011007.10011074.10011111.10011113</concept_id>
+<concept_desc>Software and its engineering~Software evolution</concept_desc>
+<concept_significance>100</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computing methodologies~Machine learning}
+\ccsdesc[500]{Computer systems organization~Self-organizing autonomic computing}
+\ccsdesc[300]{Computer systems organization~Pipeline computing}
+\ccsdesc[100]{Computer systems organization~Maintainability and maintenance}
+\ccsdesc[300]{Software and its engineering~Software product lines}
+\ccsdesc[100]{Software and its engineering~Software evolution}
 
 \keywords{Automated Machine Learning, AI Ethics, Social Responsibility in AI, Autonomic Loop, Fairness metrics, MAPE-K}
-\end{abstract}
+
+\maketitle
+%\pagestyle{plain}
 
 \section{Introduction}
 
@@ -261,7 +353,16 @@ This structure is divided into 5 modules: Data Engineering, ML Workflow, Autonom
 
 In 2001, Paul Horn introduced the concept of Autonomic Computing as a possible solution to the growing complexity of systems at the time, where it was predicted that they would become too large and complex for even the most qualified professionals to configure and maintain. This concept qualifies computing systems that can self-manage in relation to the high-level goals given by administrators and is derived from biology, given the great variety and hierarchy of autonomous systems existant in nature and society~\citep{Kephart_2003}.
 
-To Autonomic Computing works as intended, an Autonomic Element~\citep{Abbas_2010} is implemented, a software component that manages parts of the system based on a \textit{loop} MAPE-K (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}), illustrated in Figure \ref{fig:MAPEK}. MAPE-K is a concept that constitutes a control \textit{loop}, used to monitor and control one or more Managed Elements. A Managed Element can be hardware such as a printer, software such as a database, another Autonomous Element, or specific functions such as load balancing. A MAPE-K control \textit{loop} is split as follows:
+To Autonomic Computing works as intended, an Autonomic Element~\citep{Abbas_2010} is implemented, a software component that manages parts of the system based on a MAPE-K \textit{loop} (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}). MAPE-K is a concept that constitutes a control \textit{loop}, used to monitor and control one or more Managed Elements. A Managed Element can be hardware such as a printer, software such as a database, another Autonomous Element, or specific functions such as load balancing. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{images/MAPE-K.png}
+\caption {MAPE-K architecture diagram~\citep{Abbas_2010}.}
+\label{fig:MAPEK}
+\end{figure}
+
+As illustrated in Figure \ref{fig:MAPEK}, a MAPE-K control \textit{loop} is split as follows:
 
 \begin{itemize}
 \item \textbf{Monitor:} Responsible for monitoring managed resources and collecting, aggregating and filtering data. Monitoring is done through one Sensor or more.
@@ -271,15 +372,8 @@ To Autonomic Computing works as intended, an Autonomic Element~\citep{Abbas_2010
 \item \textbf{Knowledge:} The knowledge base is central and accessible by all parts of the \textit{loop}. Separated from collected and analyzed data, it contains additional knowledge such as architectural models, goal models, policies and change plans.
 \end{itemize}
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{images/MAPE-K.png}
-\caption {MAPE-K architecture diagram~\citep{Abbas_2010}.}
-\label{fig:MAPEK}
-\end{figure}
-
 \subsection{Machine Learning}
-Machine Learning can be defined as “the practice of using algorithms to collect data, learn from it, and then make a determination or prediction about something in the world. Instead of manually implementing code to complete a particular task, the machine is `trained` using large amount of data and algorithms that give it the ability to learn how to perform tasks.
+Machine Learning can be defined as “the practice of using algorithms to collect data, learn from it, and then make a determination or prediction about something in the world. Instead of doing code manually to complete a particular task, the machine is `trained` using large amount of data and algorithms that give it the ability to learn how to perform tasks.
 
 The method for training a machine are composed by the following steps:
 
@@ -315,7 +409,7 @@ Fairness metrics differ from the metrics used for model evaluation, which have t
 To balance these metrics in a ML model, new algorithms were created to make the learning process more prepared to deal with biased data, which can be classified into three categories: 
 
 \begin{itemize}
-\item \textbf{Pre-processing:} These algorithms try to remove discrimination by transforming the data. Some examples are \textit{Disparate Impact Remover}~\citep{Feldman_2015}, \textit{Learning Fair Representations}~\citep{Zemel_2013}, \textit{Reweighing}~\citep{Kamiran_2011} and \textit{Optimized Preprocessing}~\citep{Calmon_2017}
+\item \textbf{Pre-processing:} These algorithms try to remove biased data by transforming it. Some examples are \textit{Disparate Impact Remover}~\citep{Feldman_2015}, \textit{Learning Fair Representations}~\citep{Zemel_2013}, \textit{Reweighing}~\citep{Kamiran_2011} and \textit{Optimized Preprocessing}~\citep{Calmon_2017}
 \item \textbf{Processing:} These algorithms try to mitigate discrimination during the training process. Some examples are \textit{Adversarial Debiasing}~\citep{Zhang_2018}, \textit{Exponentiated Gradient Reduction}~\citep{Agarwal_2018}, \textit{Grid Search Reduction}~\citep{Agarwal_2019}, \textit{Meta Fair Classifier}~\citep{Celis_2019}, \textit{Prejudice Remover}~\citep{Kamishima_2012} and \textit{Rich Subgroup Fairness}~\citep{Kearns_2018}
 \item \textbf{Post-processing:} These algorithms change the predictions made by an already trained model to make it fair. Some examples are \textit{Equalized Odds}~\citep{Hardt_2016}, \textit{Calibrated Equalized Odds}~\citep{Pleiss_2017} and \textit{Reject Option Classification}~\citep{Kamiran_2012}.
 \end{itemize}
@@ -332,7 +426,7 @@ To balance these metrics in a ML model, new algorithms were created to make the 
 %\end{figure*}
 \begin{sidewaysfigure*}
 \clearpage
-\includegraphics[scale=0.465]{images/Diagrama_Sequencia-eng.jpg}
+\includegraphics[scale=0.425]{images/Diagrama_Sequencia-eng.jpg}
 \caption {System's sequence diagram}
 \label{fig:DiagramaSequencia}
 \end{sidewaysfigure*}
@@ -363,10 +457,12 @@ Then, each standardized metric is multiplied by its corresponding weights $w_{P_
 \label{eqn:normalizationFairness}
 	m'_{F_i} = 
 	\begin{cases}
-	1-\lvert m_{F_i} \rvert & \text{if $m_{F_i}$ is subtraction-calculated and $-1 < m_{F_i} < 1$}\\
-	0 & \text{if $m_{F_i}$ is subtraction-calculated, and $m_{F_i} >= 1$ or $m_{F_i} <= -1$}\\
+	1-\lvert m_{F_i} \rvert & \text{if $m_{F_i}$ is subtraction-calculated}\\
+	& \text{and $-1 < m_{F_i} < 1$}\\
+	0 & \text{if $m_{F_i}$ is subtraction-calculated}\\
+	& \text{and $m_{F_i} >= 1$ or $m_{F_i} <= -1$}\\
 	1-\lvert \frac{1}{m_{F_i}}-1 \lvert & \text{if $m_{F_i}$ is division-calculated and $m_{F_i} > 1$}\\
-	1-\lvert m_{F_i}-1 \lvert & \text{if $m_{F_i}$ is division-calculated e $m_{F_i} <= 1$}\\
+	1-\lvert m_{F_i}-1 \lvert & \text{if $m_{F_i}$ is division-calculated and $m_{F_i} <= 1$}\\
 	m_{F_i} & \text{in other cases}
 	\end{cases}
 \end{gather}
@@ -391,7 +487,7 @@ To do these calculations, previous executions in the workflow are needed as a pr
 To determine the configuration background, some strategies were implemented in the Planner component:
 
 \begin{itemize}
-\item \textbf{Algorithm filtering}: Some algorithms may be poorly implemented on Workflow or their models may have metrics that need a better analysis by the Data Scientist to be considered reliable. To prevent this from happening, this strategy filters reliable algorithm combinations before selecting the ideal models.
+\item \textbf{Algorithm filtering}: Some algorithms may not perform well on Workflow or their models may have metrics that need a better analysis by the Data Scientist to be considered reliable. To prevent this from happening, this strategy filters reliable algorithm combinations before selecting the ideal models.
 \item \textbf{Result range}: Executions with unreliable metric results can distort the score obtained in the Analyzer. To ease these distortions, a minimum and maximum score range were created to determine scores that can be considered reliable for evaluation.
 \end{itemize}
 
@@ -670,7 +766,8 @@ With the MAPE-K architecture, it was possible to create a flow so that the data 
 Given these observations, it can be said that these architectures have adapted very well in the main objectives implementation. As future works, it is possible to work with some possibilities. In the Autonomic Manager, the Analyzer can perform a deeper analysis by increasing the number of indicators and considering groups in addition to Fairness metrics and Performance metrics. In the workflow, introduce techniques to improve results such as \textit{Data Augmentation} and \textit{K-Fold Cross-Validation}. It is also possible to change the focus to solving MLOps problems, using the system to determine a better deployment in case of worsening in the metrics of a model already used by customers.
 
 % As referências:
-\bibliographystyle{plainnat}
+\bibliographystyle{ACM-Reference-Format}
+\setcitestyle{numbers}
 \bibliography{full,article}
 
 \end{document}
