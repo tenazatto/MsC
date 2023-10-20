@@ -35,6 +35,7 @@
 
 \usepackage{wasysym}
 \usepackage{rotating}
+\usepackage{xurl}
 
 %\usepackage{fancyhdr}
 %\usepackage{cite}
@@ -245,7 +246,7 @@
 % Se houve cotutela, defina:
 %\cotutela{Universidade Nova de Plutão}
 
-\datadadefesa{30}{07}{2023}
+\datadadefesa{17}{11}{2023}
 
 % Para a versão final defina:
 %\avaliadorA{Prof. Dr. Primeiro Avaliador}{Instituição do primeiro avaliador}
@@ -296,7 +297,7 @@ E finalmente, a todas as pessoas que pude conhecer na Unicamp, pela troca de exp
 
 % Sempre deve haver um resumo em português:
 \begin{resumo}
-O uso crescente de \textit{Machine Learning} em soluções digitais permitiu discussões sociais sobre vieses e discriminações presentes nos dados, e requeriram a criação de novos algoritmos e métricas de \textit{Fairness} para garantir decisões mais justas. Entretanto, a análise do Cientista de Dados para obter os melhores modelos é mais complexa pela necessidade de equilibrar o aprimoramento das métricas de \textit{Fairness} com uma possível queda das métricas de avaliação tradicionais, considerando o contexto, e por uma maior variedade de algoritmos que podem ser utilizados isoladamente ou em conjunto durante o treinamento. Este trabalho apresenta uma solução para o treino destes modelos que é operada de forma semi-autônoma para encontrar configurações mais otimizadas em diferentes contextos, através de um módulo com variados algoritmos pré-implementados e a arquitetura MAPE-K para auxiliar na avaliação do equilíbrio ideal. Foram realizados diversos estudos de caso para determinar a viabilidade da solução proposta na resolução destes problemas e se a solução implementada é extensível a futuros algoritmos sem grandes esforços. Diante destes estudos, foi notado que a solução pode auxiliar o Cientista de Dados a ter melhor compreensão do processo de treinamento, possibilitando estudos de Engenharia de Software no auxílio ao treinamento de modelos confiáveis em \textit{Machine Learning}.
+O uso crescente de \textit{Machine Learning} em soluções digitais criou condições para o diálogo social sobre vieses e discriminações presentes nos dados, e requeriram a criação de novos algoritmos e métricas de \textit{Fairness} para garantir decisões mais justas. Entretanto, a análise do Cientista de Dados para obter os melhores modelos é mais complexa pela necessidade de equilibrar o aprimoramento das métricas de \textit{Fairness} com uma possível queda das métricas de avaliação tradicionais, considerando o contexto, e por uma maior variedade de algoritmos que podem ser utilizados isoladamente ou em conjunto durante o treinamento. Este trabalho apresenta uma solução para o treino destes modelos que é operada de forma semi-autônoma para encontrar configurações mais otimizadas em diferentes contextos, através de um módulo com variados algoritmos pré-implementados e a arquitetura MAPE-K para auxiliar na avaliação do equilíbrio ideal. Foram realizados diversos estudos de caso para determinar a viabilidade da solução proposta na resolução destes problemas e se a solução implementada é extensível a futuros algoritmos sem grandes esforços. Diante destes estudos, foi notado que a solução pode auxiliar o Cientista de Dados a ter melhor compreensão do processo de treinamento, possibilitando estudos de Engenharia de Software no auxílio ao treinamento de modelos confiáveis em \textit{Machine Learning}.
 
 \palavraschave{\textit{Machine Learning}, Inteligência Artificial Ética, Responsabilidade Social em Inteligência Artificial, Computação Autônoma, Métricas de \textit{Fairness}}
 \end{resumo}
@@ -304,9 +305,9 @@ O uso crescente de \textit{Machine Learning} em soluções digitais permitiu dis
 
 % Sempre deve haver um abstract:
 \begin{abstract}
-The growing use of \textit{Machine Learning} in digital solutions has allowed social discussions about biases and discrimination present in data, and has required the creation of new algorithms and \textit{Fairness} metrics to ensure fairer decisions. However, the Data Scientist's analysis to obtain the best models is more complex due to the need to balance the improvement of \textit{Fairness} metrics with a possible decline in traditional evaluation metrics considering the context, as well as a greater variety of algorithms that can be used independently or in combination during training. This work presents a solution for the training of these models that is operated in a semi-autonomous way to identify more optimized configurations across different contexts, through a module with several pre-implemented algorithms and the MAPE-K architecture to assist in evaluating the ideal balance. Several case studies were conducted to determine the feasibility of the proposed solution in solving these problems and if the implemented solution is extensible to future algorithms with minimal effort. In view of these studies, it was noted that the solution can help the Data Scientist in gaining a better understanding of the training process, enabling Software Engineering studies to help in the training of trustworthy \textit{Machine Learning} models.
+The growing use of \textit{Machine Learning} in digital solutions has created conditions for social dialogue on biases and discrimination in data, and has required the creation of new algorithms and \textit{Fairness} metrics to ensure fairer decisions. However, the Data Scientist's analysis to obtain the best models is more complex due to the need to balance the improvement of \textit{Fairness} metrics with a possible decline in traditional evaluation metrics considering the context, as well as a greater variety of algorithms that can be used independently or in combination during training. This work presents a solution for the training of these models that is operated in a semi-autonomous way to identify more optimized configurations across different contexts, through a module with several pre-implemented algorithms and the MAPE-K architecture to assist in evaluating the ideal balance. Several case studies were conducted to determine the feasibility of the proposed solution in solving these problems and if the implemented solution is extensible to future algorithms with minimal effort. In view of these studies, it was noted that the solution can help the Data Scientist in gaining a better understanding of the training process, enabling Software Engineering studies to help in the training of trustworthy \textit{Machine Learning} models.
 
-\keywords{\textit{Machine Learning}, Artificial Intelligence Ethics, Social Responsibility in Artificial Intelligence, Autonomic Computing, \textit{Fairness} Metrics}
+\keywords{Machine Learning, Artificial Intelligence Ethics, Social Responsibility in Artificial Intelligence, Autonomic Computing, Fairness Metrics}
 \end{abstract}
 
 
@@ -349,7 +350,7 @@ The growing use of \textit{Machine Learning} in digital solutions has allowed so
 
 Técnicas de Inteligência Artificial e \textit{Machine Learning} (ML) já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano mas que são difíceis de serem traduzidos em código. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, com estimativa de US\$ 57 bilhões em investimentos em 2021, 480\% maior em relação a 2017~\citep{Deloitte_2018}. No Brasil, o número de empresas de IA aumentou de 120 em 2018 para 206 em 2020~\citep{CIO_2021}.
 
-Isso se mostra possível devido a grande quantidade de dados processada diariamente pelas empresas, que coletam estatísticas toda vez que um usuário acessa suas aplicações. Com esses dados, podem traçar diferentes perfis e usar soluções de ML para ter tomadas de decisão mais assertivas com o objetivo de melhorar a experiência de usuário e corrigir problemas. Porém, muitas dessas soluções foram projetadas sem pensar em governança de dados como requisito de projeto, e se mostram ineficientes quando ela é tratada em consideração.
+Isso se mostra possível devido a grande quantidade de dados processada diariamente pelas empresas, que coletam estatísticas toda vez que um usuário acessa suas aplicações. Com esses dados, podem traçar diferentes perfis e usar soluções de ML para ter tomadas de decisão mais assertivas com o objetivo de melhorar a experiência de usuário e corrigir problemas. Porém, muitas dessas soluções foram projetadas sem pensar em governança de dados como requisito de projeto, e se mostram ineficientes quando ela é tida em consideração.
 
 \section{Contexto}
 
@@ -385,11 +386,11 @@ Para o desenvolvimento do Módulo de ML, será utilizada o padrão de arquitetur
 
 A escolha do padrão de arquitetura \textit{Pipes-and-Filters} se mostrou favorável para o desenvolvimento de um \textit{workflow} para aplicações envolvendo IA, permitindo que ele seja modular e que sejam feitas evoluções sem exigir grandes esforços. O uso da arquitetura MAPE-K também se mostrou favorável, permitindo diversos resultados para diferentes contextos de problema e uma simplificação da análise realizada pelo Cientista de Dados, podendo resultar em economia de tempo. Ela também possibilitou um balanço entre métricas de avaliação e métricas de \textit{Fairness} através da adição de pesos para cada métrica na parte de análise. Embora os pesos não sejam parte da arquitetura, a divisão presente na arquitetura permite que o desenvolvimento seja pensado de maneira mais clara.
 
-A obtenção de metadados do Módulo de ML se mostrou essencial para alimentar o Gerenciador Autonômico e possibilitou a análise e tomadas de decisão baseadas em dados. É possível realizar análises mais detalhadas conforme novas execuções forem realizadas, consequentemente podendo resultar em melhores configurações arquiteturais para contextos distintos. Posteriormente, é possível focar em melhorar a análise do Gerenciador Autonômico adicionando novos indicadores, expandir o workflow com novas técnicas não exploradas e explorar processos de MLOps para melhorar a confiabilidade dos modelos por meio de mecanismos para deploy dos modelos de ML e notificações..
+A obtenção de metadados do Módulo de ML se mostrou essencial para alimentar o Gerenciador Autonômico e possibilitou a análise e tomadas de decisão baseadas em dados. É possível realizar análises mais detalhadas conforme novas execuções forem realizadas, consequentemente podendo resultar em melhores configurações arquiteturais para contextos distintos. Posteriormente, é possível focar em melhorar a análise do Gerenciador Autonômico adicionando novos indicadores, expandir o Módulo de ML com técnicas não exploradas e explorar processos de operação e infra-estrutura, também conhecidos como MLOps, para melhorar a confiabilidade dos modelos por meio de mecanismos para deploy dos modelos de ML e notificações.
 
 \section{Organização}
 
-O restante da dissertação se organizará da seguinte forma: o Capítulo 2 descreve os conceitos que irão ser abordados neste projeto e trabalhos relacionados; o Capítulo 3 mostra como a solução é organizada e como ela se encaixaria em um processo de desenvolvimento; o Capítulo 3 mostra detalhes de implementação e seu uso; os Capítulos 5, 6 e 7 discutem os resultados obtidos aravés dos Estudos de Caso e, finalmente, o Capítulo 8 estabelece as conclusões, considerações finais e sugestões de trabalhos futuros e evoluções.
+O restante da dissertação se organizará da seguinte forma: o Capítulo 2 descreve os conceitos que irão ser abordados neste projeto e trabalhos relacionados; o Capítulo 3 mostra como a solução é organizada e como ela se encaixaria em um processo de desenvolvimento; o Capítulo 4 mostra detalhes de implementação e seu uso; os Capítulos 5, 6 e 7 discutem os resultados obtidos aravés dos Estudos de Caso e, finalmente, o Capítulo 8 estabelece as conclusões, considerações finais e sugestões de trabalhos futuros e evoluções.
 
 \chapter{Background e Trabalhos Relacionados}
 
@@ -400,14 +401,14 @@ Este capítulo fornece uma visão geral dos principais conceitos relacionados ne
 
 \subsection{Engenharia de Dados}
 
-A engenharia de dados é o meio para entender um processo. Os dados podem ser gerados de várias maneiras, ou um subconjunto dos dados disponíveis pode usar técnicas de análise de dados de estatísticas, aprendizado de máquina, reconhecimento de padrões ou redes neurais, juntamente com outras tecnologias, como visualização, otimização, sistemas de banco de dados. dados, ferramentas de prototipagem e elicitação de conhecimento. O objetivo é usar os dados disponíveis ou gerar mais dados e assim entender o processo que está sendo investigado. O processo de analisar os dados, criar novas ferramentas de análise especificamente para a tarefa e trabalhar com especialistas do domínio é um aspecto fundamental dessa tarefa de engenharia. Atualmente é muito utilizado em conjunto com o termo \textit{Big Data}, para a limpeza, tratamento e estabelecimento de processos para governança de grandes volumes de dados.
+A engenharia de dados é o meio para entender um processo. Os dados podem ser gerados de várias maneiras, ou um subconjunto dos dados disponíveis pode usar técnicas de análise de dados de estatísticas, aprendizado de máquina, reconhecimento de padrões ou redes neurais, juntamente com outras tecnologias, como visualização, otimização, sistemas de banco de dados. dados, ferramentas de prototipagem e elicitação de conhecimento. O objetivo é usar os dados disponíveis ou gerar mais dados e assim entender o processo que está sendo investigado. O processo de analisar os dados, criar novas ferramentas de análise especificamente para a tarefa e trabalhar com especialistas do domínio é um aspecto fundamental dessa tarefa de engenharia. Atualmente engenharia de dados é muito utilizada em conjunto com o termo \textit{Big Data}, para a limpeza, tratamento e estabelecimento de processos para governança de grandes volumes de dados.
 
 O termo \textit{Big Data} apareceu uma vez como conceito em 1974 e novamente em editoriais em 2006 e 2007, e somente em 2008 seu uso como conceito começou a aparecer regularmente em artigos científicos, mas implementações desse conceito começaram a partir de 2010~\citep{Raban_2020}. Quanto a engenharia de dados, embora periódicos como o IEEE Transactions on Knowledge and Data Engineering, cuja primeira edição foi lançada em 1989, e conferências como a IEEE International Conference on Data Engineering (ICDE), cuja primeira edição foi realizada em 1984, possam ser consideradas pontapés iniciais para discussões e artigos acadêmicos, o embrião da engenharia de dados vem do \textit{paper} \textit{"A Business Intelligence System"}, de 1958~\citep{Panoply_2017}. Nele, é mencionada a ideia de sistemas rodados por máquinas para abstrair e padronizar informações de vários setores da sociedade, como industrial, científico e de organizações governamentais, e como estas podem disseminar informação de uma maneira mais eficiente. Embora os anos 50/60 foram o embrião para o conceito, os anos 70/80 o amadureceram e construíram a base para a estrutura de engenharia de dados~\citep{Panoply_2017}.
 
 Nos anos 70/80, os problemas em engenharia de dados eram classificados de acordo com 3 atributos~\citep{IEEE_1989}:
 
 \begin{itemize}
-\item \textbf{Completude do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como \textit{completos} ou \textit{incompletos}. Se estiverem \textit{completos}, não seria necessário congecimento adicional para a resolução do problema. Se estiverem \textit{incompletos}, como no caso de grandes volumes de dados onde é exigida uma sumarização mais detalhada, seria necessário determinar heurísticas para encontrar um conjunto de dados mais específico para a resolução do problema.
+\item \textbf{Completude do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como \textit{completos} ou \textit{incompletos}. Se estiverem \textit{completos}, não seria necessário conhecimento adicional para a resolução do problema. Se estiverem \textit{incompletos}, como no caso de grandes volumes de dados onde é exigida uma sumarização mais detalhada, seria necessário determinar heurísticas para encontrar um conjunto de dados mais específico para a resolução do problema.
 \item \textbf{Exatidão do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como exatos ou inexatos. Se estiverem exatos, poderiam ser representados em uma forma numérica ou lógica, como datas e coordenadas. Se estiverem inexatos, o número de casos possíveis seria infinito e seria impossível enumerar ou representar todos eles, sendo necessário determinar heurísticas para definir um número finito de possibilidades ou redefinir o significado de exatidão para que o que está disponível possa ser tratado como exato, como o reconhecimento de um objeto em uma imagem ou a definição do menor custo em uma determinada rota.
 \item \textbf{Conhecimento sobre o objetivo e especificações do problema:} Um objetivo de um problema pode ser bem ou mal definido. Um objetivo bem definido podia ser medido e representado em termos de parâmetros para que seja possível comparar a qualidade de uma solução com outra, enquanto um objetivo mal definido envolvia parâmetros que não podem ser mensurados ou não poder ser medido, sendo impossível comparar a qualidade de soluções alternativas e necessitando de tratamentos adicionais para que o objetivo deixe de ser mal definido e passe a ser bem definido. 
 \end{itemize}
@@ -420,11 +421,11 @@ Ciência de dados como um conceito precedeu o \textit{Big Data}, sendo um conjun
 
 A estatística e o uso de modelos estatísticos estão profundamente enraizados no campo da ciência de dados, pois começou com estatísticas e evoluiu para incluir conceitos e práticas principalmente para aplicações de IA. À medida que mais e mais dados se tornam disponíveis, por meio de comportamentos e tendências registradas em softwares espalhados pela Internet ou mesmo por aplicações empresariais, as empresas os coletam e armazenam em quantidades cada vez maiores. Uma vez que as portas foram abertas por empresas que buscam aumentar os lucros e impulsionar melhores tomadas de decisão, seu uso, em conjunto com \textit{Big Data}, começou a ser aplicado a outros campos, como medicina, engenharia e ciências sociais.
 
-Um cientista de dados funcional, ao contrário de um estatístico geral, tem compreensão da arquitetura de software e entende várias linguagens de programação. O cientista de dados define o problema, identifica as principais fontes de informação e projeta a estrutura para coletar e rastrear os dados necessários. O software é normalmente responsável por coletar, processar e modelar os dados. Eles usam os princípios da ciência de dados e toda sua visão multidisciplinar para obter conhecimentos mais profundos. A ciência de dados continua a evoluir como uma disciplina que usa ciência da computação e metodologia estatística para fazer previsões úteis e obter insights em uma ampla gama de campos. Embora seja usada em áreas como astronomia e medicina, também é usada nos negócios para ajudar a tomar decisões mais inteligentes.
+Um cientista de dados funcional, ao contrário de um estatístico geral, tem compreensão da arquitetura de software e entende várias linguagens de programação. O cientista de dados define o problema, identifica as principais fontes de informação e projeta a estrutura para coletar e rastrear os dados necessários. O software é normalmente responsável por coletar, processar e modelar os dados. Ele usa os princípios da ciência de dados e toda sua visão multidisciplinar para obter conhecimentos mais profundos. A ciência de dados continua a evoluir como uma disciplina que usa ciência da computação e metodologia estatística para fazer previsões úteis e obter insights em uma ampla gama de campos. Embora seja usada em áreas como astronomia e medicina, também é usada nos negócios para ajudar a tomar decisões mais inteligentes.
 
 \subsection{O ciclo do dado: Semelhanças e diferenças entre Engenharia de Dados}
 
-Nos tempos atuais, empresas e instituições acadêmicas utilizam Engenharia de Dados e Ciência de Dados para otimizar as suas aplicações de IA. Embora tais termos sejam distintos e seus profissionais performem tarefas distintas, na prática é frequente a função de engenharia de dados ser feita por cientistas de dados e vice-versa pois ambas se complementam muito na criação de aplicações de IA. Um bom exemplo de como estas áreas se conversam está no \textit{paper} \textit{Concise Survey of Computer Methods}, de 1974~\citep{Panoply_2017}. Nele, Peter Naur detalha diversos métodos de processamento de dados e aplicações, o que poderia definir como um, mas a citação mais importante de seu \textit{paper} está justamente no termo ciência de dados. Também define que a utilidade de um dado e de seus processos deriva de sua aplicação no desenvolvimento e manutenção de modelos da realidade~\citep{Foote_2021}. Em outras palavras, a existência de um processo que trate os dados é tão importante quanto a construção de um modelo através de seus dados. Ao entender como os dados devem ser usados, é possível criar processos que auxiliem a otimizar os resultados obtidos e criar modelos cada vez mais próximos da realidade.
+Nos tempos atuais, empresas e instituições acadêmicas utilizam Engenharia de Dados e Ciência de Dados para otimizar as suas aplicações de IA. Embora tais termos sejam distintos e seus profissionais performem tarefas distintas, na prática é frequente a função de engenharia de dados ser feita por cientistas de dados e vice-versa pois ambas se complementam muito na criação de aplicações de IA. Um bom exemplo de como estas áreas se conversam está no \textit{paper} \textit{Concise Survey of Computer Methods}, de 1974~\citep{Panoply_2017}. Nele, Peter Naur detalha diversos métodos de processamento de dados e aplicações, o que poderia definir como um, mas a citação mais importante de seu \textit{paper} está justamente no termo ciência de dados. Também define que a utilidade de um dado e de seus processos deriva de sua aplicação no desenvolvimento e manutenção de modelos da realidade~\citep{Foote_2021}. Por isso, a existência de um processo que trate os dados é tão importante quanto a construção de um modelo através de seus dados. Ao entender como os dados devem ser usados, é possível criar processos que auxiliem a otimizar os resultados obtidos e criar modelos cada vez mais próximos da realidade.
 
 A principal razão para ambas as áreas se conversarem esta no ciclo de vida do dado, fundamental para entender as oportunidades e os desafios de aproveitar ao máximo os dados digitais. Como um ser vivo, os dados têm um ciclo de vida, desde o nascimento, passando por uma vida ativa até alguma forma de expiração, podendo ser "imortalizado" dependendo de sua importância. Também como um organismo vivo e inteligente, sobrevive em um ambiente que fornece suporte físico, contexto social e significado existencial~\citep{Berman_2018}.
 
@@ -460,12 +461,12 @@ Aprendizado de Máquina (\textit{Machine Learning}, em inglês) pode ser definid
 O \textit{Machine Learning} é fortemente relacionado com a Estatística, uma vez que seus métodos e parte de seus algoritmos, como regressões, tiveram como base modelos estatísticos e a análise de seus dados. As tarefas de aprendizado podem ser classificadas em três categorias básicas~\citep{MLWikipedia_2021}~\citep{MLSAS_2021}:
 
 \begin{itemize}
-\item \textbf{Aprendizado supervisionado}: O treinamento é realizado por meio de exemplos rotulados, como uma entrada na qual a saída desejada é conhecida. Através de métodos como classificação, regressão e \textit{gradient boosting}, o aprendizado supervisionado utiliza padrões para prever os valores de rótulos em dados não-rotulados adicionais. O aprendizado supervisionado é comumente empregado em aplicações nas quais dados históricos preveem eventos futuros prováveis.
+\item \textbf{Aprendizado supervisionado}: O treinamento é realizado por meio de exemplos rotulados, como uma entrada na qual a saída desejada é conhecida. Através de métodos como classificação, regressão e \textit{gradient boosting}, o aprendizado supervisionado utiliza padrões para prever valores de rótulos em dados que não estão rotulados. O aprendizado supervisionado é comumente empregado em aplicações nas quais dados históricos preveem eventos futuros prováveis.
 \item \textbf{Aprendizado não-supervisionado}: É utilizado em dados que não possuem rótulos históricos. A “resposta certa” não é informada ao sistema, o algoritmo deve descobrir o que está sendo mostrado. O objetivo é explorar os dados e encontrar alguma estrutura dentro deles. Técnicas populares incluem mapas auto-organizáveis, mapeamento por proximidade, agrupamento \textit{k-means} e decomposição em valores singulares. Esses algoritmos também são utilizados para segmentar tópicos de texto, recomendar itens e identificar pontos discrepantes nos dados.
 \item \textbf{Aprendizado por reforço}: O algoritmo descobre através de testes do tipo “tentativa e erro” quais ações rendem as maiores recompensas. Este tipo de aprendizado possui três componentes principais: o agente (o aprendiz ou tomador de decisão), o ambiente (tudo com que o agente interage) e ações (o que o agente pode fazer). O objetivo é que o agente escolha ações que maximizem a recompensa esperada em um período de tempo determinado. O agente atingirá o objetivo muito mais rápido se seguir uma boa política, então o foco do aprendizado por reforço é descobrir a melhor política.
 \end{itemize}
 
-O termo \textit{Machine Learning} se tornou muito mais evidente com a possibilidade da implementação do \textit{Deep Learning}, que é uma técnica que utiliza Redes Neurais Artificiais para atingir seus resultados. Redes Neurais Artificiais são modelos computacionais inspirados no sistema nervoso do cérebro, onde temos neurônios divididos em camadas e conectados entre si, podendo ser abstraído conforme ilustração na Figura \ref{fig:NeuralNetwork}. Dependendo da tarefa a ser realizada, cada neurônio atribui um peso para os dados que entram e a saída final é determinada pelo total desses pesos~\citep{Copeland_2016}. As redes neurais utilizadas em \textit{Deep Learning} possuem, ao menos, duas camadas de neurônios entre a camada que recebe os dados de entrada e a camada final que faz o tratamento final dos dados de saída.
+O termo \textit{Machine Learning} se tornou muito mais evidente com a possibilidade da implementação do \textit{Deep Learning}, que é uma técnica que utiliza Redes Neurais Artificiais para atingir seus resultados. Redes Neurais Artificiais são modelos computacionais inspirados no sistema nervoso do cérebro, onde temos neurônios divididos em camadas e conectados entre si, podendo ser abstraído conforme ilustração na Figura \ref{fig:NeuralNetwork}. Dependendo da tarefa a ser realizada, cada neurônio atribui uma ponderação para os dados que entram e a saída final é determinada pelo total dessas ponderações~\citep{Copeland_2016}. As redes neurais utilizadas em \textit{Deep Learning} possuem, ao menos, duas camadas de neurônios entre a camada que recebe os dados de entrada e a camada final que faz o tratamento final dos dados de saída.
 
 \begin{figure}[h]
 \centering
@@ -479,8 +480,7 @@ Com a evolução da computação, o treino de uma tarefa passou a ser cada vez m
 \subsection{Métricas de Avaliação}
 \label{sec:EvaluationMetrics}
 
-Tradicionalmente em um problema de classificação binária, uma previsão do classificador pode ter 4 tipos de resultados em uma matriz de confusão, presente na Tabela \ref{tbl:ConfusionMatrix}. Os Verdadeiros Positivos (VP, ou TP pelo termo em inglês \textit{True Positives}) e Verdadeiros Negativos (VN, ou TN pelo termo em inglês \textit{True Negatives}) são classificações corretamente previstas pelo classificador. Um Falso Positivo (FP) ocorre quando um caso previsto para estar na classe positiva quando o resultado real pertence à classe negativa, e um Falso Negativo (FN) ocorre quando um caso previsto para estar na classe negativa
-quando o resultado real pertence à classe positiva.
+Tradicionalmente em um problema de classificação binária, uma previsão do classificador pode ter 4 tipos de resultados em uma matriz de confusão, presente na Tabela \ref{tbl:ConfusionMatrix}. Os Verdadeiros Positivos (VP, ou TP pelo termo em inglês \textit{True Positives}) e Verdadeiros Negativos (VN, ou TN pelo termo em inglês \textit{True Negatives}) são classificações corretamente previstas pelo classificador. Um Falso Positivo (FP) ocorre quando dados previstos para estar na classe positiva pertencem à classe negativa em seu resultado real, e um Falso Negativo (FN) ocorre quando dados previstos para estar na classe negativa pertencem à classe positiva em seu resultado real.
 
 \begin{table}[h]
 \label{tbl:ConfusionMatrix}
@@ -521,7 +521,7 @@ O \textbf{recall}, ou sensibilidade, enfatiza situações quando o número de fa
 R = \frac{TP}{TP + FN}
 \end{equation}
 
-O \textbf{F1-score} é um caso especial de F-score, uma medida geral da acurácia de um modelo que combina precisão e recall. Pode ser interpretado como uma ponderação entre ambos e usa a média harmônica para realizar a medição:
+O \textbf{F1-score} é um caso especial de F-score, uma medida geral da acurácia de um modelo que combina precisão e recall. Para tal, usa-se a média harmônica entre ambos para realizar a medição:
 
 \begin{equation}
 F1 = 2 \times\frac{P \times R}{P + R}
@@ -564,7 +564,8 @@ Uma vez que o modelo de Regressão Logística estimou a probabilidade $\hat{p}$,
 	\end{aligned}
 \end{equation}
 
-O objetivo do treinamento de um modelo de classificação é de minimizar a diferença entre o resultado atual e o resultado previsto. Para medir o quão próximo a função resultante do treinamento se aproxima do conjunto de dados, a seguinte função de custo é calculada conforme equação abaixo. A função utilizada pode variar, tendo como exemplos a função por entropia cruzada ou a função por diferença de quadrados.
+O objetivo do treinamento de um modelo de classificação é de minimizar a diferença entre o resultado atual $y$ e o resultado previsto $\hat{y}$ para as $m$ amostras presentes para treinamento. Para medir o quão próximo a função resultante do treinamento se aproxima do conjunto de dados, a seguinte função de custo é calculada conforme equação abaixo. A função $L(\hat{y}, y)$ utilizada pode variar, tendo como exemplos a função por entropia cruzada ou a função por diferença de quadrados.
+para elas
 
 \begin{equation}
 J(w,b) = \frac{1}{m} \sum^{m}_{i=1} L(\hat{y}^{(i)}, y^{(i)})
@@ -674,21 +675,21 @@ Pr(Y=1|Z=0)-Pr(Y=1|Z=1)
  
 Aqui, o viés ou paridade estatística é a diferença entre a probabilidade de que um indivíduo aleatório retirado dos não-privilegiados seja rotulado como 1 e a probabilidade de que um indivíduo aleatório dos privilegiados seja rotulado como 1. Portanto, um valor próximo de 0 é considerado justo.
 
-\item \textbf{Diferença de oportunidade igual (\textit{Equal opportunity difference})~\citep{Biswas_2020}:} É a diferença entre a taxa positiva verdadeira do grupo não privilegiado e a taxa positiva verdadeira do grupo privilegiado:
+\item \textbf{Diferença de oportunidade igual (\textit{Equal opportunity difference})~\citep{Biswas_2020}:} É a diferença entre a taxa de verdadeiros positivos do grupo não privilegiado e a taxa de verdadeiros positivos do grupo privilegiado:
 
 \begin{equation}
 TPR_{Z=0} - TPR_{Z=1}
 \end{equation}
  
-Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz a igualdade de oportunidades quando a taxa positiva verdadeira de ambos os grupos são iguais~\citep{Hardt_2016}
+Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz a igualdade de oportunidades quando a taxa de verdadeiros positivos de ambos os grupos são iguais~\citep{Hardt_2016}
 
-\item \textbf{Diferença de probabilidade média (\textit{Average odds difference})~\citep{Biswas_2020}:} Essa métrica usa a taxa de falsos positivos e a taxa positiva verdadeira para calcular a tendência, calculando a igualdade de probabilidades com a fórmula:
+\item \textbf{Diferença de probabilidade média (\textit{Average odds difference})~\citep{Biswas_2020}:} Essa métrica usa a taxa de falsos positivos e a taxa de verdadeiros positivos para calcular a tendência, calculando a igualdade de probabilidades com a fórmula:
 
 \begin{equation}
 \frac{1}{2}(|FPR_{Z=0} - FPR_{Z=1}|+|TPR_{Z=0} - TPR_{Z=1}|)
 \end{equation}
  
-Precisa ser próximo a 0 para ser considerado justo.
+O valor precisa ser próximo a 0 para ser considerado justo.
 
 \item \textbf{Impacto de disparidade (\textit{Disparate impact})~\citep{Biswas_2020}:} Para esta métrica, é usada a seguinte fórmula:
 
@@ -696,7 +697,7 @@ Precisa ser próximo a 0 para ser considerado justo.
 \frac{Pr(Y=1|Z=0)}{Pr(Y=1|Z=1)}
 \end{align*}
 
-Usa as mesmas probabilidades da diferença de paridade estatística, mas como é calculada como uma proporção o valor esta métrica possui um comportamento não-linear. Desta forma, um valor próximo de 1 é considerado justo.
+Usa as probabilidades condicionais utilizadas na diferença de paridade estatística, mas como é calculada como uma proporção o valor esta métrica possui um comportamento não-linear. Desta forma, um valor próximo de 1 é considerado justo.
 
 \item \textbf{Índice de Theil (\textit{Theil index})~\citep{Speicher_2018}:} Esta medida também é conhecida como índice de entropia generalizado, mas com o valor de $\alpha$ usado neste índice igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
 
@@ -704,7 +705,7 @@ Usa as mesmas probabilidades da diferença de paridade estatística, mas como é
 \frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
 \end{align*}
 
-Onde n é a quantidade de elementos e $b_i$ é obtido com a fórmula $b_i = \hat{y}_i - y_i + 1$. Nesta fórmula, $y_i$ é o conjunto de saídas, $\hat{y}_i$ é o conjunto de previsões dadas pelo modelo. Também precisa ser próximo a 0 para ser considerado justo.
+Onde n é a quantidade de elementos, $b_i$ é obtido com a fórmula $b_i = \hat{y}_i - y_i + 1$ e $\mu$ é a média de todos os elementos $b_i$. Nesta fórmula, $y_i$ é o conjunto de saídas, $\hat{y}_i$ é o conjunto de previsões dadas pelo modelo. Também precisa ser próximo a 0 para ser considerado justo.
 
 \end{itemize}
 
@@ -734,7 +735,7 @@ Os algoritmos de \textbf{processamento} tentam realizar modificações nos algor
 
 \item \textbf{Meta-Algoritmo para classificações justas (Meta-Algorithm for Fair Classification)~\citep{Celis_2019}:} Aprende um classificador compatível com uma gama grande de métricas de Fairness, sendo prático o suficiente para abrangê-las sem grande perda de performance.
 
-\item \textbf{Justiça por Subgrupos Ricos (Rich Subgroup Fairness)~\citep{Kearns_2018}:} Aprende um classificador que procura equalizar as taxas de falsos positivos e falsos negativos entre os dados que envolvem atributos protegidos, considerados como subgrupos.
+\item \textbf{Justiça de Subgrupo Diversificado (Rich Subgroup Fairness)~\citep{Kearns_2018}:} Aprende um classificador que procura equalizar as taxas de falsos positivos e falsos negativos entre os dados que envolvem atributos protegidos, considerados como subgrupos.
 
 \item \textbf{Redução por Gradiente Exponencial (Exponentiated Gradient Reduction)~\citep{Agarwal_2018}:} Aprende um classificador baseado em Gradiente Exponencial que tende a minimizar o erro de uma classificação ponderada.
 
@@ -745,9 +746,9 @@ Os algoritmos de \textbf{processamento} tentam realizar modificações nos algor
 Os algoritmos de \textbf{pós-processamento} utilizam um conjunto de validação, que não foi envolvido no processo de treinamento para melhorar a imparcialidade das previsões~\citep{dAlessandro_2017}. Quando não há possibilidade de fazer alterações nos dados de treinamento ou no treinamento do modelo, apenas algoritmos de pós-processamento podem ser usados. Nesta categoria se enquadram os seguintes algoritmos:
 
 \begin{itemize}
-\item \textbf{Igualdade de probabilidade calibrada (Calibrated Equalized odds)~\citep{Pleiss_2017}:} Otimiza as previsões do classificador obtido, calibrando para alterar os rótulos de saída e obter probabilidades igualadas entre os grupos.
-
 \item \textbf{Igualdade de probabilidade (Equalized odds)~\citep{Hardt_2016}:} Resolve um problema linear para alterar os rótulos de saída e obter probabilidades igualadas entre os grupos.
+
+\item \textbf{Igualdade de probabilidade calibrada (Calibrated Equalized odds)~\citep{Pleiss_2017}:} Otimiza as previsões do classificador obtido, calibrando para alterar os rótulos de saída e obter probabilidades igualadas entre os grupos.
 
 \item \textbf{Classificação baseada em Rejeição de Opções (Reject Option-based Classification)~\citep{Kamiran_2012}:} Dá resultados favoráveis para grupos não privilegiados e resultados desfavoráveis para grupos privilegiados de acordo com uma faixa de confiança.
 
@@ -762,7 +763,7 @@ No processo, ilustrado na Figura \ref{fig:MLProcess}, o conjunto de dados passa 
 
 \begin{figure}[h]
 \centering
-\includegraphics[scale=0.5]{images/ML_Process.jpg}
+\includegraphics[scale=0.6]{images/ML_Process.jpg}
 \caption {Processo padrão para aprendizado de máquina}
 \label{fig:MLProcess}
 \end{figure}
@@ -782,7 +783,7 @@ Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.25]{images/ai-analytics-ref-diagram-analyze.jpg}
-\caption {IBM Analytics and AI Reference Architecture.}
+\caption {IBM Analytics and AI Reference Architecture~\citep{IBM_2021}.}
 \label{fig:AIReferenceArchitecture}
 \end{figure}
 
@@ -797,7 +798,7 @@ Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de
 
 Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como possível solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}. 
 
-Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incorporar como funcionalidade um \textit{loop} de controle. Embora estes \textit{loops} sejam divididos nos mesmos procedimentos, é possível categorizá-los em 4 categorias principais. Essas categorias são consideradas atributos dos componentes do sistema e são definidas como~\citep{IBM_2005}:
+Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incorporar como funcionalidade um \textit{loop} de controle, que podem ser categorizados em 4 categorias principais. Essas categorias são consideradas atributos dos componentes do sistema e são definidas como~\citep{IBM_2005}:
 
 \begin{itemize}
 \item \textbf{Auto-configuração:} Pode se adaptar dinamicamente a mudanças no ambiente. Um componente autoconfigurável realiza esta adaptação usando políticas fornecidas pelo profissional. Tais mudanças podem incluir a implantação de novos componentes ou a remoção dos existentes, ou mudanças drásticas nas características do sistema. A adaptação dinâmica ajuda a garantir força e produtividade contínuas da infraestrutura, resultando em crescimento e flexibilidade dos negócios.
@@ -854,13 +855,13 @@ Como desvantagens, é possível citar:
 \item Geralmente levam a uma organização de processamento em lote. Embora os filtros possam processar dados de forma incremental, uma vez que os filtros são inerentemente independentes, o Arquiteto de Software é forçado a pensar em cada filtro como fornecendo uma transformação completa dos dados de entrada em dados de saída. 
 \item Por sua natureza de transformação de dados, os sistemas que usam a arquitetura \textit{Pipes-and-Filters} normalmente não são bons para lidar com aplicativos interativos. Esse problema é mais grave quando são necessárias atualizações de exibição incrementais, porque o padrão de saída para atualizações incrementais é radicalmente diferente do padrão para saída de filtro.
 \item Podem ser prejudicados por terem que manter correspondências entre dois \textit{streams} separados, mas relacionados. 
-\item Podem forçar um resultado médio na transmissão de dados em situações onde muitos filtros sejam encadeados com um único filtro, resultando em trabalho adicional para cada filtro separar seus dados e analisar o que for necessário. Isso, por sua vez, pode levar tanto à perda de desempenho quanto ao aumento da complexidade na escrita dos próprios filtros.
+\item Podem forçar um resultado médio na transmissão de dados em situações onde muitos filtros sejam encadeados de uma vez, resultando em trabalho adicional para cada filtro separar seus dados e analisar o que for necessário. Isso, por sua vez, pode levar tanto à perda de desempenho quanto ao aumento da complexidade na escrita dos próprios filtros.
 \end{itemize}
 
 \section{ModelOps}
 \label{sec:ModelOps}
 
-O termo ModelOps é usado para definir uma junção entre modelos de inteligência artificial (IA) e DevOps, focado principalmente na governança e gerenciamento do ciclo de vida de modelos de IA e de decisão operacionalizados, como aprendizado de máquina, grafos de conhecimento, regras, otimização, modelos linguísticos e modelos baseados em agentes~\cite{Gartner_2022}. Os principais recursos incluem integração contínua/entrega contínua, ou \textit{continuous integration}/\textit{continuous delivery} (CI/CD), ambientes de desenvolvimento, sistema de controle de versão, armazenamento e reversão de modelos. O termo define uma nova estrutura e plataforma para gerenciamento completo do ciclo de vida de artefatos de aplicativos de Inteligência Artificial~\cite{Hummer_2019} e cobre todos os termos relacionados a implantação de modelos baseados em IA, como MLOps, presente nafala Figura \ref{fig:MLOpsLoop}, e AIOps. Apesar do termo ModelOps ser criado como a generalização destes termos, em todos utiliza-se os princípios de Integração Contínua (\textit{Continuous Integration}, ou CI) e Entrega Contínua (\textit{Continuous Delivery}, ou CD) presentes no DevOps para garantir que o modelo de IA seja sempre o melhor e mais próximo do cenário que aborda.
+O termo ModelOps é usado para definir uma junção entre modelos de inteligência artificial (IA) e DevOps, focado principalmente na governança e gerenciamento do ciclo de vida de modelos de IA e de decisão operacionalizados, como aprendizado de máquina, grafos de conhecimento, regras, otimização, modelos linguísticos e modelos baseados em agentes~\cite{Gartner_2022}. Os principais recursos incluem integração contínua/entrega contínua, ou \textit{continuous integration}/\textit{continuous delivery} (CI/CD), ambientes de desenvolvimento, sistema de controle de versão, armazenamento e reversão de modelos. O termo define uma nova estrutura e plataforma para gerenciamento completo do ciclo de vida de artefatos de aplicativos de Inteligência Artificial~\cite{Hummer_2019} e cobre todos os termos relacionados a implantação de modelos baseados em IA, como MLOps, presente na Figura \ref{fig:MLOpsLoop}, e AIOps. Apesar do termo ModelOps ser criado como a generalização destes termos, em todos utiliza-se os princípios de Integração Contínua (\textit{Continuous Integration}, ou CI) e Entrega Contínua (\textit{Continuous Delivery}, ou CD) presentes no DevOps para garantir que o modelo de IA seja sempre o melhor e mais próximo do cenário que aborda.
 
 \begin{figure}[H]
 \centering
@@ -882,7 +883,7 @@ A operacionalização dos procedimentos em Software já é uma prática comum de
     \item \textbf{Processos e cultura do time:} É importante criar equipes que se importem na melhora do modelo e do seu próprio processo de implantação. Sistemas maduros podem ter dezenas ou centenas de modelos rodando simultaneamente, tornando-se complexos ao longo do tempo e necessitando de melhoria contínua dos processos para manter a qualidade.
 \end{itemize}
 
-No caso de MLOps, ele pode ser visto como o processo de implantar os melhores modelos latentes de \textit{Machine Learning} para o ambiente de produção, unindo os campos de \textit{Machine Learning}, DevOps e Engenharia de Dados. O processo de um projeto de MLOps, conforme ilustrado na Figura \ref{fig:MLOpsLoop}, deve dar suporte à automação, integração e monitoramento em todas as etapas da construção de um modelo de ML, incluindo treinamento, integração, teste, lançamento, implantação e gerenciamento de infraestrutura~\citep{Testi_2022}. Com tal processo, projeta-se um pipeline automatizado utilizando o recurso de CI/CD, conforme exemplo mostrado na Figura \ref{fig:MLOpsPipeline}. CI deve permitir a quem desenvolve experimentos orquestrados para análise, validação e preparação de dados, treinamento, avaliação e validação de novos modelos de ML, e CD deve permitir um pipeline que implante um modelo de ML definido como estável em produção, realize o monitoramento deste e implante outro modelo de ML caso as métricas deste monitoramento sejam consideradas insatisfatórias.
+No caso de MLOps, ele pode ser visto como o processo de implantar os melhores modelos de \textit{Machine Learning} para o ambiente de produção, unindo os campos de \textit{Machine Learning}, DevOps e Engenharia de Dados. O processo de um projeto de MLOps, conforme ilustrado na Figura \ref{fig:MLOpsLoop}, deve dar suporte à automação, integração e monitoramento em todas as etapas da construção de um modelo de ML, incluindo treinamento, integração, teste, lançamento, implantação e gerenciamento de infraestrutura~\citep{Testi_2022}. Com tal processo, projeta-se um pipeline automatizado utilizando o recurso de CI/CD, conforme exemplo mostrado na Figura \ref{fig:MLOpsPipeline}. CI deve permitir a quem desenvolve experimentos orquestrados para análise, validação e preparação de dados, treinamento, avaliação e validação de novos modelos de ML, e CD deve permitir um pipeline que implante um modelo de ML definido como estável em produção, realize o monitoramento deste e implante outro modelo de ML caso as métricas deste monitoramento sejam consideradas insatisfatórias.
 
 \begin{figure}[H]
 \centering
@@ -904,7 +905,7 @@ O ciclo de vida de um modelo de ML tem metodologias diferentes para se adequar a
     \item Serviço para implantação de modelos ML em Produção
 \end{itemize}
 
-Isso pode ser feito por uma aplicação própria para realizar este gerenciamento, por funcionalidades implementadas na própria aplicação de IA ou através de frameworks de automação como o Amazon SageMaker, que podem poupar tempo para desenvolvimento de uma nova aplicação a troco de um pagamento de acordo com a demanda utilizada. Estes frameworks podem cuidar de toda a parte de gerenciamento dos dados, modelagem/treinamento ou operação/implantação, e como são modulares e cuidam apenas de uma destas três categorias do processo, podem ser escolhidas ou não de acordo com a necessidade do projeto e conhecimento da equipe.
+Isso pode ser feito por uma aplicação própria para realizar este gerenciamento, por funcionalidades implementadas na própria aplicação de IA ou através de frameworks de automação como o Amazon SageMaker~\citep{Amazon_2023}, que podem poupar tempo para desenvolvimento de uma nova aplicação a troco de um pagamento de acordo com a demanda utilizada. Estes frameworks podem cuidar de toda a parte de gerenciamento dos dados, modelagem/treinamento ou operação/implantação, e como são modulares e cuidam apenas de uma destas três categorias do processo, podem ser escolhidas ou não de acordo com a necessidade do projeto e conhecimento da equipe.
 
 \section{Trabalhos Relacionados}
 \label{sec:TrabalhosRelacionados}
@@ -913,7 +914,7 @@ Os principais trabalhos encontrados envolvendo métricas de \textit{Fairness} e 
 
 Quanto ao ao processo de desenvolvimento e arquiteturas utilizadas para definir a estrutura final, a IBM AI Reference Architecture~\citep{IBM_2021} foi utilizada no processo como modelo para desenvolvimento de aplicações. Uma arquitetura comparável a arquitetura \textit{Pipes-and-Filters} é a FBFlow do Facebook~\citep{Dunn_2016}, onde o uso de DAGs (\textit{Direct Acyclic Graphs}) para a execução de um determinado processo ou \textit{workflow} é uma alternativa simples de ser implementada e interpretada pelos desenvolvedores, definindo possível conectar o processo de ML e realizar o cálculo de métricas de forma automatizada. Há diferenças entre DAGs e \textit{Pipes-and-Filters}, mas o objetivo de ambos acaba sendo o mesmo: Conectar diversos processos menores para formar um sistema coeso.
 
-Para o desenvolvimento da parte de análise realizada na arquitetura MAPE-K, um trabalho que pode ser mencionado é o artigo \textit{"The VADA Architecture for Cost-Effective Data Wrangling"}~\citep{Konstantinou_2017}, que utiliza pesos para dar contexto aos dados medidos. Embora não seja o principal tema do artigo, indicar a importância dos dados analisados garantiu a autonomia necessária sem exigir grandes modificações.
+Para o desenvolvimento da parte de análise realizada na arquitetura MAPE-K, uma abordagem similar a aplicada é a \textit{Logic Scoring of Preference} (LSP), utilizada em trabalhos como \textit{"LSP method and its use for evaluation of Java IDEs"}~\citep{Dujmovic_2006}, que foi utilizada primariamente para a avaliação de aplicações e define pontuações através de agregações e critérios bem definidos para a avaliação das mesmas. Um outro trabalho que pode ser mencionado é o artigo \textit{"The VADA Architecture for Cost-Effective Data Wrangling"}~\citep{Konstantinou_2017}, que utiliza pesos para dar contexto aos dados medidos. Embora não seja o principal tema, indicar a importância dos dados analisados garantiu a autonomia necessária sem exigir grandes modificações.
 
 A tabela~\ref{tbl:CategorizacaoTrabalhosRelacionados} categoriza tais trabalhos de acordo com os conceitos relacionados neste capítulo, divididos nas seguintes colunas: "Ciência/Eng. Dados"~para a seção \ref{sec:CienciaEngDados}, "ML"~para a seção \ref{sec:MachineLearning}, "Fairness" para a seção \ref{sec:Fairness}, "Eng. Software"~para a seção \ref{sec:EngSoftware} e "ModelOps"~para a seção \ref{sec:ModelOps}.
 
@@ -937,7 +938,9 @@ A tabela~\ref{tbl:CategorizacaoTrabalhosRelacionados} categoriza tais trabalhos 
 %    \hline
     \multicolumn{2}{c}{\makecell{FBFlow - Facebook \\ (Dunn, 2016)~\citep{Dunn_2016}}} & \multicolumn{2}{c}{\makecell{Uso de DAGs para determinar \textit{workflow} \\ Execução/interpretação de processos de ML}} &  & \cmark &  & \cmark & \cmark\\
 %    \hline
-    \multicolumn{2}{c}{\makecell{Konstantinou et al.,2017}~\citep{Konstantinou_2017}} & \multicolumn{2}{c}{\makecell{Arquitetura para entrelaçamento de dados \\ Utilização de pesos para determinar contexto aos dados}} &  &  &  & \cmark & \\[3ex]   
+    \multicolumn{2}{c}{\makecell{Konstantinou et al.,2017}~\citep{Konstantinou_2017}} & \multicolumn{2}{c}{\makecell{Arquitetura para entrelaçamento de dados \\ Utilização de pesos para determinar contexto aos dados}} &  &  &  & \cmark & \\[3ex] 
+%    \hline
+    \multicolumn{2}{c}{\makecell{Dujmovic et al.,2006}~\citep{Dujmovic_2006}} & \multicolumn{2}{c}{\makecell{Uso de \textit{Logic Scoring of Preference} \\ Definição de pontuações para avaliação de aplicações}} &  &  &  & \cmark & \\[3ex]    
     \bottomrule
   \end{tabular}}
 \end{center}
@@ -1032,6 +1035,7 @@ Cada passo está presente em um processo padrão para desenvolvimento de um mode
 \end{itemize}
 
 \section{Gerenciador Autonômico}
+\label{sec:GerenciadorAutonomico}
 
 Os dados armazenados na Base de Conhecimento a cada execução do Módulo de ML vão ser utilizados como insumos para análise no Gerenciador Autonômico, seguindo o modelo de arquitetura MAPE-K. Após algumas execuções do Módulo de ML, a Base de Conhecimento possui informação suficiente para a realização da análise do Gerenciador Autonômico, que ajudaria a selecionar melhor configuração arquitetural para o módulo gerar melhores modelos. Após a obtenção de tal Base de Conhecimento, e possível verificar como cada componente do Gerenciador Autonômico se comportará, conforme já ilustrado na Figura \ref{fig:ComponentesArquiteturais}.
 
@@ -1092,25 +1096,12 @@ Nela, $n_{m_E}$ é o número de métricas de avaliação utilizadas (para a árv
 Entretanto, para o caso de $S_F$, ocorrem 3 intervalos e situações distintas para as métricas de \textit{Fairness} presentes no grupo:
 
 \begin{itemize}
-	\item Para o caso das métricas \textit{Statistical parity difference}, \textit{Equal opportunity difference} e \textit{Equal opportunity difference}, estas métricas envolvem a diferença entre 2 ou mais indicadores, estando no intervalo $\left]-\infty,+\infty \right[$ e sendo 0 considerado o melhor resultado.
+	\item Para o caso das métricas \textit{Statistical parity difference}, \textit{Equal opportunity difference} e \textit{Average odds difference}, estas métricas envolvem a diferença entre 2 ou mais indicadores presentes no intervalo $\left[0,1 \right]$, estando no intervalo $\left[-1,1 \right]$ e sendo 0 considerado o melhor resultado.
 	\item Para o caso da métrica \textit{Theil index}, o resultado está no intervalo $\left[0,1 \right]$, porém é inversamente proporcional: 0 é considerado o melhor resultado e 1 o pior
 	\item Para o caso da métrica \textit{Disparate impact}, esta é a única métrica que envolve a razão entre dois indicadores, estando no intervalo $\left[0,+\infty \right[$ e sendo 1 considerado o melhor resultado.
 \end{itemize}
 
-Para normalizar as métricas $m_{F_i}$ a uma métrica $m'_{F_i}$ no intervalo $\left[0,1 \right]$, cada caso foi tratado isoladamente. Para o primeiro caso, foi utilizado o seguinte cálculo:
-
-\begin{equation}
-\label{eqn:normalizationFairnessStep1}
-	\begin{aligned}
-	m'_{F_i} = 
-	\begin{cases}
-	1-\lvert m_{F_i} \rvert & \text{caso  $-1 < m_{F_i} < 1$}\\
-	0 & \text{caso $m_{F_i} \geqslant 1$ ou $m_{F_i} \leqslant -1$}
-	\end{cases}
-	\end{aligned}
-\end{equation}
-
-Para o segundo caso, foi utilizado $m'_{F_i} = 1-m_{F_i}$, mas o cálculo utilizado no primeiro caso também satisfaz o mesmo intervalo e produz os mesmos resultados. Para o terceiro caso, por se tratar de uma razão e pelo melhor resultado ser outro valor, foi utilizado outro cálculo:
+Para normalizar as métricas $m_{F_i}$ a uma métrica $m'_{F_i}$ no intervalo $\left[0,1 \right]$, cada caso foi tratado isoladamente. Para o primeiro caso, foi utilizado $m'_{F_i} = 1-\lvert m_{F_i} \rvert$. Para o segundo caso, poderia-se utilizar $m'_{F_i} = 1-m_{F_i}$, mas o cálculo utilizado no primeiro caso também satisfaz o mesmo intervalo e produz os mesmos resultados. Para o terceiro caso, por se tratar de uma razão e pelo melhor resultado ser outro valor, foi utilizado outro cálculo:
 
 \begin{equation}
 \label{eqn:normalizationFairnessStep2}
@@ -1130,11 +1121,9 @@ Consolidando todos os casos, temos o cálculo para adequar as métricas $m_{F_i}
 	\begin{aligned}
 	m'_{F_i} = 
 	\begin{cases}
-	1-\lvert m_{F_i} \rvert & \text{caso $m_{F_i}$ envolva diferen\c{c}a e $-1 < m_{F_i} < 1$}\\
-	0 & \text{caso $m_{F_i}$ envolva diferen\c{c}a, e $m_{F_i} \geqslant 1$ ou $m_{F_i} \leqslant -1$}\\
-	1-\lvert \frac{1}{m_{F_i}}-1 \lvert & \text{caso $m_{F_i}$ envolva razão e $m_{F_i} > 1$}\\
-	1-\lvert m_{F_i}-1 \lvert & \text{caso $m_{F_i}$ envolva razão e $0 \leqslant m_{F_i} \leqslant 1$}\\
-	1-m_{F_i} & \text{caso contrário}
+	1-\lvert \frac{1}{m_{F_i}}-1 \lvert & \text{caso $m_{F_i}$ seja \textit{Disparate impact} e $m_{F_i} > 1$}\\
+	1-\lvert m_{F_i}-1 \lvert & \text{caso $m_{F_i}$ seja \textit{Disparate impact} e $0 \leqslant m_{F_i} \leqslant 1$}\\
+	1-\lvert m_{F_i} \rvert & \text{caso contrário}
 	\end{cases}
 	\end{aligned}
 \end{equation}
@@ -1214,14 +1203,18 @@ Este capítulo apresenta a ferramenta FairPEK que implementa a solução descrit
 \section{Visão geral da implementação}
 \label{sec:VisaoGeral}
 
+O Módulo de ML, o Gerenciador Autonômico e o módulo de Engenharia de Dados foram desenvolvidos em Python pelo motivo de que grande parte dos algoritmos e bibliotecas utilizados já estão implementados com essa linguagem. Para a execução dos algoritmos com redução de viés no Módulo de ML, é utilizada a biblioteca AI Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}. Um pequeno \textit{framework} também foi desenvolvido no Módulo de ML para facilitar o desenvolvimento com o padrão de arquitetura \textit{Pipes-and-Filters}. O Gerenciador Autonômico e o módulo de Engenharia de Dados usam a biblioteca Pandas~\citep{Pandas_2023} para auxiliar nos processos de transformação de dados e na organização dos dados presentes na Base de Conhecimento.
+
 Durante o desenvolvimento do Módulo de ML e do Gerenciador Autonômico, foi notado que o número de configurações e a complexidade das mesmas era muito grande, ocasionando problemas na hora de documentar e detalhar todo o processo executado. Para facilitar tais configurações, foi criada uma Interface Humano-Computador onde é condensada toda a organização dos parâmetros, dos arquivos utilizados e da realização das execuções simples e autônoma do Módulo de ML. Também foi criado um Backend dentro do Gerenciador Autonômico para fazer a intermediação entre a interface e o mesmo.
 
-O Backend foi desenvolvido em Python para reusar códigos já desenvolvido em etapas anteriores, usando o framework Flask para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do Módulo de ML.
+O Backend também foi desenvolvido em Python para reusar códigos já desenvolvidos em etapas anteriores, usando o framework Flask~\citep{Flask_2023} para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do Módulo de ML.
+
+Após o implementação e durante a elaboração dos experimentos, foi notado a necessidade de desenvolver uma documentação, presente nos Apêndices \ref{ann:DocInstall} e \ref{ann:DocMain}. Nela estão explicadas as tecnologias utilizadas para instalação e execução do sistema, além de passos para manutenção caso novos algoritmos e conjuntos de dados sejam adicionados a implementação do arcabouço.
 
 \section{Interface}
 \label{sec:interface}
 
-A interface foi desenvolvida em JavaScript devido a facilidade e a robustez para construir interfaces com a linguagem e ao acervo grande de ferramentas para facilitar o desenvolvimento, usando as bibliotecas React e Redux e a biblioteca de componentes Material UI para economizar tempo com componentes já prontos, uma vez que o foco deste trabalho não exige componentes específicos para a interface. O uso da Material UI permite um \textit{look-and-feel} similar a aplicativos desenvolvidos para o Sistema Operacional para dispositivos móveis Android, uma vez que é baseado nas \textit{guidelines} do Material Design elaborados pelo Google.
+A interface foi desenvolvida em JavaScript devido a facilidade e a robustez para construir interfaces com a linguagem e ao acervo grande de ferramentas para facilitar o desenvolvimento, usando as bibliotecas React~\citep{React_2023} e Redux~\citep{Redux_2023} e a biblioteca de componentes Material UI~\citep{MaterialUI_2023} para economizar tempo com componentes já prontos, uma vez que o foco deste trabalho não exige componentes específicos para a interface. O uso da Material UI permite um \textit{look-and-feel} similar a aplicativos desenvolvidos para o Sistema Operacional para dispositivos móveis Android, uma vez que é baseado nas \textit{guidelines} do Material Design elaborados pelo Google.
 
 A interface foi nomeada de FairPEK, junção dos termos Fairness e MAPE-K, e possui os seguintes detalhes:
 
@@ -1231,8 +1224,8 @@ Conforme ilustrado na Figura \ref{fig:opcoesMenu}, o menu pode ser expandido e r
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:opcoesMenu1][Opções de seleção de menu expandidas.]{\includegraphics[scale=0.4]{images/front/Menu.png}}
-    \subfigure[fig:opcoesMenu2][Opções de seleção de menu recolhidas.]{\includegraphics[scale=0.4]{images/front/Metricas-Performance.png}}
+    \subfigure[fig:opcoesMenu1][Opções de seleção de menu expandidas.]{\includegraphics[scale=0.35]{images/front/Menu.png}}
+    \subfigure[fig:opcoesMenu2][Opções de seleção de menu recolhidas.]{\includegraphics[scale=0.35]{images/front/Metricas-Performance.png}}
     \caption{Comportamento das opções de menu.}
     \label{fig:opcoesMenu}
 \end{figure}
@@ -1247,30 +1240,30 @@ Ao clicar a opção do menu "Análise", é exibida a tela ilustrada na Figura \r
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:configMetricas1][Configuração para Métricas de Avaliação.]{\includegraphics[scale=0.4]{images/front/Metricas-Performance.png}}
-    \subfigure[fig:configMetricas2][Configuração para Métricas de Fairness.]{\includegraphics[scale=0.4]{images/front/Metricas-Fairness.png}}
+    \subfigure[fig:configMetricas1][Configuração para Métricas de Avaliação.]{\includegraphics[scale=0.35]{images/front/Metricas-Performance.png}}
+    \subfigure[fig:configMetricas2][Configuração para Métricas de Fairness.]{\includegraphics[scale=0.35]{images/front/Metricas-Fairness.png}}
     \caption{Configuração das métricas para o Analisador do Gerenciador Autonômico.}
     \label{fig:configMetricas}
 \end{figure}
 
-A alteração do campo de métricas para uso pode resultar em uma mudança no número de métricas para as quais os pesos devem ser ajustados. Dado que é possível ter mais de duas métricas, a tarefa de assegurar automaticamente que a soma total das métricas atinja 100\% torna-se mais complexa, sendo substituída por um processo de validação conforme ilustrado na Figura \ref{fig:cenariosMetricas}. Ao clicar no botão "Salvar" localizado no canto superior direito, é realizada a validação da soma de todas as métricas e, em caso positivo, chamada uma requisição que salva o arquivo com as opções selecionadas e seus respectivos valores. Após este procedimento, será exibida uma indicação de sucesso ou erro de validação no canto inferior esquerdo indicando se o arquivo foi salvo ou não.
+A alteração do campo de métricas para uso pode resultar em uma mudança no número de métricas para as quais os pesos devem ser ajustados. Dado que é possível ter mais de duas métricas, a tarefa de assegurar automaticamente que a soma total das métricas atinja 100\% torna-se mais complexa, sendo substituída por um processo de validação conforme ilustrado na Figura \ref{fig:cenariosMetricas}. Ao clicar no botão "Salvar"~localizado no canto superior direito, é realizada a validação da soma de todas as métricas e, em caso positivo, chamada uma requisição que salva o arquivo com as opções selecionadas e seus respectivos valores. Após este procedimento, será exibida uma indicação de sucesso ou erro de validação no canto inferior esquerdo indicando se o arquivo foi salvo ou não.
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:cenariosMetricas1][Erros de validação ao concluir a operação.]{\includegraphics[scale=0.4]{images/front/Metricas-Erro.png}}
-    \subfigure[fig:cenariosMetricas2][Indicação de sucesso da operação.]{\includegraphics[scale=0.4]{images/front/Metricas-Sucesso.png}}
+    \subfigure[fig:cenariosMetricas1][Erros de validação ao concluir a operação.]{\includegraphics[scale=0.35]{images/front/Metricas-Erro.png}}
+    \subfigure[fig:cenariosMetricas2][Indicação de sucesso da operação.]{\includegraphics[scale=0.35]{images/front/Metricas-Sucesso.png}}
     \caption{Cenários possíveis na configuração das métricas.}
     \label{fig:cenariosMetricas}
 \end{figure}
 
 \subsubsection{Configurações para Planejamento}
 
-Ao clicar a opção do menu "Planejamento", é exibida a tela ilustrada na Figura \ref{fig:configPlanejamento}. Ela possui três opções, relativas às estratégias desenvolvidas para o Planejador do Gerenciador Autonômico. Ao clicar no botão "Salvar" localizado no canto superior direito, são chamadas requisições que salvam os arquivos necessários e é exibida uma indicação de sucesso no canto inferior esquerdo.
+Ao clicar a opção do menu "Planejamento", é exibida a tela ilustrada na Figura \ref{fig:configPlanejamento}. Ela possui três opções, relativas às estratégias desenvolvidas para o Planejador do Gerenciador Autonômico. Ao clicar no botão "Salvar"~localizado no canto superior direito, são chamadas requisições que salvam os arquivos necessários e é exibida uma indicação de sucesso no canto inferior esquerdo.
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:configPlanejamento1][Opções para configurar o Planejador do Gerenciador Autonômico.]{\includegraphics[scale=0.4]{images/front/Planejamento.png}}
-    \subfigure[fig:configPlanejamento2][Indicação de sucesso da operação.]{\includegraphics[scale=0.4]{images/front/Planejamento-Sucesso.png}}
+    \subfigure[fig:configPlanejamento1][Opções para configurar o Planejador do Gerenciador Autonômico.]{\includegraphics[scale=0.35]{images/front/Planejamento.png}}
+    \subfigure[fig:configPlanejamento2][Indicação de sucesso da operação.]{\includegraphics[scale=0.35]{images/front/Planejamento-Sucesso.png}}
     \caption{Configuração do Planejador do Gerenciador Autonômico.}
     \label{fig:configPlanejamento}
 \end{figure}
@@ -1281,7 +1274,7 @@ Se a estratégia de restrição de algoritmos for selecionada, é exibido um sub
 
 \subsubsection{Execução manual}
 
-Ao clicar a opção do menu "Pipeline Manual", é exibida a tela ilustrada na Figura \ref{fig:pipelineManual}. Ela possui indicações de etapas divididas em Parametrização, Execução e Resultados, campos para selecionar o conjunto de dados e o atributo protegido e opções para selecionar onde a redução de viés será executada. Dependendo da opção selecionada, aparecem campos para selecionar o algoritmo de treinamento e o algoritmo de redução de viés. Ao clicar no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o Módulo de ML com as opções selecionadas, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de execução.
+Ao clicar a opção do menu "Pipeline Manual", é exibida a tela ilustrada na Figura \ref{fig:pipelineManual}. Ela possui indicações de etapas divididas em Parametrização, Execução e Resultados, campos para selecionar o conjunto de dados e o atributo protegido e opções para selecionar onde a redução de viés será executada. Dependendo da opção selecionada, aparecem campos para selecionar o algoritmo de treinamento e o algoritmo de redução de viés. Ao clicar no botão "Executar"~localizado no canto superior direito, é feita uma requisição para executar o Módulo de ML com as opções selecionadas, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de execução.
 
 \begin{figure}[H]
     \centering
@@ -1304,20 +1297,20 @@ Após a execução ser concluída,  a indicação de etapa é atualizada para a 
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineManual1][Exibição das métricas de avaliação no resultado.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Performance.png}}
-    \subfigure[fig:pipelineManual2][Exibição das métricas de fairness no resultado.]{\includegraphics[scale=0.4]{images/front/Pipeline-Manual-Resultado-Metricas-Fairness.png}}
+    \subfigure[fig:pipelineManual1][Exibição das métricas de avaliação no resultado.]{\includegraphics[scale=0.35]{images/front/Pipeline-Manual-Resultado-Metricas-Performance.png}}
+    \subfigure[fig:pipelineManual2][Exibição das métricas de fairness no resultado.]{\includegraphics[scale=0.35]{images/front/Pipeline-Manual-Resultado-Metricas-Fairness.png}}
     \caption{Métricas do resultado do Módulo de ML.}
     \label{fig:pipelineManualMetricas}
 \end{figure}
 
 \subsubsection{Execução autônoma}
 
-Ao clicar a opção do menu "Pipeline Autônomo", é exibida a tela ilustrada na Figura \ref{fig:pipelineAutonomo}. Ela possui indicações de etapas divididas em Parametrização, Análise, Opções, Execução e Resultados e um campo para selecionar o conjunto de dados. Ao clicar no botão "Executar" localizado no canto superior direito, é feita uma requisição para escolher o melhor conjunto de parâmetros baseado em execuções anteriores, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de análise.
+Ao clicar a opção do menu "Pipeline Autônomo", é exibida a tela ilustrada na Figura \ref{fig:pipelineAutonomo}. Ela possui indicações de etapas divididas em Parametrização, Análise, Opções, Execução e Resultados e um campo para selecionar o conjunto de dados. Ao clicar no botão "Executar"~localizado no canto superior direito, é feita uma requisição para escolher o melhor conjunto de parâmetros baseado em execuções anteriores, é exibida uma indicação de sucesso no canto inferior esquerdo e a indicação de etapa é atualizada para a etapa de análise.
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineAutonomo1][Opções para configurar o Módulo de ML de forma autônoma.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Parametros.png}}
-    \subfigure[fig:pipelineAutonomo2][Análise do Gerenciador Autonômico em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Analise.png}}
+    \subfigure[fig:pipelineAutonomo1][Opções para configurar o Módulo de ML de forma autônoma.]{\includegraphics[scale=0.35]{images/front/Pipeline-Autonomo-Parametros.png}}
+    \subfigure[fig:pipelineAutonomo2][Análise do Gerenciador Autonômico em execução.]{\includegraphics[scale=0.35]{images/front/Pipeline-Autonomo-Analise.png}}
     \caption{Execução autônoma do Módulo de ML gerenciada pelo Gerenciador Autonômico.}
     \label{fig:pipelineAutonomo}
 \end{figure}
@@ -1326,18 +1319,18 @@ Após a etapa de análise ser concluída, a indicação de etapa é atualizada p
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineAutonomoSelecao1][Opções para seleção da configuração arquitetural para execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Selecao.png}}
-    \subfigure[fig:pipelineAutonomoSelecao2][Parâmetros a serem utilizados para execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Selecao-Parametros.png}}
+    \subfigure[fig:pipelineAutonomoSelecao1][Opções para seleção da configuração arquitetural para execução.]{\includegraphics[scale=0.35]{images/front/Pipeline-Autonomo-Selecao.png}}
+    \subfigure[fig:pipelineAutonomoSelecao2][Parâmetros a serem utilizados para execução.]{\includegraphics[scale=0.35]{images/front/Pipeline-Autonomo-Selecao-Parametros.png}}
     \caption{Seleção da configuração arquitetural após análise.}
     \label{fig:pipelineAutonomoSelecao}
 \end{figure}
 
-Ao clicar novamente no botão "Executar" localizado no canto superior direito, é feita uma requisição para executar o Módulo de ML com a opção selecionada, e a indicação de etapa é atualizada para a etapa de execução. Após a execução ser concluída,  a indicação de etapa é atualizada para a etapa de resultados, conforme ilustração na Figura \ref{fig:pipelineAutonomoResultado}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes na Figura \ref{fig:pipelineAutonomoSelecao}, mas desta vez refletem as métricas e pontuação da execução realizada pelo Módulo de ML.
+Ao clicar novamente no botão "Executar"~localizado no canto superior direito, é feita uma requisição para executar o Módulo de ML com a opção selecionada, e a indicação de etapa é atualizada para a etapa de execução. Após a execução ser concluída,  a indicação de etapa é atualizada para a etapa de resultados, conforme ilustração na Figura \ref{fig:pipelineAutonomoResultado}. Nela, os parâmetros sugeridos são organizados nos mesmos grupos presentes na Figura \ref{fig:pipelineAutonomoSelecao}, mas desta vez refletem as métricas e pontuação da execução realizada pelo Módulo de ML.
 
 \begin{figure}[H]
     \centering
-    \subfigure[fig:pipelineAutonomoResultado1][Módulo de ML em execução.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Execucao.png}}
-    \subfigure[fig:pipelineAutonomoResultado2][Resultados da execução realizada.]{\includegraphics[scale=0.4]{images/front/Pipeline-Autonomo-Resultado.png}}
+    \subfigure[fig:pipelineAutonomoResultado1][Módulo de ML em execução.]{\includegraphics[scale=0.35]{images/front/Pipeline-Autonomo-Execucao.png}}
+    \subfigure[fig:pipelineAutonomoResultado2][Resultados da execução realizada.]{\includegraphics[scale=0.35]{images/front/Pipeline-Autonomo-Resultado.png}}
     \caption{Execução do Módulo de ML após seleção.}
     \label{fig:pipelineAutonomoResultado}
 \end{figure}
@@ -1353,15 +1346,15 @@ Neste Estudo de Caso, o real foco foi colocado em testar e verificar como o Gere
 \begin{itemize}
 \item \textbf{Contexto:} Obter classificação de crédito de uma pessoa (apto ou não apto), por meio de uma série de \textit{features}.
 
-\item \textbf{Conjunto de dados:} German Credit Dataset, presente em \citep{ucigerman_2021}.
+\item \textbf{Conjunto de dados:} German Credit Dataset~\citep{ucigerman_2021}.
 
 \item \textbf{Transformações realizadas no conjunto de dados:} Mudanças nos valores dos atributos para valores de interpretação mais simples, para que o Cientista de Dados possa categorizar o dado de forma mais fácil no Módulo de ML.
 
 \item \textbf{Atributos protegidos:} Idade ou Nacionalidade
 
-\item \textbf{Grupo privilegiado:} Idade maior ou igual a 25 anos; Nacionalidade Alemã
+\item \textbf{Grupo privilegiado:} Idade: Maior ou igual a 25 anos; Nacionalidade: Alemã
 
-\item \textbf{Grupo não-privilegiado:} Idade menor que 25 anos; Nacionalidade diferente da Alemã (Estrangeiro)
+\item \textbf{Grupo não-privilegiado:} Idade: Menor que 25 anos; Nacionalidade: Diferente da Alemã (Estrangeiro)
 
 \end{itemize}
 
@@ -1388,7 +1381,7 @@ São utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-S
 
 \item \textbf{Pré-condição 3:} Podem existir ruídos nos resultados finais devido ao German Credit Dataset ser uma base de dados com poucas amostras (apenas 1000), mas eles serão desconsiderados uma vez que o conjunto de dados ainda é considerado como \textit{benchmark} em alguns trabalhos acadêmicos \citep{Kamiran_2011}~\citep{Feldman_2015}~\citep{Celis_2019} e seus dados exemplificam muito bem uma situação real onde dados sensíveis podem ser utilizados e são possíveis de afetar a decisão de um modelo e, consequentemente, a situação de vida de uma pessoa.
 
-\item \textbf{Restrição 1:} O algoritmo para redução de vieses é executado em apenas um dos componentes (Pré-processamento, Processamento/Treinamento ou Pós-""processamento""/Validação). Isto foi decidido pois não foram verificadas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta em melhora nas métricas de \textit{Fairness}.
+\item \textbf{Restrição 1:} O algoritmo para redução de vieses é executado em apenas um dos componentes (Pré-processamento, Processamento/Treinamento ou Pós-""processamento""/Validação). Isto foi decidido pois não foram encontradas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta em melhora nas métricas de \textit{Fairness}.
 
 \item \textbf{Restrição 2:} Por não conseguir rodar com sucesso, foram removidas as configurações arquiteturais que rodaram o algoritmo \textit{Optimized Preprocessing}.
 
@@ -1969,8 +1962,8 @@ Após a verificação das pontuações, foram catalogadas todas as métricas de 
 Com tais dados, é possível reforçar com clareza observações notadas anteriormente:
 
 \begin{itemize}
-\item Boas métricas de Avaliação nos casos onde algoritmos para redução de viés de pós-processamento foram utilizados, e boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado.
-\item Mudanças nas métricas de \textit{Fairness} conforme o algoritmo de treinamento ou o atributo protegido é alterado, independente de utilizar algoritmos para redução de viés ou não em sua configuração arquitetural.
+\item Boas métricas de Avaliação nos casos onde algoritmos para redução de viés de pós-processamento foram utilizados, e boas métricas de \textit{Fairness} nos casos onde o algoritmo \textit{Support Vector Machines} foi utilizado, indicando que as pontuações obtidas no experimento são diretamente proporcionais ao ranqueamento das métricas presentes nos dados.
+\item Assim como nas pontuações obtidas no experimento, há mudanças nas métricas de \textit{Fairness} conforme o algoritmo de treinamento ou o atributo protegido é alterado, independente de utilizar algoritmos para redução de viés ou não em sua configuração arquitetural.
 \end{itemize}
 
 A análise dos resultados das Tabelas \ref{tbl:PerformanceMetrics} e \ref{tbl:FairnessMetrics} confirma que o cálculo utilizado no Analisador do Gerenciador Autonômico foi capaz de consolidar as métricas existentes de forma eficiente, proporcionando uma visão geral das configurações arquiteturais utilizadas sem comprometer a interpretação dos resultados. Analisando as métricas isoladamente, é difícil identificar qual configuração arquitetural oferece o melhor equilíbrio entre dois grupos de métricas com contextos completamente diferentes, diante da grande quantidade de métricas, a diferença extremamente pequena entre os resultados e a grande quantidade de configurações arquiteturais. Nesse contexto, a consolidação das métricas em grupos simplifica a visualização de quais configurações arquiteturais são mais equilibradas, e o uso de pesos para cada métrica e para cada grupo pode calibrar qual o melhor equilíbrio desejado para determinada situação.
@@ -1988,7 +1981,7 @@ O experimento foi realizado com o seguinte conjunto de dados e dado o seguinte c
 \begin{itemize}
 \item \textbf{Contexto:} Obter classificação de crédito de uma pessoa (apto ou não apto), por meio de uma série de \textit{features}.
 
-\item \textbf{Conjunto de dados:} Lendingclub Dataset, presente em \citep{lendingclub_2022}.
+\item \textbf{Conjunto de dados:} Lendingclub Dataset~\citep{lendingclub_2022}.
 
 \item \textbf{Transformações realizadas no conjunto de dados:} Filtragem de linhas que não definiam classificação boa ou ruim de crédito; seleção de 20 \textit{features} utilizando algoritmo de informação mútua~\citep{Ross_2014}, mais uma \textit{feature} para caracterizar dado sensível (atributo protegido) e \textit{feature} de classificação de crédito, totalizando 22 \textit{features} no total.
 
@@ -2100,9 +2093,9 @@ Gerenciador Autonômico & 4 & 889 & 1 & 17 & \textbf{0,45\%} & \textbf{5,88\%} \
 
 A primeira conclusão que é possível discutir é relativa a modificação no Gerenciador Autonômico, que se baseou em parametrizações adicionais para a integração entre o Gerenciador Autonômico e a Interface e não afetou os componentes baseados na arquitetura MAPE-K. Este fato e a grande diferença entre os resultados dos Estudo de Caso 1 e 2 reforçam a autonomia proposta neste módulo, possibilitando configurações diferentes baseadas nos metadados capturados no Módulo de ML.
 
-Os elementos na Interface exigiram pouquíssimas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no Módulo de ML e no módulo de Engenharia de Dados, principalmente deste último. Das modificações no Módulo de ML, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a estruturação baseada na arquitetura \textit{Pipes-and-Filters} traga algumas linhas a mais para as modificações devido a quantidade de classes criadas para o Módulo de ML (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão as partes de onde se consumirá mais tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
+Os elementos na Interface exigiram poucas modificações, podendo ser resumidos a simples adições para colocar a opção do novo conjunto de dados. As maiores modificações foram realizadas no Módulo de ML e, principalmente, no módulo de Engenharia de Dados. Das modificações no Módulo de ML, a grande parte (34 linhas, ou 44,74\% das linhas) foi realizada no pré-processamento do dado para o cálculo dos algoritmos de treinamento. Embora a arquitetura \textit{Pipes-and-Filters} tenha a consequência de escrever algumas linhas a mais para elas devido a quantidade de classes criadas no Módulo de ML (2 para pipes e 1 para filtro), etapas de processamento e transformação dos dados serão o foco de tempo e modificações por parte dos Engenheiros e Cientistas de Dados.
 
-Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquitetura \textit{Pipes-and-Filters} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que a parte de código existente para o Módulo de ML possa ter escolhas mais interessantes e elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento e ele pode ser expandido conforme novas classes de filtro forem implementadas sem grande esforço.
+O uso da arquitetura \textit{Pipes-and-Filters} permite o encapsulamento dos algoritmos e a separação de interesses de forma simples, fazendo com que o código presente no Módulo de ML possa ter escolhas mais elegantes para um bom \textit{Design} do código. Como exemplo disso há o Trecho \ref{cod:DataPostprocessExample}, onde há grande flexibilidade para configurar o método de pós-processamento, podendo ser expandido conforme novas classes de filtro forem implementadas com apenas a adição de um novo item no array \textbf{unbias\_postproc\_options}.
 
 \begin{lstlisting}[language=Python, caption=Método para seleção de algoritmo para redução de viés de pós-processamento,label=cod:DataPostprocessExample]
     def data_postprocess(self, test_pipe, prediction_pipe, fairness_pipe, unbias_postproc_algorithm):
@@ -2121,11 +2114,11 @@ Embora tenha a consequência de escrever algumas linhas a mais, o uso da arquite
         return prediction_pipe
 \end{lstlisting}
 
-Dito isso, realizar a manutenção/evolução do sistema é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação, presente nos Apêndices \ref{ann:DocInstall} e \ref{ann:DocMain}, é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
+Dito isso, realizar a manutenção/evolução do sistema é relativamente simples, desde que se saiba os arquivos onde as modificações serão realizadas. Por isso, a criação de uma documentação é extremamente importante para que um novo desenvolvedor entenda o todo do sistema e não adicione linhas em trechos desnecessários.
 
 \chapter{Estudo de Caso 3: Evolução do sistema com outros desenvolvedores}
 
-Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo algoritmo de classificação. O foco ainda é na manutenção do sistema, mas desta vez foi colocado para outros desenvolvedores desenvolverem a solução. A discussão se focará mais se as arquiteturas escolhidas são versáteis e simples o suficiente para que pessoas entendam o contexto do sistema e façam novas evoluções.
+Neste Estudo de Caso, foi realizada uma evolução do sistema adicionando um novo algoritmo de classificação. O foco ainda é na manutenção do sistema, mas desta vez foi colocado para outros desenvolvedores desenvolverem a solução. A discussão se concentra na avaliação da versatilidade e simplicidade das arquiteturas escolhidas para permitir que outros desenvolvedores entendam o contexto do sistema e façam novas evoluções.
 
 \section{Contexto e limitações}
 
@@ -2134,7 +2127,7 @@ O experimento foi realizado com o seguinte conjunto de dados e dado o seguinte c
 \begin{itemize}
 \item \textbf{Contexto:} Obter classificação de crédito de uma pessoa (apto ou não apto), por meio de uma série de \textit{features}.
 
-\item \textbf{Conjunto de dados:} Lendingclub Dataset, presente em \citep{lendingclub_2022}.
+\item \textbf{Conjunto de dados:} Lendingclub Dataset~\citep{lendingclub_2022}.
 
 \item \textbf{Transformações realizadas no conjunto de dados:} Filtragem de linhas que não definiam classificação boa ou ruim de crédito; seleção de 20 \textit{features} utilizando algoritmo de informação mútua~\citep{Ross_2014}, mais uma \textit{feature} para caracterizar dado sensível (atributo protegido) e \textit{feature} de classificação de crédito, totalizando 22 \textit{features} no total.
 
@@ -2168,15 +2161,15 @@ Foi realizada uma sessão de desenvolvimento com um outro desenvolvedor, durando
 \item \textbf{Adaptações para Linux} - Como uma das máquinas que testamos rodava o sistema operacional Linux, certas estruturas de pastas mudam em relação ao Windows e tais mudanças foram atualizadas na documentação.
 \item \textbf{Fixar versão de biblioteca} - Durante o período de testes, uma biblioteca foi atualizada e isto causou incompatibilidades com outras. A solução foi fixá-la no arquivo onde elas são informadas.
 \item \textbf{Instalação em PCs sem GPU Nvidia e com GPU Nvidia} - Como uma das máquinas que testamos não tinha GPU Nvidia, foi colocado um modo apenas para uso de CPU. Para máquinas com GPUs Nvidia, foi colocada na documentação a orientação para instalar o CUDA Toolkit.
-\item \textbf{Correções de bugs} - Foram encontrados 2 bugs, 1 no Frontend e outro no MAPE-K, sendo detectados rapidamente, corrigidos e colocados na documentação.
+\item \textbf{Correções de bugs} - Foram encontrados 2 bugs durante o desenvolvimento, 1 na Interface e outro no Gerenciador Autonômico, por falta de detalhes na documentação. Foram detectados rapidamente, corrigidos e suas causas foram adicionadas na documentação.
 \item \textbf{Correções na documentação} - Foram colocados modificações em métodos que faltaram constar na documentação para obter certas parametrizações dos módulos presentes na solução, além de deixar mais explícito onde cada arquivo se encontra.
 \end{itemize}
 
-Por causa de alguns itens presentes acima, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário presente no Apêndice \ref{ann:Questionary}, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida
+Por causa de alguns itens presentes acima, uma pequena parte da sessão foi gasto em auxílios e dúvidas para que o desenvolvedor pudesse realizar o desenvolvimento sem que precisasse gastar o tempo identificando problemas que não foram de responsabilidade dele. Depois da sessão, o desenvolvedor preencheu um questionário presente no Apêndice \ref{ann:Questionary}, refletindo um perfil com certa experiência na área de dados e desenvolvimento. No geral, as impressões foram positivas e a implementação ocorreu sem dificuldades. Embora a intenção inicial era que o desenvolvedor apenas se guiasse pela documentação e o auxílio durante a sessão acabou facilitado o entendimento por parte do desenvolvedor, ele próprio considerou a adaptação a tal experimento rápida.
 
 Outro item foi notado durante todo o desenvolvimento do sistema: alertas de vulnerabilidades das bibliotecas utilizadas no projeto e disponibilizados no GitHub. Isso reforça o fato de que o processo de Engenharia de Software para evolução do sistema é contínuo, mas que existem certas situações que estão fora do seu escopo. A própria AIF360 é uma biblioteca que implementa vários algoritmos com redução de viés baseadas em artigos disponibilizados na comunidade acadêmica mas ainda peca pela não atualização dos mesmos, fazendo com que muitos algoritmos utilizados necessitem de bibliotecas desatualizadas para funcionar.
 
-O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes\citep{Naive_Bayes_2004}, que também é bastante difundido como classificador. Após o desenvolvimento, os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
+O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes~\citep{Naive_Bayes_2004}, que também é bastante difundido como classificador. Após o desenvolvimento, os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
 
 \begin{table}[H]
 \begin{center}
@@ -2270,7 +2263,7 @@ Pode-se dizer também que o conjunto da arquitetura de \textit{Pipes-and-Filters
 
 Ao usar a arquitetura MAPE-K para possibilitar uma escolha autônoma de algoritmos e processamento do conjunto de dados foram notadas algumas vantagens. É um modelo de organização conhecido, o que facilita a manutenção do desenvolvedor que já possui conhecimento desta arquitetura. Ela permite separar muito bem as etapas para executar um plano e, com isso, reconfigurar o Gerenciador Autonômico para executar as opções com melhores resultados. Esta separação também auxilia na manutenção, uma vez que o ciclo de monitoria, análise, planejamento, execução e obtenção de conhecimento é um formato muito bem definido para análise de dados e execução de ações, facilitando o entendimento de seu funcionamento e, consequentemente, de seu código.
 
-Ao usar uma interface humano-computador para intermediar as interações entre o Gerenciador Autonômico e as escolhas de um usuário, houve uma maneira completamente diferente de como enxergar as soluções que podem ser propostas. Inicialmente, teve-se a ideia de que a autonomia seria contínua, em um Módulo de ML completamente "online", onde era possivel obter resultados imediatos com o deploy de novos modelos através do Gerenciador Autonômico. Entretanto, foi notado que tal abordagem dificultava o entendimento de seu funcionamento, motivando a elaboração da interface. Após o desenvolvimento da mesma, foi possível notar e explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final, implicando em resultados mais eficientes para o treinamento de novos usuários. O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps, uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. 
+Ao usar uma interface humano-computador para intermediar as interações entre o Gerenciador Autonômico e as escolhas de um usuário, foi possível obter uma melhor compreensão do funcionamento do sistema. A interface permitiu explicar melhor como funcionam as etapas, como funciona o cálculo para análise e como as configurações presentes para a etapa de planejamento afetam o resultado final. Tal compreensão do funcionamento do sistema é importante para a sustentabilidade do mesmo, sendo possível treinar novos usuários com mais eficiência e contribuir para a expansão de seu uso. O uso da interface também levou a uma conclusão inesperada: Com alguns ajustes, é possível adaptar o sistema para processos de MLOps, uma vez que a base de conhecimento gerada pode ajudar na decisão de retornar modelos mais antigos, porém com menos ruídos em seus dados e, consequentemente, melhores métricas no geral. 
 
 \section{Limitações}
 
@@ -2284,7 +2277,7 @@ Apesar da autonomia tornar o processo de decisão por uma gama de algoritmos mai
 
 \section{Trabalhos Futuros}
 
-Como trabalhos futuros, é possível trabalhar com algumas possibilidades. No Gerenciador Autonômico, o Analisador pode realizar uma análise mais profunda aumentando o número de indicadores e considerando grupos além de métricas de \textit{Fairness} e métricas de Performance. No Módulo de ML, introduzir técnicas para melhora dos resultados como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation} e introduzir soluções para \textit{AI Explainability} como forma de garantir mais transparência. Também é possível mudar o foco para solucionar problemas de MLOps, utilizando o Gerenciador Autonômico para determinar um melhor deploy em caso de piora nas métricas de um modelo já utilizado por clientes, além de funcionalidades como notificação para tais casos de diminuição de métricas, mecanismos para deploy dos modelos obtidos, opções de visualização dos dados, um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço.
+Como trabalhos futuros, é possível trabalhar com algumas possibilidades. No Gerenciador Autonômico, o Analisador pode realizar uma análise mais profunda aumentando o número de indicadores, considerando grupos além de métricas de \textit{Fairness} e métricas de Avaliação e adaptações para abordagens baseadas em \textit{Logic Scoring of Preference} (LSP). No Módulo de ML, introduzir técnicas para melhora dos resultados como \textit{Data Augmentation} e \textit{K-Fold Cross-Validation} e introduzir soluções para \textit{AI Explainability} como forma de garantir mais transparência. Também é possível mudar o foco para solucionar problemas de MLOps, utilizando o Gerenciador Autonômico para determinar um melhor deploy em caso de piora nas métricas de um modelo já utilizado por clientes, além de funcionalidades como notificação para tais casos de diminuição de métricas, mecanismos para deploy dos modelos obtidos, opções de visualização dos dados, um sistema para versionamento dos conjuntos de dados para armazenamento e economia de espaço.
 
 % As referências:
 \bibliographystyle{plainnat}
@@ -2612,11 +2605,11 @@ Aqui estão dois exemplos de como é possível realizar a manuntenção do Workf
 \begin{enumerate}
 \item Geralmente conjuntos de dados não vem filtrados, e é preciso um trabalho de Engenharia de dados para realizar experimentos com melhores resultados. Neste sistema, a parte de Engenharia de dados se encontra na pasta \textbf{src/data\_engineering}.
 
-\item Os métodos onde os processamentos são realizados ficam no arquivo \textbf{data\_engineering.py}. Para adicionar um novo processamento, basta adicionar um novo método neste arquivo.
+\item Os métodos onde os processamentos são realizados ficam no arquivo \textbf{data\_engi\-neering.py}. Para adicionar um novo processamento, basta adicionar um novo método neste arquivo.
 
 \item Importar o novo método no arquivo \textbf{data\_engineering\_start.py}.
 
-\item Adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.add\_argument}
+\item Adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.add\-\_argument}
 
 \begin{lstlisting}[language=Python, label=cod:ParserAddArgument]
     parser.add_argument("--data", help="Selecao do gerador do conjunto de dados tratado",
@@ -2641,7 +2634,7 @@ class LendingclubDataset(Dataset):
 
 \item Criar um novo arquivo.
 
-\item Criar uma classe que herda a classe \textbf{FairnessPipe}, preenchendo os atributos \textbf{privileged\_group}, \textbf{unprivileged\_group}, \textbf{label\_names}, \textbf{protected\_attribute\_names} e \textbf{optim\_options}.
+\item Criar uma classe que herda a classe \textbf{FairnessPipe}, preenchendo os atributos \textbf{privileged\_group}, \textbf{unprivileged\_group}, \textbf{label\_names}, \textbf{protected\_attribute\-\_names} e \textbf{optim\_options}.
 
 \begin{lstlisting}[language=Python, label=cod:FairnessPipe]
 class LendingclubIncomeFairnessPipe(FairnessPipe):
