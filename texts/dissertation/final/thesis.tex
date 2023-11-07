@@ -369,7 +369,7 @@ Embora suas premissas tenham bastante utilidade no cenário do mundo de hoje, um
 
 \section{Objetivo}
 
-O objetivo desta dissertação de mestrado é desenvolver uma estrutura para o treinamento de modelos \textit{Machine Learning} de forma semi-autônoma, que permita que o cientista de dados obtenha a melhor configuração arquitetural do processo, resolvendo os dois problemas principais:
+O objetivo desta dissertação de mestrado é desenvolver uma estrutura para o treinamento de modelos de \textit{Machine Learning} de forma semi-autônoma, que permita que o cientista de dados obtenha a melhor configuração arquitetural do processo, resolvendo os dois problemas principais:
 
 \begin{itemize}
 \item Facilitar a criação de modelos justos e confiáveis com a automatização do seguinte processo: Preparação dos dados, treinamento e avaliação.
@@ -1046,7 +1046,7 @@ O Monitor é iniciado junto com a execução do Módulo de ML, conforme já ilus
 \begin{itemize}
 \item \textbf{Pré-Processamento:} Parâmetros referentes a configuração arquitetural executada pelo módulo (Conjunto de dados, Atributo protegido e Algoritmo de pré-processamento) e "assinatura"/checksum do conjunto de dados utilizado.
 \item \textbf{Processamento:} Parâmetros referentes a configuração arquitetural executada (Algoritmo de treinamento) e parâmetros utilizados para a aplicação do treinamento.
-\item \textbf{Pós-Processamento:} Parâmetros referentes a configuração arquitetural executada (Algoritmo de pós-processamento) e Métricas do modelo resultante (Metricas de Avaliação e métricas de \textit{Fairness}.
+\item \textbf{Pós-Processamento:} Parâmetros referentes a configuração arquitetural executada (Algoritmo de pós-processamento) e Métricas do modelo resultante (Métricas de Avaliação e métricas de \textit{Fairness}).
 \end{itemize}
 
 Os dados coletados por execução são organizados em dois conjuntos diferentes: Um contendo os metadados e informações referentes a configuração arquitetural executada pelo Módulo de ML, e outro contendo as métricas obtidas pelo modelo resultante dessa execução, ambos possuindo um identificador da execução para estabelecer consistência entre os dados dos dois conjuntos. Com tal organização, é facilitado o desenvolvimento do Analisador.
@@ -1133,7 +1133,7 @@ Após obter $m'_{F_i}$, é possível obter $S_F$ com o uso de uma média pondera
 \begin{equation}
 \label{eqn:FairnessScore}
 	\begin{aligned}
-	S_{F} = \frac{\sum_{i=1}^{n_{m_F}} w_{m_{F}} \times m'_{F_{i}}}{\sum_{i=1}^{n_{m_F}} w_{m_{F_i}}}
+	S_{F} = \frac{\sum_{i=1}^{n_{m_F}} w_{m_{F_i}} \times m'_{F_{i}}}{\sum_{i=1}^{n_{m_F}} w_{m_{F_i}}}
 	\end{aligned}
 \end{equation}
 
@@ -2079,7 +2079,7 @@ Para processar o Lendingclub Dataset, foram necessárias modificações para adi
   \resizebox{\linewidth}{!}{%
 {\def\arraystretch{1.5}
 \begin{tabular}{c|c|c|c|c|c|c}
-Parte do Sistema & \makecell{Quantidade de\\linhas alteradas} & Total de linhas & \makecell{Quantidade de\\arquivos alterados} & Total de arquivos & \makecell{Porcentagem de\\linhas alteradas} & \makecell{Porcentagem de\\arquivos alterados} \\
+Módulo & \makecell{Quantidade de\\linhas alteradas} & Total de linhas & \makecell{Quantidade de\\arquivos alterados} & Total de arquivos & \makecell{Porcentagem de\\linhas alteradas} & \makecell{Porcentagem de\\arquivos alterados} \\
 \hline
 \makecell{Engenharia de Dados} & 122 & 277 & 2 & 3 & \textbf{44,04\%} & \textbf{66,67\%} \\
 Módulo de ML & 76 & 1982 & 5 & 38 & \textbf{3,84\%} & \textbf{13,16\%} \\
@@ -2239,7 +2239,7 @@ As evoluções realizadas no Módulo de ML para adicionar o Naive Bayes foram co
   \resizebox{\linewidth}{!}{%
 {\def\arraystretch{1.5}
 \begin{tabular}{c|c|c|c|c|c|c}
-Parte do Sistema & \makecell{Quantidade de\\linhas alteradas} & Total de linhas & \makecell{Quantidade de\\arquivos alterados} & Total de arquivos & \makecell{Porcentagem de\\linhas alteradas} & \makecell{Porcentagem de\\arquivos alterados} \\
+Módulo & \makecell{Quantidade de\\linhas alteradas} & Total de linhas & \makecell{Quantidade de\\arquivos alterados} & Total de arquivos & \makecell{Porcentagem de\\linhas alteradas} & \makecell{Porcentagem de\\arquivos alterados} \\
 \hline
 \makecell{Engenharia de Dados} & 0 & 277 & 0 & 3 & \textbf{0,00\%} & \textbf{0,00\%} \\
 Módulo de ML & 60 & 2042 & 5 & 39 & \textbf{2,94\%} & \textbf{12,82\%} \\
