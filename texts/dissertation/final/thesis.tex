@@ -6,9 +6,9 @@
 % Para o exame de qualificação
 %\documentclass[portugues, qualificacao]{ic-tese}
 % Para a tese
-\documentclass[portugues]{ic-tese}
+%\documentclass[portugues]{ic-tese}
 % Para a versão final da tese
-%\documentclass[portugues,final]{ic-tese}
+\documentclass[Portugues,Final]{ic-tese-v3}
 
 % Extra macros para escrita 
 %\usepackage{ic-extras}
@@ -24,7 +24,7 @@
 \usepackage{amsfonts}% revise se precisa ou não
 \usepackage{nccmath}% revise se precisa ou não
 
-\usepackage[numbers]{natbib}
+%\usepackage[numbers]{natbib}
 \usepackage{multirow}
 \usepackage{makecell}
 \usepackage{graphicx}
@@ -201,6 +201,8 @@
 %% Tables
 \usepackage{booktabs}
 
+\usepackage{url}
+
 
 % Para acrescentar comentários ao PDF descomente:
 \usepackage
@@ -226,7 +228,7 @@
 
 % Sempre deve haver um título em português:
 \titulo{Um arcabouço semi\textendash autônomo para treino de modelos de Aprendizado de Máquina com enfoque em métricas de \textit{Fairness}}
-\title{text}
+%\title{text}
 
 % Se a língua for o inglês ou o espanhol defina:
 %\title{The Dissertation or Thesis Title in English or Spanish}
@@ -246,12 +248,12 @@
 % Se houve cotutela, defina:
 %\cotutela{Universidade Nova de Plutão}
 
-\datadadefesa{17}{11}{2023}
+\datadadefesa{08}{11}{2023}
 
 % Para a versão final defina:
-%\avaliadorA{Prof. Dr. Primeiro Avaliador}{Instituição do primeiro avaliador}
-%\avaliadorB{Profa. Dra. Segunda Avaliadora}{Instituição da segunda avaliadora}
-%\avaliadorC{Dr. Terceiro Avaliador}{Instituição do terceiro avaliador}
+\avaliadorA{Profa. Dra. Cecília Mary Fischer Rubira}{IC/UNICAMP}
+\avaliadorB{Prof. Dr. Fabio Kon}{IME/USP}
+\avaliadorC{Prof. Dr. Marcos Medeiros Raimundo}{IC/UNICAMP}
 %\avaliadorD{Prof. Dr. Quarto Avaliador}{Instituição do quarto avaliador}
 %\avaliadorE{Prof. Dr. Quinto Avaliador}{Instituição do quinto avaliador}
 %\avaliadorF{Prof. Dr. Sexto Avaliador}{Instituição do sexto avaliador}
@@ -260,11 +262,12 @@
 
 
 % Para incluir a ficha catalográfica em PDF na versão final, descomente e ajuste:
-%\fichacatalografica{arquivo.pdf}
+\fichacatalografica{Ficha-Catalografica-Protocolo-712043869.pdf}
 
 
 % Este comando deve ficar aqui:
-\frontmatter
+% \frontmatter
+\paginasiniciais
 
 
 % Se houver dedicatória, descomente:
@@ -281,7 +284,7 @@ Você não consegue ligar os pontos olhando pra frente; você só consegue ligá
 
 
 % Agradecimentos ou Acknowledgements ou Agradecimientos
-\chapter{Agradecimentos}
+\prefacesection{Agradecimentos}
 %Os agradecimentos devem ocupar uma única página.
 Primeiramente, à minha família, pela dedicação que tiveram em me criar, pela liberdade de escolha para fazer o que gosto e pela compreensão atual de que hoje seguimos caminhos completamente distintos, apesar de mantermos contato constantemente.
 
@@ -340,23 +343,22 @@ The growing use of \textit{Machine Learning} in digital solutions has created co
 
 
 % E esta linha deve ficar bem aqui:
-\mainmatter
-
-%\mainmatter
+% \mainmatter
+\fimdaspaginasiniciais
 
 \chapter{Introdução}
 
 % O corpo da dissertação ou tese começa aqui:
 
-Técnicas de Inteligência Artificial e Aprendizado de Máquina (\textit{Machine Learning}, ou ML) já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano mas que são difíceis de serem traduzidos em código. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, com estimativa de US\$ 57 bilhões em investimentos em 2021, 480\% maior em relação a 2017~\citep{Deloitte_2018}. No Brasil, o número de empresas de IA aumentou de 120 em 2018 para 206 em 2020~\citep{CIO_2021}.
+Técnicas de Inteligência Artificial e Aprendizado de Máquina (\textit{Machine Learning}, ou ML) já são utilizadas há bastante tempo no ramo da Computação. Ramos como robótica e jogos são grandes exemplos, dada a necessidade nos mesmos de automatizar comportamentos que seriam tidos como triviais para um ser humano mas que são difíceis de serem traduzidos em código. Entretanto, nos últimos anos ocorreu um crescimento no uso dessas tecnologias em aplicações tradicionais, com estimativa de US\$ 57 bilhões em investimentos em 2021, 480\% maior em relação a 2017~\cite{Deloitte_2018}. No Brasil, o número de empresas de IA aumentou de 120 em 2018 para 206 em 2020~\cite{CIO_2021}.
 
 Isso se mostra possível devido a grande quantidade de dados processada diariamente pelas empresas, que coletam estatísticas toda vez que um usuário acessa suas aplicações. Com esses dados, podem traçar diferentes perfis e usar soluções de ML para ter tomadas de decisão mais assertivas com o objetivo de melhorar a experiência de usuário e corrigir problemas. Porém, muitas dessas soluções foram projetadas sem pensar em governança de dados como requisito de projeto, e se mostram ineficientes quando ela é tida em consideração.
 
 \section{Contexto}
 
-Governança de dados é um tema que entrou em evidência recentemente em países como o Brasil: Iniciativas como a LGPD - Lei Geral de Proteção de Dados \citep{LGPD_2021}, de 14 de agosto de 2018, mostram como as aplicações e seus dados possuem cada vez mais influência na sociedade moderna. E nesse ponto muitas aplicações baseadas em Aprendizado de Máquina falham: muitas implementações são baseadas em caixas pretas, onde o determinante para estabelecer a confiança no modelo implementado é sua entrada e sua saída. Um efeito colateral dessa estratégia é a exposição de vieses que, embora sejam vistos como não-intencionais pelos desenvolvedores, refletem preconceitos existentes da sociedade atual. Uma entrada de dados enviesada resulta em um modelo de ML que realiza discriminações em sua classificação~\citep{Buolamwini_2018}, e considerando que as métricas de avaliação tradicionais avaliam a totalidade do conjunto de dados em vez de grupos específicos, discriminações não são facilmente percebidas por elas.
+Governança de dados é um tema que entrou em evidência recentemente em países como o Brasil: Iniciativas como a LGPD - Lei Geral de Proteção de Dados \cite{LGPD_2021}, de 14 de agosto de 2018, mostram como as aplicações e seus dados possuem cada vez mais influência na sociedade moderna. E nesse ponto muitas aplicações baseadas em Aprendizado de Máquina falham: muitas implementações são baseadas em caixas pretas, onde o determinante para estabelecer a confiança no modelo implementado é sua entrada e sua saída. Um efeito colateral dessa estratégia é a exposição de vieses que, embora sejam vistos como não-intencionais pelos desenvolvedores, refletem preconceitos existentes da sociedade atual. Uma entrada de dados enviesada resulta em um modelo de ML que realiza discriminações em sua classificação~\cite{Buolamwini_2018}, e considerando que as métricas de avaliação tradicionais avaliam a totalidade do conjunto de dados em vez de grupos específicos, discriminações não são facilmente percebidas por elas.
 
-Devido a esse problema, existem métricas para determinar o quão o modelo está preparado para dados sensíveis, passíveis de discriminações, termo que é conhecido como \textit{Fairness} \citep{Begley_2021}. Com a evolução das pesquisas na comunidade acadêmica, também foram criados algoritmos para redução dos vieses presentes nos conjuntos de dados, como por exemplo \textit{Reweighing}~\citep{Kamiran_2011}, \textit{Adversarial Debiasing}~\citep{Zhang_2018} e \textit{Reject Option Classification}~\citep{Kamiran_2012}.
+Devido a esse problema, existem métricas para determinar o quão o modelo está preparado para dados sensíveis, passíveis de discriminações, termo que é conhecido como \textit{Fairness} \cite{Begley_2021}. Com a evolução das pesquisas na comunidade acadêmica, também foram criados algoritmos para redução dos vieses presentes nos conjuntos de dados, como por exemplo \textit{Reweighing}~\cite{Kamiran_2011}, \textit{Adversarial Debiasing}~\cite{Zhang_2018} e \textit{Reject Option Classification}~\cite{Kamiran_2012}.
 
 \section{Problemas encontrados}
 
@@ -378,9 +380,9 @@ O objetivo desta dissertação de mestrado é desenvolver uma estrutura para o t
 
 \section{Solução Proposta}
 
-A solução é dividida em 4 módulos principais: Engenharia de dados, Módulo de ML, Gerenciador Autonômico e uma Interface Humano-Computador. Tais módulos sintetizam os processos de Organização e Análise da IBM Analytics and AI Reference Architecture~\citep{IBM_2021}.
+A solução é dividida em 4 módulos principais: Engenharia de dados, Módulo de ML, Gerenciador Autonômico e uma Interface Humano-Computador. Tais módulos sintetizam os processos de Organização e Análise da IBM Analytics and AI Reference Architecture~\cite{IBM_2021}.
 
-Para o desenvolvimento do Módulo de ML, será utilizado o padrão de arquitetura \textit{Pipes-and-Filters}~\citep{Garlan_1993}. Para o Gerenciador Autonômico, será utilizada a arquitetura MAPE-K~\citep{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. A Interface Humano-Computador foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
+Para o desenvolvimento do Módulo de ML, será utilizado o padrão de arquitetura \textit{Pipes-and-Filters}~\cite{Garlan_1993}. Para o Gerenciador Autonômico, será utilizada a arquitetura MAPE-K~\cite{IBM_2005} para analisar uma base de conhecimento e prover o melhor pipeline seguindo regras pré-determinadas. A Interface Humano-Computador foi criada nos moldes de uma aplicação web. O código deste desenvolvimento foi disponibilizado no GitHub\footnote{Repositório Git contendo os códigos deste projeto: \url{https://github.com/tenazatto/MsC}} para avaliação e testes em estudos posteriores.
 
 \section{Resultados Obtidos}
 
@@ -403,9 +405,9 @@ Este capítulo fornece uma visão geral dos principais conceitos e dos trabalhos
 
 A engenharia de dados é o meio para entender um processo. Os dados podem ser gerados de várias maneiras, ou um subconjunto dos dados disponíveis pode usar técnicas de análise de dados de estatísticas, aprendizado de máquina, reconhecimento de padrões ou redes neurais, juntamente com outras tecnologias, como visualização, otimização, sistemas de banco de dados. Dados, ferramentas de prototipagem e elicitação de conhecimento. O objetivo é usar os dados disponíveis ou gerar mais dados e assim entender o processo que está sendo investigado. O processo de analisar os dados, criar novas ferramentas de análise especificamente para a tarefa e trabalhar com especialistas do domínio é um aspecto fundamental dessa tarefa de engenharia. Atualmente engenharia de dados é muito utilizada em conjunto com o termo \textit{Big Data}, para a limpeza, tratamento e estabelecimento de processos para governança de grandes volumes de dados.
 
-O termo \textit{Big Data} apareceu uma vez como conceito em 1974 e novamente em editoriais em 2006 e 2007, e somente em 2008 seu uso como conceito começou a aparecer regularmente em artigos científicos, mas implementações desse conceito começaram a partir de 2010~\citep{Raban_2020}. Quanto a engenharia de dados, embora periódicos como o IEEE Transactions on Knowledge and Data Engineering, cuja primeira edição foi lançada em 1989, e conferências como a IEEE International Conference on Data Engineering (ICDE), cuja primeira edição foi realizada em 1984, possam ser consideradas pontapés iniciais para discussões e artigos acadêmicos, o embrião da engenharia de dados vem do \textit{paper} \textit{"A Business Intelligence System"}, de 1958~\citep{Panoply_2017}. Nele, é mencionada a ideia de sistemas rodados por máquinas para abstrair e padronizar informações de vários setores da sociedade, como industrial, científico e de organizações governamentais, e como estas podem disseminar informação de uma maneira mais eficiente. Embora os anos 50/60 foram o embrião para o conceito, os anos 70/80 o amadureceram e construíram a base para a estrutura de engenharia de dados~\citep{Panoply_2017}.
+O termo \textit{Big Data} apareceu uma vez como conceito em 1974 e novamente em editoriais em 2006 e 2007, e somente em 2008 seu uso como conceito começou a aparecer regularmente em artigos científicos, mas implementações desse conceito começaram a partir de 2010~\cite{Raban_2020}. Quanto a engenharia de dados, embora periódicos como o IEEE Transactions on Knowledge and Data Engineering, cuja primeira edição foi lançada em 1989, e conferências como a IEEE International Conference on Data Engineering (ICDE), cuja primeira edição foi realizada em 1984, possam ser consideradas pontapés iniciais para discussões e artigos acadêmicos, o embrião da engenharia de dados vem do \textit{paper} \textit{"A Business Intelligence System"}, de 1958~\cite{Panoply_2017}. Nele, é mencionada a ideia de sistemas rodados por máquinas para abstrair e padronizar informações de vários setores da sociedade, como industrial, científico e de organizações governamentais, e como estas podem disseminar informação de uma maneira mais eficiente. Embora os anos 50/60 foram o embrião para o conceito, os anos 70/80 o amadureceram e construíram a base para a estrutura de engenharia de dados~\cite{Panoply_2017}.
 
-Nos anos 70/80, os problemas em engenharia de dados eram classificados de acordo com 3 atributos~\citep{IEEE_1989}:
+Nos anos 70/80, os problemas em engenharia de dados eram classificados de acordo com 3 atributos~\cite{IEEE_1989}:
 
 \begin{itemize}
 \item \textbf{Completude do conhecimento e dos dados:} Os dados e o conhecimento disponíveis no ambiente poderiam ser considerados como \textit{completos} ou \textit{incompletos}. Se estiverem \textit{completos}, não seria necessário conhecimento adicional para a resolução do problema. Se estiverem \textit{incompletos}, como no caso de grandes volumes de dados onde é exigida uma sumarização mais detalhada, seria necessário determinar heurísticas para encontrar um conjunto de dados mais específico para a resolução do problema.
@@ -417,7 +419,7 @@ Dado estas categorias, é possível pensar em soluções que conversam com os ob
 
 \subsection{Ciência de Dados}
 
-Ciência de dados como um conceito precedeu o \textit{Big Data}, sendo um conjunto de princípios fundamentais que apoiam e orientam a extração baseada em princípios de informação e conhecimento de dados~\citep{Raban_2020}. Essa definição enfatiza a estreita relação de ciência de dados com a mineração de dados e, consequentemente, com a engenharia de dados. O termo foi cunhado nos anos 60 para descrever uma nova profissão que daria suporte à compreensão e interpretação da grande quantidade de dados que estavam sendo acumulados na época~\citep{Foote_2021}. Na academia, o termo começou a ser utilizado de modo mais formal a partir de 2001, quando os títulos dos artigos científicos começaram a usar, embora artigos já estavam focando em ciência de dados e usando o termo desde os anos 60~\citep{Raban_2020}~\citep{Foote_2021}. 
+Ciência de dados como um conceito precedeu o \textit{Big Data}, sendo um conjunto de princípios fundamentais que apoiam e orientam a extração baseada em princípios de informação e conhecimento de dados~\cite{Raban_2020}. Essa definição enfatiza a estreita relação de ciência de dados com a mineração de dados e, consequentemente, com a engenharia de dados. O termo foi cunhado nos anos 60 para descrever uma nova profissão que daria suporte à compreensão e interpretação da grande quantidade de dados que estavam sendo acumulados na época~\cite{Foote_2021}. Na academia, o termo começou a ser utilizado de modo mais formal a partir de 2001, quando os títulos dos artigos científicos começaram a usar, embora artigos já estavam focando em ciência de dados e usando o termo desde os anos 60~\cite{Raban_2020}~\cite{Foote_2021}. 
 
 A estatística e o uso de modelos estatísticos estão profundamente enraizados no campo da ciência de dados, pois começou com estatísticas e evoluiu para incluir conceitos e práticas principalmente para aplicações de IA. À medida que mais e mais dados se tornam disponíveis, por meio de comportamentos e tendências registradas em softwares espalhados pela Internet ou mesmo por aplicações empresariais, as empresas os coletam e armazenam em quantidades cada vez maiores. Uma vez que as portas foram abertas por empresas que buscam aumentar os lucros e impulsionar melhores tomadas de decisão, seu uso, em conjunto com \textit{Big Data}, começou a ser aplicado a outros campos, como medicina, engenharia e ciências sociais.
 
@@ -425,14 +427,14 @@ Um cientista de dados funcional, ao contrário de um estatístico geral, tem com
 
 \subsection{O ciclo do dado: Semelhanças e diferenças entre Engenharia de Dados e Ciência de Dados}
 
-Nos tempos atuais, empresas e instituições acadêmicas utilizam Engenharia de Dados e Ciência de Dados para otimizar as suas aplicações de IA. Embora esses dois termos se refiram a áreas distintas, com profissionais que possuem funções distintas, na prática é frequente que cientistas de dados também realizem funções de engenharia de dados e vice-versa por ambas se complementarem na criação de aplicações de IA. Um bom exemplo de como estas áreas se conversam está no \textit{paper} \textit{Concise Survey of Computer Methods}, de 1974~\citep{Panoply_2017}. Nele, Peter Naur detalha diversos métodos de processamento de dados e aplicações, o que poderia definir como um, mas a citação mais importante de seu \textit{paper} está justamente no termo ciência de dados. Também define que a utilidade de um dado e de seus processos deriva de sua aplicação no desenvolvimento e manutenção de modelos da realidade~\citep{Foote_2021}. Por isso, a existência de um processo que trate os dados é tão importante quanto a construção de um modelo através de seus dados. Ao entender como os dados devem ser usados, é possível criar processos que auxiliem a otimizar os resultados obtidos e criar modelos cada vez mais próximos da realidade.
+Nos tempos atuais, empresas e instituições acadêmicas utilizam Engenharia de Dados e Ciência de Dados para otimizar as suas aplicações de IA. Embora esses dois termos se refiram a áreas distintas, com profissionais que possuem funções distintas, na prática é frequente que cientistas de dados também realizem funções de engenharia de dados e vice-versa por ambas se complementarem na criação de aplicações de IA. Um bom exemplo de como estas áreas se conversam está no \textit{paper} \textit{Concise Survey of Computer Methods}, de 1974~\cite{Panoply_2017}. Nele, Peter Naur detalha diversos métodos de processamento de dados e aplicações, o que poderia definir como um, mas a citação mais importante de seu \textit{paper} está justamente no termo ciência de dados. Também define que a utilidade de um dado e de seus processos deriva de sua aplicação no desenvolvimento e manutenção de modelos da realidade~\cite{Foote_2021}. Por isso, a existência de um processo que trate os dados é tão importante quanto a construção de um modelo através de seus dados. Ao entender como os dados devem ser usados, é possível criar processos que auxiliem a otimizar os resultados obtidos e criar modelos cada vez mais próximos da realidade.
 
-A principal razão para ambas as áreas se conversarem está no ciclo de vida do dado, fundamental para entender as oportunidades e os desafios de aproveitar ao máximo os dados digitais. Como um ser vivo, os dados têm um ciclo de vida, desde o nascimento, passando por uma vida ativa até alguma forma de expiração, podendo ser "imortalizado" dependendo de sua importância. Também como um organismo vivo e inteligente, sobrevive em um ambiente que fornece suporte físico, contexto social e significado existencial~\citep{Berman_2018}.
+A principal razão para ambas as áreas se conversarem está no ciclo de vida do dado, fundamental para entender as oportunidades e os desafios de aproveitar ao máximo os dados digitais. Como um ser vivo, os dados têm um ciclo de vida, desde o nascimento, passando por uma vida ativa até alguma forma de expiração, podendo ser "imortalizado" dependendo de sua importância. Também como um organismo vivo e inteligente, sobrevive em um ambiente que fornece suporte físico, contexto social e significado existencial~\cite{Berman_2018}.
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.6]{images/data_life_cycle.jpg}
-\caption {Ciclo de vida e ecossistema do dado~\citep{Berman_2018}.}
+\caption {Ciclo de vida e ecossistema do dado~\cite{Berman_2018}.}
 \label{fig:cicloDado}
 \end{figure}
 
@@ -446,19 +448,19 @@ Este ciclo, ilustrado na Figura \ref{fig:cicloDado}, é dividido em 5 etapas:
 \item \textbf{Preservação/Destruição:} Refere-se a processos de armazenamento, curadoria e validação do dado após seu uso e publicação. No contexto de validação, se o mesmo ainda continua útil para o contexto em que foi coletado, podendo ser atualizado ou destruído em caso negativo. Também pode ser comprimido ou indexado caso espaço ou desempenho sejam considerados gargalos para os usuários que forem usar os dados publicados.
 \end{itemize}
 
-Como exemplo, é possível citar os dados para experimentos do Grande Colisor de Hádrons (LHC), representando colisões de partículas dentro de um túnel com 27 km de circunferência para testar as previsões de várias teorias da física de partículas e da física de alta energia~\citep{Berman_2018}. A maioria dos dados gerados é tecnicamente irrelevante e são descartados, mas isso não impede que uma enorme quantidade de dados seja influente e continue a ser analisada e preservada. Em 2012, dados sobre experimentos do LHC forneceram fortes evidências para o bóson de Higgs, apoiando a veracidade do Modelo Padrão da Física. Esta descoberta científica foi a "Descoberta do Ano" de 2012 da revista Science e o Prêmio Nobel de Física em 2013.
+Como exemplo, é possível citar os dados para experimentos do Grande Colisor de Hádrons (LHC), representando colisões de partículas dentro de um túnel com 27 km de circunferência para testar as previsões de várias teorias da física de partículas e da física de alta energia~\cite{Berman_2018}. A maioria dos dados gerados é tecnicamente irrelevante e são descartados, mas isso não impede que uma enorme quantidade de dados seja influente e continue a ser analisada e preservada. Em 2012, dados sobre experimentos do LHC forneceram fortes evidências para o bóson de Higgs, apoiando a veracidade do Modelo Padrão da Física. Esta descoberta científica foi a "Descoberta do Ano" de 2012 da revista Science e o Prêmio Nobel de Física em 2013.
 
 As estimativas são de que, em 2040, haverá de 10 exabytes a 100 exabytes de dados influentes produzidos pelo LHC. Os dados retidos do LHC são anotados, preparados para preservação e arquivados em mais de uma dúzia de locais físicos. O resultado desse processo é divulgado à comunidade para análise e uso em mais de 100 outros locais de pesquisa. Além do desenvolvimento de protocolos de administração, disseminação e uso de dados, o ecossistema de dados do LHC também fornece um modelo econômico que suporta de forma sustentável os dados e sua infraestrutura. Essa combinação entre administração dos dados e administração econômica permitem que os dados sejam mantidos.
 
-O diagrama do ciclo de vida dos dados descrito na figura e o exemplo do LHC sugerem um conjunto contínuo de ações e transformações nos dados, mas em muitas comunidades científicas e disciplinas hoje essas etapas são isoladas. Os cientistas de domínio se concentram em gerar e usar dados. Cientistas da computação podem se concentrar em questões de plataforma e desempenho, incluindo mineração, organização, modelagem e visualização, bem como os mecanismos para extrair significado dos dados por meio de aprendizado de máquina e outras abordagens. Estatísticos podem se concentrar na matemática dos modelos de risco e inferência~\citep{Berman_2018}. Engenheiros de dados podem se concentrar na administração e preservação de dados gerados pelo cientista de domínio e no \textit{backend} do pipeline, seguindo a aquisição, decisões e ações no domínio da publicação, arquivamento e curadoria. Cientistas de dados podem unir o trabalho dos cientistas da computação e dos estatísticos para extrair novos conhecimentos e conhecer tomadas de decisão mais eficientes.
+O diagrama do ciclo de vida dos dados descrito na figura e o exemplo do LHC sugerem um conjunto contínuo de ações e transformações nos dados, mas em muitas comunidades científicas e disciplinas hoje essas etapas são isoladas. Os cientistas de domínio se concentram em gerar e usar dados. Cientistas da computação podem se concentrar em questões de plataforma e desempenho, incluindo mineração, organização, modelagem e visualização, bem como os mecanismos para extrair significado dos dados por meio de aprendizado de máquina e outras abordagens. Estatísticos podem se concentrar na matemática dos modelos de risco e inferência~\cite{Berman_2018}. Engenheiros de dados podem se concentrar na administração e preservação de dados gerados pelo cientista de domínio e no \textit{backend} do pipeline, seguindo a aquisição, decisões e ações no domínio da publicação, arquivamento e curadoria. Cientistas de dados podem unir o trabalho dos cientistas da computação e dos estatísticos para extrair novos conhecimentos e conhecer tomadas de decisão mais eficientes.
 
 
 \section{Machine Learning}
 \label{sec:MachineLearning}
 
-Aprendizado de Máquina (\textit{Machine Learning}, em inglês) pode ser definido como “a prática de usar algoritmos para coletar dados, aprender com eles, e então fazer uma determinação ou predição sobre alguma coisa no mundo. Então, em vez de implementar as rotinas de software manualmente, com um gama específica de instruções para completar uma tarefa em particular, a máquina é `treinada` usando uma quantidade grande de dados e algoritmos que dão e ela a habilidade de aprender como executar a tarefa”~\citep{Copeland_2016}. Com isso, o computador consegue a habilidade de realizar determinado cálculo ou tarefa sem que necessite de programação adicional ou interferência humana para isso.
+Aprendizado de Máquina (\textit{Machine Learning}, em inglês) pode ser definido como “a prática de usar algoritmos para coletar dados, aprender com eles, e então fazer uma determinação ou predição sobre alguma coisa no mundo. Então, em vez de implementar as rotinas de software manualmente, com um gama específica de instruções para completar uma tarefa em particular, a máquina é `treinada` usando uma quantidade grande de dados e algoritmos que dão e ela a habilidade de aprender como executar a tarefa”~\cite{Copeland_2016}. Com isso, o computador consegue a habilidade de realizar determinado cálculo ou tarefa sem que necessite de programação adicional ou interferência humana para isso.
 
-O Aprendizado de Máquina é fortemente relacionado com a Estatística, uma vez que seus métodos e parte de seus algoritmos, como regressões, tiveram como base modelos estatísticos e a análise de seus dados. As tarefas de aprendizado podem ser classificadas em três categorias básicas~\citep{MLWikipedia_2021}~\citep{MLSAS_2021}:
+O Aprendizado de Máquina é fortemente relacionado com a Estatística, uma vez que seus métodos e parte de seus algoritmos, como regressões, tiveram como base modelos estatísticos e a análise de seus dados. As tarefas de aprendizado podem ser classificadas em três categorias básicas~\cite{MLWikipedia_2021}~\cite{MLSAS_2021}:
 
 \begin{itemize}
 \item \textbf{Aprendizado supervisionado}: O treinamento é realizado por meio de exemplos rotulados, como uma entrada na qual a saída desejada é conhecida. Através de métodos como classificação, regressão e \textit{gradient boosting}, o aprendizado supervisionado utiliza padrões para prever valores de rótulos em dados que não estão rotulados. O aprendizado supervisionado é comumente empregado em aplicações nas quais dados históricos preveem eventos futuros prováveis.
@@ -466,7 +468,7 @@ O Aprendizado de Máquina é fortemente relacionado com a Estatística, uma vez 
 \item \textbf{Aprendizado por reforço}: O algoritmo descobre através de testes do tipo “tentativa e erro” quais ações rendem as maiores recompensas. Este tipo de aprendizado possui três componentes principais: o agente (o aprendiz ou tomador de decisão), o ambiente (tudo com que o agente interage) e ações (o que o agente pode fazer). O objetivo é que o agente escolha ações que maximizem a recompensa esperada em um período de tempo determinado. O agente atingirá o objetivo muito mais rápido se seguir uma boa política, então o foco do aprendizado por reforço é descobrir a melhor política.
 \end{itemize}
 
-O termo se tornou muito mais evidente com a possibilidade da implementação do \textit{Deep Learning}, que é uma técnica que utiliza Redes Neurais Artificiais para atingir seus resultados. Redes Neurais Artificiais são modelos computacionais inspirados no sistema nervoso do cérebro, onde temos neurônios divididos em camadas e conectados entre si, podendo ser abstraído conforme ilustração na Figura \ref{fig:NeuralNetwork}. Dependendo da tarefa a ser realizada, cada neurônio atribui uma ponderação para os dados que entram e a saída final é determinada pelo total dessas ponderações~\citep{Copeland_2016}. As redes neurais utilizadas em \textit{Deep Learning} possuem, ao menos, duas camadas de neurônios entre a camada que recebe os dados de entrada e a camada final que faz o tratamento final dos dados de saída.
+O termo se tornou muito mais evidente com a possibilidade da implementação do \textit{Deep Learning}, que é uma técnica que utiliza Redes Neurais Artificiais para atingir seus resultados. Redes Neurais Artificiais são modelos computacionais inspirados no sistema nervoso do cérebro, onde temos neurônios divididos em camadas e conectados entre si, podendo ser abstraído conforme ilustração na Figura \ref{fig:NeuralNetwork}. Dependendo da tarefa a ser realizada, cada neurônio atribui uma ponderação para os dados que entram e a saída final é determinada pelo total dessas ponderações~\cite{Copeland_2016}. As redes neurais utilizadas em \textit{Deep Learning} possuem, ao menos, duas camadas de neurônios entre a camada que recebe os dados de entrada e a camada final que faz o tratamento final dos dados de saída.
 
 \begin{figure}[h]
 \centering
@@ -475,7 +477,7 @@ O termo se tornou muito mais evidente com a possibilidade da implementação do 
 \label{fig:NeuralNetwork}
 \end{figure}
 
-Com a evolução da computação, o treino de uma tarefa passou a ser cada vez mais viável, uma vez que a execução de algoritmos de Aprendizado de Máquina é computacionalmente muito custosa, especialmente quando redes neurais são utilizadas. Sua viabilidade também se prova quando tais tarefas se tornam efetivas no mundo real: Como exemplo, reconhecimento de imagens por máquinas treinadas através de deep learning em alguns cenários possuem uma taxa de acerto maior que a de humanos~\citep{Copeland_2016}.
+Com a evolução da computação, o treino de uma tarefa passou a ser cada vez mais viável, uma vez que a execução de algoritmos de Aprendizado de Máquina é computacionalmente muito custosa, especialmente quando redes neurais são utilizadas. Sua viabilidade também se prova quando tais tarefas se tornam efetivas no mundo real: Como exemplo, reconhecimento de imagens por máquinas treinadas através de deep learning em alguns cenários possuem uma taxa de acerto maior que a de humanos~\cite{Copeland_2016}.
 
 \subsection{Métricas de Avaliação}
 \label{sec:EvaluationMetrics}
@@ -572,7 +574,7 @@ J(w,b) = \frac{1}{m} \sum^{m}_{i=1} L(\hat{y}^{(i)}, y^{(i)})
 
 Durante o treinamento do modelo de Regressão Logística, é preciso encontrar os parâmetros $w$ e $b$ que minimizem a função de custos globais. Como a função de custo é convexa, diferentes métodos de otimização, como o gradiente descendente, garantem encontrar o mínimo global.
 
-Para lidar com problemas com múltiplas classes para classificação, é possível calcular uma função de custo separada para cada rótulo de classe por observação e somar os resultados, técnica conhecida como \textit{One-Vs-All}~\citep{Rifkin_2004}. Outra técnica que pode generalizar o método de regressão logística para suportar várias classes diretamente é chamada de Regressão Softmax, ou Regressão Logística Multinomial, utilizando a função Softmax para substituir a função de probabilidade da Regressão Logística convencional:
+Para lidar com problemas com múltiplas classes para classificação, é possível calcular uma função de custo separada para cada rótulo de classe por observação e somar os resultados, técnica conhecida como \textit{One-Vs-All}~\cite{Rifkin_2004}. Outra técnica que pode generalizar o método de regressão logística para suportar várias classes diretamente é chamada de Regressão Softmax, ou Regressão Logística Multinomial, utilizando a função Softmax para substituir a função de probabilidade da Regressão Logística convencional:
 
 \begin{equation}
 \hat{p}(Y_i = n) = \frac{e^{\beta_{n} \cdot \textbf{X}_{i}}}{1 + \sum^{K-1}_{k=1} e^{\beta_{k} \cdot \textbf{X}_{i}}}
@@ -580,13 +582,13 @@ Para lidar com problemas com múltiplas classes para classificação, é possív
 
 \subsubsection{\textit{Support Vector Machines} (SVM)}
 
-\textit{Support Vector Machines} (SVM) é um algoritmo de aprendizado de máquina que pode ser usado para detecção linear, não linear, de classificação, regressão e até mesmo detecção de anomalias (\textit{Outliers}). A ideia fundamental por trás dessa técnica é que as classes de saída são separadas com um hiperplano maximizando a margem (distância máxima entre os pontos de dados de ambas as classes)~\citep{Steinwart_2008}. As \textit{Support Vector Machines} criam um ou vários hiperplanos em um espaço de $n$ dimensões. A dimensão dos hiperplanos depende do número de \textit{features}. Quando há duas \textit{features}, é apenas uma linha, ou quando há três \textit{features}, é um plano bidimensional.
+\textit{Support Vector Machines} (SVM) é um algoritmo de aprendizado de máquina que pode ser usado para detecção linear, não linear, de classificação, regressão e até mesmo detecção de anomalias (\textit{Outliers}). A ideia fundamental por trás dessa técnica é que as classes de saída são separadas com um hiperplano maximizando a margem (distância máxima entre os pontos de dados de ambas as classes)~\cite{Steinwart_2008}. As \textit{Support Vector Machines} criam um ou vários hiperplanos em um espaço de $n$ dimensões. A dimensão dos hiperplanos depende do número de \textit{features}. Quando há duas \textit{features}, é apenas uma linha, ou quando há três \textit{features}, é um plano bidimensional.
 
 Para lidar com conjuntos de dados não lineares, uma abordagem é adicionar mais \textit{features}, como um recurso polinomial, ou a outra abordagem é usar \textit{kernels}, mapeando os dados de entrada de $n$ dimensões para um espaço de dimensão superior, onde os dados podem ser separados linearmente.
 
 \subsubsection{Regressão Kernel Ridge}
 
-A Regressão Kernel Ridge (\textit{Kernel Ridge Regression}/KRR) é um algoritmo de aprendizado de máquina proveniente da combinação de duas operações: A Regressão Ridge com o que é conhecido como "truque do kernel"~\citep{Witten_2016}. A Regressão Ridge substitui a função de custo tradicional por uma com um termo de penalização incluído, conforme ilustrado na Equação \ref{eqn:kernelLeastSquares}, utilizando o método dos mínimos quadrados. O "truque do kernel" é uma técnica mátemática que permite exemplificar problemas não-lineares de forma linear utilizando kernels, reduzindo a complexidade para uma simples operação matricial.
+A Regressão Kernel Ridge (\textit{Kernel Ridge Regression}/KRR) é um algoritmo de aprendizado de máquina proveniente da combinação de duas operações: A Regressão Ridge com o que é conhecido como "truque do kernel"~\cite{Witten_2016}. A Regressão Ridge substitui a função de custo tradicional por uma com um termo de penalização incluído, conforme ilustrado na Equação \ref{eqn:kernelLeastSquares}, utilizando o método dos mínimos quadrados. O "truque do kernel" é uma técnica mátemática que permite exemplificar problemas não-lineares de forma linear utilizando kernels, reduzindo a complexidade para uma simples operação matricial.
 
 \begin{equation}
 \label{eqn:kernelLeastSquares}
@@ -597,23 +599,23 @@ Por causa de tais operações, A Regressão Kernel Ridge exige mais processament
 
 \subsubsection{Árvores de Decisão (\textit{Decision Trees})}
 
-Árvores de decisão (\textit{Decision Trees}) são um grupo de algoritmos de aprendizado de máquina que podem ser usados para classificação e regressão. Eles são os métodos de aprendizado mais comuns que são muito poderosos e capazes de ajustar conjuntos de dados complexos. Os algoritmos de Árvore de Decisão são baseados em uma abordagem de dividir e conquistar para os problemas de classificação~\citep{Witten_2016}. Uma Árvore de Decisão é feita pelo processo contínuo de dividir o conjunto de dados nos atributos da melhor maneira possível em diferentes classes até que um critério de parada específico seja alcançado. Nas Árvores de Decisão, as observações sobre os itens são mostradas em ramificações e as conclusões das observações são mostradas nos nós. Existem três tipos diferentes de nós: os nós raiz que indicam o início do processo de decisão e não têm arestas de entrada, os nós internos que têm exatamente uma entrada e pelo menos duas arestas de saída e os nós finais (ou as folhas).
+Árvores de decisão (\textit{Decision Trees}) são um grupo de algoritmos de aprendizado de máquina que podem ser usados para classificação e regressão. Eles são os métodos de aprendizado mais comuns que são muito poderosos e capazes de ajustar conjuntos de dados complexos. Os algoritmos de Árvore de Decisão são baseados em uma abordagem de dividir e conquistar para os problemas de classificação~\cite{Witten_2016}. Uma Árvore de Decisão é feita pelo processo contínuo de dividir o conjunto de dados nos atributos da melhor maneira possível em diferentes classes até que um critério de parada específico seja alcançado. Nas Árvores de Decisão, as observações sobre os itens são mostradas em ramificações e as conclusões das observações são mostradas nos nós. Existem três tipos diferentes de nós: os nós raiz que indicam o início do processo de decisão e não têm arestas de entrada, os nós internos que têm exatamente uma entrada e pelo menos duas arestas de saída e os nós finais (ou as folhas).
 
-Sempre que o rótulo de classificação de destino assume valores discretos, a Árvore de Decisão é chamada de árvore de classificação e, sempre que recebe valores contínuos, é chamada de árvore de regressão. Um dos méritos do uso de Árvores de Decisão é que elas exigem pouco pré-processamento de dados e não há necessidade de escala. Seu treinamento geralmente é realizado com uma árvore menos complicada e mais abrangente. A complexidade de uma Árvore de Decisão pode ser controlada usando critérios de parada e métodos de poda~\citep{Rokach_2005}, existindo quatro métricas diferentes para poder medí-la: o número total de nós, o número total de folhas, a profundidade da árvore e o número de atributos usados.
+Sempre que o rótulo de classificação de destino assume valores discretos, a Árvore de Decisão é chamada de árvore de classificação e, sempre que recebe valores contínuos, é chamada de árvore de regressão. Um dos méritos do uso de Árvores de Decisão é que elas exigem pouco pré-processamento de dados e não há necessidade de escala. Seu treinamento geralmente é realizado com uma árvore menos complicada e mais abrangente. A complexidade de uma Árvore de Decisão pode ser controlada usando critérios de parada e métodos de poda~\cite{Rokach_2005}, existindo quatro métricas diferentes para poder medí-la: o número total de nós, o número total de folhas, a profundidade da árvore e o número de atributos usados.
 
 Os algoritmos usados para construir uma Árvore de Decisão a partir de um conjunto de dados são chamados de indutores. Normalmente, o objetivo desses algoritmos é encontrar a Árvore de Decisão ótima minimizando o erro de generalização, considerando o número mínimo de nós e a profundidade mínima da árvore. Os algoritmos da Árvore de Decisão funcionam de forma \textit{top-down}, pois escolhem a melhor variável em cada estágio que pode dividir o conjunto de dados em um atributo específico. Diferentes indutores usam critérios diferentes para encontrar a melhor variável.
 
 \subsubsection{\textit{Random Forest}}
 
-\textit{Random Forest} é um algoritmo de aprendizado de máquina que combina a simplicidade das Árvores de Decisão com a flexibilidade, resultando em melhorias na acurácia~\citep{Breiman_2001}. Neste algoritmo, o \textit{Bagging}, uma técnica que gera uma coleção de classificadores introduzindo subconjuntos randômicos na entrada do algoritmo~\citep{Witten_2016}, é utilizado para gerar uma coleção de Árvores de Decisão simplificadas com a finalidade de generalizar o resultado no conjunto da obra.
+\textit{Random Forest} é um algoritmo de aprendizado de máquina que combina a simplicidade das Árvores de Decisão com a flexibilidade, resultando em melhorias na acurácia~\cite{Breiman_2001}. Neste algoritmo, o \textit{Bagging}, uma técnica que gera uma coleção de classificadores introduzindo subconjuntos randômicos na entrada do algoritmo~\cite{Witten_2016}, é utilizado para gerar uma coleção de Árvores de Decisão simplificadas com a finalidade de generalizar o resultado no conjunto da obra.
 
 No final, a classe selecionada é a que for mais citada dentre essa coleção. Esta simplificação, em geral, otimiza o treinamento em relação a uma Árvore de Decisão tradicional.
 
 \subsubsection{\textit{Gradient Boosting}}
 
-\textit{Gradient Boosting}, também conhecido como \textit{Gradient Boosting Machine} (GBM) ou \textit{Gradient Boosted Regression Tree} (GBRT)~\citep{Chen_2016}, é um algoritmo de aprendizado de máquina que faz a classificação através da composição de pequenos modelos pela utilização do \textit{Boosting}~\citep{Friedman_2000}~\citep{Hastie_2009}. \textit{Gradient Boosting} faz uso de \textit{Boosting} para gradualmente aproximar um melhor modelo, de modo a somar submodelos ao modelo composto. Árvores de Decisão tendem a gerar \textit{overfitting}, e o \textit{Gradient Boosting} é uma possibilidade para solucionar este problema.
+\textit{Gradient Boosting}, também conhecido como \textit{Gradient Boosting Machine} (GBM) ou \textit{Gradient Boosted Regression Tree} (GBRT)~\cite{Chen_2016}, é um algoritmo de aprendizado de máquina que faz a classificação através da composição de pequenos modelos pela utilização do \textit{Boosting}~\cite{Friedman_2000}~\cite{Hastie_2009}. \textit{Gradient Boosting} faz uso de \textit{Boosting} para gradualmente aproximar um melhor modelo, de modo a somar submodelos ao modelo composto. Árvores de Decisão tendem a gerar \textit{overfitting}, e o \textit{Gradient Boosting} é uma possibilidade para solucionar este problema.
 
-\textit{Boosting} é uma combinação de modelos simples, chamados de modelos fracos, onde tipicamente estes modelos são Árvores de Decisão. O algoritmo combina classificadores fracos com intuito de produzir um classificador forte. Diferente do \textit{Bagging}, a obtenção de subconjuntos vindos do conjunto de dados não é feita de maneira aleatória, e sim feita priorizando a substituição de dados mal classificados, que ganham um peso maior para serem substituídos nas iterações seguintes~\citep{Hastie_2009}.
+\textit{Boosting} é uma combinação de modelos simples, chamados de modelos fracos, onde tipicamente estes modelos são Árvores de Decisão. O algoritmo combina classificadores fracos com intuito de produzir um classificador forte. Diferente do \textit{Bagging}, a obtenção de subconjuntos vindos do conjunto de dados não é feita de maneira aleatória, e sim feita priorizando a substituição de dados mal classificados, que ganham um peso maior para serem substituídos nas iterações seguintes~\cite{Hastie_2009}.
 
 \subsubsection{Redes Neurais Artificiais}
 
@@ -626,27 +628,27 @@ As Redes Neurais Artificiais, muitas vezes chamadas apenas de Redes Neurais, sã
 \item O processo de encaminhamento inicia novamente e continua até que a taxa de erro seja minimizada a um determinado valor, ou até um certo número de iterações.
 \end{enumerate}
 
-As Redes Neurais Artificiais não são novas para os sistemas de computação, pois foram introduzidas pela primeira vez por Warren McCulloch e Walter Pitts em 1943~\citep{McCulloch_1943}. Desde então, o desenvolvimento dessas técnicas passou por altos e baixos até ter uma adoção considerável graças aos avanços significativos tanto no poder computacional dos hardwares quanto nas otimizações de algoritmos implementadas nos softwares. Atualmente, é possível treinar Redes Neurais de grande complexidade, e há uma enorme quantidade de dados disponíveis para uso em bancos de dados. Elas podem ser divididas em dois grupos principais~\citep{Singh_2009}:
+As Redes Neurais Artificiais não são novas para os sistemas de computação, pois foram introduzidas pela primeira vez por Warren McCulloch e Walter Pitts em 1943~\cite{McCulloch_1943}. Desde então, o desenvolvimento dessas técnicas passou por altos e baixos até ter uma adoção considerável graças aos avanços significativos tanto no poder computacional dos hardwares quanto nas otimizações de algoritmos implementadas nos softwares. Atualmente, é possível treinar Redes Neurais de grande complexidade, e há uma enorme quantidade de dados disponíveis para uso em bancos de dados. Elas podem ser divididas em dois grupos principais~\cite{Singh_2009}:
 
 \begin{itemize}
 \item \textbf{Redes retroalimentadas (\textit{Feedforward})}: Nessas redes, o fluxo de dados se move apenas na direção direta da camada de entrada para os nós de saída. Não há alimentação ou loop no sistema.
 \item \textbf{Redes recorrentes}: Este tipo de rede pode ter a opção de feedback e reutiliza os dados dos estágios posteriores para os estágios anteriores.
 \end{itemize}
 
-Algoritmos de otimização são métodos usados para minimizar o valor da função de custo ajustando os parâmetros internos do modelo. Algumas das técnicas de otimização mais comuns nas estruturas de aprendizado profundo são as seguintes: \textit{Stochastic Gradient Descent} (SGD)~\citep{Schmidt_2013}, \textit{Momentum}~\citep{Polyak_1964}, \textit{Nesterov Accelerated Gradient} (NAG)~\citep{Sutskever_2013}, \textit{Adaptive Gradient} (AdaGrad)~\citep{Duchi_2011}, \textit{Root mean square prop} (RMSprop)~\citep{Graves_2013}, \textit{Adaptive moment estimation}, (Adam)~\citep{Kingma_2014}, \textit{Nesterov and Adam optimizer} (Nadam)~\citep{Dozat_2016}.
+Algoritmos de otimização são métodos usados para minimizar o valor da função de custo ajustando os parâmetros internos do modelo. Algumas das técnicas de otimização mais comuns nas estruturas de aprendizado profundo são as seguintes: \textit{Stochastic Gradient Descent} (SGD)~\cite{Schmidt_2013}, \textit{Momentum}~\cite{Polyak_1964}, \textit{Nesterov Accelerated Gradient} (NAG)~\cite{Sutskever_2013}, \textit{Adaptive Gradient} (AdaGrad)~\cite{Duchi_2011}, \textit{Root mean square prop} (RMSprop)~\cite{Graves_2013}, \textit{Adaptive moment estimation}, (Adam)~\cite{Kingma_2014}, \textit{Nesterov and Adam optimizer} (Nadam)~\cite{Dozat_2016}.
 
 Toda Rede Neural consiste em alguns nós (neurônios), conexões ponderadas entre os nós e uma abordagem computacional chamada função de ativação usada para definir a saída de cada neurônio. Diferentes tipos de funções de ativação podem ser usados com esta técnica, como sigmóide, tanh (tangente hiperbólica) ou ReLU (sigla de \textit{Rectified Linear Unit}).
 
-Redes Neurais consistem em diferentes camadas. O tipo mais simples de Rede Neural inclui uma camada de entrada que recebe informações de fontes externas, como valores de atributos do conjunto de dados de entrada. A camada de saída gera a saída da rede e as camadas ocultas conectam a camada de entrada e a camada de saída entre si. O valor de entrada de cada nó em cada camada é calculado pela soma de todos os nós de entrada multiplicada pelo respectivo peso da interconexão entre os nós~\citep{Erb_1993}.
+Redes Neurais consistem em diferentes camadas. O tipo mais simples de Rede Neural inclui uma camada de entrada que recebe informações de fontes externas, como valores de atributos do conjunto de dados de entrada. A camada de saída gera a saída da rede e as camadas ocultas conectam a camada de entrada e a camada de saída entre si. O valor de entrada de cada nó em cada camada é calculado pela soma de todos os nós de entrada multiplicada pelo respectivo peso da interconexão entre os nós~\cite{Erb_1993}.
 
 \section{\textit{Fairness} em Algoritmos de Aprendizado de Máquina}
 \label{sec:Fairness}
 
-Como a coleta de dados está presente atualmente no dia-a-dia de variados setores da sociedade, o uso de Aprendizado de Máquina é extremamente versátil para tomadas de decisão, podendo ser utilizados em problemas como admissão de universidades, contratações, análise de crédito e reconhecimento de doenças. Com o aumento dessa influência, o uso de dados sensíveis em um contexto determinado também aumentou, e temas como uma IA ética e conceitos como vieses nos dados e \textit{Fairness} passaram a serem discutidas não apenas na Computação, mas em áreas como Direito. Algoritmos são mais objetivos, rápidos e são capazes de considerar uma grande magnitude de recursos que pessoas não são capazes. Entretanto, até o presente momento eles não são capazes de diferenciar contextos sociais, onde um resultado mais eficiente de acordo com os dados disponíveis podem amplificar as desigualdades sociais e tomar decisões de modo injusto~\citep{Mehrabi_2021}. 
+Como a coleta de dados está presente atualmente no dia-a-dia de variados setores da sociedade, o uso de Aprendizado de Máquina é extremamente versátil para tomadas de decisão, podendo ser utilizados em problemas como admissão de universidades, contratações, análise de crédito e reconhecimento de doenças. Com o aumento dessa influência, o uso de dados sensíveis em um contexto determinado também aumentou, e temas como uma IA ética e conceitos como vieses nos dados e \textit{Fairness} passaram a serem discutidas não apenas na Computação, mas em áreas como Direito. Algoritmos são mais objetivos, rápidos e são capazes de considerar uma grande magnitude de recursos que pessoas não são capazes. Entretanto, até o presente momento eles não são capazes de diferenciar contextos sociais, onde um resultado mais eficiente de acordo com os dados disponíveis podem amplificar as desigualdades sociais e tomar decisões de modo injusto~\cite{Mehrabi_2021}. 
 
-Estes dados sensíveis, tendo como exemplos cor de pele, raça, sexo, idade e altura, são considerados atributos protegidos, que precisam ser classificados e processados antes da execução de um algoritmo de Aprendizado de Máquina, determinarão como o algoritmo se comportará e, consequentemente, afetará suas métricas~\citep{Mougan_2022}. Os grupos de dados provenientes destes atributos protegidos são considerados grupos protegidos, que podem ser divididos em dois grupos: o grupo privilegiado, que possui vantagens no contexto do problema, e o grupo não-privilegiado, que possui desvantagens no contexto do problema e, portanto, sujeito a discriminação.
+Estes dados sensíveis, tendo como exemplos cor de pele, raça, sexo, idade e altura, são considerados atributos protegidos, que precisam ser classificados e processados antes da execução de um algoritmo de Aprendizado de Máquina, determinarão como o algoritmo se comportará e, consequentemente, afetará suas métricas~\cite{Mougan_2022}. Os grupos de dados provenientes destes atributos protegidos são considerados grupos protegidos, que podem ser divididos em dois grupos: o grupo privilegiado, que possui vantagens no contexto do problema, e o grupo não-privilegiado, que possui desvantagens no contexto do problema e, portanto, sujeito a discriminação.
 
-É possível descrever o conceito de \textit{Fairness} no contexto de aprendizagem supervisionada, onde um modelo $f$ pode prever um conjunto de resultados $y$ a partir de um conjunto de \textit{features} $x$, evitando discriminação injusta em relação a um atributo protegido $a$. É permitido, mas não exigido, que $a$ seja um componente de $x$~\citep{Begley_2021}. Em outras palavras, um modelo de ML considerado justo é aquele onde a correlação de seu resultado é baixa em relação a dados de entrada considerados como sensíveis a discriminações.
+É possível descrever o conceito de \textit{Fairness} no contexto de aprendizagem supervisionada, onde um modelo $f$ pode prever um conjunto de resultados $y$ a partir de um conjunto de \textit{features} $x$, evitando discriminação injusta em relação a um atributo protegido $a$. É permitido, mas não exigido, que $a$ seja um componente de $x$~\cite{Begley_2021}. Em outras palavras, um modelo de ML considerado justo é aquele onde a correlação de seu resultado é baixa em relação a dados de entrada considerados como sensíveis a discriminações.
 
 Geralmente, as descrições de justiça se dividem em dois grupos principais: justiça individual e justiça de grupo. O objetivo da justiça individual é que indivíduos semelhantes devem obter resultados semelhantes, enquanto na justiça de grupo, cada um dos grupos definidos pelo atributo protegido devem ser tratados igualmente. No geral, os estudos atuais costumam realizar seus experimentos em casos de justiça de grupo, uma vez que o escopo de justiça de grupo é muito mais amplo e tende a exemplificar melhor a relação entre dados, relações sociais e vieses do mundo atual.
 
@@ -666,7 +668,7 @@ FPR = \frac{FP}{FP + TN}
 Dada essas métricas iniciais, considerando $Y=1$ a classe positiva, $Z=0$ o grupo não-privilegiado e $Z=1$ o grupo privilegiado, algumas das definições de \textit{Fairness} mais usadas são as seguintes:
 
 \begin{itemize}
-\item \textbf{Diferença de paridade estatística (\textit{Statistical parity difference}), ou discriminação~\citep{Zemel_2013}:} Esta métrica determina a diferença de chances entre o grupo privilegiado e o grupo não-privilegiado de receber uma previsão favorável. É baseada na seguinte fórmula:
+\item \textbf{Diferença de paridade estatística (\textit{Statistical parity difference}), ou discriminação~\cite{Zemel_2013}:} Esta métrica determina a diferença de chances entre o grupo privilegiado e o grupo não-privilegiado de receber uma previsão favorável. É baseada na seguinte fórmula:
 
 \begin{equation}
 Pr(Y=1|Z=0)-Pr(Y=1|Z=1)
@@ -674,15 +676,15 @@ Pr(Y=1|Z=0)-Pr(Y=1|Z=1)
  
 Aqui, o viés ou paridade estatística é a diferença entre a probabilidade de que um indivíduo aleatório retirado dos não-privilegiados seja rotulado como 1 e a probabilidade de que um indivíduo aleatório dos privilegiados seja rotulado como 1. Portanto, um valor próximo de 0 é considerado justo.
 
-\item \textbf{Diferença de oportunidade igual (\textit{Equal opportunity difference})~\citep{Biswas_2020}:} Esta métrica determina determina a diferença de chances entre o grupo privilegiado e o grupo não-privilegiado de receber uma previsão favorável que corresponda a realidade. É a diferença entre a taxa de verdadeiros positivos do grupo não-privilegiado e a taxa de verdadeiros positivos do grupo privilegiado:
+\item \textbf{Diferença de oportunidade igual (\textit{Equal opportunity difference})~\cite{Biswas_2020}:} Esta métrica determina determina a diferença de chances entre o grupo privilegiado e o grupo não-privilegiado de receber uma previsão favorável que corresponda a realidade. É a diferença entre a taxa de verdadeiros positivos do grupo não-privilegiado e a taxa de verdadeiros positivos do grupo privilegiado:
 
 \begin{equation}
 TPR_{Z=0} - TPR_{Z=1}
 \end{equation}
  
-Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz a igualdade de oportunidades quando a taxa de verdadeiros positivos de ambos os grupos são iguais~\citep{Hardt_2016}
+Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz a igualdade de oportunidades quando a taxa de verdadeiros positivos de ambos os grupos são iguais~\cite{Hardt_2016}
 
-\item \textbf{Diferença de probabilidade média (\textit{Average odds difference})~\citep{Biswas_2020}:} Esta métrica determina a diferença de previsões incorretas entre o grupo privilegiado e o grupo não-privilegiado. Ela usa a taxa de falsos positivos e a taxa de verdadeiros positivos para calcular a tendência, calculando a igualdade de probabilidades com a fórmula:
+\item \textbf{Diferença de probabilidade média (\textit{Average odds difference})~\cite{Biswas_2020}:} Esta métrica determina a diferença de previsões incorretas entre o grupo privilegiado e o grupo não-privilegiado. Ela usa a taxa de falsos positivos e a taxa de verdadeiros positivos para calcular a tendência, calculando a igualdade de probabilidades com a fórmula:
 
 \begin{equation}
 \frac{1}{2}(|FPR_{Z=0} - FPR_{Z=1}|+|TPR_{Z=0} - TPR_{Z=1}|)
@@ -690,15 +692,15 @@ Um valor próximo de 0 é considerado justo. Um classificador binário satisfaz 
  
 O valor precisa ser próximo a 0 para ser considerado justo.
 
-\item \textbf{Impacto de disparidade (\textit{Disparate impact})~\citep{Biswas_2020}:} Para esta métrica, é usada a seguinte fórmula:
+\item \textbf{Impacto de disparidade (\textit{Disparate impact})~\cite{Biswas_2020}:} Para esta métrica, é usada a seguinte fórmula:
 
 \begin{align*}
 \frac{Pr(Y=1|Z=0)}{Pr(Y=1|Z=1)}
 \end{align*}
 
-Usa as probabilidades condicionais utilizadas na diferença de paridade estatística, mas como é calculada como uma proporção o valor esta métrica possui um comportamento não-linear. Desta forma, um valor próximo de 1 é considerado justo. Um valor que não esteja no intervalo $\left[0,8; 1,25 \right]$ indica um grande desbalanceamento do modelo treinado~\citep{Feldman_2015}
+Usa as probabilidades condicionais utilizadas na diferença de paridade estatística, mas como é calculada como uma proporção o valor esta métrica possui um comportamento não-linear. Desta forma, um valor próximo de 1 é considerado justo. Um valor que não esteja no intervalo $\left[0,8; 1,25 \right]$ indica um grande desbalanceamento do modelo treinado~\cite{Feldman_2015}
 
-\item \textbf{Índice de Theil (\textit{Theil index})~\citep{Speicher_2018}:} Esta métrica é utilizada não apenas para determinar \textit{Fairness} entre o grupo privilegiado e o grupo não-privilegiado, mas também para determinar \textit{Fairness} entre indivíduos. Em outras palavras, que indivíduos similares recebam previsões similares. Também é conhecida como índice de entropia generalizado, mas com o valor de $\alpha$ usado neste índice igual a 1~\citep{Speicher_2018}. É calculado com a seguinte fórmula:
+\item \textbf{Índice de Theil (\textit{Theil index})~\cite{Speicher_2018}:} Esta métrica é utilizada não apenas para determinar \textit{Fairness} entre o grupo privilegiado e o grupo não-privilegiado, mas também para determinar \textit{Fairness} entre indivíduos. Em outras palavras, que indivíduos similares recebam previsões similares. Também é conhecida como índice de entropia generalizado, mas com o valor de $\alpha$ usado neste índice igual a 1~\cite{Speicher_2018}. É calculado com a seguinte fórmula:
 
 \begin{align*}
 \frac{1}{n}\sum^{n}_{i=0}\frac{b_i}{\mu}\ln{\frac{b_i}{\mu}}
@@ -713,43 +715,43 @@ Onde n é a quantidade de elementos, $b_i$ é obtido com a fórmula $b_i = \hat{
 
 Há diversos tipos de algoritmos diferentes na inteligência artificial para redução de vieses, a fim de garantir \textit{Fairness} nos projetos de Aprendizado de Máquina. É possível classificá-los em três categorias diferentes: Algoritmos de pré-processamento, de processamento e de pós-processamento.
 
-Os algoritmos de \textbf{pré-processamento} tentam eliminar a discriminação transformando os dados, antes de executar o algoritmo de treinamento. Tais algoritmos podem ser usados caso seja permitida a modificação dos dados de treinamento~\citep{dAlessandro_2017}, e a ideia por trás de tais algoritmos é que suas previsões serão mais balanceadas se o classificador for treinado com os dados já balanceados~\citep{Kamiran_2009}. Nesta categoria se enquadram os seguintes algoritmos:
+Os algoritmos de \textbf{pré-processamento} tentam eliminar a discriminação transformando os dados, antes de executar o algoritmo de treinamento. Tais algoritmos podem ser usados caso seja permitida a modificação dos dados de treinamento~\cite{dAlessandro_2017}, e a ideia por trás de tais algoritmos é que suas previsões serão mais balanceadas se o classificador for treinado com os dados já balanceados~\cite{Kamiran_2009}. Nesta categoria se enquadram os seguintes algoritmos:
 
 \begin{itemize}
-\item \textbf{Reposição (\textit{Reweighing})~\citep{Kamiran_2011}:} Pondera os exemplos em cada combinação de grupo e rótulo de maneira diferente para garantir a justiça antes da classificação.
+\item \textbf{Reposição (\textit{Reweighing})~\cite{Kamiran_2011}:} Pondera os exemplos em cada combinação de grupo e rótulo de maneira diferente para garantir a justiça antes da classificação.
 
-\item \textbf{Removedor de impacto de disparidade (\textit{Disparate impact remover})~\citep{Feldman_2015}:} Edita valores de \textit{features} para otimizar \textit{Fairness} em cada grupo enquanto preserva a ordem de classificação dentro dos mesmos.
+\item \textbf{Removedor de impacto de disparidade (\textit{Disparate impact remover})~\cite{Feldman_2015}:} Edita valores de \textit{features} para otimizar \textit{Fairness} em cada grupo enquanto preserva a ordem de classificação dentro dos mesmos.
 
-\item \textbf{Aprendizado de representações justas (LFR, ou \textit{Learning fair representations})~\citep{Zemel_2013}:} Encontra uma representação latente que codifica os dados, mas ofusca informações dos atributos protegidos.
+\item \textbf{Aprendizado de representações justas (LFR, ou \textit{Learning fair representations})~\cite{Zemel_2013}:} Encontra uma representação latente que codifica os dados, mas ofusca informações dos atributos protegidos.
 
-\item \textbf{Pré-processamento otimizado (\textit{Optimized pre-processing})~\citep{Calmon_2017}:} Aprende uma transformação probabilística que edita \textit{features} e rótulos nos dados abordando primariamente \textit{Fairness} em cada grupo, e garante a fidelidade de dados através de restrições para controle de distorção.
+\item \textbf{Pré-processamento otimizado (\textit{Optimized pre-processing})~\cite{Calmon_2017}:} Aprende uma transformação probabilística que edita \textit{features} e rótulos nos dados abordando primariamente \textit{Fairness} em cada grupo, e garante a fidelidade de dados através de restrições para controle de distorção.
 \end{itemize}
 
-Os algoritmos de \textbf{processamento} tentam realizar modificações nos algoritmos de treinamento para mitigar a discriminação durante o processo de treinamento do modelo. Se for permitido fazer mudanças no processo de treinamento, então os algoritmos podem ser usados incorporando mudanças na função de custo ou impondo restrições~\citep{Mehrabi_2021}. Nesta categoria se enquadram os seguintes algoritmos:
+Os algoritmos de \textbf{processamento} tentam realizar modificações nos algoritmos de treinamento para mitigar a discriminação durante o processo de treinamento do modelo. Se for permitido fazer mudanças no processo de treinamento, então os algoritmos podem ser usados incorporando mudanças na função de custo ou impondo restrições~\cite{Mehrabi_2021}. Nesta categoria se enquadram os seguintes algoritmos:
 
 \begin{itemize}
-\item \textbf{Remoção de viés adversário (Adversarial debiasing)~\citep{Zhang_2018}:} Aprende um classificador que maximiza a precisão e reduz a capacidade de um adversário de depender do atributo protegido nas previsões. Essa abordagem leva a um classificador justo, pois as previsões realizadas pelo classificador não possuem nenhuma informação de discriminação nos grupos.
+\item \textbf{Remoção de viés adversário (Adversarial debiasing)~\cite{Zhang_2018}:} Aprende um classificador que maximiza a precisão e reduz a capacidade de um adversário de depender do atributo protegido nas previsões. Essa abordagem leva a um classificador justo, pois as previsões realizadas pelo classificador não possuem nenhuma informação de discriminação nos grupos.
 
-\item \textbf{Removedor de preconceito (Prejudice remover)~\citep{Feldman_2015}:} Técnica que adiciona no algoritmo escolhido um termo de regularização baseado na discriminação.
+\item \textbf{Removedor de preconceito (Prejudice remover)~\cite{Feldman_2015}:} Técnica que adiciona no algoritmo escolhido um termo de regularização baseado na discriminação.
 
-\item \textbf{Meta-Algoritmo para classificações justas (Meta-Algorithm for Fair Classification)~\citep{Celis_2019}:} Aprende um classificador compatível com uma gama grande de métricas de Fairness, sendo prático o suficiente para abrangê-las sem grande perda de performance.
+\item \textbf{Meta-Algoritmo para classificações justas (Meta-Algorithm for Fair Classification)~\cite{Celis_2019}:} Aprende um classificador compatível com uma gama grande de métricas de Fairness, sendo prático o suficiente para abrangê-las sem grande perda de performance.
 
-\item \textbf{Justiça de Subgrupo Diversificado (Rich Subgroup Fairness)~\citep{Kearns_2018}:} Aprende um classificador que procura equalizar as taxas de falsos positivos e falsos negativos entre os dados que envolvem atributos protegidos, considerados como subgrupos.
+\item \textbf{Justiça de Subgrupo Diversificado (Rich Subgroup Fairness)~\cite{Kearns_2018}:} Aprende um classificador que procura equalizar as taxas de falsos positivos e falsos negativos entre os dados que envolvem atributos protegidos, considerados como subgrupos.
 
-\item \textbf{Redução por Gradiente Exponencial (Exponentiated Gradient Reduction)~\citep{Agarwal_2018}:} Aprende um classificador baseado em Gradiente Exponencial que tende a minimizar o erro de uma classificação ponderada.
+\item \textbf{Redução por Gradiente Exponencial (Exponentiated Gradient Reduction)~\cite{Agarwal_2018}:} Aprende um classificador baseado em Gradiente Exponencial que tende a minimizar o erro de uma classificação ponderada.
 
-\item \textbf{Redução por busca em grade (Grid Search Reduction)~\citep{Agarwal_2018}~\citep{Agarwal_2019}:} Aprende um classificador baseado na busca em uma grade de valores que tende a minimizar o erro de uma classificação ponderada. É mais simples e impreciso que a Redução por Gradiente Exponencial, mas sua escolha pode ser razoável se a quantidade de métricas de Fairness a serem consideradas for pequena.
+\item \textbf{Redução por busca em grade (Grid Search Reduction)~\cite{Agarwal_2018}~\cite{Agarwal_2019}:} Aprende um classificador baseado na busca em uma grade de valores que tende a minimizar o erro de uma classificação ponderada. É mais simples e impreciso que a Redução por Gradiente Exponencial, mas sua escolha pode ser razoável se a quantidade de métricas de Fairness a serem consideradas for pequena.
 
 \end{itemize}
 
-Os algoritmos de \textbf{pós-processamento} utilizam um conjunto de validação, que não foi envolvido no processo de treinamento para melhorar a imparcialidade das previsões~\citep{dAlessandro_2017}. Quando não há possibilidade de fazer alterações nos dados de treinamento ou no treinamento do modelo, apenas algoritmos de pós-processamento podem ser usados. Nesta categoria se enquadram os seguintes algoritmos:
+Os algoritmos de \textbf{pós-processamento} utilizam um conjunto de validação, que não foi envolvido no processo de treinamento para melhorar a imparcialidade das previsões~\cite{dAlessandro_2017}. Quando não há possibilidade de fazer alterações nos dados de treinamento ou no treinamento do modelo, apenas algoritmos de pós-processamento podem ser usados. Nesta categoria se enquadram os seguintes algoritmos:
 
 \begin{itemize}
-\item \textbf{Pós-processamento para igualdade de probabilidade (Equalized Odds Postprocessing)~\citep{Hardt_2016}:} Resolve um problema linear cuja saída é um conjunto de probabilidades e altera os rótulos de saída entre o grupo privilegiado e o grupo não-privilegiado para equalizar estas probabilidades.
+\item \textbf{Pós-processamento para igualdade de probabilidade (Equalized Odds Postprocessing)~\cite{Hardt_2016}:} Resolve um problema linear cuja saída é um conjunto de probabilidades e altera os rótulos de saída entre o grupo privilegiado e o grupo não-privilegiado para equalizar estas probabilidades.
 
-\item \textbf{Pós-processamento calibrado para igualdade de probabilidade (Calibrated Equalized Odds Postprocessing)~\citep{Pleiss_2017}:} Otimiza um conjunto de probabilidades através de uma calibração das previsões do classificador obtido e altera os rótulos de saída entre o grupo privilegiado e o grupo não-privilegiado para equalizar estas probabilidades.
+\item \textbf{Pós-processamento calibrado para igualdade de probabilidade (Calibrated Equalized Odds Postprocessing)~\cite{Pleiss_2017}:} Otimiza um conjunto de probabilidades através de uma calibração das previsões do classificador obtido e altera os rótulos de saída entre o grupo privilegiado e o grupo não-privilegiado para equalizar estas probabilidades.
 
-\item \textbf{Classificação baseada em Rejeição de Opções (Reject Option-based Classification)~\citep{Kamiran_2012}:} Dá resultados favoráveis para grupos não privilegiados e resultados desfavoráveis para grupos privilegiados de acordo com uma faixa de confiança.
+\item \textbf{Classificação baseada em Rejeição de Opções (Reject Option-based Classification)~\cite{Kamiran_2012}:} Dá resultados favoráveis para grupos não privilegiados e resultados desfavoráveis para grupos privilegiados de acordo com uma faixa de confiança.
 
 \end{itemize}
 
@@ -769,20 +771,20 @@ No processo, ilustrado na Figura \ref{fig:MLProcess}, o conjunto de dados passa 
 
 \subsection{Arquitetura de Software}
 
-O consenso sobre a definição do termo arquitetura de software foi atingido com a adoção do padrão IEEE 1471, que define arquitetura de software como \textit{"a organização fundamental de um sistema incorporado em seus componentes, seus relacionamentos entre si e com o meio ambiente e os princípios que orientam seu projeto e evolução"}. Com esta definição, o componente e o conector são reforçados como conceitos centrais da arquitetura de software~\citep{Bosch_2004}.
+O consenso sobre a definição do termo arquitetura de software foi atingido com a adoção do padrão IEEE 1471, que define arquitetura de software como \textit{"a organização fundamental de um sistema incorporado em seus componentes, seus relacionamentos entre si e com o meio ambiente e os princípios que orientam seu projeto e evolução"}. Com esta definição, o componente e o conector são reforçados como conceitos centrais da arquitetura de software~\cite{Bosch_2004}.
 
-O nível de projeto da arquitetura de software no desenvolvimento de uma aplicação vai além dos algoritmos e estruturas de dados da computação. Incluem fatores como organização, protocolos de comunicação, acesso a dados, atribuição de funcionalidades, escalabilidade, performance, composição e seleção do \textit{design} ideal~\citep{Garlan_1993}. É possível tratar uma arquitetura de um sistema específico como uma coleção de componentes juntamente com uma descrição dos conectores, que define as interações entre os componentes.
+O nível de projeto da arquitetura de software no desenvolvimento de uma aplicação vai além dos algoritmos e estruturas de dados da computação. Incluem fatores como organização, protocolos de comunicação, acesso a dados, atribuição de funcionalidades, escalabilidade, performance, composição e seleção do \textit{design} ideal~\cite{Garlan_1993}. É possível tratar uma arquitetura de um sistema específico como uma coleção de componentes juntamente com uma descrição dos conectores, que define as interações entre os componentes.
 
 \subsection{Arquitetura de referência para IA}
 
-Um estilo de arquitetura define uma família de tais sistemas em termos de um padrão de organização estrutural, e determina o vocabulário de componentes e conectores que podem ser usados em instâncias desse estilo, juntamente com um conjunto de restrições sobre como eles podem ser combinados~\citep{Garlan_1993}. A decisão sobre tal estilo depende da solução e dos requisitos de um sistema. Ela pode adicionar novos componentes, incrementá-los com novos requisitos ou adicionar restrições sobre eles~\citep{Bosch_2004}.
+Um estilo de arquitetura define uma família de tais sistemas em termos de um padrão de organização estrutural, e determina o vocabulário de componentes e conectores que podem ser usados em instâncias desse estilo, juntamente com um conjunto de restrições sobre como eles podem ser combinados~\cite{Garlan_1993}. A decisão sobre tal estilo depende da solução e dos requisitos de um sistema. Ela pode adicionar novos componentes, incrementá-los com novos requisitos ou adicionar restrições sobre eles~\cite{Bosch_2004}.
 
-Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de negócio até a implantação do modelo de IA, é a IBM Analytics and AI Reference Architecture~\citep{IBM_2021}, ilustrada na Figura \ref{fig:AIReferenceArchitecture}. Nela, são definidos os seguintes requisitos não-funcionais: performance, estabilidade, segurança, escalabilidade, manutenibilidade e regulamentações de privacidade/\textit{compliance}, e pode ser classificada em 4 grupos principais envolvendo diversos tipos de processos e componentes:
+Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de negócio até a implantação do modelo de IA, é a IBM Analytics and AI Reference Architecture~\cite{IBM_2021}, ilustrada na Figura \ref{fig:AIReferenceArchitecture}. Nela, são definidos os seguintes requisitos não-funcionais: performance, estabilidade, segurança, escalabilidade, manutenibilidade e regulamentações de privacidade/\textit{compliance}, e pode ser classificada em 4 grupos principais envolvendo diversos tipos de processos e componentes:
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.25]{images/ai-analytics-ref-diagram-analyze.jpg}
-\caption {IBM Analytics and AI Reference Architecture~\citep{IBM_2021}.}
+\caption {IBM Analytics and AI Reference Architecture~\cite{IBM_2021}.}
 \label{fig:AIReferenceArchitecture}
 \end{figure}
 
@@ -795,9 +797,9 @@ Um exemplo de arquitetura que generaliza todo o processo, desde a necessidade de
 
 \subsection{Arquitetura MAPE-K}
 
-Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como possível solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\citep{Kephart_2003}. 
+Em 2001, Paul Horn introduziu o conceito de Computação Autônoma como possível solução para a crescente complexidade dos sistemas da época, onde previa-se que os mesmos se tornariam muito grandes e complexos até mesmo para os profissionais mais qualificados configurarem e realizarem manutenção. Tal conceito qualifica sistemas de computação que podem se autogerenciar com relação aos objetivos de alto nível dados pelos administradores e é derivado da biologia, dado a grande variedade e hierarquia de sistemas autônomos presentes na natureza e na sociedade~\cite{Kephart_2003}. 
 
-Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incorporar como funcionalidade um \textit{loop} de controle, que podem ser categorizados em 4 categorias principais. Essas categorias são consideradas atributos dos componentes do sistema e são definidas como~\citep{IBM_2005}:
+Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incorporar como funcionalidade um \textit{loop} de controle, que podem ser categorizados em 4 categorias principais. Essas categorias são consideradas atributos dos componentes do sistema e são definidas como~\cite{IBM_2005}:
 
 \begin{itemize}
 \item \textbf{Auto-configuração:} Pode se adaptar dinamicamente a mudanças no ambiente. Um componente autoconfigurável realiza esta adaptação usando políticas fornecidas pelo profissional. Tais mudanças podem incluir a implantação de novos componentes ou a remoção dos existentes, ou mudanças drásticas nas características do sistema. A adaptação dinâmica ajuda a garantir força e produtividade contínuas da infraestrutura, resultando em crescimento e flexibilidade dos negócios.
@@ -806,7 +808,7 @@ Em um ambiente autônomo e autogerenciado, os componentes de sistema podem incor
 \item \textbf{Auto-proteção:} Pode antecipar, detectar, identificar e proteger contra ameaças de qualquer lugar. Um componente de autoproteção pode detectar comportamentos hostis à medida que ocorrem e tomar ações corretivas para se tornarem menos vulneráveis. Os comportamentos hostis podem incluir acesso e uso não autorizados, infecção e proliferação de vírus e ataques de negação de serviço. Os recursos de autoproteção permitem que as empresas apliquem consistentemente políticas de segurança e privacidade.
 \end{itemize}
 
-Para a Computação Autônoma acontecer, é implementado um Elemento Autônomo~\citep{Abbas_2010}, um componente de software que gerencia partes do sistema baseando-se em um \textit{loop} MAPE-K (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}), ilustrado na Figura \ref{fig:MAPEK}. O MAPE-K é um conceito que constitui um \textit{loop} de controle, usado para monitorar e controlar um ou mais elementos gerenciados. Um elemento gerenciado (\textit{Managed Element}) pode ser um hardware, como uma controlador de uma linha de produção, um software, como um gerenciador de banco de dados, outro Elemento Autônomo ou funcões específicas, como balanceamento de carga. Um \textit{loop} de controle MAPE-K é dividido da seguinte forma:
+Para a Computação Autônoma acontecer, é implementado um Elemento Autônomo~\cite{Abbas_2010}, um componente de software que gerencia partes do sistema baseando-se em um \textit{loop} MAPE-K (\textit{Monitor, Analyze, Plan, Execute, and Knowledge}), ilustrado na Figura \ref{fig:MAPEK}. O MAPE-K é um conceito que constitui um \textit{loop} de controle, usado para monitorar e controlar um ou mais elementos gerenciados. Um elemento gerenciado (\textit{Managed Element}) pode ser um hardware, como uma controlador de uma linha de produção, um software, como um gerenciador de banco de dados, outro Elemento Autônomo ou funcões específicas, como balanceamento de carga. Um \textit{loop} de controle MAPE-K é dividido da seguinte forma:
 
 \begin{itemize}
 \item \textbf{Monitoramento (\textit{Monitor}):} Esta parte é responsável por monitorar os recursos gerenciados e coletar, agregar e filtrar dados. O monitoramento é feito por meio de um sensor (\textit{Sensor}) ou mais sensores.
@@ -821,13 +823,13 @@ Um efetor (\textit{Effector}) ou mais executam as ações planejadas no recurso.
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.5]{images/MAPE-K.png}
-\caption {Diagrama de funcionamento da arquitetura MAPE-K~\citep{Abbas_2010}.}
+\caption {Diagrama de funcionamento da arquitetura MAPE-K~\cite{Abbas_2010}.}
 \label{fig:MAPEK}
 \end{figure}
 
 \subsection{Arquitetura \textit{Pipes-and-Filters}}
 
-Em uma arquitetura \textit{Pipes-and-Filters}, ilustrada na Figura \ref{fig:PipeandFilter}, cada componente tem um conjunto de entradas e um conjunto de saídas. Um componente lê \textit{streams} (ou fluxos) de dados em suas entradas e produz \textit{streams} de dados em suas saídas, abstraindo a entrega de um resultado como um todo. O \textit{stream} de entrada é transformado de modo que a saída comece a ser produzida antes da entrada ser completamente consumida. Por isso, os componentes são chamados de filtros (\textit{filters}). Os conectores deste estilo servem como condutores para os \textit{streams}, transmitindo as saídas de um filtro para as entradas de outro. Por isso, os conectores são chamados de tubos (\textit{pipes})~\citep{Garlan_1993}.
+Em uma arquitetura \textit{Pipes-and-Filters}, ilustrada na Figura \ref{fig:PipeandFilter}, cada componente tem um conjunto de entradas e um conjunto de saídas. Um componente lê \textit{streams} (ou fluxos) de dados em suas entradas e produz \textit{streams} de dados em suas saídas, abstraindo a entrega de um resultado como um todo. O \textit{stream} de entrada é transformado de modo que a saída comece a ser produzida antes da entrada ser completamente consumida. Por isso, os componentes são chamados de filtros (\textit{filters}). Os conectores deste estilo servem como condutores para os \textit{streams}, transmitindo as saídas de um filtro para as entradas de outro. Por isso, os conectores são chamados de tubos (\textit{pipes})~\cite{Garlan_1993}.
 
 \begin{figure}[h]
 \centering
@@ -867,7 +869,7 @@ O termo MLOps é usado para definir uma junção entre modelos de Aprendizado de
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{images/code-validate-deploy-loop.png}
-\caption {Ciclo resumido do processo presente em MLOps~\citep{Tripathi_2021}}
+\caption {Ciclo resumido do processo presente em MLOps~\cite{Tripathi_2021}}
 \label{fig:MLOpsLoop}
 \end{figure}
 
@@ -884,16 +886,16 @@ A operacionalização dos procedimentos em Software já é uma prática comum de
     \item \textbf{Processos e cultura do time:} É importante criar equipes que se importem na melhora do modelo e do seu próprio processo de implantação. Sistemas maduros podem ter dezenas ou centenas de modelos rodando simultaneamente, tornando-se complexos ao longo do tempo e necessitando de melhoria contínua dos processos para manter a qualidade.
 \end{itemize}
 
-O processo de um projeto de MLOps, conforme ilustrado na Figura \ref{fig:MLOpsLoop}, deve dar suporte à automação, integração e monitoramento em todas as etapas da construção de um modelo de ML, incluindo treinamento, integração, teste, lançamento, implantação e gerenciamento de infraestrutura~\citep{Testi_2022}. Com tal processo, projeta-se um pipeline automatizado utilizando o recurso de CI/CD, conforme exemplo mostrado na Figura \ref{fig:MLOpsPipeline}. CI deve permitir a quem desenvolve experimentos orquestrados para análise, validação e preparação de dados, treinamento, avaliação e validação de novos modelos de ML, e CD deve permitir um pipeline que implante um modelo de ML definido como estável em produção, realize o monitoramento deste e implante outro modelo de ML caso as métricas deste monitoramento sejam consideradas insatisfatórias.
+O processo de um projeto de MLOps, conforme ilustrado na Figura \ref{fig:MLOpsLoop}, deve dar suporte à automação, integração e monitoramento em todas as etapas da construção de um modelo de ML, incluindo treinamento, integração, teste, lançamento, implantação e gerenciamento de infraestrutura~\cite{Testi_2022}. Com tal processo, projeta-se um pipeline automatizado utilizando o recurso de CI/CD, conforme exemplo mostrado na Figura \ref{fig:MLOpsPipeline}. CI deve permitir a quem desenvolve experimentos orquestrados para análise, validação e preparação de dados, treinamento, avaliação e validação de novos modelos de ML, e CD deve permitir um pipeline que implante um modelo de ML definido como estável em produção, realize o monitoramento deste e implante outro modelo de ML caso as métricas deste monitoramento sejam consideradas insatisfatórias.
 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.33]{images/mlops-pipeline-example.png}
-\caption {Exemplo de Pipeline de MLOps com ambientes de Desenvolvimento, \textit{Staging} e Produção~\citep{Tripathi_2021}}
+\caption {Exemplo de Pipeline de MLOps com ambientes de Desenvolvimento, \textit{Staging} e Produção~\cite{Tripathi_2021}}
 \label{fig:MLOpsPipeline}
 \end{figure}
 
-O ciclo de vida de um modelo de ML tem metodologias diferentes para se adequar a diferentes cenários e tipos de dados. A abordagem mais utilizada por cientistas de dados é o Cross-Industry Standard Process for Data Mining (CRISP-DM)~\citep{Shearer_2000}, introduzido em 1996 pela Daimler Chrysler. Especialistas podem emprestar as metodologias CRISP-DM padrão e tentar aplicá-las ao pipeline de MLOps, envolvendo dois papeis: O Cientista de Dados, responsável pelo treinamento e teste do modelo, e o Engenheiro de \textit{Machine Learning}, responsável pela produção e implantação. Tais papeis trabalhariam em conjunto em tarefas envolvendo as seguintes etapas:
+O ciclo de vida de um modelo de ML tem metodologias diferentes para se adequar a diferentes cenários e tipos de dados. A abordagem mais utilizada por cientistas de dados é o Cross-Industry Standard Process for Data Mining (CRISP-DM)~\cite{Shearer_2000}, introduzido em 1996 pela Daimler Chrysler. Especialistas podem emprestar as metodologias CRISP-DM padrão e tentar aplicá-las ao pipeline de MLOps, envolvendo dois papeis: O Cientista de Dados, responsável pelo treinamento e teste do modelo, e o Engenheiro de \textit{Machine Learning}, responsável pela produção e implantação. Tais papeis trabalhariam em conjunto em tarefas envolvendo as seguintes etapas:
 
 \begin{itemize}
     \item Análise do Problema do Negócio
@@ -906,16 +908,16 @@ O ciclo de vida de um modelo de ML tem metodologias diferentes para se adequar a
     \item Serviço para implantação de modelos ML em Produção
 \end{itemize}
 
-Isso pode ser feito por uma aplicação própria para realizar este gerenciamento, por funcionalidades implementadas na própria aplicação de ML ou através de \textit{frameworks} de automação como o Amazon SageMaker~\citep{Amazon_2023}, que podem poupar tempo para desenvolvimento de uma nova aplicação a troco de um pagamento de acordo com a demanda utilizada. Estes frameworks podem cuidar de toda a parte de gerenciamento dos dados, modelagem/treinamento ou operação/implantação, e como são modulares e cuidam apenas de uma destas três categorias do processo, podem ser escolhidas ou não de acordo com a necessidade do projeto e conhecimento da equipe.
+Isso pode ser feito por uma aplicação própria para realizar este gerenciamento, por funcionalidades implementadas na própria aplicação de ML ou através de \textit{frameworks} de automação como o Amazon SageMaker~\cite{Amazon_2023}, que podem poupar tempo para desenvolvimento de uma nova aplicação a troco de um pagamento de acordo com a demanda utilizada. Estes frameworks podem cuidar de toda a parte de gerenciamento dos dados, modelagem/treinamento ou operação/implantação, e como são modulares e cuidam apenas de uma destas três categorias do processo, podem ser escolhidas ou não de acordo com a necessidade do projeto e conhecimento da equipe.
 
 \section{Trabalhos Relacionados}
 \label{sec:TrabalhosRelacionados}
 
-Os principais trabalhos encontrados envolvendo métricas de \textit{Fairness} e arquitetura de sistemas pensando em \textit{Fairness} como requisito vêm do time de engenharia do LinkedIn.~\citet{Geyik_2019} descreve quais métricas foram utilizadas e quais algoritmos foram implementados para ranqueamento dos dados.~\citet{Kenthapadi_2019} descreve como o conceito de \textit{Fairness} pode ser implementado em uma aplicação de IA, e mostra a arquitetura sobre ela.
+Os principais trabalhos encontrados envolvendo métricas de \textit{Fairness} e arquitetura de sistemas pensando em \textit{Fairness} como requisito vêm do time de engenharia do LinkedIn.~\cite{Geyik_2019} descreve quais métricas foram utilizadas e quais algoritmos foram implementados para ranqueamento dos dados.~\cite{Kenthapadi_2019} descreve como o conceito de \textit{Fairness} pode ser implementado em uma aplicação de IA, e mostra a arquitetura sobre ela.
 
-Quanto ao processo de desenvolvimento e arquiteturas utilizadas para definir a estrutura final, a IBM AI Reference Architecture~\citep{IBM_2021} foi utilizada no processo como modelo para desenvolvimento de aplicações. Uma arquitetura comparável à arquitetura \textit{Pipes-and-Filters} é a FBFlow do Facebook~\citep{Dunn_2016}, onde o uso de DAGs (\textit{Direct Acyclic Graphs}) para a execução de um determinado processo ou \textit{workflow} é uma alternativa simples de ser implementada e interpretada pelos desenvolvedores, definindo possível conectar o processo de ML e realizar o cálculo de métricas de forma automatizada. Há diferenças entre DAGs e \textit{Pipes-and-Filters}, mas o objetivo de ambos acaba sendo o mesmo: Conectar diversos processos menores para formar um sistema coeso.
+Quanto ao processo de desenvolvimento e arquiteturas utilizadas para definir a estrutura final, a IBM AI Reference Architecture~\cite{IBM_2021} foi utilizada no processo como modelo para desenvolvimento de aplicações. Uma arquitetura comparável à arquitetura \textit{Pipes-and-Filters} é a FBFlow do Facebook~\cite{Dunn_2016}, onde o uso de DAGs (\textit{Direct Acyclic Graphs}) para a execução de um determinado processo ou \textit{workflow} é uma alternativa simples de ser implementada e interpretada pelos desenvolvedores, definindo possível conectar o processo de ML e realizar o cálculo de métricas de forma automatizada. Há diferenças entre DAGs e \textit{Pipes-and-Filters}, mas o objetivo de ambos acaba sendo o mesmo: Conectar diversos processos menores para formar um sistema coeso.
 
-Para o desenvolvimento da parte de análise realizada na arquitetura MAPE-K, uma abordagem similar à aplicada é a \textit{Logic Scoring of Preference} (LSP), utilizada em trabalhos como \textit{"LSP method and its use for evaluation of Java IDEs"}~\citep{Dujmovic_2006}, que foi utilizada primariamente para a avaliação de aplicações e define pontuações através de agregações e critérios bem definidos para a avaliação das mesmas. Métodos de \textit{Multi-Criteria Decision Making} (MCDM) como o \textit{Analytic Hierarchy Process} (AHP), presente no livro \textit{"The analytic hierarchy process : planning, priority setting, resource allocation"}~\citep{Saaty_1980}, também possuem uma abordagem bastante semelhante a realizada e podem ser relacionados, embora não tenham nenhuma relação com os conceitos abordados. Um outro trabalho que pode ser mencionado é o artigo \textit{"The VADA Architecture for Cost-Effective Data Wrangling"}~\citep{Konstantinou_2017}, que utiliza pesos para dar contexto aos dados medidos. Embora não seja o principal tema, indicar a importância dos dados analisados garantiu a autonomia necessária sem exigir grandes modificações.
+Para o desenvolvimento da parte de análise realizada na arquitetura MAPE-K, uma abordagem similar à aplicada é a \textit{Logic Scoring of Preference} (LSP), utilizada em trabalhos como \textit{"LSP method and its use for evaluation of Java IDEs"}~\cite{Dujmovic_2006}, que foi utilizada primariamente para a avaliação de aplicações e define pontuações através de agregações e critérios bem definidos para a avaliação das mesmas. Métodos de \textit{Multi-Criteria Decision Making} (MCDM) como o \textit{Analytic Hierarchy Process} (AHP), presente no livro \textit{"The analytic hierarchy process : planning, priority setting, resource allocation"}~\cite{Saaty_1980}, também possuem uma abordagem bastante semelhante a realizada e podem ser relacionados, embora não tenham nenhuma relação com os conceitos abordados. Um outro trabalho que pode ser mencionado é o artigo \textit{"The VADA Architecture for Cost-Effective Data Wrangling"}~\cite{Konstantinou_2017}, que utiliza pesos para dar contexto aos dados medidos. Embora não seja o principal tema, indicar a importância dos dados analisados garantiu a autonomia necessária sem exigir grandes modificações.
 
 A tabela~\ref{tbl:CategorizacaoTrabalhosRelacionados} categoriza tais trabalhos de acordo com os conceitos relacionados neste capítulo, divididos nas seguintes colunas: "Ciência/Eng. Dados"~para a seção \ref{sec:CienciaEngDados}, "ML"~para a seção \ref{sec:MachineLearning}, "Fairness" para a seção \ref{sec:Fairness}, "Eng. Software"~para a seção \ref{sec:EngSoftware} e "MLOps"~para a seção \ref{sec:MLOps}.
 
@@ -931,19 +933,19 @@ A tabela~\ref{tbl:CategorizacaoTrabalhosRelacionados} categoriza tais trabalhos 
 %    \hline
     \multicolumn{4}{c}{} & \bf Ciência/Eng. Dados & \bf ML & \bf Fairness & \bf Eng. Software & \bf MLOps\\
     \midrule
-    \multicolumn{2}{c}{Geyik et al., 2019~\citep{Geyik_2019}} & \multicolumn{2}{c}{\makecell{Métricas utilizadas \\ Ranqueamento dos dados}} &  & \cmark & \cmark &  & \\[3ex]
+    \multicolumn{2}{c}{Geyik et al., 2019~\cite{Geyik_2019}} & \multicolumn{2}{c}{\makecell{Métricas utilizadas \\ Ranqueamento dos dados}} &  & \cmark & \cmark &  & \\[3ex]
 %    \hline
-    \multicolumn{2}{c}{Kenthapadi et al., 2019~\citep{Kenthapadi_2019}} & \multicolumn{2}{c}{Arquitetura/implementação de métricas de Fairness} &  & \cmark & \cmark & \cmark & \cmark \\[2ex]
+    \multicolumn{2}{c}{Kenthapadi et al., 2019~\cite{Kenthapadi_2019}} & \multicolumn{2}{c}{Arquitetura/implementação de métricas de Fairness} &  & \cmark & \cmark & \cmark & \cmark \\[2ex]
 %    \hline
-    \multicolumn{2}{c}{\makecell{IBM Analytics and \\ AI Reference Architecture~\citep{IBM_2021}}} & \multicolumn{2}{c}{\makecell{Arquitetura de referência para Dados e ML}} & \cmark & \cmark &  & \cmark & \\[3ex]
+    \multicolumn{2}{c}{\makecell{IBM Analytics and \\ AI Reference Architecture~\cite{IBM_2021}}} & \multicolumn{2}{c}{\makecell{Arquitetura de referência para Dados e ML}} & \cmark & \cmark &  & \cmark & \\[3ex]
 %    \hline
-    \multicolumn{2}{c}{\makecell{FBFlow - Facebook \\ (Dunn, 2016)~\citep{Dunn_2016}}} & \multicolumn{2}{c}{\makecell{Uso de DAGs para determinar \textit{workflow} \\ Execução/interpretação de processos de ML}} & \cmark & \cmark &  &  & \cmark\\
+    \multicolumn{2}{c}{\makecell{FBFlow - Facebook \\ (Dunn, 2016)~\cite{Dunn_2016}}} & \multicolumn{2}{c}{\makecell{Uso de DAGs para determinar \textit{workflow} \\ Execução/interpretação de processos de ML}} & \cmark & \cmark &  &  & \cmark\\
 %    \hline
-    \multicolumn{2}{c}{\makecell{Konstantinou et al.,2017}~\citep{Konstantinou_2017}} & \multicolumn{2}{c}{\makecell{Arquitetura para entrelaçamento de dados \\ Utilização de pesos para determinar contexto aos dados}} &  &  &  & \cmark & \\[3ex] 
+    \multicolumn{2}{c}{\makecell{Konstantinou et al.,2017}~\cite{Konstantinou_2017}} & \multicolumn{2}{c}{\makecell{Arquitetura para entrelaçamento de dados \\ Utilização de pesos para determinar contexto aos dados}} &  &  &  & \cmark & \\[3ex] 
 %    \hline
-    \multicolumn{2}{c}{\makecell{Saaty, 1980}~\citep{Saaty_1980}} & \multicolumn{2}{c}{\makecell{Hierarquização de múltiplos critérios \\ Definição de pesos, ranqueamento e tomada de decisão}} &  &  &  &  & \\[3ex] 
+    \multicolumn{2}{c}{\makecell{Saaty, 1980}~\cite{Saaty_1980}} & \multicolumn{2}{c}{\makecell{Hierarquização de múltiplos critérios \\ Definição de pesos, ranqueamento e tomada de decisão}} &  &  &  &  & \\[3ex] 
 %    \hline
-    \multicolumn{2}{c}{\makecell{Dujmovic et al.,2006}~\citep{Dujmovic_2006}} & \multicolumn{2}{c}{\makecell{Uso de \textit{Logic Scoring of Preference} \\ Definição de pontuações para avaliação de aplicações}} &  &  &  & \cmark & \\[3ex]    
+    \multicolumn{2}{c}{\makecell{Dujmovic et al.,2006}~\cite{Dujmovic_2006}} & \multicolumn{2}{c}{\makecell{Uso de \textit{Logic Scoring of Preference} \\ Definição de pontuações para avaliação de aplicações}} &  &  &  & \cmark & \\[3ex]    
     \bottomrule
   \end{tabular}}
 \end{center}
@@ -1180,7 +1182,7 @@ Para o Executor, os parâmetros selecionados na fase de planejamento são config
 
 \section{Atuação do Arcabouço Autonômico dentro do processo}
 
-Com base nas etapas da AI Reference Architecture~\citep{IBM_2021}, foi desenhado um diagrama de atividades, presente na Figura \ref{fig:AIRoles}, determinando como o Arcabouço Autonômico Proposto se encaixaria no processo. É possível definir os seguintes papéis presentes no desenvolvimento de aplicações de \textit{Machine Learning} e como se encaixariam em um contexto onde o arcabouço se faria presente:
+Com base nas etapas da AI Reference Architecture~\cite{IBM_2021}, foi desenhado um diagrama de atividades, presente na Figura \ref{fig:AIRoles}, determinando como o Arcabouço Autonômico Proposto se encaixaria no processo. É possível definir os seguintes papéis presentes no desenvolvimento de aplicações de \textit{Machine Learning} e como se encaixariam em um contexto onde o arcabouço se faria presente:
 
 \begin{itemize}
 \item \textbf{Especialista de Domínio:} É a pessoa que detém o conhecimento de todo o conjunto de regras do qual a aplicação deve respeitar. Seu conhecimento é atuante na comunicação das regras com os demais papéis, independente de seu conhecimento técnico. Está presente nas fases de Coleta, Organização e Infusão do ciclo.
@@ -1195,7 +1197,7 @@ Com base nas etapas da AI Reference Architecture~\citep{IBM_2021}, foi desenhado
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.25]{images/Diagrama_Atividades.jpg}
-\caption {Diagrama de atividades, com base na IBM AI Reference Architecture~\citep{IBM_2021}, indicando a subdivisão de cada papel no uso do Arcabouço Autonômico}
+\caption {Diagrama de atividades, com base na IBM AI Reference Architecture~\cite{IBM_2021}, indicando a subdivisão de cada papel no uso do Arcabouço Autonômico}
 \label{fig:AIRoles}
 \end{figure}
 
@@ -1206,18 +1208,18 @@ Este capítulo apresenta a ferramenta FairPEK que implementa a solução descrit
 \section{Visão geral da implementação}
 \label{sec:VisaoGeral}
 
-O Módulo de ML, o Gerenciador Autonômico e o módulo de Engenharia de Dados foram desenvolvidos em Python pelo motivo de que grande parte dos algoritmos e bibliotecas utilizados já estão implementados com essa linguagem. Para a execução dos algoritmos com redução de viés no Módulo de ML, é utilizada a biblioteca AI Fairness 360, ou AIF360~\citep{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\citep{scikit_2022}. Um pequeno \textit{framework} também foi desenvolvido no Módulo de ML para facilitar o desenvolvimento com o padrão de arquitetura \textit{Pipes-and-Filters}. O Gerenciador Autonômico e o módulo de Engenharia de Dados usam a biblioteca Pandas~\citep{Pandas_2023} para auxiliar nos processos de transformação de dados e na organização dos dados presentes na Base de Conhecimento.
+O Módulo de ML, o Gerenciador Autonômico e o módulo de Engenharia de Dados foram desenvolvidos em Python pelo motivo de que grande parte dos algoritmos e bibliotecas utilizados já estão implementados com essa linguagem. Para a execução dos algoritmos com redução de viés no Módulo de ML, é utilizada a biblioteca AI Fairness 360, ou AIF360~\cite{AIF360_2022}, biblioteca da IBM que compila diversos algoritmos para este fim e facilita o cálculo das métricas de Fairness. Para os algoritmos sem redução de viés, é usado o scikit-learn~\cite{scikit_2022}. Um pequeno \textit{framework} também foi desenvolvido no Módulo de ML para facilitar o desenvolvimento com o padrão de arquitetura \textit{Pipes-and-Filters}. O Gerenciador Autonômico e o módulo de Engenharia de Dados usam a biblioteca Pandas~\cite{Pandas_2023} para auxiliar nos processos de transformação de dados e na organização dos dados presentes na Base de Conhecimento.
 
 Durante o desenvolvimento do Módulo de ML e do Gerenciador Autonômico, foi notado que o número de configurações e a complexidade das mesmas era muito grande, ocasionando problemas na hora de documentar e detalhar todo o processo executado. Para facilitar tais configurações, foi criada uma Interface Humano-Computador onde é condensada toda a organização dos parâmetros, dos arquivos utilizados e da realização das execuções simples e autônoma do Módulo de ML. Também foi criado um Backend dentro do Gerenciador Autonômico para fazer a intermediação entre a interface e o mesmo.
 
-O Backend também foi desenvolvido em Python para reusar códigos já desenvolvidos em etapas anteriores, usando o framework Flask~\citep{Flask_2023} para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do Módulo de ML.
+O Backend também foi desenvolvido em Python para reusar códigos já desenvolvidos em etapas anteriores, usando o framework Flask~\cite{Flask_2023} para construir as requisições web e foi dividido em 3 camadas. A camada \textit{web} corresponde às requisições que constroem a ponte entre Frontend e Backend, a camada \textit{service} corresponde às funcionalidades e casos de uso que serão chamados pelas requisições, e a camada \textit{repo} corresponde às operações de leitura e escrita que serão realizadas nos arquivos do Módulo de ML.
 
 Após a implementação e durante a elaboração dos experimentos, foi notado a necessidade de desenvolver uma documentação, presente nos Apêndices \ref{ann:DocInstall} e \ref{ann:DocMain}. Nela estão explicadas as tecnologias utilizadas para instalação e execução do sistema, além de passos para manutenção caso novos algoritmos e conjuntos de dados sejam adicionados a implementação do arcabouço.
 
 \section{Interface}
 \label{sec:interface}
 
-A interface foi desenvolvida em JavaScript, aproveitando a facilidade e robustez dessa linguagem, juntamente com o extenso conjunto de ferramentas disponíveis para facilitar o desenvolvimento. Também foram utilizadas as bibliotecas React~\citep{React_2023} e Redux~\citep{Redux_2023}, além da biblioteca de componentes Material UI~\citep{MaterialUI_2023}. A escolha da Material UI proporciona economia de tempo ao aproveitar componentes prontos, enquanto oferece um \textit{look-and-feel} semelhante aos aplicativos do Sistema Operacional Android, seguindo as diretrizes do Material Design desenvolvido pelo Google. Isso é particularmente relevante, uma vez que o foco deste trabalho não demanda componentes específicos para a interface.
+A interface foi desenvolvida em JavaScript, aproveitando a facilidade e robustez dessa linguagem, juntamente com o extenso conjunto de ferramentas disponíveis para facilitar o desenvolvimento. Também foram utilizadas as bibliotecas React~\cite{React_2023} e Redux~\cite{Redux_2023}, além da biblioteca de componentes Material UI~\cite{MaterialUI_2023}. A escolha da Material UI proporciona economia de tempo ao aproveitar componentes prontos, enquanto oferece um \textit{look-and-feel} semelhante aos aplicativos do Sistema Operacional Android, seguindo as diretrizes do Material Design desenvolvido pelo Google. Isso é particularmente relevante, uma vez que o foco deste trabalho não demanda componentes específicos para a interface.
 
 A interface foi nomeada de FairPEK, junção dos termos Fairness e MAPE-K, e possui os seguintes detalhes:
 
@@ -1351,7 +1353,7 @@ Neste Estudo de Caso, o real foco foi colocado em testar e verificar como o Gere
 \begin{itemize}
 \item \textbf{Contexto:} Obter classificação de crédito de uma pessoa (apto ou não apto), por meio de uma série de \textit{features}.
 
-\item \textbf{Conjunto de dados:} German Credit Dataset~\citep{ucigerman_2021}.
+\item \textbf{Conjunto de dados:} German Credit Dataset~\cite{ucigerman_2021}.
 
 \item \textbf{Transformações realizadas no conjunto de dados:} Mudanças nos valores dos atributos para valores de interpretação mais simples, para que o Cientista de Dados possa categorizar o dado de forma mais fácil no Módulo de ML.
 
@@ -1384,7 +1386,7 @@ São utilizadas as métricas Acurácia, Precisão, \textit{Recall}, \textit{F1-S
 
 \item \textbf{Pré-condição 2:} Cada execução do Módulo de ML gravada na Base de Conhecimento gerada para uso do Gerenciador Autonômico terá todas as métricas de Avaliação e métricas de \textit{Fairness} mencionadas, além de sua configuração arquitetural utilizada.
 
-\item \textbf{Pré-condição 3:} Podem existir ruídos nos resultados finais devido ao German Credit Dataset ser uma base de dados com poucas amostras (apenas 1000), mas eles serão desconsiderados uma vez que o conjunto de dados ainda é considerado como \textit{benchmark} em alguns trabalhos acadêmicos \citep{Kamiran_2011}~\citep{Feldman_2015}~\citep{Celis_2019} e seus dados exemplificam muito bem uma situação real onde dados sensíveis podem ser utilizados e são possíveis de afetar a decisão de um modelo e, consequentemente, a situação de vida de uma pessoa.
+\item \textbf{Pré-condição 3:} Podem existir ruídos nos resultados finais devido ao German Credit Dataset ser uma base de dados com poucas amostras (apenas 1000), mas eles serão desconsiderados uma vez que o conjunto de dados ainda é considerado como \textit{benchmark} em alguns trabalhos acadêmicos \cite{Kamiran_2011}~\cite{Feldman_2015}~\cite{Celis_2019} e seus dados exemplificam muito bem uma situação real onde dados sensíveis podem ser utilizados e são possíveis de afetar a decisão de um modelo e, consequentemente, a situação de vida de uma pessoa.
 
 \item \textbf{Restrição 1:} O algoritmo para redução de vieses é executado em apenas um dos componentes (Pré-processamento, Processamento/Treinamento ou Pós-""processamento""/Validação). Isto foi decidido pois não foram encontradas referências onde a aplicação desses algortimos em duas ou em todas as três etapas impacta em melhora nas métricas de \textit{Fairness}.
 
@@ -1986,9 +1988,9 @@ O experimento foi realizado com o seguinte conjunto de dados e dado o seguinte c
 \begin{itemize}
 \item \textbf{Contexto:} Obter classificação de crédito de uma pessoa (apto ou não apto), por meio de uma série de \textit{features}.
 
-\item \textbf{Conjunto de dados:} Lendingclub Dataset~\citep{lendingclub_2022}.
+\item \textbf{Conjunto de dados:} Lendingclub Dataset~\cite{lendingclub_2022}.
 
-\item \textbf{Transformações realizadas no conjunto de dados:} Filtragem de linhas que não definiam classificação boa ou ruim de crédito; seleção de 20 \textit{features} utilizando algoritmo de informação mútua~\citep{Ross_2014}, mais uma \textit{feature} para caracterizar dado sensível (atributo protegido) e \textit{feature} de classificação de crédito, totalizando 22 \textit{features} no total.
+\item \textbf{Transformações realizadas no conjunto de dados:} Filtragem de linhas que não definiam classificação boa ou ruim de crédito; seleção de 20 \textit{features} utilizando algoritmo de informação mútua~\cite{Ross_2014}, mais uma \textit{feature} para caracterizar dado sensível (atributo protegido) e \textit{feature} de classificação de crédito, totalizando 22 \textit{features} no total.
 
 \item \textbf{Atributos protegidos:} Renda
 
@@ -2140,9 +2142,9 @@ O experimento foi realizado com o seguinte conjunto de dados e dado o seguinte c
 \begin{itemize}
 \item \textbf{Contexto:} Obter classificação de crédito de uma pessoa (apto ou não apto), por meio de uma série de \textit{features}.
 
-\item \textbf{Conjunto de dados:} Lendingclub Dataset~\citep{lendingclub_2022}.
+\item \textbf{Conjunto de dados:} Lendingclub Dataset~\cite{lendingclub_2022}.
 
-\item \textbf{Transformações realizadas no conjunto de dados:} Filtragem de linhas que não definiam classificação boa ou ruim de crédito; seleção de 20 \textit{features} utilizando algoritmo de informação mútua~\citep{Ross_2014}, mais uma \textit{feature} para caracterizar dado sensível (atributo protegido) e \textit{feature} de classificação de crédito, totalizando 22 \textit{features} no total.
+\item \textbf{Transformações realizadas no conjunto de dados:} Filtragem de linhas que não definiam classificação boa ou ruim de crédito; seleção de 20 \textit{features} utilizando algoritmo de informação mútua~\cite{Ross_2014}, mais uma \textit{feature} para caracterizar dado sensível (atributo protegido) e \textit{feature} de classificação de crédito, totalizando 22 \textit{features} no total.
 
 \item \textbf{Atributos protegidos:} Renda
 
@@ -2182,7 +2184,7 @@ Por causa de alguns itens presentes acima, uma pequena parte da sessão foi gast
 
 Outro item foi notado durante todo o desenvolvimento do sistema: alertas de vulnerabilidades das bibliotecas utilizadas no projeto e disponibilizados no GitHub. Isso reforça o fato de que o processo de Engenharia de Software para evolução do sistema é contínuo, mas que existem certas situações que estão fora do seu escopo. A própria AIF360 é uma biblioteca que implementa vários algoritmos com redução de viés baseadas em artigos disponibilizados na comunidade acadêmica mas ainda peca pela não atualização dos mesmos, fazendo com que muitos algoritmos utilizados necessitem de bibliotecas desatualizadas para funcionar.
 
-O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes~\citep{Naive_Bayes_2004}, que também é bastante difundido como classificador. Após o desenvolvimento, os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
+O algoritmo de classificação escolhido para o desenvolvimento foi o Naive Bayes~\cite{Naive_Bayes_2004}, que também é bastante difundido como classificador. Após o desenvolvimento, os resultados baseados nas pré-condições e restrições já comentadas na seção anterior estão presentes abaixo nas Tabelas \ref{tbl:ScoreMAPEKLendingclubCaso35050}, \ref{tbl:ScoreMAPEKLendingclubCaso37525} e \ref{tbl:ScoreMAPEKLendingclubCaso32575}:
 
 \begin{table}[H]
 \begin{center}
@@ -2301,7 +2303,7 @@ Como trabalhos futuros, é possível determinar algumas possibilidades para os m
 \end{itemize}
 
 % As referências:
-\bibliographystyle{plainnat}
+\bibliographystyle{plain}
 \bibliography{full,thesis}
 
 % Os anexos, se houver, vêm depois das referências:
