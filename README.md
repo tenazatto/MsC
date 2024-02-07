@@ -1,5 +1,14 @@
-# MsC
-Master's Degree
+# A semi-autonomic framework for developing machine learning-based applications using fairness metrics
+My Master's degree theme, whose thesis was defended on November 8th 2023.
+
+This thesis was entitled **A semi-autonomic framework for developing machine learning-based applications using fairness metrics** (or "Um arcabouço semi-autonômico para treino de modelos de Machine Learning com enfoque em métricas de Fairness" in Portuguese)
+
+## Documentation
+
+See the documentation (in Portuguese) in these repository locations:
+
+- [Environment Setup/Installation](https://github.com/tenazatto/MsC/blob/master/texts/dissertation/attachments/docs/install/main.pdf)
+- [System Evolution/Maintenance](https://github.com/tenazatto/MsC/blob/master/texts/dissertation/attachments/docs/maintenance/main.pdf)
 
 ## Installation and running
 
