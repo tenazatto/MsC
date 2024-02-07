@@ -3,6 +3,30 @@ My Master's degree theme, whose thesis was defended on November 8th 2023.
 
 This thesis was entitled **A semi-autonomic framework for developing machine learning-based applications using fairness metrics** (or "Um arcabouço semi-autonômico para treino de modelos de Machine Learning com enfoque em métricas de Fairness" in Portuguese)
 
+See the topics below for more informations:
+
+1. [Final Thesis](#final-thesis)
+2. [Documentation](#documentation)
+3. [Installation and running](#installation-and-running)
+    1. [Requirements.txt file](#requirementstxt-file)
+    2. [Backend](#backend)
+    2. [Pipeline](#pipeline)
+    2. [Frontend](#frontend)
+    2. [Package.json file](#packagejson-file)
+
+## Final Thesis
+
+In summary, the final thesis was concluded with this structure:
+
+- Introduction
+- Background studies and related work
+- Methodology, architecture and implementation
+- Case studies and experiments
+- Conclusions
+- Appendices (Documentation and collected data)
+
+See the content (in Portuguese) in this [repository location](https://github.com/tenazatto/MsC/blob/master/texts/dissertation/final/thesis.pdf):
+
 ## Documentation
 
 See the documentation (in Portuguese) in these repository locations:
