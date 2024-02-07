@@ -51,36 +51,27 @@
 
 \title{FairPEK - Documentação}
 \author{Manutenção}
-% \author{\IEEEauthorblockN{Rodrigo Rusa}
-% \IEEEauthorblockA{
-% 208592 \\
-% rodrigorusa@gmail.com}
-% \and
-% \IEEEauthorblockN{Thales Eduardo Nazatto}
-% \IEEEauthorblockA{
-% 074388 \\
-% tenazatto@gmail.com}}
 
 \maketitle
 
 \section{Introdução}
 
-Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 etapas principais:
+Esta documentação foi criada com o objetivo de guiar o Desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 módulos principais:
 
 \begin{itemize}
-    \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
-    \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
-    \item {\textbf{Autonomia do Workflow (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
-    \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
+    \item {\textbf{Engenharia de dados:}} Módulo criado com o objetivo de simular processos de transformação e limpeza de dados.
+    \item {\textbf{Módulo de Machine Learning:}} Módulo que executa um Pipeline capaz de automatizar uma aplicação de Machine Learning (ML), com estágios de preparação de dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento) para a geração de um modelo final.
+    \item {\textbf{Gerenciador Autonômico:}} Módulo contendo um loop, baseado na arquitetura MAPE-K, que controla o Módulo de ML como um Elemento Gerenciado para automatizar parte das atividades a serem executadas.
+    \item {\textbf{Interface:}} : Módulo cujo objetivo é prover uma experiência de usuário mais simples e intuitiva para configurar e iniciar o Gerenciador Autonômico. É composto por dois componentes:
     \begin{itemize}
-        \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
-        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Componente MAPE-K.
+        \item {\textbf{Frontend:}} Componente visual, exibido em um navegador.
+        \item \textbf{{Backend:}} Componente no qual o Frontend estabelece comunicação para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Gerenciador Autonômico.
     \end{itemize}
 \end{itemize}
 
-\section{Arquitetura do Workflow e Framework}
+\section{Arquitetura do Módulo de ML e Framework desenvolvido}
 
-O Workflow usa uma arquitetura chamada de Pipe-and-Filter, onde Pipes, que transportam os dados, são ligados por Filters, que realizam as manipulações desses dados. Pipes e Filters se encadeiam para formar uma sequência de operações, caracterizando todo o Pipeline. Para auxiliar no desenvolvimento, um pequeno framework foi criado, para facilitar as operações necessárias entre Pipes e Filters. 
+O Módulo de ML usa um padrão arquitetural chamado de Pipes-and-Filters. Nele, os Pipes, que transportam os dados, são ligados por Filters, que realizam as manipulações dos dados transportados. Pipes e Filters se encadeiam para formar uma sequência de operações, caracterizando todo o Pipeline. Para auxiliar no desenvolvimento, um pequeno framework foi criado, para facilitar as operações necessárias entre Pipes e Filters. 
 
 \subsection{Estrutura}
 
@@ -175,18 +166,18 @@ Pra juntar os dados de dois pipes em um só, basta realizar o comando \textbf{+}
     pipe1 + pipe2
 \end{lstlisting}
 
-\section{Incrementos no Workflow}
+\section{Incrementos no sistema}
 
-Aqui estão dois exemplos de como é possível realizar a manuntenção do Workflow
+Aqui estão dois exemplos de como é possível realizar a manuntenção e evolução do sistema:
 
 \subsection{Adicionando um novo Conjunto de Dados}
 
-\subsubsection{Engenharia de dados}
+\subsubsection{Engenharia de Dados}
 
 \begin{enumerate}
-\item Geralmente conjuntos de dados não vem filtrados, e é preciso um trabalho de Engenharia de dados para realizar experimentos com melhores resultados. Neste sistema, a parte de Engenharia de dados se encontra na pasta \textbf{src/data\_engineering}.
+\item Geralmente conjuntos de dados não vem filtrados, e é preciso um trabalho de engenharia de dados para realizar experimentos com melhores resultados. Neste sistema, o módulo de Engenharia de Dados se encontra na pasta \textbf{src/data\_engineering}.
 
-\item Os métodos onde os processamentos são realizados ficam no arquivo \textbf{data\_engineering.py}. Para adicionar um novo processamento, basta adicionar um novo método neste arquivo.
+\item Os métodos onde os processamentos são realizados ficam no arquivo \textbf{da\-ta\_engineering.py}. Para adicionar um novo processamento, basta adicionar um novo método neste arquivo.
 
 \item Importar o novo método no arquivo \textbf{data\_engineering\_start.py}.
 
@@ -200,10 +191,10 @@ Aqui estão dois exemplos de como é possível realizar a manuntenção do Workf
 \item Adicionar uma nova condição com a opção adicionada
 \end{enumerate}
 
-\subsubsection{Workflow}
+\subsubsection{Módulo de ML}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Workflow se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Pipes que armazenam os conjuntos de dados se encontram na pasta \textbf{processors/preprocessors/data}. Dentro dela, no arquivo \textbf{dataset.py}, criar uma classe que herda a classe \textbf{Dataset}, preenchendo os atributos \textbf{dataset\_path} com o caminho do arquivo.
+\item Neste sistema, o Módulo de ML se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Pipes que armazenam os conjuntos de dados se encontram na pasta \textbf{processors/preprocessors/data}. Dentro dela, no arquivo \textbf{dataset.py}, criar uma classe que herda a classe \textbf{Dataset}, preenchendo os atributos \textbf{dataset\_path} com o caminho do arquivo.
 
 \begin{lstlisting}[language=Python, label=cod:FairnessPipe]
 class LendingclubDataset(Dataset):
@@ -236,7 +227,7 @@ class LendingclubIncomeFairnessPipe(FairnessPipe):
         super().__init__()
 \end{lstlisting}
 
-\item Criar uma classe que herda a classe \textbf{FairnessPreprocessor}, preenchendo o método \textbf{dataset\_preprocess} e retornando um DataFrame Pandas de dados de entrada e um DataFrame de dados de saída.
+\item Criar uma classe que herda a classe \textbf{FairnessPreprocessor}, preenchendo o método \textbf{dataset\_preprocess} e retornando um DataFrame contendo features de entrada e um DataFrame contendo resultados coletados. Neste caso, foi utilizado o Pandas para criação dos DataFrames.
 
 \begin{lstlisting}[language=Python, label=cod:FairnessPreprocessor]
 class LendingclubIncomePreprocessor(FairnessPreprocessor):
@@ -301,7 +292,7 @@ class Preprocessors(ExtendedEnum):
         return preprocessed_data_pipe, fairness_pipe
 \end{lstlisting}
 
-\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline\_start.py}, adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.add\_argument}.
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline\_start.py}, adicionar uma nova opção no parâmetro \textbf{choices} presente no método \textbf{parser.\-add\_argument}.
 
 \begin{lstlisting}[language=Python, label=cod:ParserAddArgumentPipeline]
     parser.add_argument("--dataset", help="Conjunto de dados tratado com atributo protegido",
@@ -328,7 +319,7 @@ class Preprocessors(ExtendedEnum):
 \subsubsection{Interface (Backend)}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Backend se encontra na pasta \textbf{src/api}. Dentro dela, no arquivo \textbf{repo/pipeline.py}, adicionar a opção no método \textbf{get\_dataset}.
+\item Neste sistema, o componente de Backend presente no módulo de Interface se encontra na pasta \textbf{src/api}. Dentro dela, no arquivo \textbf{repo/pipeline.py}, adicionar a opção implementada no Módulo de ML no método \textbf{get\_data\-set}.
 
 \begin{lstlisting}[language=Python, label=cod:AddDataset]
     def get_dataset(self, dataset):
@@ -341,7 +332,7 @@ class Preprocessors(ExtendedEnum):
         return next(filter(lambda a: a[0] == dataset, indexes.items()))[1]
 \end{lstlisting}
 
-\item Na pasta \textbf{src/api} e dentro do arquivo \textbf{repo/pipeline.py}, adicionar a opção no método \textbf{get\_preprocessor}.
+\item Na pasta \textbf{src/api} e dentro do arquivo \textbf{repo/pipeline.py}, adicionar a opção implementada no Módulo de ML no método \textbf{get\_preprocessor}.
 
 \begin{lstlisting}[language=Python, label=cod:AddDataset]
     def get_preprocessor(self, preprocessor):
@@ -358,7 +349,7 @@ class Preprocessors(ExtendedEnum):
 \subsubsection{Interface (Frontend)}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Frontend se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Auto-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de conjunto de dados.
+\item Neste sistema, o componente de Frontend presente no módulo de Interface se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Auto-Pipeline-Menu.js}, adicionar a opção implementada no Módulo de ML no componente Select onde estão as outras opções de conjunto de dados.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetAuto]
 <Select
@@ -374,7 +365,7 @@ class Preprocessors(ExtendedEnum):
 </Select>
 \end{lstlisting}
 
-\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de conjunto de dados.
+\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção implementada no Módulo de ML no componente Select onde estão as outras opções de conjunto de dados.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
 <Select
@@ -390,7 +381,7 @@ class Preprocessors(ExtendedEnum):
 </Select>
 \end{lstlisting}
 
-\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de pré-processadores.
+\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção implementada no Módulo de ML no componente Select onde estão as outras opções de pré-processadores.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
 <FormControl sx={{ m: 1, width: 300, marginLeft: '35px' }}>
@@ -430,7 +421,7 @@ class Preprocessors(ExtendedEnum):
 </FormControl>
 \end{lstlisting}
 
-\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js} adicionar a condição para a opção colocada na etapa de Workflow no método \textbf{handleDatasetChange}.
+\item Na pasta \textbf{ml-ui/src} e dentro do arquivo \textbf{Manual-Pipeline-Menu.js} adicionar a condição para a opção implementada no Módulo de ML no método \textbf{handleDatasetChange}.
 
 \begin{lstlisting}[language=Python, label=cod:AddDatasetManual]
   const handleDatasetChange = (event) => {
@@ -449,10 +440,10 @@ class Preprocessors(ExtendedEnum):
 
 \subsection{Adicionando um novo Algoritmo}
 
-\subsubsection{Workflow}
+\subsubsection{Módulo de ML}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Workflow se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Filters que executam os algoritmos ficam dentro da pasta \textbf{processors}. Dentro dela, no arquivo \textbf{enums.py}, colocar novas opções na classe \textbf{Algorithms}.
+\item Neste sistema, o Módulo de ML se encontra na pasta \textbf{src/pipeline}. Dentro dela, os Filters que executam os algoritmos ficam dentro da pasta \textbf{processors}. Dentro dela, no arquivo \textbf{enums.py}, colocar novas opções na classe \textbf{Algorithms}.
 
 \begin{lstlisting}[language=Python, label=cod:EnumAlgorithmOptions]
 class Algorithms:
@@ -484,7 +475,7 @@ A classe \textbf{Algorithms} serve para este exemplo em questão, mas para outro
             (algorithm == Algorithms.NOVA_OPCAO and unbias_data_algorithm == UnbiasDataAlgorithms.LEARNING_FAIR_REPRESENTATIONS and unbias_postproc_algorithm == UnbiasPostProcAlgorithms.NOTHING)
 \end{lstlisting}
 
-\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{find\_algorithm}.
+\item Na pasta \textbf{src/pipeline} e dentro do arquivo \textbf{pipeline.py}, colocar as novas opções implementadas anteriormente no método \textbf{find\_algorithm}.
 
 \begin{lstlisting}[language=Python, label=cod:FindAlgorithm]
     def find_algorithm(self, algorithm):
@@ -508,7 +499,7 @@ A classe \textbf{Algorithms} serve para este exemplo em questão, mas para outro
         return next(filter(lambda a: a[1] == algorithm, indexes.items()))[0]
 \end{lstlisting}
 
-\item Criar um novo arquivo na pasta categorizada pelo algoritmo a ser implementado. Para o exemplo exemplo ilustrado abaixo, como o Gradient Boosting é um algoritmo de treinamento e não foi projetado para redução de viés, os Filters que executam os algoritmos se encontram na pasta \textbf{processors/inprocessors/inproc\_algorithms}.
+\item Criar um novo arquivo na pasta categorizada pelo algoritmo a ser implementado. Para o exemplo ilustrado abaixo, como o Gradient Boosting é um algoritmo de treinamento e não foi projetado para redução de viés, os Filters que executam os algoritmos se encontram na pasta \textbf{processors/inprocessors/inproc\_algorithms}.
 
 Seguem as pastas onde os respectivos Filters se encontram:
 
@@ -516,7 +507,7 @@ Seguem as pastas onde os respectivos Filters se encontram:
 \item \textbf{Algoritmo de treinamento sem redução de viés:} processors/inprocessors/inproc\_algorithms
 \item \textbf{Algoritmo com redução de viés no dado (Pré-processamento):} processors/preprocessors/unbias\_algorithms
 \item \textbf{Algoritmo com redução de viés no treinamento (Processamento):} processors/inprocessors/unbias\_algorithms
-\item \textbf{Algoritmo com redução de viés no resultado (Pós-processamento):} processors/postprocessors
+\item \textbf{Algoritmo com redução de viés no resultado (Pós-processa\-mento):} processors/postprocessors
 \end{itemize}
 
 \item No arquivo criado, criar uma classe que herda a classe \textbf{BaseFilter}.
@@ -569,7 +560,7 @@ class GradientBoostFilter(BaseFilter):
         return prediction_pipe
 \end{lstlisting}
 
-O método \textbf{process} serve para este exemplo em questão, mas para outros tipos de algoritmos os métodos \textbf{unbias\_data\_preprocessor} ou \textbf{data\_postprocess} podem ser mais adequados.
+O método \textbf{process} serve para este exemplo em questão, mas para outros tipos de algoritmos os métodos \textbf{unbias\_data\_preprocessor} ou \textbf{da\-ta\_postprocess} podem ser mais adequados.
 
 \item Na pasta \textbf{src/pipeline} dentro do arquivo \textbf{pipeline\_start.py}, adicionar as opções (adaptadas a opção corrente) na variável \textbf{process\_options}.
 
@@ -592,10 +583,10 @@ O método \textbf{process} serve para este exemplo em questão, mas para outros 
 
 \end{enumerate}
 
-\subsubsection{MAPE-K}
+\subsubsection{Gerenciador Autonômico}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Backend se encontra na pasta \textbf{src/mapek}. Dentro dela, no arquivo \textbf{ml/planner.py}, colocar as novas opções colocadas no item anterior no método \textbf{find\_inproc\_algorithm}.
+\item Neste sistema, o módulo de Gerenciador Autonômico se encontra na pasta \textbf{src/mapek}. Dentro dela, no arquivo \textbf{ml/planner.py}, colocar as novas opções implementadas anteriormente no método \textbf{find\_inproc\_algo\-rithm}.
 
 \begin{lstlisting}[language=Python, label=cod:findInprocAlgorithm]
     def find_inproc_algorithm(self, algorithm):
@@ -623,7 +614,7 @@ O método \textbf{process} serve para este exemplo em questão, mas para outros 
 \subsubsection{Interface (Backend)}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Backend se encontra na pasta \textbf{src/api}. Dentro dela, no arquivo \textbf{repo/pipeline.py}, colocar as novas opções colocadas no item anterior no método \textbf{get\_inproc\_algorithm}.
+\item Neste sistema, o componente de Backend presente no módulo de Interface se encontra na pasta \textbf{src/api}. Dentro dela, no arquivo \textbf{repo/pipeline.py}, colocar as novas opções implementadas anteriormente no método \textbf{get\_in\-proc\_algorithm}.
 
 \begin{lstlisting}[language=Python, label=cod:getInprocAlgorithm]
     def get_inproc_algorithm(self, algorithm):
@@ -651,7 +642,7 @@ O método \textbf{process} serve para este exemplo em questão, mas para outros 
 \subsubsection{Interface (Frontend)}
 
 \begin{enumerate}
-\item Neste sistema, a parte do Frontend se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção colocada na etapa de Workflow no componente Select onde estão as outras opções de algoritmos.
+\item Neste sistema, o componente de Frontend presente no módulo de Interface se encontra na pasta \textbf{ml-ui/src}. Dentro dela, no arquivo \textbf{Manual-Pipeline-Menu.js}, adicionar a opção implementada no Módulo de ML no componente Select onde estão as outras opções de algoritmos.
 
 \begin{lstlisting}[language=Python, label=cod:AddAlgorithmManual]
 <Select

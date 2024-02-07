@@ -51,40 +51,31 @@
 
 \title{FairPEK - Documentação}
 \author{Instalação}
-% \author{\IEEEauthorblockN{Rodrigo Rusa}
-% \IEEEauthorblockA{
-% 208592 \\
-% rodrigorusa@gmail.com}
-% \and
-% \IEEEauthorblockN{Thales Eduardo Nazatto}
-% \IEEEauthorblockA{
-% 074388 \\
-% tenazatto@gmail.com}}
 
 \maketitle
 
 \section{Introdução}
 
-Esta documentação foi criada com o objetivo de guiar o desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 etapas principais:
+Esta documentação foi criada com o objetivo de guiar o Desenvolvedor de Software a entender, configurar e manter este sistema, que é dividido em 4 módulos principais:
 
 \begin{itemize}
-    \item {\textbf{Engenharia de dados:}} Etapa criada com o objetivo de simular processos de transformação e limpeza de dados.
-    \item {\textbf{Workflow de IA:}} Etapa para execução de um Pipeline que simula o desenvolvimento de uma aplicação automatizada de IA, desde uma categorização dos dados mais específica do que na etapa anterior, passando pelo algoritmo utilizado e finalizando obtendo métricas para determinar qualidade do resultado final.
-    \item {\textbf{Autonomia do Workflow (Componente MAPE-K):}} Etapa que executa um componente para automatizar todas as etapas do Workflow, com o objetivo de evitar com que perca-se tempo em execuções manuais que podem demorar dependendo do algoritimo e do conjunto de dados utilizado.
-    \item {\textbf{Interface:}} Etapa criada com o objetivo de simular a etapa anterior, porém de modo a proporcionar uma experiência de usuário mais simples e intuitiva. É dividida em duas partes:
+    \item {\textbf{Engenharia de dados:}} Módulo criado com o objetivo de simular processos de transformação e limpeza de dados.
+    \item {\textbf{Módulo de Machine Learning:}} Módulo que executa um Pipeline capaz de automatizar uma aplicação de Machine Learning (ML), com estágios de preparação de dados (Pré-processamento), treinamento (Processamento) e avaliação dos resultados (Pós-processamento) para a geração de um modelo final.
+    \item {\textbf{Gerenciador Autonômico:}} Módulo contendo um loop, baseado na arquitetura MAPE-K, que controla o Módulo de ML como um Elemento Gerenciado para automatizar parte das atividades a serem executadas.
+    \item {\textbf{Interface:}} : Módulo cujo objetivo é prover uma experiência de usuário mais simples e intuitiva para configurar e iniciar o Gerenciador Autonômico. É composto por dois componentes:
     \begin{itemize}
-        \item {\textbf{Frontend:}} Parte visual, exibida em um navegador.
-        \item \textbf{{Backend:}} Parte onde o Frontend se comunica para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Componente MAPE-K.
+        \item {\textbf{Frontend:}} Componente visual, exibido em um navegador.
+        \item \textbf{{Backend:}} Componente no qual o Frontend estabelece comunicação para obter os dados e montar o visual corretamente, de forma que corresponda a configurações utilizadas pelo Gerenciador Autonômico.
     \end{itemize}
 \end{itemize}
 
 \section{Programas necessários para instalação}
 
 \begin{itemize}
-    \item {\textbf{Python:}} É a linguagem de programação utilizada para montar e executar todas as etapas com a exceção do Frontend da interface. É disponível no site \url{https://www.python.org/} e é necessária a versão \textbf{3.8}, \textbf{3.9} ou \textbf{3.10}. A versão \textbf{3.11} apresentou problemas de compatibilidade devido a mudanças em seu funcionamento.
+    \item {\textbf{Python:}} É a linguagem de programação utilizada para montar e executar todos os módulos com a exceção do Frontend da interface. É disponível no site \url{https://www.python.org/} e é necessária a versão \textbf{3.8}, \textbf{3.9} ou \textbf{3.10}. Versões inferiores ou iguais a \textbf{3.7} a superiores ou iguais a \textbf{3.11} apresentaram problemas de compatibilidade devido a mudanças de design.
     \item {\textbf{Node.js:}} É o programa necessário para montar o Frontend da interface. É disponível no site \url{https://nodejs.org/} e foi testado na versão \textbf{16.14.2}, embora outras versões podem ser executadas sem problemas de compatibilidade.
     \item {\textbf{Git:}} É o programa necessário para realizar o download do código-fonte e realizar atualizações no mesmo. É disponível no site \url{https://git-scm.com/} e foi testado na versão \textbf{2.35.1}, embora outras versões podem ser executadas sem problemas de compatibilidade.
-	\item {\textbf{CUDA Toolkit:}} É a biblioteca necessária para rodar alguns dos algoritmos presentes no Workflow. É disponível no site \url{https://developer.nvidia.com/cuda-toolkit-archives} e foi testado na versão \textbf{11}, mas não houve testes se versões posteriores são compatíveis. É compatível apenas para GPUs Nvidia, caso não tiver há uma versão apenas para CPUs disponível.
+	\item {\textbf{CUDA Toolkit:}} É a biblioteca necessária para rodar alguns dos algoritmos presentes no Módulo de ML. É disponível no site \url{https://developer.nvidia.com/cuda-toolkit-archives} e foi testado na versão \textbf{11}, mas não houve testes se versões posteriores são compatíveis. É compatível apenas para GPUs Nvidia, caso não tiver há uma versão apenas para CPUs disponível.
 \end{itemize}
 
 \section{Instalação do sistema}
@@ -178,36 +169,36 @@ Para o Node.js, como o arquivo \textbf{package.json} está dentro da pasta \text
 
 \section{Execução do sistema}
 
-\subsection{Engenharia de dados}
+\subsection{Engenharia de Dados}
 
-Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rodar a etapa de Engenharia de dados basta digitar o seguinte comando
+Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rodar o módulo de Engenharia de Dados basta digitar o seguinte comando
 
 \begin{quote}\textbf{python -m src.data\_engineering.data\_engineering\_start -{}-data (Opção)}\end{quote}
 
 No momento, há 3 opções disponíveis:
 
 \begin{itemize}
-    \item {\textbf{GERMAN\_CREDIT:}} Manipula o German Credit Dataset, cujo arquivo está na localização \textbf{datasets/german.data}, para utilização no Workflow.
-    \item {\textbf{LENDINGCLUB:}} Baixa e manipula o Lendingclub Dataset para utilização no Workflow.
-    \item {\textbf{METRICS:}} Obtém o maior valor, menor valor e a média de cada métrica para cada Workflow já executado.
+    \item {\textbf{GERMAN\_CREDIT:}} Manipula o German Credit Dataset, cujo arquivo está na localização \textbf{datasets/german.data}, para utilização no Módulo de ML.
+    \item {\textbf{LENDINGCLUB:}} Baixa e manipula o Lendingclub Dataset para utilização no Módulo de ML.
+    \item {\textbf{METRICS:}} Obtém o maior valor, menor valor e a média de cada métrica para cada execução já realizada no Módulo de ML.
 \end{itemize}
 
-\subsection{Workflow de IA}
+\subsection{Módulo de ML}
 
-Dentro da pasta \textbf{MsC} e com o ambiente virtual criado e ativado, para rodar todos os Workflows possíveis basta digitar o seguinte comando
+Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com dados já tratados pelo módulo de Engenharia de Dados, para rodar todos os Pipelines presentes no Módulo de ML basta digitar o seguinte comando
 
 \begin{quote}\textbf{python -m src.pipeline.pipeline\_start -{}-dataset (Opção)}\end{quote}
 
-No momento, há 4 opções disponíveis:
+Há 4 opções disponíveis para execução:
 
 \begin{itemize}
-    \item {\textbf{ADULT\_INCOME\_SEX:}} Executa os Workflows para o Adult Income Dataset, cujo arquivo está na localização \textbf{datasets/adult.csv}, utilizando Sexo (Masculino/Feminino) como atributo protegido.
-    \item {\textbf{GERMAN\_CREDIT\_FOREIGN:}} Executa os Workflows para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Nacionalidade (Alemão/Estrangeiro) como atributo protegido.
-    \item {\textbf{GERMAN\_CREDIT\_AGE:}} Executa os Workflows para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Idade (-25 anos/25 ou + anos) como atributo protegido.
-    \item {\textbf{LENDINGCLUB\_INCOME:}} Executa os Workflows para o Lendingclub Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Renda (-1 salário mínimo/1 ou + salários mínimos) como atributo protegido.
+    \item {\textbf{ADULT\_INCOME\_SEX:}} Executa os Pipelines do Módulo de ML para o Adult Income Dataset, cujo arquivo está na localização \textbf{datasets/adult.csv}, utilizando Sexo (Masculino/Feminino) como atributo protegido.
+    \item {\textbf{GERMAN\_CREDIT\_FOREIGN:}} Executa os Pipelines do Módulo de ML para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Nacionalidade (Alemão/Estrangeiro) como atributo protegido.
+    \item {\textbf{GERMAN\_CREDIT\_AGE:}} Executa os Pipelines do Módulo de ML para o German Credit Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Idade (-25 anos/25 ou + anos) como atributo protegido.
+    \item {\textbf{LENDINGCLUB\_INCOME:}} Executa os Pipelines do Módulo de ML para o Lendingclub Dataset, cujo arquivo é manipulado na etapa anterior, utilizando Renda (-1 salário mínimo/1 ou + salários mínimos) como atributo protegido.
 \end{itemize}
 
-Após a execução, é possível ver a geração das métricas dentro da pasta \textbf{output/metrics}, necessárias para a execução da próxima etapa.
+Após a execução, é possível ver a geração das métricas dentro da pasta \textbf{output/metrics}, necessárias para a execução do Gerenciador Autonômico.
 
 \begin{figure}[H]
 \centering
@@ -215,19 +206,19 @@ Após a execução, é possível ver a geração das métricas dentro da pasta \
 \label{fig:DocInstallMetrics}
 \end{figure}
 
-\subsection{Autonomia do Workflow}
+\subsection{Gerenciador Autonômico}
 
-Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Workflow executado, é possível verificar como a etapa de autonomia funciona com o seguinte comando
+Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos uma execução do Módulo de ML realizada, é possível verificar como o Gerenciador Autonômico funciona com o seguinte comando
 
 \begin{quote}\textbf{python -m src.mapek.mapek\_start}\end{quote}
 
-Nesta etapa, ele escolhe o Workflow que apresentou as melhores métricas, porém a filtragem por conjunto de dados está desenvolvida até o momento apenas na próxima etapa. Como ele roda ininterruptamente, é preciso interromper sua execução.
+Nesta etapa, ele escolhe o Pipeline que apresentou as melhores métricas, porém a filtragem por conjunto de dados foi desenvolvida apenas na Interface. Como ele roda ininterruptamente, é preciso interromper sua execução.
 
 \subsection{Interface}
 
 \subsubsection{Backend}
 
-Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos um Workflow executado, é possível rodar o Backend da interface com o seguinte comando
+Dentro da pasta \textbf{MsC}, com o ambiente virtual criado e ativado e com pelo menos uma execução do Módulo de ML realizada, é possível rodar o Backend da interface com o seguinte comando
 
 \begin{quote}\textbf{python -m src.api.flask\_start}\end{quote}
 
@@ -249,7 +240,7 @@ Ele vai iniciar o navegador acessando um servidor na porta 3000, e deverá inici
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.2]{images/ml-ui.png}
+\includegraphics[scale=0.3]{images/ml-ui.png}
 \label{fig:DocInstallMLUI}
 \end{figure}
 
